@@ -23,8 +23,11 @@ const secondsIn = {
 	year: secondsInYear,
 };
 
-export default observe((props, {dispatch}) => <main>{Object.keys(secondsIn).map(
+export default observe((props, {dispatch, subscribe}) => <main>{Object.keys(secondsIn).map(
 	period => <button key={period} onClick={() => dispatch('date', date => date + secondsIn[period])}>
 		+1 {period}
 	</button>
-)}</main>);
+)}
+<input defaultValue={subscribe('date')} onChange={ev => dispatch('_date', () => ev.target.value)} />
+<button onClick={() => dispatch('date', () => subscribe('_date'))}>Set</button>
+</main>);
