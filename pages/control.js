@@ -1,6 +1,7 @@
 import React from 'react';
 import {observe} from '../src/store';
-import pluralize from 'pluralize';
+
+const pluralize = (word, n) => Math.abs(n) > 1 ? `${word}s` : word;
 
 const secondsInMinute = 60;
 const minutesInHour = 60;
@@ -26,44 +27,64 @@ const secondsIn = {
 
 const Inc = observe(({period, multiplier = 1}, {dispatch}) => <button
 	onClick={() => dispatch('date', date => date + secondsIn[period] * multiplier)}>
-	+{multiplier} {pluralize(period, multiplier)}
+	{multiplier > 0 && '+'}{multiplier} {pluralize(period, multiplier)}
 </button>);
 
 export default observe((props, {dispatch, subscribe}) => <main>
-	<div>
-		<Inc period='minute' />
-		<Inc period='minute' multiplier={5} />
-		<Inc period='minute' multiplier={30} />
-	</div>
+	<div style={{textAlign: 'center'}}>
+		<div>
+			<Inc period='minute' multiplier={-30} />
+			<Inc period='minute' multiplier={-5} />
+			<Inc period='minute' multiplier={-1}/>
+			<Inc period='minute' />
+			<Inc period='minute' multiplier={5} />
+			<Inc period='minute' multiplier={30} />
+		</div>
 
-	<div>
-		<Inc period='hour' />
-		<Inc period='hour' multiplier={2} />
-		<Inc period='hour' multiplier={6} />
-		<Inc period='hour' multiplier={12} />
-	</div>
+		<div>
+			<Inc period='hour' multiplier={-12} />
+			<Inc period='hour' multiplier={-6} />
+			<Inc period='hour' multiplier={-2} />
+			<Inc period='hour' multiplier={-1}/>
+			<Inc period='hour' />
+			<Inc period='hour' multiplier={2} />
+			<Inc period='hour' multiplier={6} />
+			<Inc period='hour' multiplier={12} />
+		</div>
 
-	<div>
-		<Inc period='day' />
-		<Inc period='day' multiplier={2} />
-	</div>
+		<div>
+			<Inc period='day' multiplier={-2} />
+			<Inc period='day' multiplier={-1}/>
+			<Inc period='day' />
+			<Inc period='day' multiplier={2} />
+		</div>
 
-	<div>
-		<Inc period='week' />
-		<Inc period='week' multiplier={2} />
-	</div>
+		<div>
+			<Inc period='week' multiplier={-2} />
+			<Inc period='week' multiplier={-1}/>
+			<Inc period='week' />
+			<Inc period='week' multiplier={2} />
+		</div>
 
-	<div>
-		<Inc period='month' />
-		<Inc period='month' multiplier={2} />
-		<Inc period='month' multiplier={6} />
-	</div>
+		<div>
+			<Inc period='month' multiplier={-6} />
+			<Inc period='month' multiplier={-2} />
+			<Inc period='month' multiplier={-1}/>
+			<Inc period='month' />
+			<Inc period='month' multiplier={2} />
+			<Inc period='month' multiplier={6} />
+		</div>
 
-	<div>
-		<Inc period='year' />
-		<Inc period='year' multiplier={2} />
-		<Inc period='year' multiplier={5} />
-		<Inc period='year' multiplier={10} />
+		<div>
+			<Inc period='year' multiplier={-10} />
+			<Inc period='year' multiplier={-5} />
+			<Inc period='year' multiplier={-2} />
+			<Inc period='year' multiplier={-1}/>
+			<Inc period='year' />
+			<Inc period='year' multiplier={2} />
+			<Inc period='year' multiplier={5} />
+			<Inc period='year' multiplier={10} />
+		</div>
 	</div>
 
 	<div>
