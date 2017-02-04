@@ -7,7 +7,7 @@ const connect = createStore({
 });
 
 if(typeof localStorage !== 'undefined') {
-	localStore('date', 'date')(connect);
+	localStore('date', 'date', 48864384000)(connect);
 }
 
 export const observe = createObserve(connect);

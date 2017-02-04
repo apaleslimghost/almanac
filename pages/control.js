@@ -67,7 +67,7 @@ export default observe((props, {dispatch, subscribe}) => <main>
 	</div>
 
 	<div>
-		<input defaultValue={subscribe('date')} onChange={ev => dispatch('_date', () => ev.target.value)} />
+		<input defaultValue={subscribe('date')} onChange={ev => dispatch('_date', () => parseInt(ev.target.value, 0))} />
 		<button onClick={() => dispatch('date', () => subscribe('_date'))}>Set</button>
 	</div>
 </main>);
