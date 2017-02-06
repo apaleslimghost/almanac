@@ -3,6 +3,8 @@ import {observe} from '../src/store';
 import formJson from '@quarterto/form-json';
 import shortId from '@quarterto/short-id';
 import map from 'lodash.map';
+import groupBy from 'lodash.groupby';
+import values from 'lodash.values';
 
 const pluralize = (word, n) => Math.abs(n) > 1 ? `${word}s` : word;
 
@@ -33,36 +35,46 @@ const Inc = observe(({period, multiplier = 1}, {dispatch}) => <button
 	{multiplier > 0 && '+'}{multiplier} {pluralize(period, multiplier)}
 </button>);
 
-const Objectives = observe((props, {dispatch, subscribe}) => <div>
-	<h1>Objectives</h1>
-	<ul>
-		{map(subscribe('objectives', {}), objective =>
-			<li key={objective.id}>
-				<button onClick={() => dispatch('objectives', o => {
-					delete o[objective.id];
-					return o;
-				})}>✔</button>
-				{objective.quest}: {objective.text}
-			</li>
-		)}
+const Objectives = observe((props, {dispatch, subscribe}) => {
+	const objectives = values(subscribe('objectives', {}));
+	return <div>
+		<h1>Objectives</h1>
 
-		<li>
+		{map(groupBy(objectives.filter(({completed}) => !completed), 'quest'), (objectives, name) => <div key={name}>
+			<h2>{name}</h2>
+			<ul>{objectives.map(objective =>
+				<li key={objective.id}>
+					<button onClick={() => dispatch('objectives', o => Object.assign(o, {
+						[objective.id]: Object.assign(o[objective.id], {
+							completed: true
+						})
+					}))}>✔</button>
+					{objective.text}
+					{objective.completed}
+				</li>
+			)}</ul>
+		</div>)}
+
+		<h2>Completed</h2>
+		<ul>{objectives.filter(({completed}) => completed).map(objective => <li key={objective.text}>✔ <b>{objective.quest}</b> {objective.text}</li>)}</ul>
+
 		<form onSubmit={ev => dispatch('objectives', o => {
 				ev.preventDefault();
 				const data = formJson(ev.target);
-				data.id = shortId();
+				const id = shortId();
 				ev.target.reset();
 				return Object.assign(o, {
-					[data.id]: data,
+					[id]: Object.assign(data, {
+						id, completed: false
+					}),
 				});
 			})}>
 			<input placeholder='Quest' name='quest' />
 			<input placeholder='Objective' name='text' />
 			<button>➕</button>
 		</form>
-		</li>
-	</ul>
-</div>)
+	</div>;
+});
 
 export default observe((props, {dispatch, subscribe}) => <main>
 	<div style={{textAlign: 'center'}}>

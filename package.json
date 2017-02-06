@@ -23,8 +23,10 @@
     "@quarterto/short-id": "^1.0.0",
     "enviante": "^4.0.3",
     "enviante-react": "^1.0.1",
+    "lodash.filter": "^4.6.0",
     "lodash.groupby": "^4.6.0",
     "lodash.map": "^4.6.0",
+    "lodash.values": "^4.3.0",
     "next": "^1.2.3",
     "odreian-date": "^1.0.1",
     "pluralize": "^3.1.0"
