@@ -1,8 +1,5 @@
 import React from 'react';
-import Time from '../src/components/time';
-import Objectives from '../src/components/objectives';
+import Group from '../src/group';
+import * as components from '../src/components';
 
-export default () => <div>
-	<Time />
-	<Objectives />
-</div>;
+export default () => <Group components={components} which='display' />;
