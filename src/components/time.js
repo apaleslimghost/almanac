@@ -1,13 +1,29 @@
 import React from 'react';
 import OdreianDate from 'odreian-date'
+import styled from 'styled-components';
 import {observe} from '../store';
+import {H1, H2, H3} from './heading';
+
+const TimeOfDay = styled(H1)`
+margin: 0;
+`;
+
+const DateLine = styled(H2)`
+font-family: MrsEavesRoman;
+margin: 0;
+`;
+
+const Year = styled(H3)`
+font-family: MrsEavesRoman;
+margin: 0;
+`;
 
 const Time = observe((props, {subscribe}) => {
 	const date = new OdreianDate(subscribe('date'));
 	return <time>
-		<h1>{date.LT}</h1>
-		<h2>{date.format`${'dddd'}, ${'Do'} of ${'MMMM'}`}</h2>
-		<h3>{date.YYYY}</h3>
+		<TimeOfDay>{date.LT}</TimeOfDay>
+		<DateLine>{date.format`${'dddd'}, ${'Do'} of ${'MMMM'}`}</DateLine>
+		<Year>{date.YYYY}</Year>
 	</time>;
 });
 
