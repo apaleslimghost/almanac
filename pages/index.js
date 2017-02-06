@@ -1,39 +1,6 @@
 import React from 'react';
-import {observe} from '../src/store';
-import OdreianDate from 'odreian-date'
-import groupBy from 'lodash.groupby';
-import map from 'lodash.map';
-import values from 'lodash.values';
-import orderBy from 'lodash.orderby';
-
-const Time = observe((props, {subscribe}) => {
-	const date = new OdreianDate(subscribe('date'));
-	return <time>
-		<h1>{date.LT}</h1>
-		<h2>{date.format`${'dddd'}, ${'Do'} of ${'MMMM'}`}</h2>
-		<h3>{date.YYYY}</h3>
-	</time>;
-});
-
-const Objectives = observe((props, {subscribe}) => {
-	const objectives = values(subscribe('objectives', {}));
-
-	return <div>
-		<h1>Objectives</h1>
-		{map(groupBy(objectives.filter(({completed}) => !completed), 'quest'), (objectives, name) => <div>
-			<h2>{name}</h2>
-			<ul>{objectives.map(objective => <li key={objective.text}>{objective.text}</li>)}</ul>
-		</div>)}
-
-		<h2>Completed</h2>
-		<ul>{orderBy(objectives.filter(({completed}) => completed), 'completedDate', 'desc').map(objective =>
-			<li key={objective.text}>
-				<b>{objective.quest}</b> {objective.text} 
-				<div>✔ <time>{new OdreianDate(objective.completedDate).llll}</time></div>
-			</li>
-		)}</ul>
-	</div>;
-});
+import Time from '../src/components/time';
+import Objectives from '../src/components/objectives';
 
 export default () => <div>
 	<Time />
