@@ -8,6 +8,16 @@ import formJson from '@quarterto/form-json';
 import shortId from '@quarterto/short-id';
 import {observe} from '../store';
 
+const CompletedObjectives = ({objectives}) => <div>
+	<h2>Completed</h2>
+	<ul>{orderBy(objectives.filter(({completed}) => completed), 'completedDate', 'desc').map(objective =>
+		<li key={objective.text}>
+			<b>{objective.quest}</b> {objective.text} 
+			<div>✔ <time>{new OdreianDate(objective.completedDate).llll}</time></div>
+		</li>
+	)}</ul>
+</div>;
+
 const Objectives = observe((props, {subscribe}) => {
 	const objectives = values(subscribe('objectives', {}));
 
@@ -18,13 +28,7 @@ const Objectives = observe((props, {subscribe}) => {
 			<ul>{objectives.map(objective => <li key={objective.text}>{objective.text}</li>)}</ul>
 		</div>)}
 
-		<h2>Completed</h2>
-		<ul>{orderBy(objectives.filter(({completed}) => completed), 'completedDate', 'desc').map(objective =>
-			<li key={objective.text}>
-				<b>{objective.quest}</b> {objective.text} 
-				<div>✔ <time>{new OdreianDate(objective.completedDate).llll}</time></div>
-			</li>
-		)}</ul>
+		<CompletedObjectives objectives={objectives} />
 	</div>;
 });
 
@@ -65,8 +69,7 @@ const ObjectivesControl = observe((props, {dispatch, subscribe}) => {
 			<button>➕</button>
 		</form>
 
-		<h2>Completed</h2>
-		<ul>{objectives.filter(({completed}) => completed).map(objective => <li key={objective.text}>✔ <b>{objective.quest}</b> {objective.text}</li>)}</ul>
+		<CompletedObjectives objectives={objectives} />
 	</div>;
 });
 
