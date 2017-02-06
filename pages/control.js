@@ -56,24 +56,24 @@ const Objectives = observe((props, {dispatch, subscribe}) => {
 			)}</ul>
 		</div>)}
 
-		<h2>Completed</h2>
-		<ul>{objectives.filter(({completed}) => completed).map(objective => <li key={objective.text}>✔ <b>{objective.quest}</b> {objective.text}</li>)}</ul>
-
 		<form onSubmit={ev => dispatch('objectives', o => {
-				ev.preventDefault();
-				const data = formJson(ev.target);
-				const id = shortId();
-				ev.target.reset();
-				return Object.assign(o, {
-					[id]: Object.assign(data, {
-						id, completed: false
-					}),
-				});
-			})}>
+			ev.preventDefault();
+			const data = formJson(ev.target);
+			const id = shortId();
+			ev.target.reset();
+			return Object.assign(o, {
+				[id]: Object.assign(data, {
+					id, completed: false
+				}),
+			});
+		})}>
 			<input placeholder='Quest' name='quest' />
 			<input placeholder='Objective' name='text' />
 			<button>➕</button>
 		</form>
+
+		<h2>Completed</h2>
+		<ul>{objectives.filter(({completed}) => completed).map(objective => <li key={objective.text}>✔ <b>{objective.quest}</b> {objective.text}</li>)}</ul>
 	</div>;
 });
 
