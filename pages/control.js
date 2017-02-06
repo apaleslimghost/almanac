@@ -46,7 +46,8 @@ const Objectives = observe((props, {dispatch, subscribe}) => {
 				<li key={objective.id}>
 					<button onClick={() => dispatch('objectives', o => Object.assign(o, {
 						[objective.id]: Object.assign(o[objective.id], {
-							completed: true
+							completed: true,
+							completedDate: subscribe('date')
 						})
 					}))}>✔</button>
 					{objective.text}
