@@ -1,5 +1,8 @@
 import React from 'react';
 import {observe} from '../src/store';
+import formJson from '@quarterto/form-json';
+import shortId from '@quarterto/short-id';
+import map from 'lodash.map';
 
 const pluralize = (word, n) => Math.abs(n) > 1 ? `${word}s` : word;
 
@@ -29,6 +32,37 @@ const Inc = observe(({period, multiplier = 1}, {dispatch}) => <button
 	onClick={() => dispatch('date', date => date + secondsIn[period] * multiplier)}>
 	{multiplier > 0 && '+'}{multiplier} {pluralize(period, multiplier)}
 </button>);
+
+const Objectives = observe((props, {dispatch, subscribe}) => <div>
+	<h1>Objectives</h1>
+	<ul>
+		{map(subscribe('objectives', {}), objective =>
+			<li key={objective.id}>
+				<button onClick={() => dispatch('objectives', o => {
+					delete o[objective.id];
+					return o;
+				})}>✔</button>
+				{objective.quest}: {objective.text}
+			</li>
+		)}
+
+		<li>
+		<form onSubmit={ev => dispatch('objectives', o => {
+				ev.preventDefault();
+				const data = formJson(ev.target);
+				data.id = shortId();
+				ev.target.reset();
+				return Object.assign(o, {
+					[data.id]: data,
+				});
+			})}>
+			<input placeholder='Quest' name='quest' />
+			<input placeholder='Objective' name='text' />
+			<button>➕</button>
+		</form>
+		</li>
+	</ul>
+</div>)
 
 export default observe((props, {dispatch, subscribe}) => <main>
 	<div style={{textAlign: 'center'}}>
@@ -91,4 +125,6 @@ export default observe((props, {dispatch, subscribe}) => <main>
 		<input defaultValue={subscribe('date')} onChange={ev => dispatch('_date', () => parseInt(ev.target.value, 0))} />
 		<button onClick={() => dispatch('date', () => subscribe('_date'))}>Set</button>
 	</div>
+
+	<Objectives />
 </main>);

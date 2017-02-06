@@ -1,6 +1,8 @@
 import React from 'react';
 import {observe} from '../src/store';
 import OdreianDate from 'odreian-date'
+import groupBy from 'lodash.groupby';
+import map from 'lodash.map';
 
 const Time = observe((props, {subscribe}) => {
 	const date = new OdreianDate(subscribe('date'));
@@ -11,4 +13,15 @@ const Time = observe((props, {subscribe}) => {
 	</time>;
 });
 
-export default Time;
+const Objectives = observe((props, {subscribe}) => <div>
+	<h1>Objectives</h1>
+	{map(groupBy(subscribe('objectives', {}), 'quest'), (objectives, name) => <div>
+		<h2>{name}</h2>
+		<ul>{objectives.map(objective => <li key={objective.text}>{objective.text}</li>)}</ul>
+	</div>)}
+</div>);
+
+export default () => <div>
+	<Time />
+	<Objectives />
+</div>;
