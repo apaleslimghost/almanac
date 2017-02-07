@@ -24,7 +24,7 @@ const Objectives = observe((props, {subscribe}) => {
 
 	return <div>
 		<H1>Objectives</H1>
-		{map(groupBy(objectives.filter(({completed}) => !completed), 'quest'), (objectives, name) => <div>
+		{map(groupBy(objectives.filter(({completed}) => !completed), 'quest'), (objectives, name) => <div key={name}>
 			<H2>{name}</H2>
 			<ul>{objectives.map(objective => <li key={objective.text}>{objective.text}</li>)}</ul>
 		</div>)}
