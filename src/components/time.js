@@ -51,12 +51,39 @@ const secondsIn = {
 	year: secondsInYear,
 };
 
-const Inc = observe(({period, multiplier = 1}, {dispatch}) => <button
+const TimeButton = styled.button`
+border: 2px solid #55C;
+border-right: 0 none;
+background: none;
+font-size: 10px;
+cursor: pointer;
+
+&:first-child {
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+&:last-child {
+	border: 2px solid #55C;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+&:hover {
+	background: rgba(85, 85, 204, 0.1);
+}
+`;
+
+const Inc = observe(({period, multiplier = 1}, {dispatch}) => <TimeButton
 	onClick={() => dispatch('date', date => date + secondsIn[period] * multiplier)}>
 	{multiplier > 0 && '+'}{multiplier} {pluralize(period, multiplier)}
-</button>);
+</TimeButton>);
 
 const TimeControl = observe((props, {dispatch, subscribe}) => <div>
+	<Time />
+
+	<hr />
+
 	<div style={{textAlign: 'center'}}>
 		<div>
 			<Inc period='minute' multiplier={-30} />
@@ -111,11 +138,11 @@ const TimeControl = observe((props, {dispatch, subscribe}) => <div>
 			<Inc period='year' multiplier={5} />
 			<Inc period='year' multiplier={10} />
 		</div>
-	</div>
 
-	<div>
-		<input defaultValue={subscribe('date')} onChange={ev => dispatch('_date', () => parseInt(ev.target.value, 0))} />
-		<button onClick={() => dispatch('date', () => subscribe('_date'))}>Set</button>
+		<div>
+			<input defaultValue={subscribe('date')} onChange={ev => dispatch('_date', () => parseInt(ev.target.value, 0))} />
+			<button onClick={() => dispatch('date', () => subscribe('_date'))}>Set</button>
+		</div>
 	</div>
 </div>);
 
