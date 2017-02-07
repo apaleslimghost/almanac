@@ -12,7 +12,7 @@ import {H1, H2} from './heading';
 const CompletedObjectives = ({objectives}) => <div>
 	<H2>Completed</H2>
 	<ul>{orderBy(objectives.filter(({completed}) => completed), 'completedDate', 'desc').map(objective =>
-		<li key={objective.text}>
+		<li key={objective.id}>
 			<b>{objective.quest}</b> {objective.text} 
 			<div>✔ <time>{new OdreianDate(objective.completedDate).llll}</time></div>
 		</li>
@@ -26,7 +26,7 @@ const Objectives = observe((props, {subscribe}) => {
 		<H1>Objectives</H1>
 		{map(groupBy(objectives.filter(({completed}) => !completed), 'quest'), (objectives, name) => <div key={name}>
 			<H2>{name}</H2>
-			<ul>{objectives.map(objective => <li key={objective.text}>{objective.text}</li>)}</ul>
+			<ul>{objectives.map(objective => <li key={objective.id}>{objective.text}</li>)}</ul>
 		</div>)}
 
 		<CompletedObjectives objectives={objectives} />
