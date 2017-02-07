@@ -10,6 +10,7 @@ const connect = createStore({
 if(typeof localStorage !== 'undefined') {
 	localStore('date', 'date', 48864384000)(connect);
 	localStore('objectives', 'objectives', {})(connect);
+	localStore('layout', 'layout', [])(connect);
 	window.store = connect;
 }
 
