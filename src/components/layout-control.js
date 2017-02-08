@@ -42,6 +42,10 @@ const LayoutControl = observe(({component, location, length, direction}, {dispat
 	<button onClick={() => dispatch('layout', layout =>
 		updatePath(layout, location, () => 'placeholder')
 	)}>∅</button>
+
+	<button onClick={() => dispatch('layout', layout =>
+		updatePath(layout, location, () => [component, 'placeholder'])
+	)}>{direction === 'row' ? '≡' : '⦀'}</button>
 </div>);
 
 export default LayoutControl;
