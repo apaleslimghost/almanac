@@ -20,7 +20,10 @@
   "dependencies": {
     "@quarterto/enviante-localstorage": "^1.8.0",
     "@quarterto/form-json": "^1.0.0",
+    "@quarterto/get-path": "^1.1.0",
+    "@quarterto/remove-array-index": "^1.0.0",
     "@quarterto/short-id": "^1.0.0",
+    "@quarterto/update-path": "^1.4.0",
     "enviante": "^4.0.3",
     "enviante-react": "^1.0.1",
     "lodash.filter": "^4.6.0",
