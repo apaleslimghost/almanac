@@ -18,7 +18,12 @@ const Grid = ({layout, direction = 'row', keys = [], which}) => <Split direction
 	{layout.map((child, i) => Array.isArray(child) ?
 		<Grid key={keys.concat(i).join('.')} keys={keys.concat(i)} layout={child} direction={direction === 'row' ? 'column': 'row'} which={which} />
 		: <GridChild key={keys.concat(i).join('.')} {...child}>
-			{which === 'control' && <LayoutControl component={child.component || child} location={keys.concat(i)} />}
+			{which === 'control' &&
+				<LayoutControl
+				component={child.component || child}
+				location={keys.concat(i)}
+				length={layout.length}
+				direction={direction} />}
 			{child.component ?
 				React.createElement(components[child.component][which], child)
 			: React.createElement(components[child][which])}
