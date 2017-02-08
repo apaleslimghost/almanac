@@ -25,8 +25,8 @@ const Grid = ({layout, direction = 'row', keys = [], which}) => <Split direction
 				length={layout.length}
 				direction={direction} />}
 			{child.component ?
-				React.createElement(components[child.component][which], child)
-			: React.createElement(components[child][which])}
+				React.createElement(components[child.component][which], Object.assign({location: keys.concat(i)}, child))
+			: React.createElement(components[child][which], {location: keys.concat(i)})}
 		</GridChild>
 	)}
 </Split>;
