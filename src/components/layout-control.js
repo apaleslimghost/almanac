@@ -13,11 +13,20 @@ const addPlaceholderToCurrent = (layout, location) =>
 	updatePath(layout, location, component => [component, 'placeholder']);
 
 const LayoutControl = observe(({location, direction}, {dispatch}) => <div>
-	<button onClick={() => dispatch('layout', layout => {
-		const next = updatePath(layout, initial(location), removeArrayIndex(last(location)));
-		if(next.length === 0) return ['placeholder'];
-		return next;
-	})}>×</button>
+	<button onClick={() => dispatch('layout', layout =>
+		updatePath(layout, initial(location), parent => {
+			const next = removeArrayIndex(last(location))(parent);
+			if(location.length > 1 && next.length === 1) {
+				return next[0];
+			}
+
+			if(location.length === 1 && next.length === 0) {
+				return ['placeholder'];
+			}
+
+			return next;
+		})
+	)}>×</button>
 
 	<button onClick={() => dispatch('layout', layout =>
 		updatePath(layout, location, () => 'placeholder')
