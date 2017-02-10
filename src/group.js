@@ -8,10 +8,11 @@ import LayoutControl from './components/layout-control';
 const Split = styled.div`
 display: flex;
 flex-direction: ${({direction}) => direction};
+flex: 1;
 `;
 
 const GridChild = styled.div`
-${({flex}) => flex && css`flex: ${flex};`}
+flex: ${({flex = 1}) => flex}
 `;
 
 const Grid = ({layout, direction = 'row', keys = [], which}) =>
