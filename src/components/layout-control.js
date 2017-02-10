@@ -6,46 +6,30 @@ import {observe} from '../store';
 import last from 'lodash.last';
 import initial from 'lodash.initial';
 
-const LayoutControl = observe(({component, location, length, direction}, {dispatch}) => <div>
-	<button onClick={() => dispatch('layout', layout =>
-		updatePath(layout, initial(location), removeArrayIndex(last(location)))
-	)}>×</button>
+const addPlaceholderToParent = (layout, location) =>
+	updatePath(layout, initial(location), parent => parent.concat('placeholder'));
 
-	{last(location) !== 0 && <button onClick={() => dispatch('layout', layout =>
-		updatePath(layout, initial(location), arr => {
-			const pos = last(location);
-			const [other, me] = arr.slice(pos - 1, pos + 1);
-			arr[pos - 1] = me;
-			arr[pos] = other;
-			return arr;
-		})
-	)}>{direction === 'row' ? '←' : '↑'}</button>}
+const addPlaceholderToCurrent = (layout, location) =>
+	updatePath(layout, location, component => [component, 'placeholder']);
 
-	{last(location) !== length - 1 && <button onClick={() => dispatch('layout', layout =>
-		updatePath(layout, initial(location), arr => {
-			const pos = last(location);
-			const [me, other] = arr.slice(pos, pos + 2);
-			arr[pos + 1] = me;
-			arr[pos] = other;
-			return arr;
-		})
-	)}>{direction === 'row' ? '→' : '↓'}</button>}
-
-	<button onClick={() => dispatch('layout', layout =>
-		updatePath(layout, initial(location), insertArrayIndex(last(location), 'placeholder'))
-	)}>+{direction === 'row' ? '←' : '↑'}</button>
-
-	<button onClick={() => dispatch('layout', layout =>
-		updatePath(layout, initial(location), insertArrayIndex(last(location) + 1, 'placeholder'))
-	)}>+{direction === 'row' ? '→' : '↓'}</button>
+const LayoutControl = observe(({location, direction}, {dispatch}) => <div>
+	<button onClick={() => dispatch('layout', layout => {
+		const next = updatePath(layout, initial(location), removeArrayIndex(last(location)));
+		if(next.length === 0) return ['placeholder'];
+		return next;
+	})}>×</button>
 
 	<button onClick={() => dispatch('layout', layout =>
 		updatePath(layout, location, () => 'placeholder')
 	)}>∅</button>
 
 	<button onClick={() => dispatch('layout', layout =>
-		updatePath(layout, location, () => [component, 'placeholder'])
-	)}>{direction === 'row' ? '≡' : '⦀'}</button>
+		(direction === 'column' ? addPlaceholderToParent : addPlaceholderToCurrent)(layout, location)
+	)}>≡</button>
+
+	<button onClick={() => dispatch('layout', layout =>
+		(direction === 'row' ? addPlaceholderToParent : addPlaceholderToCurrent)(layout, location)
+	)}>⦀</button>
 </div>);
 
 export default LayoutControl;
