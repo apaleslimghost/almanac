@@ -33,6 +33,10 @@ const LayoutControl = observe(({location, direction}, {dispatch}) => <div>
 	)}>∅</button>
 
 	<button onClick={() => dispatch('layout', layout =>
+		updatePath(layout, location, component => ({component: component.component || component, flex: prompt('Flex size?')}))
+	)}>⁒</button>
+
+	<button onClick={() => dispatch('layout', layout =>
 		(direction === 'column' ? addPlaceholderToParent : addPlaceholderToCurrent)(layout, location)
 	)}>≡</button>
 
