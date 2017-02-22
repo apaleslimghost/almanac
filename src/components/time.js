@@ -3,6 +3,7 @@ import OdreianDate from 'odreian-date'
 import styled from 'styled-components';
 import {observe} from '../store';
 import {H1, H2, H3} from './heading';
+import withState from './state';
 
 const TimeOfDay = styled(H1)`
 margin: 0;
@@ -79,6 +80,17 @@ const Inc = observe(({period, multiplier = 1}, {dispatch}) => <TimeButton
 	{multiplier > 0 && '+'}{multiplier} {pluralize(period, multiplier)}
 </TimeButton>);
 
+
+const DateForm = withState(({date}) => ({date}), ({date, onSubmit}, state, setState) => <div>
+	<input value={state.date || date} onChange={ev => setState({date: ev.target.value})} size={35} />
+	<button onClick={() => onSubmit(OdreianDate.parse(state.date).timestamp)}>Set</button>
+</div>);
+
+const DateFormConnector = observe((props, {subscribe, dispatch}) => <DateForm
+	date={new OdreianDate(subscribe('date')).llll}
+	onSubmit={date => dispatch('date', () => date)}
+/>);
+
 const TimeControl = observe((props, {dispatch, subscribe}) => <div>
 	<Time />
 
@@ -139,10 +151,7 @@ const TimeControl = observe((props, {dispatch, subscribe}) => <div>
 			<Inc period='year' multiplier={10} />
 		</div>
 
-		<div>
-			<input defaultValue={subscribe('date')} onChange={ev => dispatch('_date', () => parseInt(ev.target.value, 0))} />
-			<button onClick={() => dispatch('date', () => subscribe('_date'))}>Set</button>
-		</div>
+		<DateFormConnector />
 	</div>
 </div>);
 

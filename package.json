@@ -22,6 +22,7 @@
     "@quarterto/form-json": "^1.0.0",
     "@quarterto/get-path": "^1.1.0",
     "@quarterto/insert-array-index": "^1.0.0",
+    "@quarterto/react-form": "^1.7.0",
     "@quarterto/remove-array-index": "^1.0.0",
     "@quarterto/short-id": "^1.0.0",
     "@quarterto/update-path": "^1.5.0",
@@ -35,7 +36,7 @@
     "lodash.orderby": "^4.6.0",
     "lodash.values": "^4.3.0",
     "next": "^2.0.0-beta.24",
-    "odreian-date": "^1.0.1",
+    "odreian-date": "^1.1.0",
     "pluralize": "^3.1.0",
     "styled-components": "^1.4.3"
   }
