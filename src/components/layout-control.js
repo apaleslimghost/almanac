@@ -26,23 +26,23 @@ const LayoutControl = observe(({location, direction}, {dispatch}) => <div>
 
 			return next;
 		})
-	)}>×</button>
+	)}>❌</button>
 
 	<button onClick={() => dispatch('layout', layout =>
 		updatePath(layout, location, () => 'placeholder')
-	)}>∅</button>
+	)}>♻️</button>
 
 	<button onClick={() => dispatch('layout', layout =>
 		updatePath(layout, location, component => ({component: component.component || component, flex: prompt('Flex size?')}))
-	)}>⁒</button>
+	)}>➗</button>
 
 	<button onClick={() => dispatch('layout', layout =>
 		(direction === 'column' ? addPlaceholderToParent : addPlaceholderToCurrent)(layout, location)
-	)}>≡</button>
+	)}>⏬</button>
 
 	<button onClick={() => dispatch('layout', layout =>
 		(direction === 'row' ? addPlaceholderToParent : addPlaceholderToCurrent)(layout, location)
-	)}>⦀</button>
+	)}>⏩</button>
 </div>);
 
 export default LayoutControl;
