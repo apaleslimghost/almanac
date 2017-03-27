@@ -6,6 +6,7 @@ injectGlobal`
 body {
 	font-family: Bookmania;
 	line-height: 1.6;
+	font-size: 24px;
 }
 `;
 
