@@ -16,8 +16,10 @@ flex: 1;
 
 const GridChild = styled.div`
 flex: ${({flex = 1}) => flex};
-margin: .5em;
-padding: .5em;
+padding: 1em;
+max-height: 100vh;
+max-width: 100vw;
+overflow: auto;
 &:not(:last-child) {
 	border-${({direction}) => direction === 'row' ? 'right' : 'bottom'}: 1px solid #ccc;
 }

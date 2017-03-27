@@ -4,6 +4,7 @@ import styled, {css} from 'styled-components';
 const base = css`
 font-weight: normal;
 line-height: 1;
+margin-top: 0;
 `;
 
 const title = css`

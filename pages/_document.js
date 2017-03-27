@@ -9,6 +9,10 @@ body {
 	font-size: 24px;
 	margin: 0;
 }
+
+* {
+	box-sizing: border-box;
+}
 `;
 
 
