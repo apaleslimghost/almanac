@@ -75,9 +75,14 @@ cursor: pointer;
 }
 `;
 
+const Controls = styled.div`
+text-align: center;
+line-height: 1;
+`;
+
 const Inc = observe(({period, multiplier = 1}, {dispatch}) => <TimeButton
 	onClick={() => dispatch('date', date => date + secondsIn[period] * multiplier)}>
-	{multiplier > 0 && '+'}{multiplier} {pluralize(period, multiplier)}
+	{multiplier > 0 && '+'}{multiplier}{period[0]}
 </TimeButton>);
 
 
@@ -96,7 +101,7 @@ const TimeControl = observe((props, {dispatch, subscribe}) => <div>
 
 	<hr />
 
-	<div style={{textAlign: 'center'}}>
+	<Controls>
 		<div>
 			<Inc period='minute' multiplier={-30} />
 			<Inc period='minute' multiplier={-5} />
@@ -152,7 +157,7 @@ const TimeControl = observe((props, {dispatch, subscribe}) => <div>
 		</div>
 
 		<DateFormConnector />
-	</div>
+	</Controls>
 </div>);
 
 export {
