@@ -6,8 +6,9 @@ const {fetch} = getFetch();
 export const read = (remotePath, storePath, defaultValue) => async ({dispatch}) => {
 	try {
 		const response = await fetch(`https://jsonbin.org/${remotePath}`);
-		await guard(() => response.ok);
-		const data = await response.json();
+		const data = response.ok ?
+			await response.json() :
+			defaultValue;
 		dispatch(storePath, () => data, {noRemote: true});
 	} catch(e) {
 		dispatch('_error', () => e);
