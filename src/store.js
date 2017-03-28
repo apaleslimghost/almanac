@@ -10,8 +10,8 @@ const state = {
 	layout: ['placeholder'],
 	objectives: {},
 	weather: {
-		humidity: 5,
-		temperature: 5,
+		humidity: 50,
+		temperature: 15,
 	}
 };
 
