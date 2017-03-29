@@ -13,7 +13,7 @@ const Weather = observe((props, {subscribe}) => {
 
 const FixedWidthLabel = styled.label`
 display: inline-block;
-width: ${({size = 4}) => size}em;
+width: ${({size = 3}) => size}em;
 `;
 
 const WeatherForm = withState(
