@@ -2,8 +2,11 @@ import React from 'react';
 import {observe} from '../store';
 import withState from './state';
 import styled from 'styled-components';
+import OdreianDate from 'odreian-date';
 
-
+const moonPhase = date => [
+	'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',
+][Math.floor(date * 8/30)];
 
 const compassDir = heading => [
 	'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW',
@@ -21,10 +24,12 @@ const WindDirection = ({heading}) => <span>
 
 const Weather = observe((props, {subscribe}) => {
 	const {temperature, humidity, windHeading, windSpeed} = subscribe('weather');
+	const date = new OdreianDate(subscribe('date')).dateIndex;
 	return <ul>
 		<li>{temperature}℃</li>
 		<li>{humidity}% humidity</li>
 		<li><WindDirection heading={windHeading} /> {windSpeed}<small>KN</small></li>
+		<li>{moonPhase(date)}</li>
 	</ul>;
 });
 
