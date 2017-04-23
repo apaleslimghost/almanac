@@ -31,14 +31,34 @@ const WindDirection = ({heading}) => <span>
 	<small>{compassDir((heading + 180) % 360)}</small>
 </span>;
 
+const WeatherIcon = styled.div`
+font-size: ${({small}) => small ? '3em' : '4em'};
+line-height: ${({small}) => small ? '1.2' : '0.8'};
+width: ${({small}) => small ? '1.33em' : '1em'};
+text-align: center;
+margin-right: 10px;
+float: left;
+`;
+
+const Clear = styled.div`
+overflow: hidden;
+`;
+
 const Weather = observe((props, {subscribe}) => {
 	const {temperature, humidity, windHeading, windSpeed} = subscribe('weather');
-	const date = new OdreianDate(subscribe('date')).dateIndex;
-	return <ul>
-		<li>{weatherCondition({temperature, humidity})} {temperature}℃</li>
-		<li><WindDirection heading={windHeading} /> {windSpeed}<small>KN</small></li>
-		<li>{moonPhase(date)}</li>
-	</ul>;
+	const date = new OdreianDate(subscribe('date'));
+	const isNight = date.hour < 7 || date.hour >= 20; // TODO: seasons, sunset time
+
+	return <Clear>
+		<WeatherIcon small={isNight}>
+			{isNight
+				? moonPhase(date.dateIndex)
+				: weatherCondition({temperature, humidity})
+			}
+		</WeatherIcon>
+		<div>{temperature}℃</div>
+		<div><WindDirection heading={windHeading} /> {windSpeed}<small>KN</small></div>
+	</Clear>;
 });
 
 const FixedWidthLabel = styled.label`
