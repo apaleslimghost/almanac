@@ -3,17 +3,34 @@ import {observe} from '../store';
 import withState from './state';
 import styled from 'styled-components';
 
+
+
+const compassDir = heading => [
+	'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW',
+][Math.round(heading * 16/360) % 16];
+
+const WindArrow = styled.span`
+display: inline-block;
+transform: rotate(${({heading}) => heading}deg);
+`;
+
+const WindDirection = ({heading}) => <span>
+	<WindArrow heading={heading - 90}>➳</WindArrow>
+	<small>{compassDir((heading + 180) % 360)}</small>
+</span>;
+
 const Weather = observe((props, {subscribe}) => {
-	const {temperature, humidity} = subscribe('weather');
+	const {temperature, humidity, windHeading, windSpeed} = subscribe('weather');
 	return <ul>
 		<li>{temperature}℃</li>
 		<li>{humidity}% humidity</li>
+		<li><WindDirection heading={windHeading} /> {windSpeed}<small>KN</small></li>
 	</ul>;
 });
 
 const FixedWidthLabel = styled.label`
 display: inline-block;
-width: ${({size = 3}) => size}em;
+width: ${({size = 3.5}) => size}em;
 `;
 
 const WeatherForm = withState(
@@ -34,6 +51,22 @@ const WeatherForm = withState(
 				placeholder='humidity'
 				value={state.humidity}
 				onChange={ev => setState({humidity: ev.target.valueAsNumber})} />
+		</div>
+		<div>
+			<FixedWidthLabel><WindDirection heading={state.windHeading} /></FixedWidthLabel>
+			<input
+				type='range' min={0} max={359} step={5}
+				placeholder='windHeading'
+				value={state.windHeading}
+				onChange={ev => setState({windHeading: ev.target.valueAsNumber})} />
+		</div>
+		<div>
+			<FixedWidthLabel>{state.windSpeed}<small>KN</small></FixedWidthLabel>
+			<input
+				type='range' min={0} max={120} step={5}
+				placeholder='windSpeed'
+				value={state.windSpeed}
+				onChange={ev => setState({windSpeed: ev.target.valueAsNumber})} />
 		</div>
 		<button onClick={() => onSubmit(state)}>Set</button>
 	</div>

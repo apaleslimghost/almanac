@@ -12,6 +12,8 @@ const state = {
 	weather: {
 		humidity: 50,
 		temperature: 15,
+		windSpeed: 10,
+		windHeading: 0,
 	},
 	checkpoints: [],
 };
