@@ -96,6 +96,26 @@ const DateFormConnector = observe((props, {subscribe, dispatch}) => <DateForm
 	onSubmit={date => dispatch('date', () => date)}
 />);
 
+const reverse = ([x, ...xs]) => xs.length ? reverse(xs).concat(x) : [];
+
+const Checkpoints = observe((props, {subscribe, dispatch}) => {
+	const date = subscribe('date');
+
+	return <div>
+		<button onClick={() => dispatch('checkpoints', c => c.concat(date))}>Save checkpoint</button>
+
+		<ul>
+			{reverse(subscribe('checkpoints')).map(
+				point => <li key={point}>
+					<button onClick={() => dispatch('date', () => point)}>Restore</button>
+					<button onClick={() => dispatch('checkpoints', c => c.filter(p => p !== point))}>×</button>
+					{new OdreianDate(point).llll}
+				</li>
+			)}
+		</ul>
+	</div>;
+});
+
 const TimeControl = observe((props, {dispatch, subscribe}) => <div>
 	<Time />
 
@@ -157,6 +177,7 @@ const TimeControl = observe((props, {dispatch, subscribe}) => <div>
 		</div>
 
 		<DateFormConnector />
+		<Checkpoints />
 	</Controls>
 </div>);
 

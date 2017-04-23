@@ -12,7 +12,8 @@ const state = {
 	weather: {
 		humidity: 50,
 		temperature: 15,
-	}
+	},
+	checkpoints: [],
 };
 
 const stateStores = key => [
