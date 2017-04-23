@@ -41,7 +41,11 @@ float: left;
 `;
 
 const Clear = styled.div`
-overflow: hidden;
+&:after {
+  content: '';
+  display: table;
+  clear: both;
+}
 `;
 
 const Weather = observe((props, {subscribe}) => {
