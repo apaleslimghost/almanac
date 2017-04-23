@@ -12,6 +12,15 @@ const compassDir = heading => [
 	'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW',
 ][Math.round(heading * 16/360) % 16];
 
+const weatherCondition = ({temperature, humidity}) => [
+	['❄️','🌤','☀️','☀️','🏜'],
+	['🏔','🌥','⛅️','🌤','🌤'],
+	['💨','☁️','🌦','🌦','🌩'],
+	['🌨','🌧','🌧','⛈','⛈'],
+]
+[Math.min(3, Math.floor(humidity * 4 / 100))]
+[Math.floor((20 + temperature) * 4 / 80)];
+
 const WindArrow = styled.span`
 display: inline-block;
 transform: rotate(${({heading}) => heading}deg);
@@ -26,8 +35,7 @@ const Weather = observe((props, {subscribe}) => {
 	const {temperature, humidity, windHeading, windSpeed} = subscribe('weather');
 	const date = new OdreianDate(subscribe('date')).dateIndex;
 	return <ul>
-		<li>{temperature}℃</li>
-		<li>{humidity}% humidity</li>
+		<li>{weatherCondition({temperature, humidity})} {temperature}℃</li>
 		<li><WindDirection heading={windHeading} /> {windSpeed}<small>KN</small></li>
 		<li>{moonPhase(date)}</li>
 	</ul>;
