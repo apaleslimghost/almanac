@@ -19,7 +19,7 @@ const weatherCondition = ({temperature, humidity}) => [
 	['🌨','🌧','🌧','⛈','⛈'],
 ]
 [Math.min(3, Math.floor(humidity * 4 / 100))]
-[Math.floor((20 + temperature) * 4 / 80)];
+[Math.min(4, Math.floor((20 + temperature) * 5 / 80))];
 
 const WindArrow = styled.span`
 display: inline-block;
