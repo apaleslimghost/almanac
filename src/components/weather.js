@@ -23,6 +23,7 @@ const weatherCondition = ({temperature, humidity}) => [
 
 const WindArrow = styled.span`
 display: inline-block;
+will-change: transform;
 transform: rotate(${({heading}) => heading}deg);
 transition: transform 2s cubic-bezier(.52,1.65,.29,.9);
 `;
