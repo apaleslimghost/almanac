@@ -1,12 +1,38 @@
 import React from 'react';
 import OdreianDate from 'odreian-date'
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import {observe} from '../store';
 import {H1, H2, H3} from './heading';
 import withState from './state';
 
+const bordered = css`
+position: relative;
+
+&:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 50%;
+	height: 1px;
+	margin-top: -1px;
+	background: black;
+	z-index: 1;
+}
+
+> * {
+	position: relative;
+	background: white;
+	z-index: 2;
+}
+`;
+
 const TimeOfDay = styled(H1)`
-margin: 0;
+margin: -0.2em 0 0 -0.15em;
+font-size: 6em;
+line-height: 1;
+letter-spacing: -0.1em;
+font-weight: normal;
 `;
 
 const DateLine = styled(H2)`
@@ -15,17 +41,52 @@ margin: 0;
 `;
 
 const Year = styled(H3)`
+${bordered}
 font-family: MrsEavesRoman;
 margin: 0;
 `;
 
+const Date = styled(DateLine)`
+display: flex;
+align-items: center;
+justify-content: center;
+
+${bordered}
+`;
+
+const DateGroup = styled.time`
+text-align: center;
+`;
+
+const Ornament = styled.span`
+font-family: 'PC Ornaments';
+font-size: 2em;
+`;
+
+const Compact = styled.div`
+line-height: 0.8;
+`;
+
+const ornaments = [
+	'h', 'f', 'a', 't', 'n', 'c', 'o', 'p', 'e', 'r', 'k', 'l'
+];
+
+const OrnamentedMonth = ({date}) => <Date>
+	<Ornament>{ornaments[date.monthIndex]}</Ornament>
+	<Compact>
+		<div>{date.format`${'dddd'} ${'Do'}`}</div>
+		<small>Month of {date.format`${'MM'}`}</small>
+	</Compact>
+	<Ornament>{ornaments[date.monthIndex].toUpperCase()}</Ornament>
+</Date>;
+
 const Time = observe((props, {subscribe}) => {
 	const date = new OdreianDate(subscribe('date'));
-	return <time>
-		<TimeOfDay>{date.LT}</TimeOfDay>
-		<DateLine>{date.format`${'dddd'}, ${'Do'} of ${'MMMM'}`}</DateLine>
-		<Year>{date.YYYY}</Year>
-	</time>;
+	return <DateGroup>
+		<OrnamentedMonth date={date} />
+		<TimeOfDay>{date.format`${'h'}:${'mm'}`}<small>{date.a}</small></TimeOfDay>
+		<Year><span>{date.YYYY}</span></Year>
+	</DateGroup>;
 });
 
 const pluralize = (word, n) => Math.abs(n) > 1 ? `${word}s` : word;
