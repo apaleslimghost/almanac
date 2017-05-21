@@ -13,13 +13,13 @@ const compassDir = heading => [
 ][Math.round(heading * 16/360) % 16];
 
 const weatherCondition = ({temperature, humidity}) => [
-	['❄️','🌤','☀️','☀️','🏜'],
-	['🏔','🌥','⛅️','🌤','🌤'],
-	['💨','☁️','🌦','🌦','🌩'],
-	['🌨','🌧','🌧','⛈','⛈'],
+	['❄️','🌤','☀️','☀️','🏜','🔥'],
+	['🏔','🌥','⛅️','🌤','🌤','🌋'],
+	['🌁','☁️','🌦','🌦','🌩','🌩'],
+	['🌨','🌧','🌧','⛈','⛈','⛈'],
 ]
 [Math.min(3, Math.floor(humidity * 4 / 100))]
-[Math.min(4, Math.floor((20 + temperature) * 5 / 80))];
+[Math.min(5, Math.floor((20 + temperature) * 6 / 80))];
 
 const WindArrow = styled.span`
 display: inline-block;
