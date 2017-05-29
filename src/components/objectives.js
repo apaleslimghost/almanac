@@ -1,45 +1,51 @@
 import React from 'react';
 import groupBy from 'lodash.groupby';
-import map from 'lodash.map';
 import values from 'lodash.values';
+import map from 'lodash.map';
 import orderBy from 'lodash.orderby';
 import formJson from '@quarterto/form-json';
 import shortId from '@quarterto/short-id';
 import {observe} from '../store';
 import {H1, H2} from './heading';
+import Ornamented from './ornamented';
 
-const Objectives = observe((props, {subscribe}) => {
+const Objectives = observe(({onComplete, onDelete}, {subscribe}) => {
 	const objectives = values(subscribe('objectives', {}));
+	const currentQuest = subscribe('currentQuest');
 
-	return <div>
-		<H1>Objectives</H1>
-		{map(groupBy(objectives.filter(({completed}) => !completed), 'quest'), (objectives, name) => <div key={name}>
-			<H2>{name}</H2>
-			<ul>{objectives.map(objective => <li key={objective.id}>{objective.text}</li>)}</ul>
-		</div>)}
-	</div>;
+	const byQuest = groupBy(objectives, 'quest');
+	const questObjectives = byQuest[currentQuest];
+
+	return currentQuest ? <div>
+		<Ornamented ornament='u'>{currentQuest}</Ornamented>
+
+		<ul>{questObjectives.filter(({completed}) => !completed).map(objective =>
+			<li key={objective.id}>
+				{onComplete && <button onClick={() => onComplete(objective)}>☑️</button>}
+				{onDelete && <button onClick={() => onDelete(objective)}>❌</button>}
+				{objective.text}
+				{objective.completed}
+			</li>
+		)}</ul>
+	</div> : <Ornamented ornament='u'>No current quest</Ornamented>;
 });
 
 const ObjectivesControl = observe((props, {dispatch, subscribe}) => {
 	const objectives = values(subscribe('objectives', {}));
-	return <div>
-		<H1>Objectives</H1>
+	const currentQuest = subscribe('currentQuest');
+	const byQuest = groupBy(objectives, 'quest');
+	const questObjectives = byQuest[currentQuest];
 
-		{map(groupBy(objectives.filter(({completed}) => !completed), 'quest'), (objectives, name) => <div key={name}>
-			<H2>{name}</H2>
-			<ul>{objectives.map(objective =>
-				<li key={objective.id}>
-					<button onClick={() => dispatch('objectives', o => Object.assign(o, {
-						[objective.id]: Object.assign(o[objective.id], {
-							completed: true,
-							completedDate: subscribe('date')
-						})
-					}))}>✔</button>
-					{objective.text}
-					{objective.completed}
-				</li>
-			)}</ul>
-		</div>)}
+	return currentQuest ? <div>
+		<Objectives onComplete={objective => dispatch('objectives', o => Object.assign(o, {
+			[objective.id]: Object.assign(o[objective.id], {
+				completed: true,
+				completedDate: subscribe('date')
+			})
+		}))} onDelete={objective => dispatch('objectives', o => {
+			delete o[objective.id];
+			return o;
+		})} />
 
 		<form onSubmit={ev => dispatch('objectives', o => {
 			ev.preventDefault();
@@ -48,15 +54,14 @@ const ObjectivesControl = observe((props, {dispatch, subscribe}) => {
 			ev.target.reset();
 			return Object.assign(o, {
 				[id]: Object.assign(data, {
-					id, completed: false
+					id, completed: false, quest: currentQuest
 				}),
 			});
 		})}>
-			<input placeholder='Quest' name='quest' />
 			<input placeholder='Objective' name='text' />
 			<button>➕</button>
 		</form>
-	</div>;
+	</div> : <Ornamented ornament='u'>No current quest</Ornamented>;
 });
 
 export {

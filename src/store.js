@@ -9,12 +9,14 @@ const state = {
 	date: 48864384000,
 	layout: ['placeholder'],
 	objectives: {},
+	quests: [],
 	weather: {
 		humidity: 50,
 		temperature: 15,
 		windSpeed: 10,
 		windHeading: 0,
 	},
+	currentQuest: null,
 };
 
 const stateStores = key => [

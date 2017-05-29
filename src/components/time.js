@@ -5,27 +5,7 @@ import {observe} from '../store';
 import {H1, H2, H3} from './heading';
 import withState from './state';
 
-const bordered = css`
-position: relative;
-
-&:before {
-	content: '';
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 50%;
-	height: 1px;
-	margin-top: -1px;
-	background: black;
-	z-index: 1;
-}
-
-> * {
-	position: relative;
-	background: white;
-	z-index: 2;
-}
-`;
+import Ornamented, {bordered} from './ornamented';
 
 const TimeOfDay = styled(H1)`
 margin: -0.2em 0 0 -0.15em;
@@ -35,50 +15,57 @@ letter-spacing: -0.1em;
 font-weight: normal;
 `;
 
-const DateLine = styled(H2)`
-font-family: MrsEavesRoman;
-margin: 0;
-`;
-
 const Year = styled(H3)`
 ${bordered}
 font-family: MrsEavesRoman;
 margin: 0;
 `;
 
-const Date = styled(DateLine)`
-display: flex;
-align-items: center;
-justify-content: center;
-
-${bordered}
-`;
-
 const DateGroup = styled.time`
 text-align: center;
-`;
-
-const Ornament = styled.span`
-font-family: 'PC Ornaments';
-font-size: 2em;
 `;
 
 const Compact = styled.div`
 line-height: 0.8;
 `;
 
+const TimeButton = styled.button`
+border: 2px solid #55C;
+border-right: 0 none;
+background: none;
+font-size: 10px;
+cursor: pointer;
+
+&:first-child {
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
+&:last-child {
+	border: 2px solid #55C;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+&:hover {
+	background: rgba(85, 85, 204, 0.1);
+}
+`;
+
+const Controls = styled.div`
+line-height: 1;
+`;
+
 const ornaments = [
 	'h', 'f', 'a', 't', 'n', 'c', 'o', 'p', 'e', 'r', 'k', 'l'
 ];
 
-const OrnamentedMonth = ({date}) => <Date>
-	<Ornament>{ornaments[date.monthIndex]}</Ornament>
+const OrnamentedMonth = ({date}) => <Ornamented ornament={ornaments[date.monthIndex]} large>
 	<Compact>
 		<div>{date.format`${'dddd'} ${'Do'}`}</div>
 		<small>Month of {date.format`${'MM'}`}</small>
 	</Compact>
-	<Ornament>{ornaments[date.monthIndex].toUpperCase()}</Ornament>
-</Date>;
+</Ornamented>;
 
 const Time = observe((props, {subscribe}) => {
 	const date = new OdreianDate(subscribe('date'));
@@ -112,33 +99,6 @@ const secondsIn = {
 	month: secondsInMonth,
 	year: secondsInYear,
 };
-
-const TimeButton = styled.button`
-border: 2px solid #55C;
-border-right: 0 none;
-background: none;
-font-size: 10px;
-cursor: pointer;
-
-&:first-child {
-	border-top-left-radius: 3px;
-	border-bottom-left-radius: 3px;
-}
-
-&:last-child {
-	border: 2px solid #55C;
-	border-top-right-radius: 3px;
-	border-bottom-right-radius: 3px;
-}
-
-&:hover {
-	background: rgba(85, 85, 204, 0.1);
-}
-`;
-
-const Controls = styled.div`
-line-height: 1;
-`;
 
 const Inc = observe(({period, multiplier = 1}, {dispatch}) => <TimeButton
 	onClick={() => dispatch('date', date => date + secondsIn[period] * multiplier)}>

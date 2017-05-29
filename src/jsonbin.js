@@ -6,8 +6,12 @@ const {fetch} = getFetch();
 export const read = (remotePath, storePath, defaultValue) => async ({dispatch}) => {
 	try {
 		const response = await fetch(`https://jsonbin.org/${remotePath}`);
+		const isPlain = response.headers.get('content-type').startsWith('text/plain');
+
 		const data = response.ok ?
-			await response.json() :
+			isPlain ?
+				await response.text() :
+				await response.json() :
 			defaultValue;
 		dispatch(storePath, () => data, {noRemote: true});
 	} catch(e) {

@@ -5,6 +5,11 @@ import {observe} from './store';
 import * as components from './components';
 import LayoutControl from './components/layout-control';
 
+const Root = styled.div`
+height: 100vh;
+width: 100vw;
+`;
+
 const Split = styled.div`
 display: flex;
 flex-direction: ${({direction}) => direction};
@@ -15,7 +20,7 @@ flex: 1;
 `;
 
 const GridChild = styled.div`
-flex: ${({flex = 1}) => flex};
+flex: ${({flex}) => flex || 'auto'};
 padding: 1em;
 max-height: 100vh;
 max-width: 100vw;
@@ -38,4 +43,6 @@ const Grid = ({layout, direction = 'row', keys = [], which}) =>
 		)}
 	</Split>;
 
-export default observe(({which}, {subscribe}) => <Grid layout={subscribe('layout', [])} which={which} />);
+export default observe(({which}, {subscribe}) => <Root>
+	<Grid layout={subscribe('layout', [])} which={which} />
+</Root>);
