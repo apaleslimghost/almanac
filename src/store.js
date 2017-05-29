@@ -15,7 +15,6 @@ const state = {
 		windSpeed: 10,
 		windHeading: 0,
 	},
-	checkpoints: [],
 };
 
 const stateStores = key => [

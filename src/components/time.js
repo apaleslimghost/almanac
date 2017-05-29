@@ -137,7 +137,6 @@ cursor: pointer;
 `;
 
 const Controls = styled.div`
-text-align: center;
 line-height: 1;
 `;
 
@@ -159,86 +158,47 @@ const DateFormConnector = observe((props, {subscribe, dispatch}) => <DateForm
 
 const reverse = ([x, ...xs]) => xs.length ? reverse(xs).concat(x) : [];
 
-const Checkpoints = observe((props, {subscribe, dispatch}) => {
-	const date = subscribe('date');
-
-	return <div>
-		<button onClick={() => dispatch('checkpoints', c => c.concat(date))}>Save checkpoint</button>
-
-		<ul>
-			{reverse(subscribe('checkpoints')).map(
-				point => <li key={point}>
-					<button onClick={() => dispatch('date', () => point)}>Restore</button>
-					<button onClick={() => dispatch('checkpoints', c => c.filter(p => p !== point))}>×</button>
-					{new OdreianDate(point).llll}
-				</li>
-			)}
-		</ul>
-	</div>;
-});
-
 const TimeControl = observe((props, {dispatch, subscribe}) => <div>
 	<Time />
 
-	<hr />
-
 	<Controls>
 		<div>
-			<Inc period='minute' multiplier={-30} />
-			<Inc period='minute' multiplier={-5} />
-			<Inc period='minute' multiplier={-1}/>
 			<Inc period='minute' />
 			<Inc period='minute' multiplier={5} />
+			<Inc period='minute' multiplier={15} />
 			<Inc period='minute' multiplier={30} />
 		</div>
 
 		<div>
-			<Inc period='hour' multiplier={-12} />
-			<Inc period='hour' multiplier={-6} />
-			<Inc period='hour' multiplier={-2} />
-			<Inc period='hour' multiplier={-1}/>
 			<Inc period='hour' />
 			<Inc period='hour' multiplier={2} />
-			<Inc period='hour' multiplier={6} />
+			<Inc period='hour' multiplier={4} />
+			<Inc period='hour' multiplier={8} />
 			<Inc period='hour' multiplier={12} />
 		</div>
 
 		<div>
-			<Inc period='day' multiplier={-2} />
-			<Inc period='day' multiplier={-1}/>
 			<Inc period='day' />
 			<Inc period='day' multiplier={2} />
 		</div>
 
 		<div>
-			<Inc period='week' multiplier={-2} />
-			<Inc period='week' multiplier={-1}/>
 			<Inc period='week' />
 			<Inc period='week' multiplier={2} />
 		</div>
 
 		<div>
-			<Inc period='month' multiplier={-6} />
-			<Inc period='month' multiplier={-2} />
-			<Inc period='month' multiplier={-1}/>
 			<Inc period='month' />
 			<Inc period='month' multiplier={2} />
 			<Inc period='month' multiplier={6} />
 		</div>
 
 		<div>
-			<Inc period='year' multiplier={-10} />
-			<Inc period='year' multiplier={-5} />
-			<Inc period='year' multiplier={-2} />
-			<Inc period='year' multiplier={-1}/>
 			<Inc period='year' />
 			<Inc period='year' multiplier={2} />
-			<Inc period='year' multiplier={5} />
-			<Inc period='year' multiplier={10} />
 		</div>
 
 		<DateFormConnector />
-		<Checkpoints />
 	</Controls>
 </div>);
 
