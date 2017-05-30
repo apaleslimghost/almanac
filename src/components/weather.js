@@ -13,10 +13,10 @@ const compassDir = heading => [
 ][Math.round(heading * 16/360) % 16];
 
 const weatherCondition = ({temperature, humidity}) => [
-	['❄️','🌤','☀️','☀️','🏜','🔥'],
-	['🏔','🌥','⛅️','🌤','🌤','🌋'],
-	['🌁','☁️','🌦','🌦','🌩','🌩'],
-	['🌨','🌧','🌧','⛈','⛈','⛈'],
+	['winter',     'sun-cloud',      'day',            'sun',       'dry',        'fire'],
+	['sun-snow',   'cloud-wind',     'sun-cloud',      'sun-fog',   'sun-fog',    'tornado'],
+	['cloud-snow', 'sun-cloud-rain', 'sun-cloud-rain', 'sun-cloud', 'heavy-rain', 'lightning'],
+	['snow-storm', 'cloud-rain',     'wet',            'lightning', 'lightning',  'heavy-lightning'],
 ]
 [Math.min(3, Math.floor(humidity * 4 / 100))]
 [Math.min(5, Math.floor((20 + temperature) * 6 / 80))];
@@ -40,6 +40,11 @@ width: ${({small}) => small ? '1.33em' : '1em'};
 text-align: center;
 margin-right: 10px;
 float: left;
+
+img {
+	width: 1em;
+	height: 1em;
+}
 `;
 
 const Clear = styled.div`
@@ -50,6 +55,11 @@ const Clear = styled.div`
 }
 `;
 
+const WeatherCondition = ({temperature, humidity}) => {
+	const condition = weatherCondition({temperature, humidity});
+	return <img src={`/static/weather/${condition}.png`} alt={condition} />;
+}
+
 const Weather = observe((props, {subscribe}) => {
 	const {temperature, humidity, windHeading, windSpeed} = subscribe('weather');
 	const date = new OdreianDate(subscribe('date'));
@@ -59,7 +69,7 @@ const Weather = observe((props, {subscribe}) => {
 		<WeatherIcon small={isNight}>
 			{isNight
 				? moonPhase(date.dateIndex)
-				: weatherCondition({temperature, humidity})
+				: <WeatherCondition {...{temperature, humidity}} />
 			}
 		</WeatherIcon>
 		<div>{temperature}℃</div>
