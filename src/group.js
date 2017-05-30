@@ -8,6 +8,7 @@ import LayoutControl from './components/layout-control';
 const Root = styled.div`
 height: 100vh;
 width: 100vw;
+overflow: hidden;
 `;
 
 const Split = styled.div`

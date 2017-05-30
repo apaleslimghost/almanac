@@ -3,6 +3,7 @@ import {observe} from '../store';
 import withState from './state';
 import styled from 'styled-components';
 import OdreianDate from 'odreian-date';
+import Ornamented from './ornamented';
 
 const moonPhase = date => [
 	'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',
@@ -13,10 +14,10 @@ const compassDir = heading => [
 ][Math.round(heading * 16/360) % 16];
 
 const weatherCondition = ({temperature, humidity}) => [
-	['winter',     'sun-cloud',      'day',            'sun',       'dry',        'fire'],
-	['sun-snow',   'cloud-wind',     'sun-cloud',      'sun-fog',   'sun-fog',    'tornado'],
-	['cloud-snow', 'sun-cloud-rain', 'sun-cloud-rain', 'sun-cloud', 'heavy-rain', 'lightning'],
-	['snow-storm', 'cloud-rain',     'wet',            'lightning', 'lightning',  'heavy-lightning'],
+['winter',     'sun-cloud',      'day',            'sun',       'dry',        'fire'],
+['sun-snow',   'cloud-wind',     'sun-cloud',      'sun-fog',   'sun-fog',    'tornado'],
+['cloud-snow', 'sun-cloud-rain', 'sun-cloud-rain', 'sun-cloud', 'heavy-rain', 'lightning'],
+['snow-storm', 'cloud-rain',     'wet',            'lightning', 'lightning',  'heavy-lightning'],
 ]
 [Math.min(3, Math.floor(humidity * 4 / 100))]
 [Math.min(5, Math.floor((20 + temperature) * 6 / 80))];
@@ -34,25 +35,35 @@ const WindDirection = ({heading}) => <span>
 </span>;
 
 const WeatherIcon = styled.div`
-font-size: ${({small}) => small ? '3em' : '4em'};
-line-height: ${({small}) => small ? '1.2' : '0.8'};
-width: ${({small}) => small ? '1.33em' : '1em'};
+display: inline;
+vertical-align: -0.85em;
+font-size: 3em;
 text-align: center;
-margin-right: 10px;
-float: left;
 
 img {
 	width: 1em;
 	height: 1em;
+	vertical-align: -0.08em;
 }
 `;
 
-const Clear = styled.div`
-&:after {
-  content: '';
-  display: table;
-  clear: both;
-}
+const WeatherThings = styled.div`
+display: flex;
+justify-content: space-between;
+margin-top: 1em;
+margin-bottom: -2em;
+position: relative;
+z-index: 2;
+`;
+
+const WeatherThing = styled.div`
+line-height: 0;
+font-size: 1.25em;
+`;
+
+const Under = styled(Ornamented)`
+position: relative;
+z-index: 1;
 `;
 
 const WeatherCondition = ({temperature, humidity}) => {
@@ -65,16 +76,20 @@ const Weather = observe((props, {subscribe}) => {
 	const date = new OdreianDate(subscribe('date'));
 	const isNight = date.hour < 7 || date.hour >= 20; // TODO: seasons, sunset time
 
-	return <Clear>
-		<WeatherIcon small={isNight}>
-			{isNight
-				? moonPhase(date.dateIndex)
-				: <WeatherCondition {...{temperature, humidity}} />
-			}
-		</WeatherIcon>
-		<div>{temperature}℃</div>
-		<div><WindDirection heading={windHeading} /> {windSpeed}<small>KN</small></div>
-	</Clear>;
+	return <div>
+		<WeatherThings>
+			<WeatherThing large>{temperature}℃</WeatherThing>
+			<WeatherThing><WindDirection heading={windHeading} /></WeatherThing>
+		</WeatherThings>
+		<Under ornament='k'>
+			<WeatherIcon small={isNight}>
+				{isNight
+					? moonPhase(date.dateIndex)
+					: <WeatherCondition {...{temperature, humidity}} />
+				}
+			</WeatherIcon>
+		</Under>
+	</div>;
 });
 
 const FixedWidthLabel = styled.label`
