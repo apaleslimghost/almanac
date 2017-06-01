@@ -1,6 +1,7 @@
 import React, {Children} from 'react';
 import styled, {css} from 'styled-components';
 import {H2} from './heading';
+import {background} from '../colors';
 
 export const bordered = css`
 position: relative;
@@ -19,7 +20,7 @@ position: relative;
 
 > * {
 	position: relative;
-	background: white;
+	background: ${background};
 	z-index: 2;
 }
 `;

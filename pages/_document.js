@@ -1,6 +1,7 @@
 import Document, { Head, Main, NextScript } from 'next/document';
 import styleSheet from 'styled-components/lib/models/StyleSheet';
 import {injectGlobal} from 'styled-components'
+import {background} from '../src/colors';
 
 injectGlobal`
 body {
@@ -9,6 +10,7 @@ body {
 	font-size: 24px;
 	margin: 0;
 	overflow: hidden;
+	background: ${background};
 }
 
 * {
