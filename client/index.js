@@ -237,6 +237,13 @@ const App = createContainer(
 
 		deleteCard(card) {
 			Cards.remove(card._id);
+
+			const relatedCards = Cards.find({related: card._id}).fetch();
+			relatedCards.forEach(related => {
+				Cards.update(related._id, {
+					$pull: {related: card._id},
+				});
+			});
 		},
 	}),
 	CardList
