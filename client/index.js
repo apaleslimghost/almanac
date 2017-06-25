@@ -119,7 +119,7 @@ const preventingDefault = fn => ev => {
 	fn(ev);
 };
 
-const EditCard = ({card, saveCard, toggle}) =>
+const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
 		onSubmit={data => {
 			saveCard(data);
@@ -131,6 +131,10 @@ const EditCard = ({card, saveCard, toggle}) =>
 		<Field name="text" />
 		<button>{toggle ? '✓' : '+'}</button>
 		{toggle && <button onClick={preventingDefault(toggle)}>×</button>}
+		{deleteCard &&
+			<button onClick={preventingDefault(() => deleteCard(card))}>
+				🗑
+			</button>}
 	</Form>;
 
 const ShowCard = ({card: {title, text}, toggle}) =>
@@ -152,10 +156,15 @@ const List = styled.div`
 	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 `;
 
-const CardList = ({cards, saveCard}) =>
+const CardList = ({cards, saveCard, deleteCard}) =>
 	<List>
 		{cards.map(card =>
-			<Card key={card._id} card={card} saveCard={saveCard} />
+			<Card
+				key={card._id}
+				card={card}
+				saveCard={saveCard}
+				deleteCard={deleteCard}
+			/>
 		)}
 
 		<CardPrimitive>
@@ -173,6 +182,10 @@ const App = createContainer(
 			} else {
 				Cards.insert(card);
 			}
+		},
+
+		deleteCard(card) {
+			Cards.remove(card._id);
 		},
 	}),
 	CardList
