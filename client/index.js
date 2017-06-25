@@ -3,8 +3,17 @@ import {render} from 'react-dom';
 import PropTypes from 'prop-types';
 import {Meteor} from 'meteor/meteor';
 import {createContainer} from 'meteor/react-meteor-data';
+import styled, {injectGlobal} from 'styled-components';
+import {grey} from '@quarterto/colours';
 
 import {Cards} from '../src/collections';
+
+injectGlobal`
+	body {
+		margin: 0;
+		font-family: system-ui;
+	}
+`;
 
 const getValue = ev =>
 	ev.target[
@@ -74,15 +83,37 @@ class Form extends Component {
 	}
 }
 
-const CardList = ({cards, insertCard}) =>
-	<ul>
-		{cards.map(card => <li key={card._id}>{card.text}</li>)}
+const CardPrimitive = styled.div`
+	border: 1px solid ${grey[5]};
+	padding: 1em;
+	border-radius: 2px;
+`;
 
-		<Form onSubmit={insertCard} initialData={{text: ''}}>
-			<Field name="text" />
-			<button>+</button>
-		</Form>
-	</ul>;
+const Card = ({title, text}) =>
+	<CardPrimitive>
+		<h1>{title}</h1>
+		<p>{text}</p>
+	</CardPrimitive>;
+
+const List = styled.div`
+	display: grid;
+	padding: 1em;
+	grid-gap: 1em;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+`;
+
+const CardList = ({cards, insertCard}) =>
+	<List>
+		{cards.map(card => <Card key={card._id} {...card} />)}
+
+		<CardPrimitive>
+			<Form onSubmit={insertCard} initialData={{text: ''}}>
+				<Field name="title" />
+				<Field name="text" />
+				<button>+</button>
+			</Form>
+		</CardPrimitive>
+	</List>;
 
 const App = createContainer(
 	() => ({
