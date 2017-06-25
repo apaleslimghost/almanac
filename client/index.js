@@ -5,6 +5,7 @@ import {Meteor} from 'meteor/meteor';
 import {createContainer} from 'meteor/react-meteor-data';
 import styled, {injectGlobal} from 'styled-components';
 import {grey} from '@quarterto/colours';
+import _ from 'lodash';
 
 import {Cards} from '../src/collections';
 
@@ -15,13 +16,13 @@ injectGlobal`
 	}
 `;
 
-const getValue = ev =>
-	ev.target[
+const getValue = el =>
+	el[
 		{
 			number: 'valueAsNumber',
 			range: 'valueAsNumber',
 			date: 'valueAsDate',
-		}[ev.target.type] || 'value'
+		}[el.type] || 'value'
 	];
 
 class Field extends Component {
@@ -39,7 +40,8 @@ class Field extends Component {
 				type="text"
 				{...this.props}
 				value={this.context.state[name] || ''}
-				onChange={ev => this.context.setState({[name]: getValue(ev)})}
+				onChange={ev =>
+					this.context.setState({[name]: getValue(ev.target)})}
 			/>
 		);
 	}
@@ -119,6 +121,31 @@ const preventingDefault = fn => ev => {
 	fn(ev);
 };
 
+// TODO: related cards
+// array of card ids
+// fetch relatedcards by thing
+// on delete find cards that had this as related and update
+
+const selectValue = el => el.options[el.selectedIndex].value;
+
+const CardSelect = ({cardsById, onSelect}) =>
+	<select
+		value=""
+		onChange={ev => onSelect(cardsById[selectValue(ev.target)])}
+	>
+		<option disabled value="" />
+		{_.map(cardsById, card =>
+			<option key={card._id} value={card._id}>{card.title}</option>
+		)}
+	</select>;
+
+const CardSelectContainer = createContainer(
+	({skip}) => ({
+		cardsById: _.keyBy(Cards.find({_id: {$nin: skip}}).fetch(), '_id'),
+	}),
+	CardSelect
+);
+
 const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
 		onSubmit={data => {
@@ -137,16 +164,40 @@ const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 			</button>}
 	</Form>;
 
-const ShowCard = ({card: {title, text}, toggle}) =>
+const ShowCard = ({card, relatedCards, toggle, addRelated}) =>
 	<div>
 		{toggle && <button onClick={toggle}>Edit</button>}
-		<h1>{title}</h1>
-		<p>{text}</p>
+		<h1>{card.title}</h1>
+		<p>{card.text}</p>
+
+		<ul>
+			{relatedCards.map(related =>
+				<li key={related._id}>{related.title}</li>
+			)}
+			<li>
+				<CardSelectContainer
+					onSelect={addRelated}
+					skip={[card._id].concat(card.related || [])}
+				/>
+			</li>
+		</ul>
 	</div>;
+
+const ShowCardContainer = createContainer(
+	({card}) => ({
+		relatedCards: Cards.find({_id: {$in: card.related || []}}).fetch(),
+		addRelated(related) {
+			Cards.update(card._id, {
+				$addToSet: {related: related._id},
+			});
+		},
+	}),
+	ShowCard
+);
 
 const Card = props =>
 	<CardPrimitive>
-		<Toggler active={EditCard} inactive={ShowCard} {...props} />
+		<Toggler active={EditCard} inactive={ShowCardContainer} {...props} />
 	</CardPrimitive>;
 
 const List = styled.div`
