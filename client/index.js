@@ -69,9 +69,16 @@ class Form extends Component {
 		};
 	}
 
+	static get defaultProps() {
+		return {initialData: {}};
+	}
+
 	onSubmit(ev) {
 		ev.preventDefault();
-		this.props.onSubmit(this.state);
+		Promise.resolve(this.props.onSubmit(this.state)).then(() => {
+			this.state = this.props.initialData;
+			this.forceUpdate();
+		});
 	}
 
 	render() {
@@ -151,7 +158,9 @@ const CardList = ({cards, saveCard}) =>
 			<Card key={card._id} card={card} saveCard={saveCard} />
 		)}
 
-		<EditCard card={{}} saveCard={saveCard} />
+		<CardPrimitive>
+			<EditCard card={{}} saveCard={saveCard} />
+		</CardPrimitive>
 	</List>;
 
 const App = createContainer(
