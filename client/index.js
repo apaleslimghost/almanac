@@ -6,6 +6,7 @@ import {createContainer} from 'meteor/react-meteor-data';
 import styled, {injectGlobal} from 'styled-components';
 import {grey} from '@quarterto/colours';
 import _ from 'lodash';
+import route from './router';
 
 import {Cards} from '../src/collections';
 
@@ -223,7 +224,7 @@ const CardList = ({cards, saveCard, deleteCard}) =>
 		</CardPrimitive>
 	</List>;
 
-const App = createContainer(
+const CardListContainer = createContainer(
 	() => ({
 		cards: Cards.find({}).fetch(),
 
@@ -249,6 +250,17 @@ const App = createContainer(
 	CardList
 );
 
+const App = createContainer(
+	({router}) => ({
+		page: router(),
+	}),
+	({page}) => page
+);
+
+const routes = route({
+	'/': () => <CardListContainer />,
+});
+
 Meteor.startup(() => {
-	render(<App />, document.querySelector('main'));
+	render(<App router={routes} />, document.querySelector('main'));
 });
