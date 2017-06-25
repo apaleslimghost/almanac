@@ -89,10 +89,53 @@ const CardPrimitive = styled.div`
 	border-radius: 2px;
 `;
 
-const Card = ({title, text}) =>
-	<CardPrimitive>
+class Toggler extends Component {
+	constructor(...args) {
+		super(...args);
+		this.state = {on: false};
+		this.toggle = this.toggle.bind(this);
+	}
+
+	toggle() {
+		this.setState(({on}) => ({on: !on}));
+	}
+
+	render() {
+		return this.state.on
+			? <this.props.active toggle={this.toggle} {...this.props} />
+			: <this.props.inactive toggle={this.toggle} {...this.props} />;
+	}
+}
+
+const preventingDefault = fn => ev => {
+	ev.preventDefault();
+	fn(ev);
+};
+
+const EditCard = ({card, saveCard, toggle}) =>
+	<Form
+		onSubmit={data => {
+			saveCard(data);
+			if (toggle) toggle();
+		}}
+		initialData={card}
+	>
+		<Field name="title" />
+		<Field name="text" />
+		<button>{toggle ? '✓' : '+'}</button>
+		{toggle && <button onClick={preventingDefault(toggle)}>×</button>}
+	</Form>;
+
+const ShowCard = ({card: {title, text}, toggle}) =>
+	<div>
+		{toggle && <button onClick={toggle}>Edit</button>}
 		<h1>{title}</h1>
 		<p>{text}</p>
+	</div>;
+
+const Card = props =>
+	<CardPrimitive>
+		<Toggler active={EditCard} inactive={ShowCard} {...props} />
 	</CardPrimitive>;
 
 const List = styled.div`
@@ -102,24 +145,25 @@ const List = styled.div`
 	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 `;
 
-const CardList = ({cards, insertCard}) =>
+const CardList = ({cards, saveCard}) =>
 	<List>
-		{cards.map(card => <Card key={card._id} {...card} />)}
+		{cards.map(card =>
+			<Card key={card._id} card={card} saveCard={saveCard} />
+		)}
 
-		<CardPrimitive>
-			<Form onSubmit={insertCard} initialData={{text: ''}}>
-				<Field name="title" />
-				<Field name="text" />
-				<button>+</button>
-			</Form>
-		</CardPrimitive>
+		<EditCard card={{}} saveCard={saveCard} />
 	</List>;
 
 const App = createContainer(
 	() => ({
 		cards: Cards.find({}).fetch(),
-		insertCard(card) {
-			Cards.insert(card);
+
+		saveCard(card) {
+			if (card._id) {
+				Cards.update(card._id, card);
+			} else {
+				Cards.insert(card);
+			}
 		},
 	}),
 	CardList
