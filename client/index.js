@@ -263,7 +263,7 @@ const CardListContainer = createContainer(() => {
 	}
 
 	return {
-		cards: _.sortBy(cards, 'sortedIndex'),
+		cards: _.orderBy(cards, ['sortedIndex', 'title']),
 
 		saveCard(card) {
 			if (card._id) {
