@@ -5,8 +5,8 @@ import {Meteor} from 'meteor/meteor';
 import {createContainer} from 'meteor/react-meteor-data';
 import styled, {injectGlobal} from 'styled-components';
 import {grey} from '@quarterto/colours';
+import {Session} from 'meteor/session';
 import _ from 'lodash';
-import route from './router';
 
 import {Cards} from '../src/collections';
 
@@ -16,6 +16,30 @@ injectGlobal`
 		font-family: system-ui;
 	}
 `;
+
+const distances = (graph, start, visited = {[start]: 0}, depth = 1) => {
+	const next = graph[start];
+	const nextDepth = depth + 1;
+
+	next &&
+		next
+			.filter(node => {
+				if (node in visited) return false;
+				visited[node] = depth;
+				return true;
+			})
+			.forEach(node => {
+				distances(graph, node, visited, nextDepth);
+			});
+
+	return visited;
+};
+
+const buildGraph = cards =>
+	cards.reduce(
+		(graph, card) => Object.assign(graph, {[card._id]: card.related}),
+		{}
+	);
 
 const getValue = el =>
 	el[
@@ -165,10 +189,10 @@ const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 			</button>}
 	</Form>;
 
-const ShowCard = ({card, relatedCards, toggle, addRelated}) =>
+const ShowCard = ({card, relatedCards, toggle, addRelated, selectCard}) =>
 	<div>
 		{toggle && <button onClick={toggle}>Edit</button>}
-		<h1>{card.title}</h1>
+		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
 		<p>{card.text}</p>
 
 		<ul>
@@ -191,6 +215,9 @@ const ShowCardContainer = createContainer(
 			Cards.update(card._id, {
 				$addToSet: {related: related._id},
 			});
+		},
+		selectCard() {
+			Session.set('selectedCard', card._id);
 		},
 	}),
 	ShowCard
@@ -224,9 +251,19 @@ const CardList = ({cards, saveCard, deleteCard}) =>
 		</CardPrimitive>
 	</List>;
 
-const CardListContainer = createContainer(
-	() => ({
-		cards: Cards.find({}).fetch(),
+const CardListContainer = createContainer(() => {
+	const selectedCard = Session.get('selectedCard');
+	let cards = Cards.find({}).fetch();
+
+	if (selectedCard) {
+		const graph = buildGraph(cards);
+		const d = distances(graph, selectedCard);
+
+		cards.forEach(card => (card.sortedIndex = d[card._id]));
+	}
+
+	return {
+		cards: _.sortBy(cards, 'sortedIndex'),
 
 		saveCard(card) {
 			if (card._id) {
@@ -246,21 +283,11 @@ const CardListContainer = createContainer(
 				});
 			});
 		},
-	}),
-	CardList
-);
+	};
+}, CardList);
 
-const App = createContainer(
-	({router}) => ({
-		page: router(),
-	}),
-	({page}) => page
-);
-
-const routes = route({
-	'/': () => <CardListContainer />,
-});
+const App = () => <CardListContainer />;
 
 Meteor.startup(() => {
-	render(<App router={routes} />, document.querySelector('main'));
+	render(<App />, document.querySelector('main'));
 });
