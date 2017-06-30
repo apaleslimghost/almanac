@@ -17,6 +17,7 @@ injectGlobal`
 
 	a, a:visited {
 		color: ${sky[3]};
+		text-decoration-skip: ink;
 	}
 
 	a:hover {
