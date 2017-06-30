@@ -7,7 +7,7 @@ import {Cards} from '../src/collections';
 const selectValue = el => el.options[el.selectedIndex].value;
 
 const CardSelect = ({cardsById, onSelect}) =>
-	<select
+	_.size(cardsById) ? <select
 		value=""
 		onChange={ev => onSelect(cardsById[selectValue(ev.target)])}
 	>
@@ -15,7 +15,7 @@ const CardSelect = ({cardsById, onSelect}) =>
 		{_.map(cardsById, card =>
 			<option key={card._id} value={card._id}>{card.title}</option>
 		)}
-	</select>;
+	</select> : null;
 
 const CardSelectContainer = createContainer(
 	({skip = []}) => ({

@@ -5,7 +5,7 @@ import {Session} from 'meteor/session';
 import {Cards} from '../src/collections';
 
 import Toggler from './toggler';
-import {Card as CardPrimitive} from './primitives';
+import {Card as CardPrimitive, Label, List} from './primitives';
 import {Field, Form} from './form';
 import CardSelect from './card-select'
 
@@ -33,17 +33,17 @@ const ShowCard = ({card, relatedCards, toggle, addRelated, selectCard}) =>
 		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
 		<p>{card.text}</p>
 
-		<ul>
+		<List>
 			{relatedCards.map(related =>
-				<li key={related._id}>{related.title}</li>
+				<Label colour='aqua' key={related._id}>{related.title}</Label>
 			)}
-			<li>
+			<div>
 				<CardSelect
 					onSelect={addRelated}
 					skip={[card._id].concat(card.related || [])}
 				/>
-			</li>
-		</ul>
+			</div>
+		</List>
 	</div>;
 
 const ShowCardContainer = createContainer(

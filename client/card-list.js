@@ -7,10 +7,10 @@ import {buildGraph, distances} from '../src/graph';
 import {Cards} from '../src/collections';
 
 import Card, {EditCard} from './card';
-import {List, Card as CardPrimitive} from './primitives';
+import {Grid, Card as CardPrimitive} from './primitives';
 
 const CardList = ({cards, saveCard, deleteCard}) =>
-	<List>
+	<Grid>
 		{cards.map(card =>
 			<Card
 				key={card._id}
@@ -23,7 +23,7 @@ const CardList = ({cards, saveCard, deleteCard}) =>
 		<CardPrimitive>
 			<EditCard card={{}} saveCard={saveCard} />
 		</CardPrimitive>
-	</List>;
+	</Grid>;
 
 const CardListContainer = createContainer(() => {
 	const selectedCard = Session.get('selectedCard');
