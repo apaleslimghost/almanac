@@ -27,7 +27,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 			</button>}
 	</Form>;
 
-const ShowCard = ({card, relatedCards, toggle, addRelated, selectCard}) =>
+const ShowCard = ({card, relatedCards, toggle, addRelated, removeRelated, selectCard}) =>
 	<div>
 		{toggle && <button onClick={toggle}>Edit</button>}
 		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
@@ -35,7 +35,7 @@ const ShowCard = ({card, relatedCards, toggle, addRelated, selectCard}) =>
 
 		<List>
 			{relatedCards.map(related =>
-				<Label colour='aqua' key={related._id}>{related.title}</Label>
+				<Label onClick={() => removeRelated(related)} colour='aqua' key={related._id}>{related.title}</Label>
 			)}
 			<div>
 				<CardSelect
@@ -52,6 +52,11 @@ const ShowCardContainer = createContainer(
 		addRelated(related) {
 			Cards.update(card._id, {
 				$addToSet: {related: related._id},
+			});
+		},
+		removeRelated(related) {
+			Cards.update(card._id, {
+				$pull: {related: related._id},
 			});
 		},
 		selectCard() {
