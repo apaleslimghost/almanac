@@ -40,4 +40,5 @@ export const Label = styled.span`
 	${({colour = 'sky', shade}) => background(colour, shade)}
 	padding: 3px 5px;
 	font-size: 0.8em;
+	border-radius: 1px;
 `
