@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-const getValue = el =>
+export const getInputValue = el =>
 	el[
 		{
 			number: 'valueAsNumber',
@@ -10,26 +10,37 @@ const getValue = el =>
 		}[el.type] || 'value'
 	];
 
-export class Field extends Component {
-	static get contextTypes() {
-		return {
-			state: PropTypes.object,
-			setState: PropTypes.func,
-		};
-	}
+export const getSelectValue = el => el.options[el.selectedIndex].value;
 
-	render() {
-		const {name} = this.props;
-		return (
-			<input
-				type="text"
-				{...this.props}
-				value={this.context.state[name] || ''}
-				onChange={ev =>
-					this.context.setState({[name]: getValue(ev.target)})}
-			/>
-		);
-	}
+export const Field = (props, context) => {
+	const {name} = props;
+	return (
+		<input
+			type="text"
+			{...props}
+			value={context.state[name] || ''}
+			onChange={ev =>
+				context.setState({
+					[name]: getInputValue(ev.target)
+				})
+			}
+		/>
+	);
+};
+
+export const Select = (props, context) => {
+	const {name} = props;
+	return (
+		<select
+			{...props}
+			value={context.state[name] || ''}
+			onChange={ev =>
+				context.setState({
+					[name]: getSelectValue(ev.target)
+				})
+			}
+		>{props.children}</select>
+	);
 };
 
 export class Form extends Component {
@@ -42,13 +53,6 @@ export class Form extends Component {
 		this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	getChildContext() {
-		return {
-			state: this.state,
-			setState: this.setState,
-		};
-	}
-
 	static get childContextTypes() {
 		return {
 			state: PropTypes.object,
@@ -57,7 +61,26 @@ export class Form extends Component {
 	}
 
 	static get defaultProps() {
-		return {initialData: {}};
+		return {
+			initialData: {},
+			onSubmit() {},
+			tagName: 'form',
+		};
+	}
+
+	componentWillUpdate(props, state) {
+		if(this.context.setState && props.name) {
+			this.context.setState({
+				[props.name]: state
+			});
+		}
+	}
+
+	getChildContext() {
+		return {
+			state: this.state,
+			setState: this.setState,
+		};
 	}
 
 	onSubmit(ev) {
@@ -70,9 +93,14 @@ export class Form extends Component {
 
 	render() {
 		return (
-			<form onSubmit={this.onSubmit}>
+			<this.props.tagName onSubmit={this.onSubmit}>
 				{this.props.children}
-			</form>
+			</this.props.tagName>
 		);
 	}
+};
+
+Field.contextTypes = Select.contextTypes = Form.contextTypes = {
+	state: PropTypes.object,
+	setState: PropTypes.func,
 };

@@ -3,11 +3,13 @@ import {createContainer} from 'meteor/react-meteor-data';
 import {Session} from 'meteor/session';
 
 import {Cards} from '../src/collections';
+import preventingDefault from '../src/preventing-default';
 
 import Toggler from './toggler';
 import {Card as CardPrimitive, Label, List} from './primitives';
 import {Field, Form} from './form';
-import CardSelect from './card-select'
+import CardSelect from './card-select';
+import Metadata from './metadata';
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
@@ -19,6 +21,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	>
 		<Field name="title" />
 		<Field name="text" />
+		<Metadata data={card.metadata} />
 		<button>{toggle ? '✓' : '+'}</button>
 		{toggle && <button onClick={preventingDefault(toggle)}>×</button>}
 		{deleteCard &&
@@ -32,6 +35,8 @@ const ShowCard = ({card, relatedCards, toggle, addRelated, removeRelated, select
 		{toggle && <button onClick={toggle}>Edit</button>}
 		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
 		<p>{card.text}</p>
+
+		{card.metadata && <small><pre>{JSON.stringify(card.metadata, null, 2)}</pre></small>}
 
 		<List>
 			{relatedCards.map(related =>

@@ -5,6 +5,7 @@ import {injectGlobal} from 'styled-components';
 import {steel, sky} from '@quarterto/colours';
 
 import CardList from './card-list';
+import {EditFields} from './metadata';
 
 injectGlobal`
 	* { box-sizing: border-box; }
@@ -29,6 +30,11 @@ injectGlobal`
 	}
 `;
 
+const App = () => <div>
+	<EditFields />
+	<CardList />
+</div>
+
 Meteor.startup(() => {
-	render(<CardList />, document.querySelector('main'));
+	render(<App />, document.querySelector('main'));
 });
