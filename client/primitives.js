@@ -26,14 +26,17 @@ export const Grid = styled.div`
 display: grid;
 	padding: 1em;
 	grid-gap: 1em;
-	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
 `;
 
 export const Card = styled.div`
+	grid-column-end: span ${({large}) => large ? 2 : 1};
 	border: 1px solid ${colours.steel[3]};
 	padding: 1em;
 	border-radius: 2px;
 	box-shadow: 0 5px 0.5px -3px ${colours.steel[5]};
+	column-width: 18em;
+	column-gap: 1em;
 `;
 
 export const Label = styled.span`

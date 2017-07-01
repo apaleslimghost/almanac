@@ -72,7 +72,7 @@ const ShowCardContainer = createContainer(
 );
 
 const Card = props =>
-	<CardPrimitive>
+	<CardPrimitive large={props.large}>
 		<Toggler active={EditCard} inactive={ShowCardContainer} {...props} />
 	</CardPrimitive>;
 

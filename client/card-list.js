@@ -11,12 +11,13 @@ import {Grid, Card as CardPrimitive} from './primitives';
 
 const CardList = ({cards, saveCard, deleteCard}) =>
 	<Grid>
-		{cards.map(card =>
+		{cards.map((card, i) =>
 			<Card
 				key={card._id}
 				card={card}
 				saveCard={saveCard}
 				deleteCard={deleteCard}
+				large={i === 0}
 			/>
 		)}
 
