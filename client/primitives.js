@@ -1,8 +1,8 @@
 import styled, {css} from 'styled-components';
-import * as colours from '@quarterto/colours';
+import colours from '@quarterto/colours';
 import contrast from 'contrast';
 
-const background = (bg, shade = 3) => {
+export const background = (bg, shade = 3) => {
 	const colour = colours[bg][shade];
 
 	return css`
@@ -10,6 +10,11 @@ const background = (bg, shade = 3) => {
 		color: ${contrast(colour) === 'dark' ? 'white' : colours.steel[0]};
 	`;
 };
+
+export const etched = ({colour = 'sky', shade = 3}) => css`
+	${background(colour, shade)}
+	box-shadow: inset 0 0 0 1px ${colours[colour][Math.max(0, shade - 1)]};
+`;
 
 export const List = styled.div`
 	display: flex;
@@ -40,8 +45,9 @@ export const Card = styled.div`
 `;
 
 export const Label = styled.span`
-	${({colour = 'sky', shade}) => background(colour, shade)}
-	padding: 3px 5px;
+	${etched}
+	box-shadow: inset 0 0 0 1px ${({colour = 'sky', shade = 3}) => colours[colour][shade - 1]};
+	padding: 3px 7px;
 	font-size: 0.8em;
-	border-radius: 1px;
+	border-radius: 2px;
 `

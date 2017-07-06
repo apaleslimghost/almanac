@@ -1,12 +1,24 @@
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
+import styled from 'styled-components';
 
 import {Fields} from '../src/collections';
 
-import {Form, Field, Select} from './form';
+import {Form, Field, Select, fieldLike} from './form';
+import ColourSelect from './colour-select';
+
+const ColouredField = styled(Field)`
+	border-color: ${({colour}) => colour};
+`;
+
+const ColouredName = ({}, {state}) =>
+	<ColouredField colour={state.colour} name='name' type='text' />;
+
+ColouredName.contextTypes = fieldLike;
 
 const EditField = ({field, onSubmit}) => <Form initialData={field} onSubmit={onSubmit}>
-	<Field name='name' type='text' />
+	<ColouredName />
+	<ColourSelect name='colour' />
 	<button>{field ? '+' : '✓'}</button>
 </Form>;
 
@@ -22,7 +34,7 @@ export const EditFields = createContainer(
 
 		<li><EditField onSubmit={addField} /></li>
 	</ul>
-)
+);
 
 const Metadata = createContainer(
 	() => ({

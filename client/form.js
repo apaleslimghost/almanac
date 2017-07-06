@@ -100,7 +100,9 @@ export class Form extends Component {
 	}
 };
 
-Field.contextTypes = Select.contextTypes = Form.contextTypes = {
+export const fieldLike = {
 	state: PropTypes.object,
 	setState: PropTypes.func,
 };
+
+Field.contextTypes = Select.contextTypes = Form.contextTypes = fieldLike;
