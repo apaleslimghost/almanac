@@ -2,17 +2,17 @@ import styled, {css} from 'styled-components';
 import colours from '@quarterto/colours';
 import contrast from 'contrast';
 
-export const background = (bg, shade = 3) => {
-	const colour = colours[bg][shade];
+export const background = ({colour = 'sky', shade = 3}) => {
+	const bg = colours[colour][shade];
 
 	return css`
-		background: ${colour};
-		color: ${contrast(colour) === 'dark' ? 'white' : colours.steel[0]};
+		background: ${bg};
+		color: ${contrast(bg) === 'dark' ? 'white' : colours.steel[0]};
 	`;
 };
 
 export const etched = ({colour = 'sky', shade = 3}) => css`
-	${background(colour, shade)}
+	${background({colour, shade})}
 	box-shadow: inset 0 0 0 1px ${colours[colour][Math.max(0, shade - 1)]};
 `;
 

@@ -21,20 +21,19 @@ const Swatch = styled.div`
 	grid-gap: 2px;
 `;
 
-const row = (shade, {onSelect}) => hue =>
-<Chip onClick={() => onSelect(hue, shade)} key={`${hue}${shade}`} colour={hue} shade={shade} />
+const row = (shade, {onSelect}) => colour =>
+<Chip onClick={() => onSelect(colour, shade)} key={`${colour}${shade}`} colour={colour} shade={shade} />
 
 const ColourSelect = ({name}, {state, setState}) => {
-	const onSelect = (hue, shade) => {
+	const onSelect = (colour, shade) => {
 		setState({
-			[name]: colours[hue][shade],
+			[name]: {colour, shade},
 		});
 	};
 
 	return <Swatch>
 		{hues.map(row(4, {onSelect}))}
 		{hues.map(row(3, {onSelect}))}
-		{hues.map(row(2, {onSelect}))}
 	</Swatch>;
 }
 

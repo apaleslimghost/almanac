@@ -1,18 +1,20 @@
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import styled from 'styled-components';
+import colours from '@quarterto/colours';
 
 import {Fields} from '../src/collections';
 
 import {Form, Field, Select, fieldLike} from './form';
 import ColourSelect from './colour-select';
+import {Label} from './primitives';
 
 const ColouredField = styled(Field)`
-	border-color: ${({colour}) => colour};
+	border-color: ${({colour = 'steel', shade = 3}) => colours[colour][shade]};
 `;
 
 const ColouredName = ({}, {state}) =>
-	<ColouredField colour={state.colour} name='name' type='text' />;
+	<ColouredField {...state.colour} name='name' type='text' />;
 
 ColouredName.contextTypes = fieldLike;
 
@@ -30,7 +32,7 @@ export const EditFields = createContainer(
 		},
 	}),
 	({fields, addField}) => <ul>
-		{fields.map(({name, type}) => <li key={name}>{name}</li>)}
+		{fields.map(({_id, name, type, colour = {}}) => <li key={_id}><Label {...colour}>{name}</Label></li>)}
 
 		<li><EditField onSubmit={addField} /></li>
 	</ul>
@@ -42,7 +44,7 @@ const Metadata = createContainer(
 	}),
 
 	({fields, metadata}) => <Form initialData={metadata} name='metadata' tagName='fieldset'>
-		{fields.map(field => <Field key={field.name} name={field.name} />)}
+		{fields.map(field => <Field key={field._id} name={field.name} />)}
 	</Form>
 );
 
