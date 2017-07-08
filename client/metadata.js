@@ -7,14 +7,14 @@ import {Fields} from '../src/collections';
 
 import {Form, Field, Select, fieldLike} from './form';
 import ColourSelect from './colour-select';
-import {Label} from './primitives';
+import {List, Label, LabelTitle} from './primitives';
 
 const ColouredField = styled(Field)`
 	border-color: ${({colour = 'steel', shade = 3}) => colours[colour][shade]};
 `;
 
 const ColouredName = ({}, {state}) =>
-	<ColouredField {...state.colour} name='name' type='text' />;
+	<ColouredField {...state.colour} name='_id' type='text' />;
 
 ColouredName.contextTypes = fieldLike;
 
@@ -31,21 +31,35 @@ export const EditFields = createContainer(
 			Fields.insert(field);
 		},
 	}),
-	({fields, addField}) => <ul>
-		{fields.map(({_id, name, type, colour = {}}) => <li key={_id}><Label {...colour}>{name}</Label></li>)}
+	({fields, addField}) => <List>
+		{fields.map(({_id, type, colour = {}}) => <Label {...colour} key={_id}>{_id}</Label>)}
 
-		<li><EditField onSubmit={addField} /></li>
-	</ul>
+		<EditField onSubmit={addField} />
+	</List>
 );
 
-const Metadata = createContainer(
+export const Metadata = createContainer(
 	() => ({
 		fields: Fields.find({}).fetch(),
 	}),
 
 	({fields, metadata}) => <Form initialData={metadata} name='metadata' tagName='fieldset'>
-		{fields.map(field => <Field key={field._id} name={field.name} />)}
+		{fields.map(field => <Field key={field._id} name={field._id} />)}
 	</Form>
 );
 
-export default Metadata;
+export const ShowMetadata = createContainer(
+	() => ({
+		fields: Fields.find({}).fetch(),
+	}),
+
+	({fields, card}) => <List>
+		{fields.map(field => card.metadata[field._id] && <Label key={field._id} {...field.colour}>
+			<LabelTitle {...field.colour}>
+				{field._id}
+			</LabelTitle>
+
+			{card.metadata[field._id]}
+		</Label>)}
+	</List>
+)

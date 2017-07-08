@@ -9,7 +9,7 @@ import Toggler from './toggler';
 import {Card as CardPrimitive, Label, List} from './primitives';
 import {Field, Form} from './form';
 import CardSelect from './card-select';
-import Metadata from './metadata';
+import {Metadata, ShowMetadata} from './metadata';
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
@@ -36,7 +36,7 @@ const ShowCard = ({card, relatedCards, toggle, addRelated, removeRelated, select
 		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
 		<p>{card.text}</p>
 
-		{card.metadata && <small><pre>{JSON.stringify(card.metadata, null, 2)}</pre></small>}
+		{card.metadata && <ShowMetadata card={card} />}
 
 		<List>
 			{relatedCards.map(related =>

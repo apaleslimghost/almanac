@@ -50,4 +50,11 @@ export const Label = styled.span`
 	padding: 3px 7px;
 	font-size: 0.8em;
 	border-radius: 2px;
-`
+`;
+
+export const LabelTitle = styled.span`
+	${({colour = 'sky', shade = 3}) => background({colour, shade: Math.max(0, shade - 1)})}
+	border-radius: 2px;
+	margin: -3px 7px -3px -7px;
+	padding: 3px 7px;
+`;
