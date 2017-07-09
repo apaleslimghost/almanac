@@ -24,6 +24,7 @@ export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = fal
 
 export const List = styled.div`
 	display: flex;
+	align-items: flex-start;
 	flex-wrap: wrap;
 
 	margin: -2px;
