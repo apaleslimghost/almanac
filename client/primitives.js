@@ -61,17 +61,29 @@ export const Label = styled.span`
 export const LabelTitle = styled.span`
 	display: inline-block;
 	${({colour = 'sky', shade = 3}) => background({colour, shade: Math.max(0, shade - 1)})}
-	margin: -.25em .6em -.25em -.6em;
+	margin: -.25em -.6em;
 	padding: .25em .6em;
 	border-radius: .15em;
 
 	&:first-child {
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
+		margin-right: .6em;
 	}
 
 	&:last-child {
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
+		margin-left: .6em;
+	}
+`;
+
+export const LabelButton = LabelTitle.withComponent('button').extend`
+	border: 0 none;
+	font: inherit;
+	cursor: pointer;
+
+	&:hover {
+		${({colour = 'sky', shade = 3}) => background({colour, shade: Math.min(6, shade + 1)})}
 	}
 `;

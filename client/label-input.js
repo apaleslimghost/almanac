@@ -37,13 +37,16 @@ export class AutosizingInput extends Component {
 	}
 
 	update(ev) {
-		if(this.props.onChange) {
+		if (this.props.onChange) {
 			this.props.onChange(ev);
 		}
 
-		this.setState({
-			value: ev.target.value
-		}, () => this.updateWidth());
+		this.setState(
+			{
+				value: ev.target.value,
+			},
+			() => this.updateWidth()
+		);
 	}
 
 	componentDidMount() {
@@ -51,18 +54,16 @@ export class AutosizingInput extends Component {
 	}
 
 	updateWidth() {
-		if(this.input && this.dummy) {
-			this.input.style.width = Math.max(
-				this.dummy.offsetWidth + 2,
-				this.props.minWidth
-			) + 'px';
+		if (this.input && this.dummy) {
+			this.input.style.width =
+				Math.max(this.dummy.offsetWidth + 2, this.props.minWidth) + 'px';
 		}
 	}
 
 	render() {
 		return (
 			<span>
-				<Dummy innerRef={el => this.dummy = el}>{this.state.value}</Dummy>
+				<Dummy innerRef={el => (this.dummy = el)}>{this.state.value}</Dummy>
 				<TransparentInput
 					{...this.props}
 					value={this.state.value}
@@ -83,15 +84,25 @@ class LabelInput extends Component {
 	}
 
 	render() {
-		return <ActualLabel colour={this.props.colour} shade={this.props.shade} sunken large focused={this.state.focused}>
-			<LabelTitle colour={this.props.colour} shade={this.props.shade}>{this.props.label}</LabelTitle>
-			<AutosizingInput
-				minWidth={100}
-				{...this.props}
-				onFocus={() => this.setState({focused: true})}
-				onBlur={() => this.setState({focused: false})}
-			/>
-		</ActualLabel>;
+		return (
+			<ActualLabel
+				colour={this.props.colour}
+				shade={this.props.shade}
+				sunken
+				large
+				focused={this.state.focused}
+			>
+				<LabelTitle colour={this.props.colour} shade={this.props.shade}>
+					{this.props.label}
+				</LabelTitle>
+				<AutosizingInput
+					minWidth={100}
+					{...this.props}
+					onFocus={() => this.setState({focused: true})}
+					onBlur={() => this.setState({focused: false})}
+				/>
+			</ActualLabel>
+		);
 	}
 }
 

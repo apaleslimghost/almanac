@@ -81,6 +81,14 @@ export class Form extends Component {
 		}
 	}
 
+	componentDidMount() {
+		this.mounted = true;
+	}
+
+	componentWillUnount() {
+		this.mounted = false;
+	}
+
 	getChildContext() {
 		return {
 			state: this.state,
@@ -91,8 +99,10 @@ export class Form extends Component {
 	onSubmit(ev) {
 		ev.preventDefault();
 		Promise.resolve(this.props.onSubmit(this.state)).then(() => {
-			this.state = this.props.initialData;
-			this.forceUpdate();
+			if(this.mounted) {
+				this.state = this.props.initialData;
+				this.forceUpdate();
+			}
 		});
 	}
 
