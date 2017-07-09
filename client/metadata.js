@@ -8,13 +8,10 @@ import {Fields} from '../src/collections';
 import {Form, Field, Select, fieldLike} from './form';
 import ColourSelect from './colour-select';
 import {List, Label, LabelTitle} from './primitives';
-
-const ColouredField = styled(Field)`
-	border-color: ${({colour = 'steel', shade = 3}) => colours[colour][shade]};
-`;
+import LabelInput from './label-input';
 
 const ColouredName = ({}, {state}) =>
-	<ColouredField {...state.colour} name='_id' type='text' />;
+	<LabelInput label='New field' {...state.colour} name='_id' type='text' />;
 
 ColouredName.contextTypes = fieldLike;
 
@@ -44,7 +41,7 @@ export const Metadata = createContainer(
 	}),
 
 	({fields, metadata}) => <Form initialData={metadata} name='metadata' tagName='fieldset'>
-		{fields.map(field => <Field key={field._id} name={field._id} />)}
+		{fields.map(field => <LabelInput label={field._id} {...field.colour} minWidth={70} key={field._id} name={field._id} />)}
 	</Form>
 );
 

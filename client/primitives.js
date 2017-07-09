@@ -11,9 +11,12 @@ export const background = ({colour = 'sky', shade = 3}) => {
 	`;
 };
 
-export const etched = ({colour = 'sky', shade = 3}) => css`
-	${background({colour, shade})}
-	box-shadow: inset 0 0 0 1px ${colours[colour][Math.max(0, shade - 1)]};
+const cardShadow = '0 5px 0.5px -3px';
+
+export const etched = ({colour = 'sky', shade = 3, sunken = false}) => css`
+	${!sunken && background({colour, shade})}
+	border: solid 1px ${({colour = 'sky', shade = 3}) => colours[colour][shade - 1]};
+	${sunken && css`box-shadow: inset ${cardShadow} ${colours.steel[4]};`}
 `;
 
 export const List = styled.div`
@@ -39,22 +42,33 @@ export const Card = styled.div`
 	border: 1px solid ${colours.steel[3]};
 	padding: 1em;
 	border-radius: 2px;
-	box-shadow: 0 5px 0.5px -3px ${colours.steel[5]};
+	box-shadow: ${cardShadow} ${colours.steel[5]};
 	column-width: 18em;
 	column-gap: 1em;
 `;
 
 export const Label = styled.span`
+	display: inline-block;
 	${etched}
-	box-shadow: inset 0 0 0 1px ${({colour = 'sky', shade = 3}) => colours[colour][shade - 1]};
-	padding: 3px 7px;
-	font-size: 0.8em;
-	border-radius: 2px;
+	${({large}) => !large && css`font-size: 0.8em;`}
+	padding: .25em .6em;
+	border-radius: .15em;
 `;
 
 export const LabelTitle = styled.span`
+	display: inline-block;
 	${({colour = 'sky', shade = 3}) => background({colour, shade: Math.max(0, shade - 1)})}
-	border-radius: 2px;
-	margin: -3px 7px -3px -7px;
-	padding: 3px 7px;
+	margin: -.25em .6em -.25em -.6em;
+	padding: .25em .6em;
+	border-radius: .15em;
+
+	&:first-child {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	&:last-child {
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
 `;

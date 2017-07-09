@@ -13,17 +13,22 @@ export const getInputValue = el =>
 export const getSelectValue = el => el.options[el.selectedIndex].value;
 
 export const Field = (props, context) => {
-	const {name} = props;
+	const {name, fieldRef} = props;
 	return (
 		<input
+			ref={fieldRef}
 			type="text"
 			{...props}
 			value={context.state[name] || ''}
-			onChange={ev =>
+			onChange={ev => {
+				if(props.onChange) {
+					props.onChange(ev);
+				}
+
 				context.setState({
 					[name]: getInputValue(ev.target)
 				})
-			}
+			}}
 		/>
 	);
 };

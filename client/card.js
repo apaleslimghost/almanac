@@ -10,6 +10,7 @@ import {Card as CardPrimitive, Label, List} from './primitives';
 import {Field, Form} from './form';
 import CardSelect from './card-select';
 import {Metadata, ShowMetadata} from './metadata';
+import LabelInput from './label-input';
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
