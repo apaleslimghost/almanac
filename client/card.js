@@ -21,7 +21,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 		initialData={card}
 	>
 		<Field name="title" />
-		<Field name="text" />
+		<Field name="text" tag='textarea' />
 		<Metadata data={card.metadata} />
 		<button>{toggle ? '✓' : '+'}</button>
 		{toggle && <button onClick={preventingDefault(toggle)}>×</button>}

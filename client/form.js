@@ -13,9 +13,9 @@ export const getInputValue = el =>
 export const getSelectValue = el => el.options[el.selectedIndex].value;
 
 export const Field = (props, context) => {
-	const {name, fieldRef} = props;
+	const {name, fieldRef, tag: Tag = 'input'} = props;
 	return (
-		<input
+		<Tag
 			ref={fieldRef}
 			type="text"
 			{...props}

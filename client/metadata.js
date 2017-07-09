@@ -5,10 +5,11 @@ import colours from '@quarterto/colours';
 
 import {Fields} from '../src/collections';
 
-import {Form, Field, Select, fieldLike} from './form';
+import {Form, fieldLike} from './form';
 import ColourSelect from './colour-select';
 import {List, Label, LabelTitle} from './primitives';
 import LabelInput from './label-input';
+import Toggler from './toggler';
 
 const ColouredName = ({}, {state}) =>
 	<LabelInput label='New field' {...state.colour} name='_id' type='text' />;
@@ -21,15 +22,24 @@ const EditField = ({field, onSubmit}) => <Form initialData={field} onSubmit={onS
 	<button>{field ? '+' : '✓'}</button>
 </Form>;
 
+const ShowField = ({field, toggle}) =>
+	<Label {...field.colour} key={field._id}>{field._id}</Label>;
+
+const Field = props =>
+	<Toggler active={EditField} inactive={ShowField} {...props} />
+
 export const EditFields = createContainer(
 	() => ({
 		fields: Fields.find({}).fetch(),
 		addField(field) {
 			Fields.insert(field);
 		},
+		updateField(field) {
+			Fields.update(field._id, field);
+		},
 	}),
 	({fields, addField}) => <List>
-		{fields.map(({_id, type, colour = {}}) => <Label {...colour} key={_id}>{_id}</Label>)}
+		{fields.map(field => <Field key={field._id} field={field} />)}
 
 		<EditField onSubmit={addField} />
 	</List>
@@ -59,4 +69,4 @@ export const ShowMetadata = createContainer(
 			{card.metadata[field._id]}
 		</Label>)}
 	</List>
-)
+);

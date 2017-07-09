@@ -13,10 +13,13 @@ export const background = ({colour = 'sky', shade = 3}) => {
 
 const cardShadow = '0 5px 0.5px -3px';
 
-export const etched = ({colour = 'sky', shade = 3, sunken = false}) => css`
+export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = false}) => css`
 	${!sunken && background({colour, shade})}
 	border: solid 1px ${({colour = 'sky', shade = 3}) => colours[colour][shade - 1]};
-	${sunken && css`box-shadow: inset ${cardShadow} ${colours.steel[4]};`}
+	box-shadow: ${[
+		sunken && `inset ${cardShadow} ${colours.steel[4]}`,
+		focused && `0 0 3px 2px ${colours.sky[4]}`,
+	].filter(i => i).join() || 'none'};
 `;
 
 export const List = styled.div`

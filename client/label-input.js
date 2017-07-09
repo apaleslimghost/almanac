@@ -65,7 +65,7 @@ export class AutosizingInput extends Component {
 				<Dummy innerRef={el => this.dummy = el}>{this.state.value}</Dummy>
 				<TransparentInput
 					{...this.props}
-					value={this.state.valu}
+					value={this.state.value}
 					onChange={this.update}
 					fieldRef={el => (this.input = el)}
 				/>
@@ -74,9 +74,25 @@ export class AutosizingInput extends Component {
 	}
 }
 
-const LabelInput = props => <ActualLabel colour={props.colour} shade={props.shade} sunken large>
-	<LabelTitle colour={props.colour} shade={props.shade}>{props.label}</LabelTitle>
-	<AutosizingInput minWidth={100} {...props} />
-</ActualLabel>
+class LabelInput extends Component {
+	constructor(...args) {
+		super(...args);
+		this.state = {
+			focused: false,
+		};
+	}
+
+	render() {
+		return <ActualLabel colour={this.props.colour} shade={this.props.shade} sunken large focused={this.state.focused}>
+			<LabelTitle colour={this.props.colour} shade={this.props.shade}>{this.props.label}</LabelTitle>
+			<AutosizingInput
+				minWidth={100}
+				{...this.props}
+				onFocus={() => this.setState({focused: true})}
+				onBlur={() => this.setState({focused: false})}
+			/>
+		</ActualLabel>;
+	}
+}
 
 export default LabelInput;
