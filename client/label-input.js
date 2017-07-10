@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 
 import {Field} from './form';
-import {Label, LabelTitle} from './primitives';
+import {Label, LabelTitle, LabelBody} from './primitives';
 
 const ActualLabel = Label.withComponent('label');
 
@@ -95,12 +95,14 @@ class LabelInput extends Component {
 				<LabelTitle colour={this.props.colour} shade={this.props.shade}>
 					{this.props.label}
 				</LabelTitle>
-				<AutosizingInput
-					minWidth={100}
-					{...this.props}
-					onFocus={() => this.setState({focused: true})}
-					onBlur={() => this.setState({focused: false})}
-				/>
+				<LabelBody>
+					<AutosizingInput
+						minWidth={100}
+						{...this.props}
+						onFocus={() => this.setState({focused: true})}
+						onBlur={() => this.setState({focused: false})}
+					/>
+				</LabelBody>
 			</ActualLabel>
 		);
 	}

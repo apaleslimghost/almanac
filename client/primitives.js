@@ -55,32 +55,44 @@ export const Label = styled.span`
 	display: inline-block;
 	${etched}
 	${({large}) => !large && css`font-size: 0.8em;`}
-	padding: .25em .6em;
+	padding: .25em 0;
 	border-radius: .15em;
+`;
+
+export const LabelBody = styled.span`
+	padding: 0 .6em;
 `;
 
 export const LabelTitle = styled.span`
 	display: inline-block;
 	${({colour = 'sky', shade = 3}) => background({colour, shade: Math.max(0, shade - 1)})}
-	margin: -.25em -.6em;
 	padding: .25em .6em;
-	border-radius: .15em;
+	margin: -.25em 0;
+	border: 0 solid ${({colour = 'sky', shade = 3}) => colours[colour][shade]};
+
+	border-right-width: 1px;
 
 	&:first-child {
+		border-radius: .15em;
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
-		margin-right: .6em;
 	}
 
 	&:last-child {
+		border-radius: .15em;
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
-		margin-left: .6em;
+	}
+
+	${LabelBody} ~ & {
+		border-right-width: 0;
+		border-left-width: 1px;
+		margin-right: -1px; /* but why? */
 	}
 `;
 
 export const LabelButton = LabelTitle.withComponent('button').extend`
-	border: 0 none;
+	appearance: none;
 	font: inherit;
 	cursor: pointer;
 

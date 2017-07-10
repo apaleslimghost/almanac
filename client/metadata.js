@@ -7,7 +7,7 @@ import {Fields} from '../src/collections';
 
 import {Form, fieldLike} from './form';
 import ColourSelect from './colour-select';
-import {List, Label, LabelTitle, LabelButton} from './primitives';
+import {List, Label, LabelTitle, LabelButton, LabelBody} from './primitives';
 import LabelInput from './label-input';
 import Toggler from './toggler';
 import preventingDefault from '../src/preventing-default';
@@ -33,8 +33,9 @@ const EditField = ({field, saveField, toggle}) =>
 
 const ShowField = ({field, toggle}) =>
 	<Label {...field.colour} large>
-		<span>{field.name}</span>
+		<LabelBody>{field.name}</LabelBody>
 		<LabelButton {...field.colour} onClick={toggle}>Edit</LabelButton>
+		<LabelButton {...field.colour}>Blah</LabelButton>
 	</Label>;
 
 const Field = props =>
@@ -100,8 +101,9 @@ export const ShowMetadata = createContainer(
 						<LabelTitle {...field.colour}>
 							{field.name}
 						</LabelTitle>
+						<LabelTitle {...field.colour}>test</LabelTitle>
 
-						<span>{card.metadata[field._id]}</span>
+						<LabelBody>{card.metadata[field._id]}</LabelBody>
 					</Label>
 			)}
 		</List>
