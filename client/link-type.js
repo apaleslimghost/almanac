@@ -70,12 +70,12 @@ export const EditFields = createContainer(
 		</List>
 );
 
-export const Metadata = createContainer(
+export const LinkType = createContainer(
 	() => ({
 		fields: Fields.find({}).fetch(),
 	}),
-	({fields, metadata}) =>
-		<Form initialData={metadata} name="metadata" tagName="fieldset">
+	({fields, LinkType}) =>
+		<Form initialData={LinkType} name="LinkType" tagName="fieldset">
 			{fields.map(field =>
 				<LabelInput
 					label={field.name}
@@ -88,7 +88,7 @@ export const Metadata = createContainer(
 		</Form>
 );
 
-export const ShowMetadata = createContainer(
+export const ShowLinkType = createContainer(
 	() => ({
 		fields: Fields.find({}).fetch(),
 	}),
@@ -96,14 +96,14 @@ export const ShowMetadata = createContainer(
 		<List>
 			{fields.map(
 				field =>
-					card.metadata[field._id] &&
+					card.LinkType[field._id] &&
 					<Label key={field._id} {...field.colour}>
 						<LabelTitle {...field.colour}>
 							{field.name}
 						</LabelTitle>
 						<LabelTitle {...field.colour}>test</LabelTitle>
 
-						<LabelBody>{card.metadata[field._id]}</LabelBody>
+						<LabelBody>{card.LinkType[field._id]}</LabelBody>
 					</Label>
 			)}
 		</List>

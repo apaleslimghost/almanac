@@ -9,7 +9,7 @@ import Toggler from './toggler';
 import {Card as CardPrimitive, Label, List} from './primitives';
 import {Field, Form} from './form';
 import CardSelect from './card-select';
-import {Metadata, ShowMetadata} from './metadata';
+import {LinkType, ShowLinkType} from './link-type';
 import LabelInput from './label-input';
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
@@ -22,7 +22,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	>
 		<Field name="title" />
 		<Field name="text" tag='textarea' />
-		<Metadata data={card.metadata} />
+		<LinkType data={card.LinkType} />
 		<button>{toggle ? '✓' : '+'}</button>
 		{toggle && <button onClick={preventingDefault(toggle)}>×</button>}
 		{deleteCard &&
@@ -37,7 +37,7 @@ const ShowCard = ({card, relatedCards, toggle, addRelated, removeRelated, select
 		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
 		<p>{card.text}</p>
 
-		{card.metadata && <ShowMetadata card={card} />}
+		{card.LinkType && <ShowLinkType card={card} />}
 
 		<List>
 			{relatedCards.map(related =>

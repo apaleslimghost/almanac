@@ -5,7 +5,7 @@ import {injectGlobal} from 'styled-components';
 import {steel, sky} from '@quarterto/colours';
 
 import CardList from './card-list';
-import {EditFields} from './metadata';
+import {EditFields} from './link-type';
 
 injectGlobal`
 	* { box-sizing: border-box; }
