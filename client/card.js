@@ -7,10 +7,17 @@ import preventingDefault from '../src/preventing-default';
 
 import Toggler from './toggler';
 import {Card as CardPrimitive, Label, List} from './primitives';
-import {Field, Form} from './form';
+import {Field, Form, Select} from './form';
 import CardSelect from './card-select';
-import {LinkType, ShowLinkType} from './link-type';
+import {TypeSelect} from './link-type';
 import LabelInput from './label-input';
+
+const FU = createContainer(() => ({}), () => 				<Select name='foo'>
+					<option>a</option>
+					<option>b</option>
+					<option>c</option>
+					<option>d</option>
+				</Select>);
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
@@ -22,7 +29,6 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	>
 		<Field name="title" />
 		<Field name="text" tag='textarea' />
-		<LinkType data={card.LinkType} />
 		<button>{toggle ? '✓' : '+'}</button>
 		{toggle && <button onClick={preventingDefault(toggle)}>×</button>}
 		{deleteCard &&
@@ -37,18 +43,21 @@ const ShowCard = ({card, relatedCards, toggle, addRelated, removeRelated, select
 		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
 		<p>{card.text}</p>
 
-		{card.LinkType && <ShowLinkType card={card} />}
-
 		<List>
 			{relatedCards.map(related =>
 				<Label onClick={() => removeRelated(related)} colour='aqua' key={related._id}>{related.title}</Label>
 			)}
-			<div>
+			<Form onSubmit={addRelated}>
+				<FU />
+
+				<TypeSelect />
+
 				<CardSelect
-					onSelect={addRelated}
-					skip={[card._id].concat(card.related || [])}
+					skip={[card._id]}
 				/>
-			</div>
+
+				<button>+</button>
+			</Form>
 		</List>
 	</div>;
 
@@ -56,13 +65,14 @@ const ShowCardContainer = createContainer(
 	({card}) => ({
 		relatedCards: Cards.find({_id: {$in: card.related || []}}).fetch(),
 		addRelated(related) {
+			alert(JSON.stringify(related));
 			Cards.update(card._id, {
-				$addToSet: {related: related._id},
+				$push: {related},
 			});
 		},
 		removeRelated(related) {
 			Cards.update(card._id, {
-				$pull: {related: related._id},
+				$pull: {related},
 			});
 		},
 		selectCard() {

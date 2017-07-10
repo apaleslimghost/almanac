@@ -5,7 +5,7 @@ import {injectGlobal} from 'styled-components';
 import {steel, sky} from '@quarterto/colours';
 
 import CardList from './card-list';
-import {EditFields} from './link-type';
+import {EditTypes} from './link-type';
 
 injectGlobal`
 	* { box-sizing: border-box; }
@@ -31,7 +31,7 @@ injectGlobal`
 `;
 
 const App = () => <div>
-	<EditFields />
+	<EditTypes />
 	<CardList />
 </div>
 

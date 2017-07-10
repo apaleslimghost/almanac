@@ -3,108 +3,89 @@ import {createContainer} from 'meteor/react-meteor-data';
 import styled from 'styled-components';
 import colours from '@quarterto/colours';
 
-import {Fields} from '../src/collections';
+import {Types} from '../src/collections';
+import {getSelectValue} from './form';
 
-import {Form, fieldLike} from './form';
+import {Form, fieldLike, Select} from './form';
 import ColourSelect from './colour-select';
 import {List, Label, LabelTitle, LabelButton, LabelBody} from './primitives';
 import LabelInput from './label-input';
 import Toggler from './toggler';
 import preventingDefault from '../src/preventing-default';
 
-const ColouredName = ({label = 'New field'}, {state}) =>
+const ColouredName = ({label = 'New type'}, {state}) =>
 	<LabelInput label={label} {...state.colour} name="name" type="text" />;
 
 ColouredName.contextTypes = fieldLike;
 
-const EditField = ({field, saveField, toggle}) =>
+const EditType = ({type, saveType, toggle}) =>
 	<Form
-		initialData={field}
+		initialData={type}
 		onSubmit={data => {
-			saveField(data);
+			saveType(data);
 			if (toggle) toggle();
 		}}
 	>
-		<ColouredName label={field && 'Name'} />
+		<ColouredName label={type && 'Name'} />
 		<ColourSelect name="colour" />
-		<button>{field ? '✓' : '+'}</button>
+		<button>{type ? '✓' : '+'}</button>
 		{toggle && <button onClick={preventingDefault(toggle)}>×</button>}
 	</Form>;
 
-const ShowField = ({field, toggle}) =>
-	<Label {...field.colour} large>
-		<LabelBody>{field.name}</LabelBody>
-		<LabelButton {...field.colour} onClick={toggle}>Edit</LabelButton>
-		<LabelButton {...field.colour}>Blah</LabelButton>
+const ShowType = ({type, toggle}) =>
+	<Label {...type.colour} large>
+		<LabelBody>{type.name}</LabelBody>
+		<LabelButton {...type.colour} onClick={toggle}>Edit</LabelButton>
+		<LabelButton {...type.colour}>Blah</LabelButton>
 	</Label>;
 
-const Field = props =>
+const Type = props =>
 	<Toggler
-		active={EditField}
-		inactive={ShowField}
+		active={EditType}
+		inactive={ShowType}
 		{...props}
-		saveField={props.updateField}
+		saveType={props.updateType}
 	/>;
 
-const FieldContainer = createContainer(
+const TypeContainer = createContainer(
 	() => ({
-		updateField(field) {
-			Fields.update(field._id, field);
+		updateType(type) {
+			Types.update(type._id, type);
 		},
 	}),
-	Field
+	Type
 );
 
-export const EditFields = createContainer(
+export const EditTypes = createContainer(
 	() => ({
-		fields: Fields.find({}).fetch(),
-		addField(field) {
-			Fields.insert(field);
+		types: Types.find({}).fetch(),
+		addType(type) {
+			Types.insert(type);
 		},
 	}),
-	({fields, addField}) =>
+	({types, addType}) =>
 		<List>
-			{fields.map(field => <FieldContainer key={field._id} field={field} />)}
+			{types.map(type => <TypeContainer key={type._id} type={type} />)}
 
-			<EditField saveField={addField} />
+			<EditType saveType={addType} />
 		</List>
 );
 
-export const LinkType = createContainer(
-	() => ({
-		fields: Fields.find({}).fetch(),
-	}),
-	({fields, LinkType}) =>
-		<Form initialData={LinkType} name="LinkType" tagName="fieldset">
-			{fields.map(field =>
-				<LabelInput
-					label={field.name}
-					{...field.colour}
-					minWidth={70}
-					key={field._id}
-					name={field._id}
-				/>
-			)}
-		</Form>
-);
+export const TypeSelect = createContainer(
+	{
+		pure: false,
+		getMeteorData: () => ({
+			types: Types.find({}).fetch(),
+		}),
+	},
+	({types}) =>
+		<Select name="type">
+			<option disabled value="" />
 
-export const ShowLinkType = createContainer(
-	() => ({
-		fields: Fields.find({}).fetch(),
-	}),
-	({fields, card}) =>
-		<List>
-			{fields.map(
-				field =>
-					card.LinkType[field._id] &&
-					<Label key={field._id} {...field.colour}>
-						<LabelTitle {...field.colour}>
-							{field.name}
-						</LabelTitle>
-						<LabelTitle {...field.colour}>test</LabelTitle>
-
-						<LabelBody>{card.LinkType[field._id]}</LabelBody>
-					</Label>
+			{types.map(type =>
+				<option value={type._id} key={type._id}>
+					{type.name}
+				</option>
 			)}
-		</List>
+		</Select>
 );
