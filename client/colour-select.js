@@ -23,9 +23,6 @@ const Swatch = styled.div`
 	grid-gap: 2px;
 `;
 
-
-//TODO: popover
-
 class ColourSelect extends Component {
 	static contextTypes = fieldLike;
 
