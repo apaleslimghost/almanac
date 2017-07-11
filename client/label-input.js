@@ -85,7 +85,7 @@ class LabelInput extends Component {
 	}
 
 	render() {
-		const {colour, shade, label, ...props} = this.props;
+		const {colour, shade, label, children, ...props} = this.props;
 
 		return (
 			<ActualLabel
@@ -106,6 +106,7 @@ class LabelInput extends Component {
 						onBlur={() => this.setState({focused: false})}
 					/>
 				</LabelBody>
+				{children}
 			</ActualLabel>
 		);
 	}

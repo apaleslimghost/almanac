@@ -15,7 +15,7 @@ export const background = ({colour = 'sky', shade = 3}) => {
 };
 
 //TODO: shadow hierarchy
-const cardShadow = '0 5px 0.5px -3px';
+export const cardShadow = '0 5px 0.5px -3px';
 
 export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = false}) => css`
 	${!sunken && background({colour, shade})}
@@ -103,4 +103,8 @@ export const LabelButton = LabelTitle.withComponent('button').extend`
 	&:hover {
 		${({colour = 'sky', shade = 3}) => background({colour, shade: Math.min(6, shade + 1)})}
 	}
+`;
+
+export const Emoji = styled.span`
+	line-height: 1;
 `;

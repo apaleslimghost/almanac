@@ -13,8 +13,10 @@ import LabelInput from './label-input';
 import Toggler from './toggler';
 import preventingDefault from '../src/preventing-default';
 
-const ColouredName = ({label = 'New type'}, {state}) =>
-	<LabelInput label={label} {...state.colour} name="name" type="text" />;
+const ColouredName = ({label = 'New type', children}, {state}) =>
+	<LabelInput label={label} {...state.colour} name="name" type="text">
+		{children}
+	</LabelInput>;
 
 ColouredName.contextTypes = fieldLike;
 
@@ -27,8 +29,9 @@ const EditType = ({type, saveType, toggle}) =>
 			if (toggle) toggle();
 		}}
 	>
-		<ColouredName label={type && 'Name'} />
-		<ColourSelect name="colour" />
+		<ColouredName label={type && 'Name'}>
+			<ColourSelect name="colour" />
+		</ColouredName>
 		<button>{type ? '✓' : '+'}</button>
 		{toggle && <button onClick={preventingDefault(toggle)}>×</button>}
 	</Form>;

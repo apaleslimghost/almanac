@@ -6,13 +6,16 @@
   },
   "dependencies": {
     "@quarterto/colours": "^1.0.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-runtime": "^6.20.0",
     "contrast": "^1.0.1",
     "lodash": "^4.17.4",
     "meteor-node-stubs": "~0.2.4",
+    "polished": "^1.2.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-popover": "^0.4.14",
     "styled-components": "^2.1.0"
   }
 }
