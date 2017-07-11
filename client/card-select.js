@@ -5,6 +5,8 @@ import _ from 'lodash';
 import {Cards} from '../src/collections';
 import {Select} from './form';
 
+//TODO: typeahead?
+
 const CardSelect = ({cardsById, onSelect}) =>
 	_.size(cardsById) ? <Select name='card'>
 		<option disabled value="" />

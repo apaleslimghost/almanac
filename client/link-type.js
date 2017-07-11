@@ -18,6 +18,7 @@ const ColouredName = ({label = 'New type'}, {state}) =>
 
 ColouredName.contextTypes = fieldLike;
 
+//TODO: link inverse
 const EditType = ({type, saveType, toggle}) =>
 	<Form
 		initialData={type}
@@ -56,6 +57,7 @@ const TypeContainer = createContainer(
 	Type
 );
 
+//TODO: think about edit vs filter, ie what is this component
 export const EditTypes = createContainer(
 	() => ({
 		types: Types.find({}).fetch(),

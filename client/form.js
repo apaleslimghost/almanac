@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+// TODO: split into module
+
 export const getInputValue = el =>
 	el[
 		{
@@ -97,7 +99,7 @@ export class Form extends Component {
 	}
 
 	onSubmit(ev) {
-		//TODO validation id:2
+		//TODO validation
 		ev.preventDefault();
 		Promise.resolve(this.props.onSubmit(this.state)).then(() => {
 			if(this.mounted) {

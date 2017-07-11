@@ -24,6 +24,8 @@ const Swatch = styled.div`
 const row = (shade, {onSelect}) => colour =>
 <Chip onClick={() => onSelect(colour, shade)} key={`${colour}${shade}`} colour={colour} shade={shade} />
 
+//TODO: popover
+
 const ColourSelect = ({name}, {state, setState}) => {
 	const onSelect = (colour, shade) => {
 		setState({

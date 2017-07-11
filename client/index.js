@@ -30,6 +30,9 @@ injectGlobal`
 	}
 `;
 
+//TODO: card search
+//TODO: card filtering by link type
+
 const App = () => <div>
 	<EditTypes />
 	<CardList />

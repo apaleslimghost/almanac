@@ -13,7 +13,7 @@ import CardSelect from './card-select';
 import {TypeSelect} from './link-type';
 import LabelInput from './label-input';
 
-//TODO clean up these components id:1
+//TODO clean up these components
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
@@ -23,6 +23,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 		}}
 		initialData={card}
 	>
+		{/* TODO: card form ui (wysiwyg/m for markdown?) */}
 		<Field name="title" />
 		<Field name="text" tag="textarea" />
 		<button>{toggle ? '✓' : '+'}</button>
@@ -52,7 +53,7 @@ const ShowCard = ({
 
 		{toggle && <button onClick={toggle}>Edit</button>}
 		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
-		{/* TODO markdown  id:0*/}
+		{/* TODO markdown */}
 		<p>{card.text}</p>
 
 		{linkTypes.map(
@@ -78,6 +79,7 @@ const ShowCard = ({
 
 			<CardSelect skip={[card._id]} />
 
+			{/* TODO: card creation by adding link */}
 			<button>+</button>
 		</Form>
 	</div>;

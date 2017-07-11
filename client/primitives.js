@@ -2,6 +2,9 @@ import styled, {css} from 'styled-components';
 import colours from '@quarterto/colours';
 import contrast from 'contrast';
 
+//TODO: bring in Wick typography
+//TODO: split out into a @quarterto/primitives module
+
 export const background = ({colour = 'sky', shade = 3}) => {
 	const bg = colours[colour][shade];
 
@@ -11,6 +14,7 @@ export const background = ({colour = 'sky', shade = 3}) => {
 	`;
 };
 
+//TODO: shadow hierarchy
 const cardShadow = '0 5px 0.5px -3px';
 
 export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = false}) => css`
