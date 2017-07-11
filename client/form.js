@@ -14,41 +14,39 @@ export const getInputValue = el =>
 
 export const getSelectValue = el => el.options[el.selectedIndex].value;
 
-export const Field = (props, context) => {
-	const {name, fieldRef, tag: Tag = 'input'} = props;
-	return (
-		<Tag
-			ref={fieldRef}
-			type="text"
-			{...props}
-			value={context.state[name] || ''}
-			onChange={ev => {
-				if(props.onChange) {
-					props.onChange(ev);
-				}
+export const Field = (
+	{name, fieldRef, tag: Tag = 'input', ...props},
+	context
+) =>
+	<Tag
+		ref={fieldRef}
+		name={name}
+		type="text"
+		{...props}
+		value={context.state[name] || ''}
+		onChange={ev => {
+			if (props.onChange) {
+				props.onChange(ev);
+			}
 
-				context.setState({
-					[name]: getInputValue(ev.target)
-				})
-			}}
-		/>
-	);
-};
+			context.setState({
+				[name]: getInputValue(ev.target),
+			});
+		}}
+	/>;
 
-export const Select = (props, context) => {
-	const {name} = props;
-	return (
-		<select
-			{...props}
-			value={context.state[name] || ''}
-			onChange={ev => {
-				context.setState({
-					[name]: getSelectValue(ev.target)
-				});
-			}}
-		>{props.children}</select>
-	);
-};
+export const Select = (props, context) =>
+	<select
+		{...props}
+		value={context.state[props.name] || ''}
+		onChange={ev => {
+			context.setState({
+				[name]: getSelectValue(ev.target),
+			});
+		}}
+	>
+		{props.children}
+	</select>;
 
 export class Form extends Component {
 	constructor(props, ...args) {
@@ -76,9 +74,9 @@ export class Form extends Component {
 	}
 
 	componentWillUpdate(props, state) {
-		if(this.context.setState && props.name) {
+		if (this.context.setState && props.name) {
 			this.context.setState({
-				[props.name]: state
+				[props.name]: state,
 			});
 		}
 	}
@@ -102,7 +100,7 @@ export class Form extends Component {
 		//TODO validation
 		ev.preventDefault();
 		Promise.resolve(this.props.onSubmit(this.state)).then(() => {
-			if(this.mounted) {
+			if (this.mounted) {
 				this.state = this.props.initialData;
 				this.forceUpdate();
 			}
@@ -116,7 +114,7 @@ export class Form extends Component {
 			</this.props.tagName>
 		);
 	}
-};
+}
 
 export const fieldLike = {
 	state: PropTypes.object,
