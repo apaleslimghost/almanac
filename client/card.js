@@ -1,8 +1,9 @@
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import {Session} from 'meteor/session';
+import _ from 'lodash';
 
-import {Cards} from '../src/collections';
+import {Cards, Types} from '../src/collections';
 import preventingDefault from '../src/preventing-default';
 
 import Toggler from './toggler';
@@ -21,7 +22,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 		initialData={card}
 	>
 		<Field name="title" />
-		<Field name="text" tag='textarea' />
+		<Field name="text" tag="textarea" />
 		<button>{toggle ? '✓' : '+'}</button>
 		{toggle && <button onClick={preventingDefault(toggle)}>×</button>}
 		{deleteCard &&
@@ -30,31 +31,53 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 			</button>}
 	</Form>;
 
-const ShowCard = ({card, relatedCards, toggle, addRelated, removeRelated, selectCard}) =>
+const ShowCard = ({
+	card,
+	linkTypes,
+	related,
+	toggle,
+	addRelated,
+	removeRelated,
+	selectCard,
+}) =>
 	<div>
 		{toggle && <button onClick={toggle}>Edit</button>}
 		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
 		<p>{card.text}</p>
 
-		<List>
-			{relatedCards.map(related =>
-				<Label onClick={() => removeRelated(related)} colour='aqua' key={related._id}>{related.title}</Label>
-			)}
-			<Form onSubmit={addRelated}>
-				<TypeSelect />
+		{linkTypes.map(type =>
+			related[type._id] && <div key={type._id}>
+				<Label {...type.colour}>{type.name}</Label>
 
-				<CardSelect
-					skip={[card._id]}
-				/>
+				<ul>
+					{related[type._id].map(card => <li key={card._id}>{card.title}</li>)}
+				</ul>
+			</div>
+		)}
 
-				<button>+</button>
-			</Form>
-		</List>
+		<Form onSubmit={addRelated}>
+			<TypeSelect />
+
+			<CardSelect skip={[card._id]} />
+
+			<button>+</button>
+		</Form>
 	</div>;
 
-const ShowCardContainer = createContainer(
-	({card}) => ({
-		relatedCards: Cards.find({_id: {$in: card.related || []}}).fetch(),
+const ShowCardContainer = createContainer(({card}) => {
+	const relatedIds = (card.related || []).map(related => related.card);
+	const relatedCards = Cards.find({_id: {$in: relatedIds}}).fetch();
+	const relatedById = _.keyBy(relatedCards, '_id');
+	const relatedByType = _.groupBy(card.related || [], 'type');
+
+	const related = _.mapValues(
+		relatedByType,
+		related => related.map(({card}) => relatedById[card])
+	);
+
+	return {
+		linkTypes: Types.find().fetch(),
+		related,
 		addRelated(related) {
 			alert(JSON.stringify(related));
 			Cards.update(card._id, {
@@ -69,9 +92,8 @@ const ShowCardContainer = createContainer(
 		selectCard() {
 			Session.set('selectedCard', card._id);
 		},
-	}),
-	ShowCard
-);
+	};
+}, ShowCard);
 
 const Card = props =>
 	<CardPrimitive large={props.large}>
