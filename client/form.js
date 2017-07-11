@@ -97,6 +97,7 @@ export class Form extends Component {
 	}
 
 	onSubmit(ev) {
+		//TODO validation id:2
 		ev.preventDefault();
 		Promise.resolve(this.props.onSubmit(this.state)).then(() => {
 			if(this.mounted) {

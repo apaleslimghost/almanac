@@ -13,6 +13,8 @@ import CardSelect from './card-select';
 import {TypeSelect} from './link-type';
 import LabelInput from './label-input';
 
+//TODO clean up these components id:1
+
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
 		onSubmit={data => {
@@ -50,6 +52,7 @@ const ShowCard = ({
 
 		{toggle && <button onClick={toggle}>Edit</button>}
 		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
+		{/* TODO markdown  id:0*/}
 		<p>{card.text}</p>
 
 		{linkTypes.map(
