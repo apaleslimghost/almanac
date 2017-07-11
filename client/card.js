@@ -12,13 +12,6 @@ import CardSelect from './card-select';
 import {TypeSelect} from './link-type';
 import LabelInput from './label-input';
 
-const FU = createContainer(() => ({}), () => 				<Select name='foo'>
-					<option>a</option>
-					<option>b</option>
-					<option>c</option>
-					<option>d</option>
-				</Select>);
-
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
 		onSubmit={data => {
@@ -48,8 +41,6 @@ const ShowCard = ({card, relatedCards, toggle, addRelated, removeRelated, select
 				<Label onClick={() => removeRelated(related)} colour='aqua' key={related._id}>{related.title}</Label>
 			)}
 			<Form onSubmit={addRelated}>
-				<FU />
-
 				<TypeSelect />
 
 				<CardSelect

@@ -34,15 +34,12 @@ export const Field = (props, context) => {
 };
 
 export const Select = (props, context) => {
-	console.log('muthafucker you better', context);
 	const {name} = props;
-	console.log('no but if that\'ts', name, context.state[name]);
 	return (
 		<select
 			{...props}
 			value={context.state[name] || ''}
 			onChange={ev => {
-				console.log(getSelectValue(ev.target));
 				context.setState({
 					[name]: getSelectValue(ev.target)
 				});
@@ -93,7 +90,6 @@ export class Form extends Component {
 	}
 
 	getChildContext() {
-		console.log(this.state);
 		return {
 			state: this.state,
 			setState: this.setState,
@@ -111,8 +107,6 @@ export class Form extends Component {
 	}
 
 	render() {
-		console.log('uhhh what');
-		console.log(this.state);
 		return (
 			<this.props.tagName onSubmit={this.onSubmit}>
 				{this.props.children}
