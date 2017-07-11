@@ -41,18 +41,29 @@ const ShowCard = ({
 	selectCard,
 }) =>
 	<div>
+		{card.relatedTypes &&
+			<List>
+				{card.relatedTypes.map(type =>
+					<Label key={type._id} {...type.colour}>{type.name}</Label>
+				)}
+			</List>}
+
 		{toggle && <button onClick={toggle}>Edit</button>}
 		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
 		<p>{card.text}</p>
 
-		{linkTypes.map(type =>
-			related[type._id] && <div key={type._id}>
-				<Label {...type.colour}>{type.name}</Label>
+		{linkTypes.map(
+			type =>
+				related[type._id] &&
+				<div key={type._id}>
+					<Label {...type.colour}>{type.name}</Label>
 
-				<ul>
-					{related[type._id].map(card => <li key={card._id}>{card.title}</li>)}
-				</ul>
-			</div>
+					<ul>
+						{related[type._id].map(card =>
+							<li key={card._id}>{card.title}</li>
+						)}
+					</ul>
+				</div>
 		)}
 
 		<Form onSubmit={addRelated}>
@@ -70,9 +81,8 @@ const ShowCardContainer = createContainer(({card}) => {
 	const relatedById = _.keyBy(relatedCards, '_id');
 	const relatedByType = _.groupBy(card.related || [], 'type');
 
-	const related = _.mapValues(
-		relatedByType,
-		related => related.map(({card}) => relatedById[card])
+	const related = _.mapValues(relatedByType, related =>
+		related.map(({card}) => relatedById[card])
 	);
 
 	return {

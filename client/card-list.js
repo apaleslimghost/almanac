@@ -4,7 +4,7 @@ import {Session} from 'meteor/session';
 import _ from 'lodash';
 
 import {buildGraph, distances} from '../src/graph';
-import {Cards} from '../src/collections';
+import {Cards, Types} from '../src/collections';
 
 import Card, {EditCard} from './card';
 import {Grid, Card as CardPrimitive} from './primitives';
@@ -28,17 +28,26 @@ const CardList = ({cards, saveCard, deleteCard}) =>
 
 const CardListContainer = createContainer(() => {
 	const selectedCard = Session.get('selectedCard');
-	let cards = Cards.find({}).fetch();
+	const cards = Cards.find({}).fetch();
 
 	if (selectedCard) {
+		const types = Types.find({}).fetch();
+		const typesById = _.keyBy(types, '_id');
+		const cardsById = _.keyBy(cards, '_id');
+
 		const graph = buildGraph(cards);
 		const d = distances(graph, selectedCard);
 
-		cards.forEach(card => (card.sortedIndex = d[card._id]));
+		const relatedByRelatee = _.groupBy(_.get(cardsById, [selectedCard, 'related'], []), 'card');
+
+		cards.forEach(card => {
+			card.distance = d[card._id];
+			card.relatedTypes = _.map(relatedByRelatee[card._id], ({type}) => typesById[type]);
+		});
 	}
 
 	return {
-		cards: _.orderBy(cards, ['sortedIndex', 'title']),
+		cards: _.orderBy(cards, ['distance', 'title']),
 
 		saveCard(card) {
 			if (card._id) {
