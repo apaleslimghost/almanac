@@ -49,14 +49,8 @@ export const Select = (props, context) =>
 	</select>;
 
 export class Form extends Component {
-	constructor(props, ...args) {
-		super(props, ...args);
-
-		this.state = props.initialData;
-
-		this.setState = this.setState.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
-	}
+	state = this.props.initialData;
+	setState = this.setState.bind(this);
 
 	static get childContextTypes() {
 		return {
@@ -96,7 +90,7 @@ export class Form extends Component {
 		};
 	}
 
-	onSubmit(ev) {
+	onSubmit = ev => {
 		//TODO validation
 		ev.preventDefault();
 		Promise.resolve(this.props.onSubmit(this.state)).then(() => {
@@ -105,7 +99,7 @@ export class Form extends Component {
 				this.forceUpdate();
 			}
 		});
-	}
+	};
 
 	render() {
 		return (

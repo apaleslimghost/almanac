@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 
 class Toggler extends Component {
-	constructor(...args) {
-		super(...args);
-		this.state = {on: false};
-		this.toggle = this.toggle.bind(this);
-	}
+	state = {on: false};
 
-	toggle() {
+	toggle = () => {
 		this.setState(({on}) => ({on: !on}));
 	}
 

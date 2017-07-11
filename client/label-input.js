@@ -27,16 +27,11 @@ const Dummy = styled.div`
 `;
 
 export class AutosizingInput extends Component {
-	constructor(props, ...args) {
-		super(props, ...args);
-		this.state = {
-			value: props.value || props.defaultValue,
-		};
+	state = {
+		value: this.props.value || this.props.defaultValue,
+	};
 
-		this.update = this.update.bind(this);
-	}
-
-	update(ev) {
+	update = ev => {
 		if (this.props.onChange) {
 			this.props.onChange(ev);
 		}
@@ -47,7 +42,7 @@ export class AutosizingInput extends Component {
 			},
 			() => this.updateWidth()
 		);
-	}
+	};
 
 	componentDidMount() {
 		this.updateWidth();
@@ -77,12 +72,9 @@ export class AutosizingInput extends Component {
 }
 
 class LabelInput extends Component {
-	constructor(...args) {
-		super(...args);
-		this.state = {
-			focused: false,
-		};
-	}
+	state = {
+		focused: false,
+	};
 
 	render() {
 		const {colour, shade, label, children, ...props} = this.props;
