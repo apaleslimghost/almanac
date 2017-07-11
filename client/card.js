@@ -59,8 +59,12 @@ const ShowCard = ({
 					<Label {...type.colour}>{type.name}</Label>
 
 					<ul>
-						{related[type._id].map(card =>
-							<li key={card._id}>{card.title}</li>
+						{related[type._id].map(({card, related}) =>
+							<li key={card._id}>
+								<a href={`#${card._id}`} onClick={() => selectCard(card)}>{card.title}</a>
+
+								<a href='#' onClick={preventingDefault(() => removeRelated(related))}>×</a>
+							</li>
 						)}
 					</ul>
 				</div>
@@ -82,7 +86,10 @@ const ShowCardContainer = createContainer(({card}) => {
 	const relatedByType = _.groupBy(card.related || [], 'type');
 
 	const related = _.mapValues(relatedByType, related =>
-		related.map(({card}) => relatedById[card])
+		related.map(r => ({
+			related: r,
+			card: relatedById[r.card],
+		}))
 	);
 
 	return {
@@ -98,8 +105,8 @@ const ShowCardContainer = createContainer(({card}) => {
 				$pull: {related},
 			});
 		},
-		selectCard() {
-			Session.set('selectedCard', card._id);
+		selectCard(cardToSelect = card) {
+			Session.set('selectedCard', cardToSelect._id);
 		},
 	};
 }, ShowCard);
