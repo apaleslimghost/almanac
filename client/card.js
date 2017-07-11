@@ -79,7 +79,6 @@ const ShowCardContainer = createContainer(({card}) => {
 		linkTypes: Types.find().fetch(),
 		related,
 		addRelated(related) {
-			alert(JSON.stringify(related));
 			Cards.update(card._id, {
 				$push: {related},
 			});
