@@ -1,6 +1,7 @@
 import styled, {css} from 'styled-components';
 import colours from '@quarterto/colours';
 import contrast from 'contrast';
+import {darken} from 'polished';
 
 //TODO: bring in Wick typography
 //TODO: split out into a @quarterto/primitives module
@@ -14,14 +15,21 @@ export const background = ({colour = 'sky', shade = 3}) => {
 	`;
 };
 
-//TODO: shadow hierarchy
-export const cardShadow = '0 5px 0.5px -3px';
+export const shadow = (level = 1) => [
+	0,
+	5,
+	4 * level - 3.5,
+	2 * level - 5,
+]
+	.map(a => `${a}px`)
+	.concat(darken(0.2 * (level - 1), colours.steel[5]))
+	.join(' ');
 
 export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = false}) => css`
 	${!sunken && background({colour, shade})}
 	border: solid 1px ${({colour = 'sky', shade = 3}) => colours[colour][shade - 1]};
 	box-shadow: ${[
-		sunken && `inset ${cardShadow} ${colours.steel[4]}`,
+		sunken && `inset ${shadow()}`,
 		focused && `0 0 3px 2px ${colours.sky[4]}`,
 	].filter(i => i).join() || 'none'};
 `;
@@ -50,7 +58,7 @@ export const Card = styled.div`
 	border: 1px solid ${colours.steel[3]};
 	padding: 1em;
 	border-radius: 2px;
-	box-shadow: ${cardShadow} ${colours.steel[5]};
+	box-shadow: ${shadow()};
 	column-width: 18em;
 	column-gap: 1em;
 `;
