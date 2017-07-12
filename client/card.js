@@ -52,7 +52,7 @@ const ShowCard = ({
 			</List>}
 
 		{toggle && <button onClick={toggle}>Edit</button>}
-		<h1><a href={`#${card._id}`} onClick={selectCard}>{card.title}</a></h1>
+		<h1><a href={`#${card._id}`} onClick={() => selectCard(card)}>{card.title}</a></h1>
 		{/* TODO markdown */}
 		<p>{card.text}</p>
 
@@ -110,7 +110,7 @@ const ShowCardContainer = createContainer(({card}) => {
 				$pull: {related},
 			});
 		},
-		selectCard(cardToSelect = card) {
+		selectCard(cardToSelect) {
 			Session.set('selectedCard', cardToSelect._id);
 		},
 	};

@@ -35,18 +35,19 @@ export const Field = (
 		}}
 	/>;
 
-export const Select = (props, context) =>
-	<select
+export const Select = (props, context) => {
+	return <select
 		{...props}
 		value={context.state[props.name] || ''}
 		onChange={ev => {
 			context.setState({
-				[name]: getSelectValue(ev.target),
+				[props.name]: getSelectValue(ev.target),
 			});
 		}}
 	>
 		{props.children}
 	</select>;
+}
 
 export class Form extends Component {
 	state = this.props.initialData;

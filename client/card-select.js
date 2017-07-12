@@ -7,7 +7,7 @@ import {Select} from './form';
 
 //TODO: typeahead?
 
-const CardSelect = ({cardsById, onSelect}) =>
+const CardSelect = ({cardsById}) =>
 	_.size(cardsById) ? <Select name='card'>
 		<option disabled value="" />
 		{_.map(cardsById, card =>
