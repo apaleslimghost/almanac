@@ -2,6 +2,7 @@ import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import {Session} from 'meteor/session';
 import _ from 'lodash';
+import Markdown from 'react-markdown';
 
 import {Cards, Types} from '../src/collections';
 import preventingDefault from '../src/preventing-default';
@@ -53,8 +54,7 @@ const ShowCard = ({
 
 		{toggle && <button onClick={toggle}>Edit</button>}
 		<h1><a href={`#${card._id}`} onClick={() => selectCard(card)}>{card.title}</a></h1>
-		{/* TODO markdown */}
-		<p>{card.text}</p>
+		<Markdown source={card.text} />
 
 		{linkTypes.map(
 			type =>
