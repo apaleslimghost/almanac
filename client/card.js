@@ -55,7 +55,7 @@ const ShowCard = ({
 
 		{toggle && <button onClick={toggle}>Edit</button>}
 		<h1><a href={`#${card._id}`} onClick={() => selectCard(card)}>{card.title}</a></h1>
-		<Markdown source={card.text} />
+		<Markdown source={card.text || ''} />
 
 		{linkTypes.map(
 			type =>
