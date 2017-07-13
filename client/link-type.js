@@ -21,6 +21,8 @@ const ColouredName = ({label = 'New type', children}, {state}) =>
 ColouredName.contextTypes = fieldLike;
 
 //TODO: link inverse
+//TODO: links only accepting certain categories?
+
 const EditType = ({type, saveType, toggle}) =>
 	<Form
 		initialData={type}
