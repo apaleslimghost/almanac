@@ -1,10 +1,14 @@
+import React from 'react';
 import styled, {css} from 'styled-components';
 import colours from '@quarterto/colours';
 import contrast from 'contrast';
 import {darken} from 'polished';
+import Ionicon from 'react-ionicons';
 
 //TODO: bring in Wick typography
 //TODO: split out into a @quarterto/primitives module
+//TODO: icons
+//TODO: buttons
 
 export const background = ({colour = 'sky', shade = 3}) => {
 	const bg = colours[colour][shade];
@@ -15,14 +19,14 @@ export const background = ({colour = 'sky', shade = 3}) => {
 	`;
 };
 
-export const shadow = (level = 1) => [
+export const shadow = (level = 1, {colour = 'steel', shade = 5} = {}) => [
 	0,
 	5,
 	4 * level - 3.5,
 	2 * level - 5,
 ]
 	.map(a => `${a}px`)
-	.concat(darken(0.2 * (level - 1), colours.steel[5]))
+	.concat(darken(0.2 * (level - 1), colours[colour][shade]))
 	.join(' ');
 
 export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = false}) => css`
@@ -62,6 +66,8 @@ export const Card = styled.div`
 	column-width: 18em;
 	column-gap: 1em;
 `;
+
+// TODO: use theme for label colour
 
 export const Label = styled.span`
 	display: inline-block;
@@ -115,4 +121,49 @@ export const LabelButton = LabelTitle.withComponent('button').extend`
 
 export const Emoji = styled.span`
 	line-height: 1;
+`;
+
+const Input_ = Label.withComponent('input').extend`
+	padding-left: .3em;
+	padding-right: .3em;
+	font: inherit;
+	width: 100%;
+`;
+
+const Textarea_ = Input_.withComponent('textarea').extend`
+	resize: vertical;
+	min-height: 10em;
+`;
+
+const fieldIsh = Tag => props => <Tag colour='steel' shade={4} sunken large {...props} />
+
+export const Input = fieldIsh(Input_);
+export const Textarea = fieldIsh(Textarea_);
+
+export const FormGroup = styled.label`
+	display: block;
+	margin-bottom: .5em;
+`;
+
+const Button_ = Label.withComponent('button').extend`
+	font: inherit;
+	transition: box-shadow 200ms linear;
+	box-shadow: ${shadow(1)};
+	cursor: pointer;
+
+	&:hover {
+		box-shadow: ${shadow(1.5)};
+	}
+
+	&:active {
+		box-shadow: ${shadow(0)};
+	}
+`;
+
+export const Button = props => <Button_ large {...props} />
+
+export const Icon = styled(Ionicon)`
+	fill: currentColor;
+	height: 1em;
+	margin-bottom: -2px;
 `;

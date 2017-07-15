@@ -8,7 +8,7 @@ import {Cards, Types} from '../src/collections';
 import preventingDefault from '../src/preventing-default';
 
 import Toggler from './toggler';
-import {Card as CardPrimitive, Label, List} from './primitives';
+import {Card as CardPrimitive, Label, List, Input, Textarea, FormGroup} from './primitives';
 import {Field, Form, Select} from './form';
 import CardSelect from './card-select';
 import {TypeSelect} from './link-type';
@@ -25,9 +25,14 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 		}}
 		initialData={card}
 	>
-		{/* TODO: card form ui (wysiwyg/m for markdown?) */}
-		<Field name="title" />
-		<Field name="text" tag="textarea" />
+		<FormGroup>
+			<Field name="title" placeholder='Title' tag={Input} />
+		</FormGroup>
+
+		<FormGroup>
+			<Field name="text" tag={Textarea} />
+		</FormGroup>
+
 		<button>{toggle ? '✓' : '+'}</button>
 		{toggle && <button onClick={preventingDefault(toggle)}>×</button>}
 		{deleteCard &&

@@ -87,9 +87,9 @@ class LabelInput extends Component {
 				large
 				focused={this.state.focused}
 			>
-				<LabelTitle colour={colour} shade={shade}>
+				{label && <LabelTitle colour={colour} shade={shade}>
 					{label}
-				</LabelTitle>
+				</LabelTitle>}
 				<LabelBody>
 					<AutosizingInput
 						minWidth={100}

@@ -15,8 +15,10 @@
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-ionicons": "^1.5.7",
     "react-markdown": "^2.5.0",
     "react-popover": "^0.4.14",
+    "react-typeahead": "^2.0.0-alpha.5",
     "styled-components": "^2.1.0"
   }
 }

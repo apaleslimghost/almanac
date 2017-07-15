@@ -3,7 +3,7 @@ import colours from '@quarterto/colours';
 import styled, {injectGlobal} from 'styled-components';
 import Popover from 'react-popover';
 
-import {etched, LabelButton, Emoji, shadow} from './primitives';
+import {etched, LabelButton, Icon, shadow} from './primitives';
 import {fieldLike} from './form';
 import preventingDefault from '../src/preventing-default';
 
@@ -81,7 +81,7 @@ class ColourSelect extends Component {
 					{...this.context.state[this.props.name]}
 					onClick={preventingDefault(() => this.setState({isOpen: !this.state.isOpen}))}
 				>
-					<Emoji>🎨</Emoji>
+					<Icon icon='ion-paintbrush' />
 				</LabelButton>
 			</Popover>
 		);

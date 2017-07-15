@@ -1,21 +1,33 @@
+import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import styled from 'styled-components';
 import colours from '@quarterto/colours';
 
-import {Types} from '../src/collections';
+import {Types, Cards} from '../src/collections';
 import {getSelectValue} from './form';
 
 import {Form, fieldLike, Select} from './form';
 import ColourSelect from './colour-select';
-import {List, Label, LabelTitle, LabelButton, LabelBody} from './primitives';
+import {List, Label, LabelTitle, LabelButton, LabelBody, Button, Icon} from './primitives';
 import LabelInput from './label-input';
 import Toggler from './toggler';
 import preventingDefault from '../src/preventing-default';
 
-const ColouredName = ({label = 'New type', children}, {state}) =>
-	<LabelInput label={label} {...state.colour} name="name" type="text">
-		{children}
+const ColouredName = ({type, toggle, deleteType}, {state}) =>
+	<LabelInput {...state.colour} name="name" type="text">
+		<ColourSelect name="colour" />
+		{toggle && <LabelButton {...state.colour} onClick={preventingDefault(toggle)}>
+			<Icon icon='ion-close' />
+		</LabelButton>}
+		{type && <LabelButton {...state.colour} onClick={preventingDefault(() => deleteType(type))}>
+			<Icon icon='ion-trash-a' />
+		</LabelButton>}
+		<LabelButton {...state.colour}>
+			{type
+				? <Icon icon='ion-checkmark' />
+				: <Icon icon='ion-plus' />}
+		</LabelButton>
 	</LabelInput>;
 
 ColouredName.contextTypes = fieldLike;
@@ -23,7 +35,7 @@ ColouredName.contextTypes = fieldLike;
 //TODO: link inverse
 //TODO: links only accepting certain categories?
 
-const EditType = ({type, saveType, toggle}) =>
+const EditType = ({type, saveType, toggle, deleteType}) =>
 	<Form
 		initialData={type}
 		onSubmit={data => {
@@ -31,35 +43,45 @@ const EditType = ({type, saveType, toggle}) =>
 			if (toggle) toggle();
 		}}
 	>
-		<ColouredName label={type && 'Name'}>
-			<ColourSelect name="colour" />
-		</ColouredName>
-		<button>{type ? '✓' : '+'}</button>
-		{toggle && <button onClick={preventingDefault(toggle)}>×</button>}
+		<ColouredName {...{type, toggle, deleteType}} />
 	</Form>;
 
 const ShowType = ({type, toggle}) =>
 	<Label {...type.colour} large>
 		<LabelBody>{type.name}</LabelBody>
-		<LabelButton {...type.colour} onClick={toggle}>Edit</LabelButton>
-		<LabelButton {...type.colour}>Blah</LabelButton>
+		<LabelButton {...type.colour} onClick={toggle}>
+			<Icon icon='ion-edit' />
+		</LabelButton>
 	</Label>;
-
-const Type = props =>
-	<Toggler
-		active={EditType}
-		inactive={ShowType}
-		{...props}
-		saveType={props.updateType}
-	/>;
 
 const TypeContainer = createContainer(
 	() => ({
 		updateType(type) {
 			Types.update(type._id, type);
 		},
+
+		deleteType(type) {
+			if(confirm(`
+				Are you sure? This will remove ${type.name} and all ${type.name} links.
+			`.trim())) {
+				Meteor.call('links.removeOfType', {type: type._id}, err => {
+					if(err) {
+						console.error(err);
+					} else {
+						Types.remove(type._id);
+					}
+				});
+			}
+		},
 	}),
-	Type
+	props =>
+		<Toggler
+			active={EditType}
+			inactive={ShowType}
+			{...props}
+			saveType={props.updateType}
+			deleteType={props.deleteType}
+		/>
 );
 
 //TODO: think about edit vs filter, ie what is this component
@@ -70,7 +92,7 @@ export const EditTypes = createContainer(
 			Types.insert(type);
 		},
 	}),
-	({types, addType}) =>
+	({types, addType, deleteType}) =>
 		<List>
 			{types.map(type => <TypeContainer key={type._id} type={type} />)}
 
