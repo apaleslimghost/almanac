@@ -50,9 +50,12 @@ export const List = styled.div`
 	}
 `;
 
-export const Grid = styled.div`
-display: grid;
-	padding: 1em;
+export const Padded = styled.div`
+	margin: 1em;
+`;
+
+export const Grid = Padded.extend`
+	display: grid;
 	grid-gap: 1em;
 	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
 `;

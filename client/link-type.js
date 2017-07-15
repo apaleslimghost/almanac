@@ -9,19 +9,19 @@ import {getSelectValue} from './form';
 
 import {Form, fieldLike, Select} from './form';
 import ColourSelect from './colour-select';
-import {List, Label, LabelTitle, LabelButton, LabelBody, Button, Icon} from './primitives';
+import {List, Label, LabelTitle, LabelButton, LabelBody, Button, Icon, Padded} from './primitives';
 import LabelInput from './label-input';
 import Toggler from './toggler';
 import preventingDefault from '../src/preventing-default';
 
 const ColouredName = ({type, toggle, deleteType}, {state}) =>
-	<LabelInput {...state.colour} name="name" type="text">
+	<LabelInput {...state.colour} placeholder='Link type' name="name" type="text">
 		<ColourSelect name="colour" />
-		{toggle && <LabelButton {...state.colour} onClick={preventingDefault(toggle)}>
-			<Icon icon='ion-close' />
-		</LabelButton>}
 		{type && <LabelButton {...state.colour} onClick={preventingDefault(() => deleteType(type))}>
 			<Icon icon='ion-trash-a' />
+		</LabelButton>}
+		{toggle && <LabelButton {...state.colour} onClick={preventingDefault(toggle)}>
+			<Icon icon='ion-close' />
 		</LabelButton>}
 		<LabelButton {...state.colour}>
 			{type
@@ -93,11 +93,13 @@ export const EditTypes = createContainer(
 		},
 	}),
 	({types, addType, deleteType}) =>
-		<List>
-			{types.map(type => <TypeContainer key={type._id} type={type} />)}
+		<Padded>
+			<List>
+				{types.map(type => <TypeContainer key={type._id} type={type} />)}
 
-			<EditType saveType={addType} />
-		</List>
+				<EditType saveType={addType} />
+			</List>
+		</Padded>
 );
 
 export const TypeSelect = createContainer(
