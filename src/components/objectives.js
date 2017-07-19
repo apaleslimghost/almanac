@@ -14,7 +14,7 @@ const Objectives = observe(({onComplete, onDelete}, {subscribe}) => {
 	const currentQuest = subscribe('currentQuest');
 
 	const byQuest = groupBy(objectives, 'quest');
-	const questObjectives = byQuest[currentQuest];
+	const questObjectives = byQuest[currentQuest] || [];
 
 	return currentQuest ? <div>
 		<Ornamented ornament='u'>{currentQuest}</Ornamented>
@@ -34,7 +34,6 @@ const ObjectivesControl = observe((props, {dispatch, subscribe}) => {
 	const objectives = values(subscribe('objectives', {}));
 	const currentQuest = subscribe('currentQuest');
 	const byQuest = groupBy(objectives, 'quest');
-	const questObjectives = byQuest[currentQuest];
 
 	return currentQuest ? <div>
 		<Objectives onComplete={objective => dispatch('objectives', o => Object.assign(o, {

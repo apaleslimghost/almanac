@@ -12,23 +12,26 @@ overflow: hidden;
 `;
 
 const Split = styled.div`
+&:not(:last-child) {
+	// resize: ${({direction}) => direction === 'row' ? 'vertical' : 'horizontal'};
+}
+
+overflow: hidden;
 display: flex;
 flex-direction: ${({direction}) => direction};
-flex: 1;
-&:not(:last-child) {
-	border-${({direction}) => direction === 'row' ? 'bottom' : 'right'}: 1px solid #ccc;
-}
+max-height: 100vh;
+max-width: 100vw;
 `;
 
 const GridChild = styled.div`
-flex: ${({flex}) => flex || 'auto'};
-padding: 1em;
+&:not(:last-child) {
+	// resize: ${({direction}) => direction === 'row' ? 'horizontal' : 'vertical'};
+}
+margin: 0.5em;
+padding: 0.5em;
 max-height: 100vh;
 max-width: 100vw;
 overflow: auto;
-&:not(:last-child) {
-	border-${({direction}) => direction === 'row' ? 'right' : 'bottom'}: 1px solid #ccc;
-}
 `;
 
 const Grid = ({layout, direction = 'row', keys = [], which}) =>

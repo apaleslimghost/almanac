@@ -66,6 +66,10 @@ position: relative;
 z-index: 1;
 `;
 
+const WeatherWrapper = styled.div`
+margin-top: 1em;
+`;
+
 const WeatherCondition = ({temperature, humidity}) => {
 	const condition = weatherCondition({temperature, humidity});
 	return <img src={`/static/weather/${condition}.png`} alt={condition} />;
@@ -76,7 +80,7 @@ const Weather = observe((props, {subscribe}) => {
 	const date = new OdreianDate(subscribe('date'));
 	const isNight = date.hour < 7 || date.hour >= 20; // TODO: seasons, sunset time
 
-	return <div>
+	return <WeatherWrapper>
 		<WeatherThings>
 			<WeatherThing large>{temperature}℃</WeatherThing>
 			<WeatherThing><WindDirection heading={windHeading} /></WeatherThing>
@@ -89,7 +93,7 @@ const Weather = observe((props, {subscribe}) => {
 				}
 			</WeatherIcon>
 		</Under>
-	</div>;
+	</WeatherWrapper>;
 });
 
 const FixedWidthLabel = styled.label`

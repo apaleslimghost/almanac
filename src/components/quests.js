@@ -53,7 +53,9 @@ const QuestsControl = observe((props, {subscribe, dispatch}) => {
 	</div>;
 });
 
+const Empty = () => null;
+
 export {
 	QuestsControl as control,
-	Quests as display
+	Empty as display
 };
