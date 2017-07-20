@@ -33,7 +33,3 @@ CardLinks.attachSchema(new SimpleSchema({
 		publish: true,
 	},
 }));
-
-console.log(
-	Cards.find()
-);
