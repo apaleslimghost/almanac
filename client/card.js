@@ -145,7 +145,7 @@ const ShowCard = ({
 
 			<CardSelect skip={[card._id]} />
 
-			{/* TODO: card creation by adding link */}
+			{/* TODO: card creation by adding link? */}
 
 			<Button colour='aqua'>
 				<LabelBody>
@@ -176,11 +176,13 @@ const ShowCardContainer = createContainer(({card}) => {
 				$push: {related},
 			});
 		},
+
 		removeRelated(related) {
 			Cards.update(card._id, {
 				$pull: {related},
 			});
 		},
+
 		selectCard(cardToSelect) {
 			Session.set('selectedCard', cardToSelect._id);
 		},
