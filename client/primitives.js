@@ -150,16 +150,22 @@ export const FormGroup = styled.label`
 
 const Button_ = Label.withComponent('button').extend`
 	font: inherit;
-	transition: box-shadow 200ms linear;
+	transition-property: box-shadow, transform, background;
+	transition-duration: 100ms;
+	transition-timing-function: linear;
 	box-shadow: ${shadow(1)};
 	cursor: pointer;
 
 	&:hover {
+		${({colour = 'sky', shade = 3}) => background({colour, shade: Math.min(6, shade + 1)})}
 		box-shadow: ${shadow(1.5)};
+		transform: translateY(-1px);
 	}
 
 	&:active {
+		transition-property: box-shadow, background;
 		box-shadow: ${shadow(0)};
+		transform: translateY(2px);
 	}
 `;
 
