@@ -11,10 +11,6 @@ export const CardLinks = new Mongo.Collection('card-links');
 
 CardLinks.attachSchema(new SimpleSchema({
 	_id: {type: String, publish: true},
-	symmetrical: {type: Boolean, publish: true},
-	name: {type: String, publish: true},
-	inverse: {type: String, publish: true},
-
 	cards: {
 		type: [String],
 		join: {

@@ -1,13 +1,16 @@
+import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import {Session} from 'meteor/session';
 import _ from 'lodash';
 
 import {buildGraph, distances} from '../src/graph';
-import {Cards, Types} from '../src/collections';
+import {Cards, Types, CardLinks} from '../src/collections';
 
 import Card, {EditCard} from './card';
 import {Grid, Card as CardPrimitive} from './primitives';
+
+import findJoined from '../src/find-joined';
 
 const CardList = ({cards, saveCard, deleteCard}) =>
 	<Grid>
@@ -27,6 +30,12 @@ const CardList = ({cards, saveCard, deleteCard}) =>
 	</Grid>;
 
 const CardListContainer = createContainer(() => {
+	const cards$ = Meteor.subscribe('cards.all');
+	const links$ = Meteor.subscribe('cards.links');
+
+	console.log(CardLinks.find().fetch());
+	console.log(findJoined(CardLinks, {}));
+
 	const selectedCard = Session.get('selectedCard');
 	const cards = Cards.find({}).fetch();
 

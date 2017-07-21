@@ -4,7 +4,7 @@ import {Session} from 'meteor/session';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
 
-import {Cards, Types} from '../src/collections';
+import {Cards, Types, CardLinks} from '../src/collections';
 import preventingDefault from '../src/preventing-default';
 
 import Toggler from './toggler';
@@ -172,15 +172,14 @@ const ShowCardContainer = createContainer(({card}) => {
 		linkTypes: Types.find().fetch(),
 		related,
 		addRelated(related) {
-			Cards.update(card._id, {
-				$push: {related},
+			CardLinks.insert({
+				cards: [card._id, related.card],
+				type: related.type,
 			});
 		},
 
 		removeRelated(related) {
-			Cards.update(card._id, {
-				$pull: {related},
-			});
+			alert('TODO');
 		},
 
 		selectCard(cardToSelect) {

@@ -7,6 +7,10 @@ const findJoined = (collection, ...args) => join(collection, collection.find(...
 publish({
 	cards: {
 		all: () => Cards.find(),
-		links: () => findJoined(CardsLinks)
+		links: () => findJoined(CardLinks)
+	},
+
+	links: {
+		types: () => Types.find(),
 	},
 });
