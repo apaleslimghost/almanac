@@ -1,8 +1,10 @@
+import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import {Session} from 'meteor/session';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
+import findJoined from '../src/find-joined';
 
 import {Cards, Types, CardLinks} from '../src/collections';
 import preventingDefault from '../src/preventing-default';
@@ -80,7 +82,7 @@ const EditCardContainer = createContainer(
 const ShowCard = ({
 	card,
 	linkTypes,
-	related,
+	relatedByType,
 	toggle,
 	addRelated,
 	removeRelated,
@@ -110,26 +112,26 @@ const ShowCard = ({
 
 		{linkTypes.map(
 			type =>
-				related[type._id] &&
+				relatedByType[type._id] &&
 				<div key={type._id}>
 					<Label {...type.colour}>
 						{type.name}
 					</Label>
 
 					<ul>
-						{related[type._id].map(({card, related}) =>
-							<li key={card._id}>
+						{relatedByType[type._id].map(link =>
+							<li key={link.cards[1]._id}>
 								<a
-									href={`#${card._id}`}
-									onClick={() => selectCard(card)}
+									href={`#${link.cards[1]._id}`}
+									onClick={() => selectCard(link.cards[1])}
 								>
-									{card.title}
+									{link.cards[1].title}
 								</a>
 
 								<a
 									href="#"
 									onClick={preventingDefault(() =>
-										removeRelated(related)
+										removeRelated(link)
 									)}
 								>
 									×
@@ -156,21 +158,16 @@ const ShowCard = ({
 	</div>;
 
 const ShowCardContainer = createContainer(({card}) => {
-	const relatedIds = (card.related || []).map(related => related.card);
-	const relatedCards = Cards.find({_id: {$in: relatedIds}}).fetch();
-	const relatedById = _.keyBy(relatedCards, '_id');
-	const relatedByType = _.groupBy(card.related || [], 'type');
+	Meteor.subscribe('cards.links');
+	Meteor.subscribe('links.types');
 
-	const related = _.mapValues(relatedByType, related =>
-		related.map(r => ({
-			related: r,
-			card: relatedById[r.card],
-		}))
-	);
+	const related = findJoined(CardLinks, {
+		'cards.0': card._id,
+	});
 
 	return {
 		linkTypes: Types.find().fetch(),
-		related,
+		relatedByType: _.groupBy(related, 'type._id'),
 		addRelated(related) {
 			CardLinks.insert({
 				cards: [card._id, related.card],
@@ -178,8 +175,8 @@ const ShowCardContainer = createContainer(({card}) => {
 			});
 		},
 
-		removeRelated(related) {
-			alert('TODO');
+		removeRelated({_id}) {
+			CardLinks.remove(_id);
 		},
 
 		selectCard(cardToSelect) {

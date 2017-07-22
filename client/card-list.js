@@ -29,6 +29,8 @@ const CardList = ({cards, saveCard, deleteCard}) =>
 		</CardPrimitive>
 	</Grid>;
 
+//TODO: card columns by link type, sort by distance within column
+
 const CardListContainer = createContainer(() => {
 	const cards$ = Meteor.subscribe('cards.all');
 	const links$ = Meteor.subscribe('cards.links');
