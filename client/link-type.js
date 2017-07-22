@@ -87,6 +87,7 @@ const TypeContainer = createContainer(
 //TODO: think about edit vs filter, ie what is this component
 export const EditTypes = createContainer(
 	() => ({
+		ready: Meteor.subscribe('links.types').ready(),
 		types: Types.find({}).fetch(),
 		addType(type) {
 			Types.insert(type);

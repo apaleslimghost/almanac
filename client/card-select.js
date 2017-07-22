@@ -1,3 +1,4 @@
+import {Meteor} from 'meteor/meteor'
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
@@ -18,6 +19,7 @@ const CardSelect = ({cardsById}) =>
 const CardSelectContainer = createContainer({
 	pure: false,
 	getMeteorData: ({skip = []}) => ({
+		ready: Meteor.subscribe('cards.all').ready(),
 		cardsById: _.keyBy(Cards.find({_id: {$nin: skip}}).fetch(), '_id'),
 	}),
 }, CardSelect);

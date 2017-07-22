@@ -16,11 +16,11 @@ export const distances = (graph, start, visited = {[start]: 0}, depth = 1) => {
 	return visited;
 };
 
-export const buildGraph = cards =>
-	cards.reduce(
-		(graph, card) =>
+export const buildGraph = links =>
+	links.reduce(
+		(graph, {cards: [from, to]}) =>
 			Object.assign(graph, {
-				[card._id]: (card.related || []).map(({card}) => card),
+				[from]: (graph[from] || []).concat(to)
 			}),
 		{}
 	);
