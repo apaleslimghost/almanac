@@ -5,7 +5,21 @@ import {SimpleSchema} from 'meteor/aldeed:simple-schema';
 //TODO: joins
 
 export const Cards = new Mongo.Collection('cards');
+
+Cards.attachSchema(new SimpleSchema({
+	_id: {type: String, publish: true},
+	title: {type: String, publish: true},
+	text: {type: String, publish: true},
+}));
+
 export const Types = new Mongo.Collection('types');
+
+Types.attachSchema(new SimpleSchema({
+	_id: {type: String, publish: true},
+	name: {type: String, publish: true},
+	'colour.colour': {type: String, publish: true},
+	'colour.shade': {type: Number, publish: true},
+}));
 
 export const CardLinks = new Mongo.Collection('card-links');
 
