@@ -1,9 +1,6 @@
 import {Mongo} from 'meteor/mongo';
 import {SimpleSchema} from 'meteor/aldeed:simple-schema';
 
-//TODO: proper subscriptions
-//TODO: joins
-
 export const Cards = new Mongo.Collection('cards');
 
 Cards.attachSchema(new SimpleSchema({
