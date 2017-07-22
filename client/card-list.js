@@ -33,25 +33,22 @@ const CardListContainer = createContainer(() => {
 	const cards$ = Meteor.subscribe('cards.all');
 	const links$ = Meteor.subscribe('cards.links');
 
-	console.log(CardLinks.find().fetch());
-	console.log(findJoined(CardLinks, {}));
 
 	const selectedCard = Session.get('selectedCard');
+	const links = CardLinks.find().fetch();
 	const cards = Cards.find({}).fetch();
 
 	if (selectedCard) {
-		const types = Types.find({}).fetch();
-		const typesById = _.keyBy(types, '_id');
-		const cardsById = _.keyBy(cards, '_id');
+		const linkedToSelected = _.groupBy(findJoined(CardLinks, {
+			'cards.0': selectedCard
+		}), 'cards.1._id');
 
-		const graph = buildGraph(cards);
+		const graph = buildGraph(links);
 		const d = distances(graph, selectedCard);
-
-		const relatedByRelatee = _.groupBy(_.get(cardsById, [selectedCard, 'related'], []), 'card');
 
 		cards.forEach(card => {
 			card.distance = d[card._id];
-			card.relatedTypes = _.map(relatedByRelatee[card._id], ({type}) => typesById[type]);
+			card.relatedTypes = (linkedToSelected[card._id] || []).map(({type}) => type);
 		});
 	}
 
