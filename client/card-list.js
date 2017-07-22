@@ -29,16 +29,12 @@ const CardList = ({cards, saveCard, deleteCard}) =>
 		</CardPrimitive>
 	</Grid>;
 
-//TODO: card columns by link type, sort by distance within column
-
-const CardListContainer = createContainer(() => {
+const CardColumnContainer = createContainer(({type}) => {
 	const cards$ = Meteor.subscribe('cards.all');
 	const links$ = Meteor.subscribe('cards.links');
 
-
 	const selectedCard = Session.get('selectedCard');
-	const links = CardLinks.find().fetch();
-	const cards = Cards.find({}).fetch();
+	const cards = Cards.find().fetch();
 
 	if (selectedCard) {
 		const linkedToSelected = _.groupBy(findJoined(CardLinks, {
@@ -53,6 +49,25 @@ const CardListContainer = createContainer(() => {
 			card.relatedTypes = (linkedToSelected[card._id] || []).map(({type}) => type);
 		});
 	}
+
+});
+
+const CardColumns = ({types}) => <Grid>
+	{types.map(type => <List key={type._id}>
+		<Label large {...type.colour}>{type.name}</Label>
+
+
+	</List>)}
+</Grid>;
+
+//TODO: card columns by link type, sort by distance within column
+
+const CardListContainer = createContainer(() => {
+	const types$ = Meteor.subscribe('links.types');
+
+	const links = CardLinks.find().fetch();
+
+
 
 	return {
 		cards: _.orderBy(cards, ['distance', 'title']),

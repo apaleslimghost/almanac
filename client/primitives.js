@@ -42,6 +42,7 @@ export const List = styled.div`
 	display: flex;
 	align-items: flex-start;
 	flex-wrap: wrap;
+	flex-direction: ${({vertical}) => vertical ? 'column' : 'row'}
 
 	margin: -2px;
 
