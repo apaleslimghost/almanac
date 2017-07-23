@@ -8,25 +8,18 @@ import {buildGraph, distances} from '../src/graph';
 import {Cards, Types, CardLinks} from '../src/collections';
 
 import Card, {EditCard} from './card';
-import {Grid, Card as CardPrimitive} from './primitives';
+import {Grid, Card as CardPrimitive, List, Label} from './primitives';
 
 import findJoined from '../src/find-joined';
 
-const CardList = ({cards, saveCard, deleteCard}) =>
+const CardList = ({cards}) =>
 	<Grid>
-		{cards.map((card, i) =>
+		{cards.map(card =>
 			<Card
 				key={card._id}
 				card={card}
-				saveCard={saveCard}
-				deleteCard={deleteCard}
-				large={i === 0}
 			/>
 		)}
-
-		<CardPrimitive>
-			<EditCard card={{}} saveCard={saveCard} />
-		</CardPrimitive>
 	</Grid>;
 
 const CardColumnContainer = createContainer(({type}) => {
@@ -34,63 +27,65 @@ const CardColumnContainer = createContainer(({type}) => {
 	const links$ = Meteor.subscribe('cards.links');
 
 	const selectedCard = Session.get('selectedCard');
-	const cards = Cards.find().fetch();
 
-	if (selectedCard) {
-		const linkedToSelected = _.groupBy(findJoined(CardLinks, {
-			'cards.0': selectedCard
-		}), 'cards.1._id');
+	const links = findJoined(CardLinks, {
+		type: type._id,
+	});
 
-		const graph = buildGraph(links);
-		const d = distances(graph, selectedCard);
+	const graph = buildGraph(links);
+	const d = distances(graph, selectedCard);
 
-		cards.forEach(card => {
-			card.distance = d[card._id];
-			card.relatedTypes = (linkedToSelected[card._id] || []).map(({type}) => type);
-		});
-	}
+	const cards = links.map(link => link.cards[1]);
 
-});
-
-const CardColumns = ({types}) => <Grid>
-	{types.map(type => <List key={type._id}>
-		<Label large {...type.colour}>{type.name}</Label>
-
-
-	</List>)}
-</Grid>;
-
-//TODO: card columns by link type, sort by distance within column
-
-const CardListContainer = createContainer(() => {
-	const types$ = Meteor.subscribe('links.types');
-
-	const links = CardLinks.find().fetch();
-
-
+	cards.forEach(card => {
+		card.distance = d[card._id] || Infinity;
+	});
 
 	return {
 		cards: _.orderBy(cards, ['distance', 'title']),
 
-		saveCard(card) {
-			if (card._id) {
-				Cards.update(card._id, card);
-			} else {
-				Cards.insert(card);
-			}
-		},
+		addCard(card) {
+			Cards.insert(card, (err, added) => {
+				if(err) return;
 
-		deleteCard(card) {
-			Cards.remove(card._id);
-
-			const relatedCards = Cards.find({related: card._id}).fetch();
-			relatedCards.forEach(related => {
-				Cards.update(related._id, {
-					$pull: {related: card._id},
+				CardLinks.insert({
+					cards: [selectedCard, added],
+					type: type._id,
 				});
 			});
-		},
+		}
 	};
-}, CardList);
+}, ({cards, addCard}) => <List vertical>
+	{cards.map(card => <Card key={card._id} card={card} />)}
+
+	<CardPrimitive>
+		<EditCard card={{}} saveCard={addCard} />
+	</CardPrimitive>
+</List>);
+
+const CardColumns = ({types, selectedCard}) => <Grid>
+	{selectedCard && <Card large card={selectedCard} />}
+
+	{types.map(type => <List key={type._id}>
+		<Label large {...type.colour}>{type.name}</Label>
+		<CardColumnContainer type={type} />
+	</List>)}
+</Grid>;
+
+const CardColumnsContainer = createContainer(() => ({
+	ready: Meteor.subscribe('links.types').ready() && Meteor.subscribe('cards.all').ready(),
+	types: Types.find().fetch(),
+	selectedCard: Cards.findOne(Session.get('selectedCard')),
+}), CardColumns);
+
+//TODO: card columns by link type, sort by distance within column
+
+const CardListContainer = createContainer(() => ({
+	selectedCard: Session.get('selectedCard'),
+	ready: Meteor.subscribe('cards.all').ready(),
+	cards: Cards.find().fetch(),
+}), ({selectedCard, cards}) => selectedCard
+	? <CardColumnsContainer />
+	: <CardList cards={cards} />);
 
 export default CardListContainer;

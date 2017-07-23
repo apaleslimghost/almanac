@@ -72,8 +72,17 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 
 const EditCardContainer = createContainer(
 	() => ({
+		saveCard(card) {
+			if (card._id) {
+				Cards.update(card._id, card);
+			} else {
+				Cards.insert(card);
+			}
+		},
+
 		deleteCard(card) {
 			Cards.remove(card._id);
+
 		},
 	}),
 	EditCard
