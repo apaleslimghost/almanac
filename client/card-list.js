@@ -38,11 +38,11 @@ const CardColumnContainer = createContainer(({type}) => {
 	const cards = links.map(link => link.cards[1]);
 
 	cards.forEach(card => {
-		card.distance = d[card._id] || Infinity;
+		card.distance = d[card._id];
 	});
 
 	return {
-		cards: _.orderBy(cards, ['distance', 'title']),
+		cards: _.orderBy(_.reject(cards, ['distance', undefined]), ['distance', 'title']),
 
 		addCard(card) {
 			Cards.insert(card, (err, added) => {
