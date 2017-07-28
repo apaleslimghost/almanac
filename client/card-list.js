@@ -9,7 +9,7 @@ import {Cards, Types, CardLinks} from '../src/collections';
 import subscribe from '../src/subscribe';
 
 import Card, {EditCard} from './card';
-import {Grid, Card as CardPrimitive, List, Label} from './primitives';
+import {Grid, Card as CardPrimitive, List, Label, LabelBody} from './primitives';
 
 import findJoined from '../src/find-joined';
 
@@ -46,7 +46,7 @@ const CardColumns = ({types, selectedCard, linkedCardsByType, unlinkedCards}) =>
 	{selectedCard && <Card large card={selectedCard} />}
 
 	{types.map(type => <div key={type._id}>
-		<Label large {...type.colour}>{type.name}</Label>
+		<Label large {...type.colour}><LabelBody>{type.name}</LabelBody></Label>
 		<CardColumnContainer type={type} cards={linkedCardsByType[type._id]} />
 	</div>)}
 

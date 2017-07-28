@@ -74,7 +74,7 @@ const EditCardContainer = createContainer(
 	() => ({
 		saveCard(card) {
 			if (card._id) {
-				Cards.update(card._id, card);
+				Cards.update(card._id, {$set: _.omit(card, '_id')});
 			} else {
 				Cards.insert(card);
 			}
