@@ -13,17 +13,7 @@ import {Grid, Card as CardPrimitive, List, Label} from './primitives';
 
 import findJoined from '../src/find-joined';
 
-const CardList = ({cards}) =>
-	<Grid>
-		{cards.map(card =>
-			<Card
-				key={card._id}
-				card={card}
-			/>
-		)}
-	</Grid>;
-
-const CardColumnContainer = createContainer(({type, cards,}) => {
+const CardColumnContainer = createContainer(({type, cards}) => {
 	const selectedCard = Session.get('selectedCard');
 
 	return {
@@ -40,7 +30,7 @@ const CardColumnContainer = createContainer(({type, cards,}) => {
 			});
 		}
 	};
-}, ({cards, addCard}) => <List vertical>
+}, ({cards, addCard}) => <List vertical spaced>
 	{cards.map(card => <Card key={card._id} card={card} />)}
 
 	<CardPrimitive>
@@ -51,12 +41,12 @@ const CardColumnContainer = createContainer(({type, cards,}) => {
 const CardColumns = ({types, selectedCard, linkedCardsByType, unlinkedCards}) => <Grid>
 	{selectedCard && <Card large card={selectedCard} />}
 
-	{types.map(type => <List key={type._id}>
+	{types.map(type => <div key={type._id}>
 		<Label large {...type.colour}>{type.name}</Label>
 		<CardColumnContainer type={type} cards={linkedCardsByType[type._id]} />
-	</List>)}
+	</div>)}
 
-	<CardColumnContainer cards={unlinkedCards} />
+	{unlinkedCards.map(card => <Card key={card._id} card={card} />)}
 </Grid>;
 
 const CardColumnsContainer = createContainer(() => {

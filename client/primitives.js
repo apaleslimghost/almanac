@@ -38,16 +38,17 @@ export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = fal
 	].filter(i => i).join() || 'none'};
 `;
 
-export const List = styled.div`
+export const List = styled.div.attrs({
+	'data-spacing': ({spaced}) => spaced ? '0.5em' : '2px',
+})`
 	display: flex;
-	align-items: flex-start;
+	align-items: ${({vertical}) => vertical ? 'stretch' : 'flex-start'};
 	flex-wrap: wrap;
-	flex-direction: ${({vertical}) => vertical ? 'column' : 'row'}
-
-	margin: -2px;
+	flex-direction: ${({vertical}) => vertical ? 'column' : 'row'};
+	margin: -${({'data-spacing': spacing}) => spacing};
 
 	& > * {
-		margin: 2px;
+		margin: ${({'data-spacing': spacing}) => spacing};
 	}
 `;
 
