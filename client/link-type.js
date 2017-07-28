@@ -38,10 +38,8 @@ ColouredName.contextTypes = fieldLike;
 const EditType = ({type, saveType, toggle, deleteType}) =>
 	<Form
 		initialData={type}
-		onSubmit={data => {
-			saveType(data);
-			if (toggle) toggle();
-		}}
+		onSubmit={saveType}
+		onDidSubmit={toggle}
 	>
 		<ColouredName {...{type, toggle, deleteType}} />
 	</Form>;

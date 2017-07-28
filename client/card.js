@@ -31,10 +31,8 @@ import LabelInput from './label-input';
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
-		onSubmit={data => {
-			saveCard(data);
-			if (toggle) toggle();
-		}}
+		onSubmit={saveCard}
+		onDidSubmit={toggle}
 		initialData={card}
 	>
 		<FormGroup>

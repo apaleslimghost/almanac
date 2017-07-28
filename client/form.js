@@ -94,12 +94,18 @@ export class Form extends Component {
 	onSubmit = ev => {
 		//TODO validation
 		ev.preventDefault();
-		Promise.resolve(this.props.onSubmit(this.state)).then(() => {
-			if (this.mounted) {
-				this.state = this.props.initialData;
-				this.forceUpdate();
-			}
-		});
+		Promise.resolve(this.props.onSubmit(this.state))
+			.then(() => {
+				if (this.mounted) {
+					this.state = this.props.initialData;
+					this.forceUpdate();
+				}
+			})
+			.then(() => {
+				if(this.props.onDidSubmit) {
+					this.props.onDidSubmit(this.state);
+				}
+			});
 	};
 
 	render() {
