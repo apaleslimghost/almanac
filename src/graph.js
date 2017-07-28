@@ -20,7 +20,7 @@ export const buildGraph = links =>
 	links.reduce(
 		(graph, {cards: [from, to]}) =>
 			Object.assign(graph, {
-				[from]: (graph[from] || []).concat(to)
+				[from._id]: (graph[from._id] || []).concat(to._id)
 			}),
 		{}
 	);

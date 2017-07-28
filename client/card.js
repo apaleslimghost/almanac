@@ -117,6 +117,7 @@ const ShowCard = ({
 				{card.title}
 			</a>
 		</h1>
+		<h2>{card.distance}</h2>
 		<Markdown source={card.text || ''} />
 
 		{linkTypes.map(
