@@ -13,6 +13,10 @@ import {Grid, Card as CardPrimitive, List, Label} from './primitives';
 
 import findJoined from '../src/find-joined';
 
+const CardList = ({cards}) => <Grid>
+	{cards.map(card => <Card key={card._id} card={card} />)}
+</Grid>;
+
 const CardColumnContainer = createContainer(({type, cards}) => {
 	const selectedCard = Session.get('selectedCard');
 
@@ -61,6 +65,8 @@ const CardColumnsContainer = createContainer(() => {
 
 	const allLinks = findJoined(CardLinks, {});
 	const linksByType = _.groupBy(allLinks, 'type._id');
+
+	_.unset(unlinkedCards, selectedCard);
 
 	const linkedCardsByType = _.fromPairs(types.map(type => {
 		const links = linksByType[type._id];

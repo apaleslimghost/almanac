@@ -91,10 +91,7 @@ const EditCardContainer = createContainer(
 const ShowCard = ({
 	card,
 	linkTypes,
-	relatedByType,
 	toggle,
-	addRelated,
-	removeRelated,
 	selectCard,
 }) =>
 	<div>
@@ -117,82 +114,15 @@ const ShowCard = ({
 				{card.title}
 			</a>
 		</h1>
+
 		<Markdown source={card.text || ''} />
-
-		{linkTypes.map(
-			type =>
-				relatedByType[type._id] &&
-				<div key={type._id}>
-					<Label {...type.colour}>
-						{type.name}
-					</Label>
-
-					<ul>
-						{relatedByType[type._id].map(link =>
-							<li key={link.cards[1]._id}>
-								<a
-									href={`#${link.cards[1]._id}`}
-									onClick={() => selectCard(link.cards[1])}
-								>
-									{link.cards[1].title}
-								</a>
-
-								<a
-									href="#"
-									onClick={preventingDefault(() =>
-										removeRelated(link)
-									)}
-								>
-									×
-								</a>
-							</li>
-						)}
-					</ul>
-				</div>
-		)}
-
-		<Form onSubmit={addRelated}>
-			<TypeSelect />
-
-			<CardSelect skip={[card._id]} />
-
-			{/* TODO: card creation by adding link? */}
-
-			<Button colour='aqua'>
-				<LabelBody>
-					<Icon icon="ion-link" /> Link
-				</LabelBody>
-			</Button>
-		</Form>
 	</div>;
 
-const ShowCardContainer = createContainer(({card}) => {
-	Meteor.subscribe('cards.links');
-	Meteor.subscribe('links.types');
-
-	const related = findJoined(CardLinks, {
-		'cards.0': card._id,
-	});
-
-	return {
-		linkTypes: Types.find().fetch(),
-		relatedByType: _.groupBy(related, 'type._id'),
-		addRelated(related) {
-			CardLinks.insert({
-				cards: [card._id, related.card],
-				type: related.type,
-			});
-		},
-
-		removeRelated({_id}) {
-			CardLinks.remove(_id);
-		},
-
-		selectCard(cardToSelect) {
-			Session.set('selectedCard', cardToSelect._id);
-		},
-	};
-}, ShowCard);
+const ShowCardContainer = createContainer(({card}) => ({
+	selectCard(cardToSelect) {
+		Session.set('selectedCard', cardToSelect._id);
+	},
+}), ShowCard);
 
 const Card = props =>
 	<CardPrimitive large={props.large}>
