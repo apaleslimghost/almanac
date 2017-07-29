@@ -17,6 +17,8 @@ const CardList = ({cards}) => <Grid>
 	{cards.map(card => <Card key={card._id} card={card} />)}
 </Grid>;
 
+// TODO add card to link type by search
+
 const CardColumnContainer = createContainer(({type, cards}) => {
 	const selectedCard = Session.get('selectedCard');
 

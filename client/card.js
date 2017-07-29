@@ -28,6 +28,7 @@ import LabelInput from './label-input';
 
 //TODO clean up these components
 //TODO card categories?
+//TODO button to move card to top and flip link if symmetric
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
