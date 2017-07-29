@@ -1,32 +1,12 @@
 import React, {Component} from 'react';
 import colours from '@quarterto/colours';
-import styled, {injectGlobal} from 'styled-components';
-import Popover from 'react-popover';
+import styled from 'styled-components';
+import Popover from './popover';
 
-import {etched, LabelButton, Icon, shadow} from './primitives';
+import {etched} from './primitives';
 import {fieldLike} from './form';
-import preventingDefault from '../src/preventing-default';
 
 const hues = Object.keys(colours);
-
-injectGlobal`
-.Popover-body {
-	margin-top: -2px; /* move under the tip triangle */
-	border: 1px solid ${colours.steel[3]};
-	box-shadow: ${shadow(2)};
-	background: white;
-	padding: 3px;
-	border-radius: 2px;
-}
-
-.Popover-tip {
-	border-bottom: 1px solid white; /* cover the bottom stroke of the triangle */
-}
-.Popover-tipShape {
-	stroke: ${colours.steel[3]};
-	fill: white;
-}
-`;
 
 const Chip = styled.a`
 	${etched} width: 1rem;
@@ -45,16 +25,12 @@ const Swatch = styled.div`
 class ColourSelect extends Component {
 	static contextTypes = fieldLike;
 
-	state = {
-		isOpen: false,
-	};
-
 	onSelect = colour => {
 		const {name} = this.props;
 		this.context.setState({
 			[name]: colour,
 		});
-		this.setState({isOpen: false});
+		this.popover.close();
 	};
 
 	row = shade => colour => <Chip
@@ -67,22 +43,14 @@ class ColourSelect extends Component {
 	render() {
 		return (
 			<Popover
-				isOpen={this.state.isOpen}
-				enterExitTransitionDurationMs={0}
-				preferPlace='below'
-				body={
-					<Swatch>
-						{hues.map(this.row(4))}
-						{hues.map(this.row(3))}
-					</Swatch>
-				}
+				colour={this.context.state[this.props.name]}
+				icon='ion-paintbrush'
+				ref={p => this.popover = p}
 			>
-				<LabelButton
-					{...this.context.state[this.props.name]}
-					onClick={preventingDefault(() => this.setState({isOpen: !this.state.isOpen}))}
-				>
-					<Icon icon='ion-paintbrush' />
-				</LabelButton>
+				<Swatch>
+					{hues.map(this.row(4))}
+					{hues.map(this.row(3))}
+				</Swatch>
 			</Popover>
 		);
 	}

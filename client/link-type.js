@@ -32,7 +32,7 @@ const ColouredName = ({type, toggle, deleteType}, {state}) =>
 
 ColouredName.contextTypes = fieldLike;
 
-//TODO: link inverse
+//TODO: link inverse (by marking another type as inverse of this)
 //TODO: links only accepting certain categories?
 
 const EditType = ({type, saveType, toggle, deleteType}) =>

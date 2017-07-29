@@ -16,6 +16,13 @@ Types.attachSchema(new SimpleSchema({
 	name: {type: String, publish: true},
 	'colour.colour': {type: String, publish: true},
 	'colour.shade': {type: Number, publish: true},
+	inverse: {
+		type: String,
+		join: {
+			collection: () => Types,
+		},
+		publish: true,
+	}
 }));
 
 export const CardLinks = new Mongo.Collection('card-links');
