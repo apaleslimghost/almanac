@@ -7,8 +7,6 @@ import Ionicon from 'react-ionicons';
 
 //TODO: bring in Wick typography
 //TODO: split out into a @quarterto/primitives module
-//TODO: icons
-//TODO: buttons
 
 export const background = ({colour = 'sky', shade = 3}) => {
 	const bg = colours[colour][shade];
