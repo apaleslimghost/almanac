@@ -23,7 +23,6 @@ import {
 } from './primitives';
 import {Field, Form, Select} from './form';
 import CardSelect from './card-select';
-import {TypeSelect} from './link-type';
 import LabelInput from './label-input';
 
 //TODO clean up these components

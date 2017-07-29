@@ -3,12 +3,14 @@ import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import styled from 'styled-components';
 import colours from '@quarterto/colours';
+import _ from 'lodash';
 
 import {Types, Cards} from '../src/collections';
 import {getSelectValue} from './form';
 
 import {Form, fieldLike, Select} from './form';
 import ColourSelect from './colour-select';
+import TypeSelect from './type-select';
 import {List, Label, LabelTitle, LabelButton, LabelBody, Button, Icon, Padded} from './primitives';
 import LabelInput from './label-input';
 import Toggler from './toggler';
@@ -17,6 +19,7 @@ import preventingDefault from '../src/preventing-default';
 const ColouredName = ({type, toggle, deleteType}, {state}) =>
 	<LabelInput {...state.colour} placeholder='Link type' name="name" type="text">
 		<ColourSelect name="colour" />
+		<TypeSelect name="inverse" />
 		{type && <LabelButton {...state.colour} onClick={preventingDefault(() => deleteType(type))}>
 			<Icon icon='ion-trash-a' />
 		</LabelButton>}
@@ -33,6 +36,7 @@ const ColouredName = ({type, toggle, deleteType}, {state}) =>
 ColouredName.contextTypes = fieldLike;
 
 //TODO: link inverse (by marking another type as inverse of this)
+//TODO: set inverse inverse, ensure only one invers
 //TODO: links only accepting certain categories?
 
 const EditType = ({type, saveType, toggle, deleteType}) =>
@@ -55,7 +59,7 @@ const ShowType = ({type, toggle}) =>
 const TypeContainer = createContainer(
 	() => ({
 		updateType(type) {
-			Types.update(type._id, type);
+			Types.update(type._id, {$set: _.omit(type, '_id')});
 		},
 
 		deleteType(type) {
@@ -101,21 +105,21 @@ export const EditTypes = createContainer(
 		</Padded>
 );
 
-export const TypeSelect = createContainer(
-	{
-		pure: false,
-		getMeteorData: () => ({
-			types: Types.find({}).fetch(),
-		}),
-	},
-	({types}) =>
-		<Select name="type">
-			<option disabled value="" />
-
-			{types.map(type =>
-				<option value={type._id} key={type._id}>
-					{type.name}
-				</option>
-			)}
-		</Select>
-);
+// export const TypeSelect = createContainer(
+// 	{
+// 		pure: false,
+// 		getMeteorData: () => ({
+// 			types: Types.find({}).fetch(),
+// 		}),
+// 	},
+// 	({types}) =>
+// 		<Select name="type">
+// 			<option disabled value="" />
+//
+// 			{types.map(type =>
+// 				<option value={type._id} key={type._id}>
+// 					{type.name}
+// 				</option>
+// 			)}
+// 		</Select>
+// );
