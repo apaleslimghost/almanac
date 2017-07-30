@@ -1,12 +1,14 @@
+import {Meteor} from 'meteor/meteor';
 import {Mongo} from 'meteor/mongo';
 import {SimpleSchema} from 'meteor/aldeed:simple-schema';
+import findJoined from './find-joined';
 
 export const Cards = new Mongo.Collection('cards');
 
 Cards.attachSchema(new SimpleSchema({
 	_id: {type: String, publish: true},
 	title: {type: String, publish: true},
-	text: {type: String, publish: true},
+	text: {type: String, publish: true, optional: true},
 }));
 
 export const Types = new Mongo.Collection('types');
@@ -22,6 +24,7 @@ Types.attachSchema(new SimpleSchema({
 			collection: () => Types,
 		},
 		publish: true,
+		optional: true,
 	}
 }));
 
@@ -47,3 +50,15 @@ CardLinks.attachSchema(new SimpleSchema({
 		publish: true,
 	},
 }));
+
+if(Meteor.isClient) {
+	window.collections = exports;
+	window.showCollection = (...args) => console.table(findJoined(...args));
+	window.showCollections = (selector) =>
+		Object.keys(collections)
+			.filter(k => collections[k] instanceof Mongo.Collection)
+			.forEach(k => {
+				console.log(k);
+				showCollection(collections[k], selector);
+			});
+}

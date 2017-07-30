@@ -36,8 +36,10 @@ const ColouredName = ({type, toggle, deleteType}, {state}) =>
 ColouredName.contextTypes = fieldLike;
 
 //TODO: link inverse (by marking another type as inverse of this)
-//TODO: set inverse inverse, ensure only one invers
+//TODO: set inverse inverse, ensure only one inverse
 //TODO: links only accepting certain categories?
+//TODO: single edit toggle
+//TODO: click type to sort to top
 
 const EditType = ({type, saveType, toggle, deleteType}) =>
 	<Form
@@ -59,7 +61,14 @@ const ShowType = ({type, toggle}) =>
 const TypeContainer = createContainer(
 	() => ({
 		updateType(type) {
-			Types.update(type._id, {$set: _.omit(type, '_id')});
+			if(type.inverse) {
+				Meteor.call('links.fixInverse', {type}, doUpdate);
+			} else doUpdate();
+
+			function doUpdate(err) {
+				if(err) return console.error(err);
+				Types.update(type._id, {$set: _.omit(type, '_id')});
+			}
 		},
 
 		deleteType(type) {

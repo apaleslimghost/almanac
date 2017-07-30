@@ -1,6 +1,7 @@
+import {Meteor} from 'meteor/meteor';
 import utils from 'meteor/utilities:smart-publications';
 
-export default function findJoined(collection, selector) {
+function findJoined(collection, selector = {}) {
 	const joins = collection.getJoins();
 	const cursor = collection.find(selector);
 
@@ -20,3 +21,9 @@ export default function findJoined(collection, selector) {
 		return document;
 	});
 };
+
+export default findJoined;
+
+if(Meteor.isClient) {
+	window.findJoined = findJoined;
+}
