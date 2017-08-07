@@ -61,7 +61,7 @@ const CardColumnContainer = createContainer(({type, cards}) => {
 </List>);
 
 const CardColumns = ({types, selectedCard, linkedCardsByType, unlinkedCards}) => <Grid>
-	{selectedCard && <Card large card={selectedCard} />}
+	{selectedCard && <Card key={selectedCard._id} large card={selectedCard} />}
 
 	{types.map(type => <div key={type._id}>
 		<Label large {...type.colour}><LabelBody>{type.name}</LabelBody></Label>
@@ -92,6 +92,7 @@ const CardColumnsContainer = createContainer(() => {
 	const linkedCardsByType = _.fromPairs(types.map(type => {
 		const links = linksByType[type._id];
 		let cards = [];
+		let seenCards = new Set();
 
 		if(links) {
 			const graph = buildGraph(links);
@@ -100,8 +101,9 @@ const CardColumnsContainer = createContainer(() => {
 			cards = links.reduce((cards, {cards: [, card]}) => {
 				card.distance = d[card._id];
 
-				if(card.distance) {
+				if(card.distance && !seenCards.has(card._id)) {
 					_.unset(unlinkedCards, card._id);
+					seenCards.add(card._id);
 					return cards.concat(card);
 				}
 
