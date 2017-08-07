@@ -27,7 +27,6 @@ import LabelInput from './label-input';
 
 //TODO clean up these components
 //TODO card categories?
-//TODO button to move card to top and flip link if symmetric
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
@@ -88,6 +87,7 @@ const EditCardContainer = createContainer(
 
 const ShowCard = ({
 	card,
+	linkedType,
 	linkTypes,
 	toggle,
 	selectCard,
@@ -101,7 +101,7 @@ const ShowCard = ({
 				</LabelBody>
 			</Button>}
 
-			{card && <Button onClick={selectAndFlip}>
+			{card && linkedType && <Button onClick={selectAndFlip}>
 				<LabelBody>
 					<Icon icon='ion-arrow-swap' />
 				</LabelBody>
@@ -119,14 +119,16 @@ const ShowCard = ({
 		</article>
 	</div>;
 
-const ShowCardContainer = createContainer(({card}) => ({
+const ShowCardContainer = createContainer(({card, linkedType}) => ({
 	selectCard() {
 		Session.set('selectedCard', card._id);
 	},
 
 	selectAndFlip() {
 		Session.set('selectedCard', card._id);
-		//TODO: once we have link type sorting, flip the link if it has an inverse
+		if(linkedType.inverse) {
+			Session.set('selectedType', linkedType.inverse);
+		}
 	}
 }), ShowCard);
 

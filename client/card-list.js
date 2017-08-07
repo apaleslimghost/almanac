@@ -7,6 +7,7 @@ import _ from 'lodash';
 import {buildGraph, distances} from '../src/graph';
 import {Cards, Types, CardLinks} from '../src/collections';
 import subscribe from '../src/subscribe';
+import idFirst from '../src/id-first';
 
 import Card, {EditCard} from './card';
 import {Grid, Card as CardPrimitive, List, Label, LabelBody} from './primitives';
@@ -36,8 +37,8 @@ const CardColumnContainer = createContainer(({type, cards}) => {
 			});
 		}
 	};
-}, ({cards, addCard}) => <List vertical spaced>
-	{cards.map(card => <Card key={card._id} card={card} />)}
+}, ({cards, addCard, type}) => <List vertical spaced>
+	{cards.map(card => <Card key={card._id} card={card} linkedType={type} />)}
 
 	<CardPrimitive>
 		<EditCard card={{}} saveCard={addCard} />
@@ -58,7 +59,10 @@ const CardColumns = ({types, selectedCard, linkedCardsByType, unlinkedCards}) =>
 const CardColumnsContainer = createContainer(() => {
 	const ready = subscribe('links.types', 'cards.all', 'cards.links');
 
-	const types = Types.find().fetch();
+	const types = idFirst(
+		Types.find().fetch(),
+		Session.get('selectedType')
+	);
 
 	const allCards = Cards.find().fetch();
 	const unlinkedCards = _.keyBy(allCards, '_id');

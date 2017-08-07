@@ -15,6 +15,8 @@ import {List, Label, LabelTitle, LabelButton, LabelBody, Button, Icon, Padded} f
 import LabelInput from './label-input';
 import Toggler from './toggler';
 import preventingDefault from '../src/preventing-default';
+import subscribe from '../src/subscribe';
+import idFirst from '../src/id-first';
 
 const ColouredName = ({type, toggle, deleteType}, {state}) =>
 	<LabelInput {...state.colour} placeholder='Link type' name="name" type="text">
@@ -37,7 +39,6 @@ ColouredName.contextTypes = fieldLike;
 
 //TODO: links only accepting certain categories?
 //TODO: single edit toggle
-//TODO: click type to sort to top
 
 const EditType = ({type, saveType, toggle, deleteType}) =>
 	<Form
@@ -48,9 +49,9 @@ const EditType = ({type, saveType, toggle, deleteType}) =>
 		<ColouredName {...{type, toggle, deleteType}} />
 	</Form>;
 
-const ShowType = ({type, toggle}) =>
+const ShowType = ({type, toggle, selectType}) =>
 	<Label {...type.colour} large>
-		<LabelBody>{type.name}</LabelBody>
+		<LabelButton {...type.colour} onClick={() => selectType(type)}>{type.name}</LabelButton>
 		<LabelButton {...type.colour} onClick={toggle}>
 			<Icon icon='ion-edit' />
 		</LabelButton>
@@ -82,6 +83,10 @@ const TypeContainer = createContainer(
 				});
 			}
 		},
+
+		selectType(type) {
+			Session.set('selectedType', type._id);
+		},
 	}),
 	props =>
 		<Toggler
@@ -89,14 +94,16 @@ const TypeContainer = createContainer(
 			inactive={ShowType}
 			{...props}
 			saveType={props.updateType}
-			deleteType={props.deleteType}
 		/>
 );
 
 export const EditTypes = createContainer(
 	() => ({
-		ready: Meteor.subscribe('links.types').ready(),
-		types: Types.find({}).fetch(),
+		ready: subscribe('links.types'),
+		types: idFirst(
+			Types.find({}).fetch(),
+			Session.get('selectedType')
+		),
 		addType(type) {
 			Types.insert(type);
 		},
