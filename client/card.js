@@ -91,35 +91,43 @@ const ShowCard = ({
 	linkTypes,
 	toggle,
 	selectCard,
+	selectAndFlip,
 }) =>
 	<div>
-		{card.relatedTypes &&
-			<List>
-				{card.relatedTypes.map(type =>
-					<Label key={type._id} {...type.colour}>
-						{type.name}
-					</Label>
-				)}
-			</List>}
+		<List>
+			{toggle && <Button onClick={toggle}>
+				<LabelBody>
+					<Icon icon='ion-edit' />
+				</LabelBody>
+			</Button>}
 
-		{toggle && <Button onClick={toggle}>
-			<LabelBody>
-				<Icon icon='ion-edit' />
-			</LabelBody>
-		</Button>}
-		<h1>
-			<a href={`#${card._id}`} onClick={() => selectCard(card)}>
-				{card.title}
-			</a>
-		</h1>
+			{card && <Button onClick={selectAndFlip}>
+				<LabelBody>
+					<Icon icon='ion-arrow-swap' />
+				</LabelBody>
+			</Button>}
+		</List>
 
-		<Markdown source={card.text || ''} />
+		<article>
+			<h1>
+				<a href={`#${card._id}`} onClick={selectCard}>
+					{card.title}
+				</a>
+			</h1>
+
+			<Markdown source={card.text || ''} />
+		</article>
 	</div>;
 
 const ShowCardContainer = createContainer(({card}) => ({
-	selectCard(cardToSelect) {
-		Session.set('selectedCard', cardToSelect._id);
+	selectCard() {
+		Session.set('selectedCard', card._id);
 	},
+
+	selectAndFlip() {
+		Session.set('selectedCard', card._id);
+		//TODO: once we have link type sorting, flip the link if it has an inverse
+	}
 }), ShowCard);
 
 const Card = props =>

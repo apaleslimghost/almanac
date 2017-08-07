@@ -102,8 +102,6 @@ const CardColumnsContainer = createContainer(() => {
 	};
 }, CardColumns);
 
-//TODO: card columns by link type, sort by distance within column
-
 const CardListContainer = createContainer(() => ({
 	selectedCard: Session.get('selectedCard'),
 	ready: Meteor.subscribe('cards.all').ready(),

@@ -32,7 +32,6 @@ injectGlobal`
 `;
 
 //TODO: card search
-//TODO: card filtering by link type
 //TODO: integrate Menagerie (monsters & spells, with JSON import/export)
 //TODO: sidebar
 

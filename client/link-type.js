@@ -35,8 +35,6 @@ const ColouredName = ({type, toggle, deleteType}, {state}) =>
 
 ColouredName.contextTypes = fieldLike;
 
-//TODO: link inverse (by marking another type as inverse of this)
-//TODO: set inverse inverse, ensure only one inverse
 //TODO: links only accepting certain categories?
 //TODO: single edit toggle
 //TODO: click type to sort to top
@@ -95,7 +93,6 @@ const TypeContainer = createContainer(
 		/>
 );
 
-//TODO: think about edit vs filter, ie what is this component
 export const EditTypes = createContainer(
 	() => ({
 		ready: Meteor.subscribe('links.types').ready(),
