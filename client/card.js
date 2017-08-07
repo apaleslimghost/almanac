@@ -27,6 +27,7 @@ import LabelInput from './label-input';
 
 //TODO clean up these components
 //TODO card categories?
+//TODO does linking a card add the inverse link
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form

@@ -1,24 +1,32 @@
 import {Meteor} from 'meteor/meteor';
 import utils from 'meteor/utilities:smart-publications';
 
+const onlyIfOne = a => a.length === 1 ? a[0] : a;
+
 function findJoined(collection, selector = {}) {
 	const joins = collection.getJoins();
 	const cursor = collection.find(selector);
 
-	return cursor.map(document => {
+	return cursor.map(doc => {
 		joins.forEach(join => {
 			const joinCollection = join.collection();
-			const ids = document[join.localProperty];
+			const ids = doc[join.localProperty];
 
-			document[join.localProperty] = Array.isArray(ids)
-				? joinCollection.find(
-					{_id: {$in: ids}},
-					{limit: join.limit, fields: utils.arrayToFields(join.fields || [])}
-				).fetch()
-				: joinCollection.findOne(ids);
+			doc[join.localProperty] = onlyIfOne(
+				[].concat(ids)
+				.map(id =>
+					joinCollection
+						.findOne(
+							id, {
+								fields: utils.arrayToFields(join.fields || [])
+							}
+						)
+				)
+				.slice(0, join.limit || Infinity)
+			);
 		});
 
-		return document;
+		return doc;
 	});
 };
 

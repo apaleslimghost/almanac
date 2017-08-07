@@ -33,6 +33,13 @@ const CardColumnContainer = createContainer(({type, cards}) => {
 						cards: [selectedCard, added],
 						type: type._id,
 					});
+
+					if(type.inverse) {
+						CardLinks.insert({
+							cards: [added, selectedCard],
+							type: type.inverse,
+						});
+					}
 				}
 			});
 		}
