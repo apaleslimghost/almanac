@@ -14,9 +14,17 @@ import {Grid, Card as CardPrimitive, List, Label, LabelBody} from './primitives'
 
 import findJoined from '../src/find-joined';
 
-const CardList = ({cards}) => <Grid>
+const CardList = createContainer(() => ({
+	addCard(card) {
+		Cards.insert(card);
+	}
+}), ({cards, addCard}) => <Grid>
 	{cards.map(card => <Card key={card._id} card={card} />)}
-</Grid>;
+
+	<CardPrimitive>
+		<EditCard card={{}} saveCard={addCard} />
+	</CardPrimitive>
+</Grid>);
 
 // TODO add card to link type by search
 
