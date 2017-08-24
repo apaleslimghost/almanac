@@ -6,7 +6,6 @@ import {steel, sky} from '@quarterto/colours';
 import {rgba} from 'polished';
 
 import CardList from './card-list';
-import {EditTypes} from './link-type';
 
 injectGlobal`
 	* { box-sizing: border-box; }
@@ -34,9 +33,12 @@ injectGlobal`
 //TODO: card search
 //TODO: integrate Menagerie (monsters & spells, with JSON import/export)
 //TODO: sidebar
+//TODO: time and location as a first class concept
+//TODO: remove links
+//TODO: reinstate metadata
+//TODO: search by metadata
 
 const App = () => <div>
-	<EditTypes />
 	<CardList />
 </div>
 

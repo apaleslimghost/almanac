@@ -20,4 +20,3 @@ react-meteor-data
 dynamic-import@0.1.1
 session@1.1.7
 insecure
-utilities:smart-publications

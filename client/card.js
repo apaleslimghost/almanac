@@ -1,12 +1,10 @@
 import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
-import {Session} from 'meteor/session';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
-import findJoined from '../src/find-joined';
 
-import {Cards, Types, CardLinks} from '../src/collections';
+import {Cards} from '../src/collections';
 import preventingDefault from '../src/preventing-default';
 
 import Toggler from './toggler';
@@ -79,7 +77,6 @@ const EditCardContainer = createContainer(
 
 		deleteCard(card) {
 			Cards.remove(card._id);
-
 		},
 	}),
 	EditCard
@@ -87,11 +84,7 @@ const EditCardContainer = createContainer(
 
 const ShowCard = ({
 	card,
-	linkedType,
-	linkTypes,
 	toggle,
-	selectCard,
-	selectAndFlip,
 }) =>
 	<div>
 		<List>
@@ -100,43 +93,20 @@ const ShowCard = ({
 					<Icon icon='ion-edit' />
 				</LabelBody>
 			</Button>}
-
-			{card && linkedType && <Button onClick={selectAndFlip}>
-				<LabelBody>
-					<Icon icon='ion-arrow-swap' />
-				</LabelBody>
-			</Button>}
 		</List>
 
 		<article>
-			<h1>
-				<a href={`#${card._id}`} onClick={selectCard}>
-					{card.title}
-				</a>
-			</h1>
+			<h1>{card.title}</h1>
 
 			<Markdown source={card.text || ''} />
 		</article>
 	</div>;
 
-const ShowCardContainer = createContainer(({card, linkedType}) => ({
-	selectCard() {
-		Session.set('selectedCard', card._id);
-	},
-
-	selectAndFlip() {
-		Session.set('selectedCard', card._id);
-		if(linkedType.inverse) {
-			Session.set('selectedType', linkedType.inverse);
-		}
-	}
-}), ShowCard);
-
 const Card = props =>
 	<CardPrimitive large={props.large}>
 		<Toggler
 			active={EditCardContainer}
-			inactive={ShowCardContainer}
+			inactive={ShowCard}
 			{...props}
 		/>
 	</CardPrimitive>;
