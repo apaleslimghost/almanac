@@ -41,13 +41,6 @@ const CardColumnContainer = createContainer(({type, cards}) => {
 						cards: [selectedCard, added],
 						type: type._id,
 					});
-
-					if(type.inverse) {
-						CardLinks.insert({
-							cards: [added, selectedCard],
-							type: type.inverse,
-						});
-					}
 				}
 			});
 		}
@@ -71,6 +64,8 @@ const CardColumns = ({types, selectedCard, linkedCardsByType, unlinkedCards}) =>
 	{unlinkedCards.map(card => <Card key={card._id} card={card} />)}
 </Grid>;
 
+//TODO don't add inverse link at link creation, do the lookup by inverse here
+
 const CardColumnsContainer = createContainer(() => {
 	const ready = subscribe('links.types', 'cards.all', 'cards.links');
 
@@ -86,15 +81,18 @@ const CardColumnsContainer = createContainer(() => {
 
 	const allLinks = findJoined(CardLinks, {});
 	const linksByType = _.groupBy(allLinks, 'type._id');
+	const linksByInverse = _.groupBy(allLinks, 'type.inverse');
 
 	_.unset(unlinkedCards, selectedCard);
 
 	const linkedCardsByType = _.fromPairs(types.map(type => {
 		const links = linksByType[type._id];
+		const inverses = linksByInverse[type._id];
+
 		let cards = [];
 		let seenCards = new Set();
 
-		if(links) {
+		[links, inverses].filter(Boolean).forEach(links => {
 			const graph = buildGraph(links);
 			const d = distances(graph, selectedCard);
 
@@ -109,7 +107,7 @@ const CardColumnsContainer = createContainer(() => {
 
 				return cards;
 			}, []);
-		}
+		});
 
 		return [type._id, cards];
 	}));

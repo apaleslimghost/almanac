@@ -26,5 +26,5 @@ Meteor.methods({
 
 	'links.nukeInversesDevOnly'() {
 		Types.update({inverse: {$exists: true}}, {$unset: {inverse: ''}}, {multi: true});
-	}
+	},
 });

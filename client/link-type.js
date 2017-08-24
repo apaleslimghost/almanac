@@ -74,7 +74,7 @@ const TypeContainer = createContainer(
 			if(confirm(`
 				Are you sure? This will remove ${type.name} and all ${type.name} links.
 			`.trim())) {
-				Meteor.call('links.removeOfType', {type: type._id}, err => {
+				Meteor.call('links.removeOfType', {type}, err => {
 					if(err) {
 						console.error(err);
 					} else {
