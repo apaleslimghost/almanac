@@ -7,6 +7,8 @@ import {rgba} from 'polished';
 
 import CardList from './card-list';
 
+import DatePicker from './date-picker';
+
 injectGlobal`
 	* { box-sizing: border-box; }
 
@@ -34,11 +36,11 @@ injectGlobal`
 //TODO: integrate Menagerie (monsters & spells, with JSON import/export)
 //TODO: sidebar
 //TODO: time and location as a first class concept
-//TODO: remove links
 //TODO: reinstate metadata
 //TODO: search by metadata
 
 const App = () => <div>
+	<DatePicker />
 	<CardList />
 </div>
 

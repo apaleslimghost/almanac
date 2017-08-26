@@ -27,7 +27,7 @@ class ColourSelect extends Component {
 
 	onSelect = colour => {
 		const {name} = this.props;
-		this.context.setState({
+		this.context.setFields({
 			[name]: colour,
 		});
 		this.popover.close();
@@ -43,7 +43,7 @@ class ColourSelect extends Component {
 	render() {
 		return (
 			<Popover
-				colour={this.context.state[this.props.name]}
+				colour={this.context.fields[this.props.name]}
 				icon='ion-paintbrush'
 				ref={p => this.popover = p}
 			>

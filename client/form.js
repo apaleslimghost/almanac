@@ -23,13 +23,13 @@ export const Field = (
 		name={name}
 		type="text"
 		{...props}
-		value={context.state[name] || ''}
+		value={name in context.fields ? context.fields[name] : ''}
 		onChange={ev => {
 			if (props.onChange) {
 				props.onChange(ev);
 			}
 
-			context.setState({
+			context.setFields({
 				[name]: getInputValue(ev.target),
 			});
 		}}
@@ -38,9 +38,9 @@ export const Field = (
 export const Select = (props, context) => {
 	return <select
 		{...props}
-		value={context.state[props.name] || ''}
+		value={context.fields[props.name] || ''}
 		onChange={ev => {
-			context.setState({
+			context.setFields({
 				[props.name]: getSelectValue(ev.target),
 			});
 		}}
@@ -50,13 +50,34 @@ export const Select = (props, context) => {
 }
 
 export class Form extends Component {
-	state = this.props.initialData;
-	setState = this.setState.bind(this);
+	state = {
+		fields: this.props.initialData
+	};
+
+	setFields = (f) => {
+		this.setState({
+			fields: Object.assign(this.fields, f),
+		}, () => {
+			if (this.context.setFields && this.props.name) {
+				this.context.setFields({
+					[this.props.name]: this.fields,
+				});
+			}
+
+			if (this.props.onChange) {
+				this.props.onChange(this.fields);
+			}
+		});
+	}
+
+	get fields() {
+		return this.state.fields;
+	}
 
 	static get childContextTypes() {
 		return {
-			state: PropTypes.object,
-			setState: PropTypes.func,
+			fields: PropTypes.object,
+			setFields: PropTypes.func,
 		};
 	}
 
@@ -66,14 +87,6 @@ export class Form extends Component {
 			onSubmit() {},
 			tagName: 'form',
 		};
-	}
-
-	componentWillUpdate(props, state) {
-		if (this.context.setState && props.name) {
-			this.context.setState({
-				[props.name]: state,
-			});
-		}
 	}
 
 	componentDidMount() {
@@ -86,24 +99,25 @@ export class Form extends Component {
 
 	getChildContext() {
 		return {
-			state: this.state,
-			setState: this.setState,
+			fields: this.fields,
+			setFields: this.setFields,
 		};
 	}
 
 	onSubmit = ev => {
 		//TODO validation
 		ev.preventDefault();
-		Promise.resolve(this.props.onSubmit(this.state))
+		Promise.resolve(this.props.onSubmit(this.fields))
 			.then(() => {
 				if (this.mounted) {
-					this.state = this.props.initialData;
-					this.forceUpdate();
+					this.setState({
+						fields: this.props.initialData
+					});
 				}
 			})
 			.then(() => {
 				if(this.props.onDidSubmit) {
-					this.props.onDidSubmit(this.state);
+					this.props.onDidSubmit(this.fields);
 				}
 			});
 	};
@@ -118,8 +132,8 @@ export class Form extends Component {
 }
 
 export const fieldLike = {
-	state: PropTypes.object,
-	setState: PropTypes.func,
+	fields: PropTypes.object,
+	setFields: PropTypes.func,
 };
 
 Field.contextTypes = Select.contextTypes = Form.contextTypes = fieldLike;
