@@ -8,7 +8,7 @@ const ageYearMaxValues = OdreianDate.ages
 .slice(1)
 .map((age, i) =>
 	(new OdreianDate(OdreianDate.ageEpochs[age])).year[0].year
-).concat(1000);
+).concat(999);
 
 const ageYearMaxes = _.zipObject(
 	_.values(OdreianDate.ageAbbreviations),
