@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "next"
+    "start": "meteor"
   },
   "repository": {
     "type": "git",
@@ -39,7 +39,6 @@
     "lodash.reject": "^4.6.0",
     "lodash.size": "^4.2.0",
     "lodash.values": "^4.3.0",
-    "next": "^2.0.0",
     "node-fetch": "^1.6.3",
     "odreian-date": "^1.1.0",
     "pluralize": "^3.1.0",
