@@ -72,7 +72,7 @@ margin-top: 1em;
 
 const WeatherCondition = ({temperature, humidity}) => {
 	const condition = weatherCondition({temperature, humidity});
-	return <img src={`/static/weather/${condition}.png`} alt={condition} />;
+	return <img src={`/weather/${condition}.png`} alt={condition} />;
 }
 
 const Weather = observe((props, {subscribe}) => {
