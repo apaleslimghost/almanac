@@ -1,5 +1,4 @@
 import createStore from 'enviante';
-import localStore from '@quarterto/enviante-localstorage';
 import jsonbinStore from './jsonbin';
 import createObserve from 'enviante-react';
 
@@ -21,7 +20,6 @@ const state = {
 
 const stateStores = key => [
 	jsonbinStore(remotePath(key), key, state[key]),
-	process.browser && localStore(key, key, state[key]),
 ].map(e => e && e(connect));
 
 const connect = createStore(state, {noRemote: true, noLocal: true});

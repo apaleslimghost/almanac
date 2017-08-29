@@ -18,15 +18,15 @@
   },
   "homepage": "https://github.com/quarterto/Almanac#readme",
   "dependencies": {
-    "@quarterto/enviante-localstorage": "^1.14.0",
     "@quarterto/form-json": "^1.0.0",
     "@quarterto/get-path": "^1.1.0",
     "@quarterto/insert-array-index": "^1.0.0",
-    "@quarterto/promise-guard": "^1.0.0",
+    "@quarterto/promise-guard": "^1.1.0",
     "@quarterto/react-form": "^1.7.0",
     "@quarterto/remove-array-index": "^1.0.0",
     "@quarterto/short-id": "^1.0.0",
     "@quarterto/update-path": "^1.5.0",
+    "babel-runtime": "^6.26.0",
     "enviante": "^4.2.1",
     "enviante-react": "^2.0.0",
     "fetch-ponyfill": "^4.0.0",
@@ -40,11 +40,12 @@
     "lodash.size": "^4.2.0",
     "lodash.values": "^4.3.0",
     "node-fetch": "^1.6.3",
-    "odreian-date": "^1.1.0",
+    "odreian-date": "^2.1.3",
     "pluralize": "^3.1.0",
     "ponyfetch": "^1.0.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-mounter": "^1.2.0",
     "styled-components": "^1.4.3"
   }
 }

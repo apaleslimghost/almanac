@@ -1,7 +1,16 @@
+import React from 'react';
 import styleSheet from 'styled-components/lib/models/StyleSheet';
 import {injectGlobal} from 'styled-components'
 import {background} from '../src/colors';
-import {FlowRouter} from 'meteor/kadira:flow-router';
+import {route} from '../src/router';
+import {mount} from 'react-mounter';
+
+const App = ({content}) => <main>
+	{content}
+</main>
+
+import Home from './home';
+import Control from './control';
 
 injectGlobal`
 body {
@@ -18,4 +27,20 @@ body {
 }
 `;
 
-console.log(FlowRouter);
+route('/', {
+	name: 'Home',
+	action() {
+		mount(App, {
+			content: <Home />
+		});
+	}
+});
+
+route('/control', {
+	name: 'Control',
+	action() {
+		mount(App, {
+			content: <Control />
+		});
+	}
+});
