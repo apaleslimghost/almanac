@@ -4,8 +4,6 @@ import values from 'lodash.values';
 import map from 'lodash.map';
 import orderBy from 'lodash.orderby';
 import formJson from '@quarterto/form-json';
-import shortId from '@quarterto/short-id';
-import {observe} from '../store';
 import {H1, H2} from './heading';
 import Ornamented from './ornamented';
 import {createContainer} from 'meteor/react-meteor-data';

@@ -1,7 +1,6 @@
 import React from 'react';
 import OdreianDate from 'odreian-date'
 import styled, {css} from 'styled-components';
-import {observe} from '../store';
 import {H1, H2, H3} from './heading';
 import withState from './state';
 import SyncedSession from 'meteor/quarterto:synced-session';

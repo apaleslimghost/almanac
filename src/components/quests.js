@@ -1,5 +1,4 @@
 import React from 'react';
-import {observe} from '../store';
 import formJson from '@quarterto/form-json';
 import {H3, H4} from './heading';
 import groupBy from 'lodash.groupby';

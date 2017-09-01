@@ -27,8 +27,6 @@
     "@quarterto/short-id": "^1.0.0",
     "@quarterto/update-path": "^1.5.0",
     "babel-runtime": "^6.26.0",
-    "enviante": "^4.2.1",
-    "enviante-react": "^2.0.0",
     "fetch-ponyfill": "^4.0.0",
     "lodash.filter": "^4.6.0",
     "lodash.groupby": "^4.6.0",

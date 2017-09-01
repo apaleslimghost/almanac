@@ -1,5 +1,4 @@
 import React from 'react';
-import {observe} from '../store';
 import withState from './state';
 import styled from 'styled-components';
 import OdreianDate from 'odreian-date';

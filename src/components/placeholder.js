@@ -1,6 +1,5 @@
 import React from 'react';
 import * as components from './';
-import {observe} from '../store';
 import updatePath from '@quarterto/update-path';
 
 import {createContainer} from 'meteor/react-meteor-data';
