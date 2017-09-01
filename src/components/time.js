@@ -4,8 +4,14 @@ import styled, {css} from 'styled-components';
 import {observe} from '../store';
 import {H1, H2, H3} from './heading';
 import withState from './state';
+import SyncedSession from 'meteor/quarterto:synced-session';
+import {createContainer} from 'meteor/react-meteor-data';
 
 import Ornamented, {bordered} from './ornamented';
+
+if(!SyncedSession.get('date')) {
+	SyncedSession.set('date', 0);
+}
 
 const TimeOfDay = styled(H1)`
 margin: -0.2em 0 0 -0.15em;
@@ -67,14 +73,16 @@ const OrnamentedMonth = ({date}) => <Ornamented ornament={ornaments[date.monthIn
 	</Compact>
 </Ornamented>;
 
-const Time = observe((props, {subscribe}) => {
-	const date = new OdreianDate(subscribe('date'));
-	return <DateGroup>
+const Time = createContainer(() => ({
+	date: new OdreianDate(SyncedSession.get('date'))
+}),
+({date}) =>
+	<DateGroup>
 		<OrnamentedMonth date={date} />
 		<TimeOfDay>{date.format`${'h'}:${'mm'}`}<small>{date.a}</small></TimeOfDay>
 		<Year><span>{date.YYYY}</span></Year>
-	</DateGroup>;
-});
+	</DateGroup>
+);
 
 const pluralize = (word, n) => Math.abs(n) > 1 ? `${word}s` : word;
 
@@ -100,25 +108,29 @@ const secondsIn = {
 	year: secondsInYear,
 };
 
-const Inc = observe(({period, multiplier = 1}, {dispatch}) => <TimeButton
-	onClick={() => dispatch('date', date => date + secondsIn[period] * multiplier)}>
+const Inc = createContainer(({period, multiplier = 1}) => ({
+	onIncrement() {
+		const date = SyncedSession.get('date');
+		SyncedSession.set('date', date + secondsIn[period] * multiplier);
+	},
+}), ({onIncrement, multiplier = 1, period}) => <TimeButton
+	onClick={onIncrement}>
 	{multiplier > 0 && '+'}{multiplier}{period[0]}
 </TimeButton>);
-
 
 const DateForm = withState(({date}) => ({date}), ({date, onSubmit}, state, setState) => <div>
 	<input value={state.date || date} onChange={ev => setState({date: ev.target.value})} size={35} />
 	<button onClick={() => onSubmit(OdreianDate.parse(state.date).timestamp)}>Set</button>
 </div>);
 
-const DateFormConnector = observe((props, {subscribe, dispatch}) => <DateForm
-	date={new OdreianDate(subscribe('date')).llll}
-	onSubmit={date => dispatch('date', () => date)}
-/>);
+const DateFormConnector = createContainer(() => ({
+	date: new OdreianDate(SyncedSession.get('date')).llll,
+	setDate(date) {
+		SyncedSession.set('date', date);
+	}
+}), ({date, setDate}) => <DateForm date={date} onSubmit={setDate} />);
 
-const reverse = ([x, ...xs]) => xs.length ? reverse(xs).concat(x) : [];
-
-const TimeControl = observe((props, {dispatch, subscribe}) => <div>
+const TimeControl = () => <div>
 	<Time />
 
 	<Controls>
@@ -160,7 +172,7 @@ const TimeControl = observe((props, {dispatch, subscribe}) => <div>
 
 		<DateFormConnector />
 	</Controls>
-</div>);
+</div>;
 
 export {
 	Time as display,
