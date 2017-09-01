@@ -4,6 +4,17 @@ import withState from './state';
 import styled from 'styled-components';
 import OdreianDate from 'odreian-date';
 import Ornamented from './ornamented';
+import {createContainer} from 'meteor/react-meteor-data';
+import SyncedSession from 'meteor/quarterto:synced-session';
+
+if(!SyncedSession.get('weather')) {
+	SyncedSession.set('weather',  {
+		humidity: 50,
+		temperature: 15,
+		windSpeed: 10,
+		windHeading: 0,
+	});
+}
 
 const moonPhase = date => [
 	'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',
@@ -75,12 +86,16 @@ const WeatherCondition = ({temperature, humidity}) => {
 	return <img src={`/weather/${condition}.png`} alt={condition} />;
 }
 
-const Weather = observe((props, {subscribe}) => {
-	const {temperature, humidity, windHeading, windSpeed} = subscribe('weather');
-	const date = new OdreianDate(subscribe('date'));
-	const isNight = date.hour < 7 || date.hour >= 20; // TODO: seasons, sunset time
-
-	return <WeatherWrapper>
+const Weather = createContainer(() => {
+	const date = new OdreianDate(SyncedSession.get('date'));
+	// TODO: seasons, sunset time
+	return {
+		...SyncedSession.get('weather'),
+		date,
+		isNight: date.hour < 7 || date.hour >= 20
+	}
+}, ({temperature, humidity, windHeading, windSpeed, isNight, date}) =>
+	<WeatherWrapper>
 		<WeatherThings>
 			<WeatherThing large>{temperature}℃</WeatherThing>
 			<WeatherThing><WindDirection heading={windHeading} /></WeatherThing>
@@ -93,8 +108,8 @@ const Weather = observe((props, {subscribe}) => {
 				}
 			</WeatherIcon>
 		</Under>
-	</WeatherWrapper>;
-});
+	</WeatherWrapper>
+);
 
 const FixedWidthLabel = styled.label`
 display: inline-block;
@@ -140,10 +155,12 @@ const WeatherForm = withState(
 	</div>
 );
 
-const WeatherFormConnector = observe((props, {subscribe, dispatch}) => <WeatherForm
-	weather={subscribe('weather')}
-	onSubmit={weather => dispatch('weather', () => weather)}
-/>);
+const WeatherFormConnector = createContainer(() => ({
+	weather: SyncedSession.get('weather'),
+	setWeather(weather) {
+		SyncedSession.set('weather', weather);
+	},
+}), ({weather, setWeather}) => <WeatherForm weather={weather} onSubmit={setWeather} />);
 
 const WeatherControl = () => <div>
 	<Weather />
