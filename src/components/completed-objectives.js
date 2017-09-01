@@ -1,7 +1,5 @@
 import React from 'react';
 import OdreianDate from 'odreian-date';
-import orderBy from 'lodash.orderby';
-import values from 'lodash.values';
 import groupBy from 'lodash.groupby';
 import {H1, H2} from './heading';
 import {Objectives, Quests} from '../collections';

@@ -1,7 +1,6 @@
 import React from 'react';
 import updatePath from '@quarterto/update-path';
 import removeArrayIndex from '@quarterto/remove-array-index';
-import insertArrayIndex from '@quarterto/insert-array-index';
 import last from 'lodash.last';
 import initial from 'lodash.initial';
 import {createContainer} from 'meteor/react-meteor-data';

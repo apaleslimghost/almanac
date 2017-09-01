@@ -1,5 +1,4 @@
 import React from 'react';
-import map from 'lodash.map';
 import styled, {css} from 'styled-components';
 import * as components from './components';
 import LayoutControl from './components/layout-control';

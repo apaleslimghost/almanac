@@ -2,7 +2,6 @@ import React from 'react';
 import formJson from '@quarterto/form-json';
 import {H3, H4} from './heading';
 import groupBy from 'lodash.groupby';
-import values from 'lodash.values';
 import size from 'lodash.size';
 import reject from 'lodash.reject';
 import pluralize from 'pluralize';

@@ -1,8 +1,5 @@
 import React from 'react';
 import groupBy from 'lodash.groupby';
-import values from 'lodash.values';
-import map from 'lodash.map';
-import orderBy from 'lodash.orderby';
 import formJson from '@quarterto/form-json';
 import {H1, H2} from './heading';
 import Ornamented from './ornamented';
