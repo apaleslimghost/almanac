@@ -3,13 +3,23 @@ import * as components from './';
 import {observe} from '../store';
 import updatePath from '@quarterto/update-path';
 
-const PlaceholderControl = observe(({location}, {dispatch}) => <div>
-	<select defaultValue={0} onChange={ev => {
+import {createContainer} from 'meteor/react-meteor-data';
+import SyncedSession from 'meteor/quarterto:synced-session';
+
+const updateSession = (key, updater) => SyncedSession.set(
+	key,
+	updater(SyncedSession.get(key))
+);
+
+const PlaceholderControl = createContainer(({location}) => ({
+	selectComponent(ev) {
 		const component = ev.target.selectedOptions[0].value;
-		dispatch('layout', layout => updatePath(layout, location, () => component));
-	}}>
+		updateSession('layout', layout => updatePath(layout, location, () => component));
+	}
+}), ({selectComponent}) => <div>
+	<select defaultValue={0} onChange={selectComponent}>
 		<option value={0} disabled>Component&hellip;</option>
-		{Object.keys(components).filter(c => c !== 'placeholder').map(component => 
+		{Object.keys(components).filter(c => c !== 'placeholder').map(component =>
 			<option value={component} key={component}>{component}</option>)}
 	</select>
 </div>);

@@ -4,6 +4,8 @@ import styled, {css} from 'styled-components';
 import {observe} from './store';
 import * as components from './components';
 import LayoutControl from './components/layout-control';
+import SyncedSession from 'meteor/quarterto:synced-session';
+import {createContainer} from 'meteor/react-meteor-data';
 
 const Root = styled.div`
 height: 100vh;
@@ -47,6 +49,8 @@ const Grid = ({layout, direction = 'row', keys = [], which}) =>
 		)}
 	</Split>;
 
-export default observe(({which}, {subscribe}) => <Root>
-	<Grid layout={subscribe('layout', [])} which={which} />
+export default createContainer(() => ({
+	layout: SyncedSession.get('layout'),
+}), ({which, layout}) => <Root>
+	<Grid layout={layout} which={which} />
 </Root>);
