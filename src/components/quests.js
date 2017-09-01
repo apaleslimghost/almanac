@@ -7,51 +7,59 @@ import values from 'lodash.values';
 import size from 'lodash.size';
 import reject from 'lodash.reject';
 import pluralize from 'pluralize';
+import {Quests, Objectives} from '../collections';
+import {createContainer} from 'meteor/react-meteor-data';
+import SyncedSession from 'meteor/quarterto:synced-session';
 
-const Quests = observe(({onSelectCurrent, onDelete}, {subscribe}) => {
-	const quests = subscribe('quests', []);
-	const currentQuest = subscribe('currentQuest');
-	const byQuest = groupBy(values(subscribe('objectives', {})), 'quest');
-
-	return <ul>
+const QuestsList = createContainer(() => ({
+	quests: Quests.find().fetch(),
+	currentQuest: SyncedSession.get('currentQuest'),
+	byQuest: groupBy(Objectives.find().fetch(), 'quest'),
+}), ({quests, currentQuest, byQuest, onSelectCurrent, onDelete}) =>
+	<ul>
 		{quests.map(quest =>
-			<li key={quest}>
-				<H3>{quest}</H3>
-				<H4>{pluralize('objectives', size(reject(byQuest[quest], 'completed')), true)} </H4>
+			<li key={quest._id}>
+				<H3>{quest.name}</H3>
+				<H4>{pluralize('objectives', size(reject(byQuest[quest._id], 'completed')), true)} </H4>
 				{onSelectCurrent && <button onClick={() => onSelectCurrent(quest)}>
-					{quest === currentQuest ? '🔚' : '🔝'}
+					{quest._id === currentQuest ? '🔚' : '🔝'}
 				</button>}
 				{onDelete && <button onClick={() => onDelete(quest)}>❌</button>}
 			</li>
 		)}
-	</ul>;
-});
+	</ul>
+);
 
-const QuestsControl = observe((props, {subscribe, dispatch}) => {
-	const currentQuest = subscribe('currentQuest');
-
-	return <div>
-		<Quests
-			onSelectCurrent={
-				quest => dispatch('currentQuest', () => currentQuest === quest ? null : quest)
-			}
-			onDelete={
-				quest => dispatch('quests', quests => quests.filter(q => q !== quest))
-			}
+const QuestsControl = createContainer(() => ({
+	currentQuest: SyncedSession.get('currentQuest'),
+	onSelectCurrent(quest) {
+		SyncedSession.set('currentQuest', quest._id);
+	},
+	onDelete(quest) {
+		Quests.remove(quest._id);
+	},
+	onCreate(ev) {
+		ev.preventDefault();
+		const data = formJson(ev.target);
+		ev.target.reset();
+		Quests.insert(data);
+	}
+}),
+({currentQuest,onSelectCurrent,
+onDelete,
+onCreate}) =>
+	<div>
+		<QuestsList
+			onSelectCurrent={onSelectCurrent}
+			onDelete={onDelete}
 		/>
 
-		<form onSubmit={ev => dispatch('quests', q => {
-			ev.preventDefault();
-			const data = formJson(ev.target);
-
-			ev.target.reset();
-			return q.concat(data.quest);
-		})}>
-			<input placeholder='Quest' name='quest' />
+		<form onSubmit={onCreate}>
+			<input placeholder='Quest' name='name' />
 			<button>➕</button>
 		</form>
-	</div>;
-});
+	</div>
+);
 
 const Empty = () => null;
 

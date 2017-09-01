@@ -8,62 +8,81 @@ import shortId from '@quarterto/short-id';
 import {observe} from '../store';
 import {H1, H2} from './heading';
 import Ornamented from './ornamented';
+import {createContainer} from 'meteor/react-meteor-data';
+import SyncedSession from 'meteor/quarterto:synced-session';
+import {Objectives, Quests} from '../collections'
 
-const Objectives = observe(({onComplete, onDelete}, {subscribe}) => {
-	const objectives = values(subscribe('objectives', {}));
-	const currentQuest = subscribe('currentQuest');
+const ObjectivesList = createContainer(() => {
+	const currentQuest = SyncedSession.get('currentQuest');
+	const objectives = Objectives.find({
+		quest: currentQuest,
+	}).fetch();
 
-	const byQuest = groupBy(objectives, 'quest');
-	const questObjectives = byQuest[currentQuest] || [];
+	return {
+		currentQuest: currentQuest && Quests.findOne(currentQuest),
+		objectives
+	};
+}, ({currentQuest, objectives, onComplete, onDelete}) =>
+	currentQuest ? <div>
+		<Ornamented ornament='u'>{currentQuest.name}</Ornamented>
 
-	return currentQuest ? <div>
-		<Ornamented ornament='u'>{currentQuest}</Ornamented>
-
-		<ul>{questObjectives.filter(({completed}) => !completed).map(objective =>
-			<li key={objective.id}>
+		<ul>{objectives.filter(({completed}) => !completed).map(objective =>
+			<li key={objective._id}>
 				{onComplete && <button onClick={() => onComplete(objective)}>☑️</button>}
 				{onDelete && <button onClick={() => onDelete(objective)}>❌</button>}
 				{objective.text}
 				{objective.completed}
 			</li>
 		)}</ul>
-	</div> : <Ornamented ornament='u'>No current quest</Ornamented>;
-});
+	</div> : <Ornamented ornament='u'>No current quest</Ornamented>
+);
 
-const ObjectivesControl = observe((props, {dispatch, subscribe}) => {
-	const objectives = values(subscribe('objectives', {}));
-	const currentQuest = subscribe('currentQuest');
-	const byQuest = groupBy(objectives, 'quest');
+const ObjectivesControl = createContainer(() => {
+	const currentQuest = SyncedSession.get('currentQuest');
+	const objectives = Objectives.find({
+		quest: currentQuest,
+	}).fetch();
 
-	return currentQuest ? <div>
-		<Objectives onComplete={objective => dispatch('objectives', o => Object.assign(o, {
-			[objective.id]: Object.assign(o[objective.id], {
-				completed: true,
-				completedDate: subscribe('date')
-			})
-		}))} onDelete={objective => dispatch('objectives', o => {
-			delete o[objective.id];
-			return o;
-		})} />
+	return {
+		currentQuest,
+		objectives,
 
-		<form onSubmit={ev => dispatch('objectives', o => {
+		onComplete(objective) {
+			Objectives.update(objective._id, {
+				$set: {
+					completed: true,
+					completedDate: SyncedSession.get('date'),
+				},
+			});
+		},
+
+		onDelete(objective) {
+			Objectives.remove(objective._id);
+		},
+
+		onCreate(ev) {
 			ev.preventDefault();
 			const data = formJson(ev.target);
-			const id = shortId();
 			ev.target.reset();
-			return Object.assign(o, {
-				[id]: Object.assign(data, {
-					id, completed: false, quest: currentQuest
-				}),
+			Objectives.insert({
+				...data,
+				completed: false,
+				quest: currentQuest,
 			});
-		})}>
+		}
+	};
+}, ({currentQuest, objectives, onComplete, onDelete, onCreate}) =>
+	currentQuest ? <div>
+		<ObjectivesList onComplete={onComplete} onDelete={onDelete} />
+
+		<form onSubmit={onCreate}>
 			<input placeholder='Objective' name='text' />
 			<button>➕</button>
 		</form>
-	</div> : <Ornamented ornament='u'>No current quest</Ornamented>;
-});
+	</div> : <Ornamented ornament='u'>No current quest</Ornamented>
+);
 
 export {
-	Objectives as display,
+	ObjectivesList as display,
 	ObjectivesControl as control
 };
