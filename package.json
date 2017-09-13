@@ -30,6 +30,7 @@
     "pluralize": "^3.1.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-grid-layout": "^0.15.0",
     "react-mounter": "^1.2.0",
     "styled-components": "^1.4.3"
   }

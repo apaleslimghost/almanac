@@ -1,5 +1,4 @@
 import React from 'react';
-import styleSheet from 'styled-components/lib/models/StyleSheet';
 import {injectGlobal} from 'styled-components'
 import {background} from '../src/colors';
 import {route} from '../src/router';

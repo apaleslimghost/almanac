@@ -1,54 +1,77 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 import * as components from './components';
-import LayoutControl from './components/layout-control';
-import SyncedSession from 'meteor/quarterto:synced-session';
 import {createContainer} from 'meteor/react-meteor-data';
+import GridLayout from 'react-grid-layout';
+import {Layout} from './collections';
+import withState from './components/state';
 
-const Root = styled.div`
-height: 100vh;
-width: 100vw;
-overflow: hidden;
-`;
+const ComponentSelect = withState(
+	{selected: ''},
+	({onSelect}, {selected}, setState) => (
+		<div>
+			<select
+				value={selected}
+				onChange={ev =>
+					setState({selected: ev.target.selectedOptions[0].value})}
+			>
+				<option value="" disabled>
+					Component&hellip;
+				</option>
+				{Object.keys(components)
+					.filter(c => c !== 'placeholder')
+					.map(component => (
+						<option value={component} key={component}>
+							{component}
+						</option>
+					))}
+			</select>
+			<button
+				onClick={() => {
+					onSelect(selected);
+					setState({selected: ''});
+				}}
+				disabled={!selected}
+			>
+				+
+			</button>
+		</div>
+	)
+);
 
-const Split = styled.div`
-&:not(:last-child) {
-	// resize: ${({direction}) => direction === 'row' ? 'vertical' : 'horizontal'};
-}
+export default createContainer(
+	() => ({
+		layout: Layout.find().fetch(),
 
-overflow: hidden;
-display: flex;
-flex-direction: ${({direction}) => direction};
-max-height: 100vh;
-max-width: 100vw;
-`;
+		updateLayout(layout) {
+			layout.forEach(({i, ...item}) => {
+				Layout.update(i, {$set: item});
+			});
+		},
 
-const GridChild = styled.div`
-&:not(:last-child) {
-	// resize: ${({direction}) => direction === 'row' ? 'horizontal' : 'vertical'};
-}
-margin: 0.5em;
-padding: 0.5em;
-max-height: 100vh;
-max-width: 100vw;
-overflow: auto;
-`;
+		addComponent(component) {
+			Layout.insert({component, x: 0, y: 0, w: 2, h: 2});
+		},
 
-const Grid = ({layout, direction = 'row', keys = [], which}) =>
-	<Split direction={direction}>
-		{layout.map((child, i) => Array.isArray(child) ?
-			<Grid key={keys.concat(i).join('.')} keys={keys.concat(i)} layout={child} direction={direction === 'row' ? 'column': 'row'} which={which} />
-			: <GridChild key={keys.concat(i).join('.')} direction={direction} {...child}>
-				{which === 'control' && <LayoutControl location={keys.concat(i)} direction={direction} />}
-				{child.component ?
-					React.createElement(components[child.component][which], Object.assign({location: keys.concat(i)}, child))
-				: React.createElement(components[child][which], {location: keys.concat(i)})}
-			</GridChild>
-		)}
-	</Split>;
-
-export default createContainer(() => ({
-	layout: SyncedSession.get('layout'),
-}), ({which, layout}) => <Root>
-	<Grid layout={layout} which={which} />
-</Root>);
+		removeComponent(id) {
+			Layout.remove(_id);
+		}
+	}),
+	({which, layout, updateLayout, addComponent, removeComponent}) => (
+		<div>
+			{which === 'control' && <ComponentSelect onSelect={addComponent} />}
+			<GridLayout
+				width={1200}
+				layout={layout.map(({_id, ...item}) => ({i:_id, ...item}))}
+				onLayoutChange={updateLayout}
+				isDraggable={which === 'control'}
+				isResizable={which === 'control'}
+			>
+				{layout.map(({_id, component}) => <div key={_id}>
+					{which === 'control' && <button onClick={() => removeComponent(_id)}>×</button>}
+					{React.createElement(components[component][which])}
+				</div>)}
+			</GridLayout>
+		</div>
+	)
+);
