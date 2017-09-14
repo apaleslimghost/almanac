@@ -21,7 +21,7 @@ const CompletedObjectives = createContainer(
 					<li key={objective._id}>
 						<b>{questsById[objective.quest].name}</b> {objective.text}
 						<div>
-							✔{' '}
+							✓{' '}
 							<time>
 								{new OdreianDate(objective.completedDate).llll}
 							</time>
