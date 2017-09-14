@@ -1,7 +1,6 @@
 .react-grid-layout {
   position: relative;
   transition: height 200ms ease;
-  overflow: auto;
 }
 .react-grid-item {
   transition: all 200ms ease;

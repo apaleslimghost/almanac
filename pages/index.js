@@ -17,7 +17,6 @@ body {
 	line-height: 1.6;
 	font-size: 24px;
 	margin: 0;
-	overflow: hidden;
 	background: ${background};
 }
 
