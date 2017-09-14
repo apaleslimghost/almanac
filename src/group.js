@@ -52,7 +52,7 @@ export default createContainer(
 		},
 
 		addComponent(component) {
-			Layout.insert({component, x: 0, y: 0, w: 2, h: 2});
+			Layout.insert({component, x: 0, y: 0, w: 2, h: 1});
 		},
 
 		removeComponent(_id) {
@@ -67,6 +67,7 @@ export default createContainer(
 				onLayoutChange={updateLayout}
 				isDraggable={which === 'control'}
 				isResizable={which === 'control'}
+				rowHeight={60}
 			>
 				{layout.map(({_id, component}) => <div key={_id}>
 					{which === 'control' && <button onClick={() => removeComponent(_id)}>×</button>}
