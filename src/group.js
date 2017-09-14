@@ -2,9 +2,11 @@ import React from 'react';
 import styled, {css} from 'styled-components';
 import * as components from './components';
 import {createContainer} from 'meteor/react-meteor-data';
-import GridLayout from 'react-grid-layout';
+import {default as GridLayout, WidthProvider} from 'react-grid-layout';
 import {Layout} from './collections';
 import withState from './components/state';
+
+const GridLayoutWidth = WidthProvider(GridLayout);
 
 const ComponentSelect = withState(
 	{selected: ''},
@@ -53,15 +55,14 @@ export default createContainer(
 			Layout.insert({component, x: 0, y: 0, w: 2, h: 2});
 		},
 
-		removeComponent(id) {
+		removeComponent(_id) {
 			Layout.remove(_id);
 		}
 	}),
 	({which, layout, updateLayout, addComponent, removeComponent}) => (
-		<div>
+		<div className={`grid-${which}`}>
 			{which === 'control' && <ComponentSelect onSelect={addComponent} />}
-			<GridLayout
-				width={1200}
+			<GridLayoutWidth
 				layout={layout.map(({_id, ...item}) => ({i:_id, ...item}))}
 				onLayoutChange={updateLayout}
 				isDraggable={which === 'control'}
@@ -71,7 +72,7 @@ export default createContainer(
 					{which === 'control' && <button onClick={() => removeComponent(_id)}>×</button>}
 					{React.createElement(components[component][which])}
 				</div>)}
-			</GridLayout>
+			</GridLayoutWidth>
 		</div>
 	)
 );
