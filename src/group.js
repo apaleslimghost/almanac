@@ -40,6 +40,13 @@ const ComponentSelect = withState(
 	)
 );
 
+const CloseButton = styled.button`
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 1000;
+`;
+
 export default createContainer(
 	() => ({
 		layout: Layout.find().fetch(),
@@ -69,7 +76,8 @@ export default createContainer(
 				rowHeight={60}
 			>
 				{layout.map(({_id, component}) => <div key={_id}>
-					{which === 'control' && <button onClick={() => removeComponent(_id)}>×</button>}
+					{which === 'control' &&
+						<CloseButton onClick={() => removeComponent(_id)}>×</CloseButton>}
 					{React.createElement(components[component][which])}
 				</div>)}
 			</GridLayoutWidth>
