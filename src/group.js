@@ -21,7 +21,6 @@ const ComponentSelect = withState(
 					Component&hellip;
 				</option>
 				{Object.keys(components)
-					.filter(c => c !== 'placeholder')
 					.map(component => (
 						<option value={component} key={component}>
 							{component}

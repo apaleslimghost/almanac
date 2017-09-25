@@ -6,15 +6,6 @@ import Ornamented from './ornamented';
 import {createContainer} from 'meteor/react-meteor-data';
 import SyncedSession from 'meteor/quarterto:synced-session';
 
-if(!SyncedSession.get('weather')) {
-	SyncedSession.set('weather',  {
-		humidity: 50,
-		temperature: 15,
-		windSpeed: 10,
-		windHeading: 0,
-	});
-}
-
 const moonPhase = date => [
 	'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',
 ][Math.floor(date * 8/30)];

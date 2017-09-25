@@ -8,10 +8,6 @@ import {createContainer} from 'meteor/react-meteor-data';
 
 import Ornamented, {bordered} from './ornamented';
 
-if(!SyncedSession.get('date')) {
-	SyncedSession.set('date', 0);
-}
-
 const TimeOfDay = styled(H1)`
 margin: -0.2em 0 0 -0.15em;
 font-size: 6em;
