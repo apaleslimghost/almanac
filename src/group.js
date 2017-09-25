@@ -74,6 +74,7 @@ export default createContainer(
 				isDraggable={which === 'control'}
 				isResizable={which === 'control'}
 				rowHeight={60}
+				draggableCancel='input, button, select'
 			>
 				{layout.map(({_id, component}) => <div key={_id}>
 					{which === 'control' &&
