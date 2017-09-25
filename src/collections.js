@@ -4,3 +4,4 @@ import {Mongo} from 'meteor/mongo';
 export const Objectives = new Mongo.Collection('objectives');
 export const Quests = new Mongo.Collection('quests');
 export const Layout = new Mongo.Collection('layout');
+export const Factions = new Mongo.Collection('factions');
