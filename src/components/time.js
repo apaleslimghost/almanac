@@ -69,7 +69,7 @@ const OrnamentedMonth = ({date}) => <Ornamented ornament={ornaments[date.monthIn
 </Ornamented>;
 
 const Time = createContainer(() => ({
-	date: new OdreianDate(SyncedSession.get('date'))
+	date: new OdreianDate(SyncedSession.get('date') || 0)
 }),
 ({date}) =>
 	<DateGroup>
@@ -105,7 +105,7 @@ const secondsIn = {
 
 const Inc = createContainer(({period, multiplier = 1}) => ({
 	onIncrement() {
-		const date = SyncedSession.get('date');
+		const date = SyncedSession.get('date') || 0;
 		SyncedSession.set('date', date + secondsIn[period] * multiplier);
 	},
 }), ({onIncrement, multiplier = 1, period}) => <TimeButton
@@ -119,7 +119,7 @@ const DateForm = withState(({date}) => ({date}), ({date, onSubmit}, state, setSt
 </div>);
 
 const DateFormConnector = createContainer(() => ({
-	date: new OdreianDate(SyncedSession.get('date')).llll,
+	date: new OdreianDate(SyncedSession.get('date') || 0).llll,
 	setDate(date) {
 		SyncedSession.set('date', date);
 	}
