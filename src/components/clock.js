@@ -29,6 +29,8 @@ const Time = styled.span`
 				? '#600'
 				: 'black'
 	};
+
+	transition: color linear 60s;
 `;
 
 const Hour = styled.span``;
