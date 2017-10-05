@@ -130,7 +130,8 @@ const Input_ = Label.withComponent('input').extend`
 	padding-left: .3em;
 	padding-right: .3em;
 	font: inherit;
-	width: 100%;
+	${({fullWidth}) => fullWidth && css`width: 100%;`}
+	${({right}) => right && css`text-align: right;`}
 `;
 
 const Textarea_ = Input_.withComponent('textarea').extend`
@@ -138,10 +139,16 @@ const Textarea_ = Input_.withComponent('textarea').extend`
 	min-height: 10em;
 `;
 
+const Select_ = Input_.withComponent('select').extend`
+	background: transparent;
+	appearance: none;
+`;
+
 const fieldIsh = Tag => props => <Tag colour='steel' shade={4} sunken large {...props} />
 
 export const Input = fieldIsh(Input_);
 export const Textarea = fieldIsh(Textarea_);
+export const Select = fieldIsh(Select_);
 
 export const FormGroup = styled.label`
 	display: block;

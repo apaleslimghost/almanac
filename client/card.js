@@ -33,11 +33,11 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 		initialData={card}
 	>
 		<FormGroup>
-			<Field name="title" placeholder="Title" tag={Input} />
+			<Field name="title" placeholder="Title" tag={Input} fullWidth />
 		</FormGroup>
 
 		<FormGroup>
-			<Field name="text" tag={Textarea} />
+			<Field name="text" tag={Textarea} fullWidth />
 		</FormGroup>
 
 		<List>

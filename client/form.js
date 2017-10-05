@@ -35,8 +35,8 @@ export const Field = (
 		}}
 	/>;
 
-export const Select = (props, context) => {
-	return <select
+export const Select = ({tag: Tag = 'select', ...props}, context) => {
+	return <Tag
 		{...props}
 		value={context.fields[props.name] || ''}
 		onChange={ev => {
@@ -46,7 +46,7 @@ export const Select = (props, context) => {
 		}}
 	>
 		{props.children}
-	</select>;
+	</Tag>;
 }
 
 export class Form extends Component {

@@ -1,7 +1,9 @@
 import {Meteor} from 'meteor/meteor';
 import {Mongo} from 'meteor/mongo';
+import {collection} from 'meteor/quarterto:synced-session';
 
 export const Cards = new Mongo.Collection('cards');
+export const SyncedSession = collection;
 
 if(Meteor.isClient) {
 	window.collections = exports;

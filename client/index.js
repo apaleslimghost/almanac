@@ -6,8 +6,7 @@ import {steel, sky} from '@quarterto/colours';
 import {rgba} from 'polished';
 
 import CardList from './card-list';
-
-import DatePicker from './date-picker';
+import Filter from './filter';
 
 injectGlobal`
 	* { box-sizing: border-box; }
@@ -40,7 +39,7 @@ injectGlobal`
 //TODO: search by metadata
 
 const App = () => <div>
-	<DatePicker />
+	<Filter />
 	<CardList />
 </div>
 
