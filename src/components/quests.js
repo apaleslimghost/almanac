@@ -1,9 +1,7 @@
 import React from 'react';
 import formJson from '@quarterto/form-json';
 import {H3, H4} from './heading';
-import groupBy from 'lodash.groupby';
-import size from 'lodash.size';
-import reject from 'lodash.reject';
+import groupBy from 'lodash';
 import pluralize from 'pluralize';
 import {Quests, Objectives} from '../collections';
 import {createContainer} from 'meteor/react-meteor-data';
@@ -12,13 +10,13 @@ import SyncedSession from 'meteor/quarterto:synced-session';
 const QuestsList = createContainer(() => ({
 	quests: Quests.find().fetch(),
 	currentQuest: SyncedSession.get('currentQuest'),
-	byQuest: groupBy(Objectives.find().fetch(), 'quest'),
+	byQuest: _.groupBy(Objectives.find().fetch(), 'quest'),
 }), ({quests, currentQuest, byQuest, onSelectCurrent, onDelete}) =>
 	<ul>
 		{quests.map(quest =>
 			<li key={quest._id}>
 				<H3>{quest.name}</H3>
-				<H4>{pluralize('objectives', size(reject(byQuest[quest._id], 'completed')), true)} </H4>
+				<H4>{pluralize('objectives', _.size(_.reject(byQuest[quest._id], 'completed')), true)} </H4>
 				{onSelectCurrent && <button onClick={() => onSelectCurrent(quest)}>
 					{quest._id === currentQuest ? '🔚' : '🔝'}
 				</button>}

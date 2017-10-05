@@ -1,10 +1,7 @@
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import * as collections from '../collections';
-import keyBy from 'lodash.keyby';
-import map from 'lodash.map';
-import mapValues from 'lodash.mapvalues';
-import invert from 'lodash.invert';
+import _ from 'lodash';
 import shortId from '@quarterto/short-id';
 import SyncedSession, {collection} from 'meteor/quarterto:synced-session';
 
@@ -16,15 +13,15 @@ const Import = createContainer(() => ({
 		fetch('https://jsonbin.org/quarterto/almanac')
 			.then(r => r.json())
 			.then(data => {
-				const questsById = keyBy(data.quests, quest => {
+				const questsById = _.keyBy(data.quests, quest => {
 					const _id = shortId();
 					Quests.insert({name: quest, _id});
 					return _id;
 				});
 
-				const idsByQuest = invert(questsById);
+				const idsByQuest = _.invert(questsById);
 
-				map(data.objectives, objective => {
+				_.map(data.objectives, objective => {
 					delete objective.id;
 
 					Objectives.insert(Object.assign(objective, {
@@ -46,7 +43,7 @@ const Import = createContainer(() => ({
 		const reader = new FileReader;
 		reader.addEventListener('load', () => {
 			const data = JSON.parse(reader.result);
-			map(data, (docs, collection) => {
+			_.map(data, (docs, collection) => {
 				docs.forEach(doc => {
 					collections[collection].insert(doc);
 				});
@@ -57,7 +54,7 @@ const Import = createContainer(() => ({
 	},
 
 	doExport() {
-		const data = mapValues(collections, collection => collection.find().fetch());
+		const data = _.mapValues(collections, collection => collection.find().fetch());
 		const jsonData = btoa(
 			JSON.stringify(data)
 		);

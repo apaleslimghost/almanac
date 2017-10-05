@@ -3,9 +3,9 @@ import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 
-import {Cards} from '../src/collections';
-import subscribe from '../src/subscribe';
-import idFirst from '../src/id-first';
+import {Cards} from '..//collections';
+import subscribe from '..//subscribe';
+import idFirst from '..//id-first';
 
 import Card, {EditCard} from './card';
 import {Grid, Card as CardPrimitive, List, Label, LabelBody} from './primitives';

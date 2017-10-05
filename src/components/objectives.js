@@ -1,5 +1,4 @@
 import React from 'react';
-import groupBy from 'lodash.groupby';
 import formJson from '@quarterto/form-json';
 import {H1, H2} from './heading';
 import Ornamented from './ornamented';

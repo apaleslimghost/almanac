@@ -4,7 +4,7 @@ import {injectGlobal} from 'styled-components';
 import BasePopover from 'react-popover';
 
 import {LabelButton, Icon, shadow} from './primitives';
-import preventingDefault from '../src/preventing-default';
+import preventingDefault from '..//preventing-default';
 
 injectGlobal`
 .Popover-body {

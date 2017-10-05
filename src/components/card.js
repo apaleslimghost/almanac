@@ -4,8 +4,8 @@ import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
 
-import {Cards} from '../src/collections';
-import preventingDefault from '../src/preventing-default';
+import {Cards} from '..//collections';
+import preventingDefault from '..//preventing-default';
 
 import Toggler from './toggler';
 import {

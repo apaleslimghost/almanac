@@ -3,7 +3,7 @@ import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 
-import {Cards} from '../src/collections';
+import {Cards} from '..//collections';
 import {Select} from './form';
 
 //TODO: typeahead?

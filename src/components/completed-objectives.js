@@ -1,6 +1,6 @@
 import React from 'react';
 import OdreianDate from 'odreian-date';
-import groupBy from 'lodash.groupby';
+import _ from 'lodash';
 import {H1, H2} from './heading';
 import {Objectives, Quests} from '../collections';
 import {createContainer} from 'meteor/react-meteor-data';
@@ -11,7 +11,7 @@ const CompletedObjectives = createContainer(
 			{completed: true},
 			{sort: [['completedDate', 'desc']]}
 		).fetch(),
-		questsById: groupBy(Quests.find().fetch(), '_id'),
+		questsById: _.groupBy(Quests.find().fetch(), '_id'),
 	}),
 	({objectives, questsById}) => (
 		<div>
