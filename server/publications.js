@@ -1,5 +1,5 @@
 import publish from './publish';
-import {Cards} from '../src/collections';
+import {Cards} from '../shared/collections';
 
 publish({
 	cards: {

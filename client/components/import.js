@@ -1,6 +1,6 @@
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
-import * as collections from '../collections';
+import * as collections from '../../shared/collections';
 import _ from 'lodash';
 import shortId from '@quarterto/short-id';
 import SyncedSession, {collection} from 'meteor/quarterto:synced-session';

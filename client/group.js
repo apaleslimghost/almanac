@@ -3,7 +3,7 @@ import styled, {css} from 'styled-components';
 import * as components from './components';
 import {createContainer} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
-import {Layout} from './collections';
+import {Layout} from './../shared/collections';
 import withState from './components/state';
 
 const GridLayoutWidth = WidthProvider(GridLayout);

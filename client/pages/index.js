@@ -1,7 +1,7 @@
 import React from 'react';
 import {injectGlobal} from 'styled-components'
-import {background} from '../src/colors';
-import {route} from '../src/router';
+import {background} from '../colors';
+import {route} from '../router';
 import {mount} from 'react-mounter';
 import {steel, sky} from '@quarterto/colours';
 import {rgba} from 'polished';
@@ -12,6 +12,7 @@ const App = ({content}) => <main>
 
 import Home from './home';
 import Control from './control';
+import Grail from './grail';
 
 //TODO: card search
 //TODO: integrate Menagerie (monsters & spells, with JSON import/export)
@@ -62,6 +63,15 @@ route('/control', {
 	action() {
 		mount(App, {
 			content: <Control />
+		});
+	}
+});
+
+route('/grail', {
+	name: 'Grail',
+	action() {
+		mount(App, {
+			content: <Grail />
 		});
 	}
 });

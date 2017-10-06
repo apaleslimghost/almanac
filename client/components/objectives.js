@@ -4,7 +4,7 @@ import {H1, H2} from './heading';
 import Ornamented from './ornamented';
 import {createContainer} from 'meteor/react-meteor-data';
 import SyncedSession from 'meteor/quarterto:synced-session';
-import {Objectives, Quests} from '../collections'
+import {Objectives, Quests} from '../../shared/collections'
 
 const ObjectivesList = createContainer(() => {
 	const currentQuest = SyncedSession.get('currentQuest');

@@ -2,7 +2,7 @@ import React from 'react';
 import OdreianDate from 'odreian-date';
 import _ from 'lodash';
 import {H1, H2} from './heading';
-import {Objectives, Quests} from '../collections';
+import {Objectives, Quests} from '../../shared/collections';
 import {createContainer} from 'meteor/react-meteor-data';
 
 const CompletedObjectives = createContainer(

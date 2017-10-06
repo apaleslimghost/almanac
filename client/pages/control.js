@@ -1,4 +1,4 @@
 import React from 'react';
-import Group from '../src/group';
+import Group from '../group';
 
 export default () => <Group which='control' />;

@@ -3,7 +3,7 @@ import formJson from '@quarterto/form-json';
 import {H3, H4} from './heading';
 import groupBy from 'lodash';
 import pluralize from 'pluralize';
-import {Quests, Objectives} from '../collections';
+import {Quests, Objectives} from '../../shared/collections';
 import {createContainer} from 'meteor/react-meteor-data';
 import SyncedSession from 'meteor/quarterto:synced-session';
 
