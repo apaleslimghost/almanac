@@ -23,9 +23,6 @@ import {Field, Form, Select} from './form';
 import CardSelect from './card-select';
 import LabelInput from './label-input';
 
-//TODO clean up these components
-//TODO card categories?
-
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
 		onSubmit={saveCard}
@@ -85,6 +82,9 @@ const EditCardContainer = createContainer(
 const ShowCard = ({
 	card,
 	toggle,
+	relatedCards,
+	removeRelated,
+	addRelated,
 }) =>
 	<div>
 		<List>
@@ -100,13 +100,39 @@ const ShowCard = ({
 
 			<Markdown source={card.text || ''} />
 		</article>
+
+		<List>
+			{relatedCards.map(related =>
+				<Label onClick={() => removeRelated(related)} colour='aqua' key={related._id}>{related.title}</Label>
+			)}
+			<div>
+				<CardSelect
+					onSelect={addRelated}
+					skip={[card._id].concat(card.related || [])}
+				/>
+			</div>
+		</List>
 	</div>;
+
+const ShowCardContainer = createContainer(({card}) => ({
+	relatedCards: Cards.find({_id: {$in: card.related || []}}).fetch(),
+	addRelated(related) {
+		Cards.update(card._id, {
+			$addToSet: {related: related._id},
+		});
+	},
+	removeRelated(related) {
+		Cards.update(card._id, {
+			$pull: {related: related._id},
+		});
+	},
+}), ShowCard);
 
 const Card = props =>
 	<CardPrimitive large={props.large}>
 		<Toggler
 			active={EditCardContainer}
-			inactive={ShowCard}
+			inactive={ShowCardContainer}
 			{...props}
 		/>
 	</CardPrimitive>;

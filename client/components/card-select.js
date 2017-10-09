@@ -4,17 +4,20 @@ import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 
 import {Cards} from '../../shared/collections';
-import {Select} from './form';
+import {getSelectValue} from './form';
 
 //TODO: typeahead?
 
-const CardSelect = ({cardsById}) =>
-	_.size(cardsById) ? <Select name='card'>
-		<option disabled value="" />
-		{_.map(cardsById, card =>
-			<option key={card._id} value={card._id}>{card.title}</option>
-		)}
-	</Select> : null;
+const CardSelect = ({cardsById, onSelect}) =>
+	_.size(cardsById)
+		? <select
+			onChange={ev => onSelect(cardsById[getSelectValue(ev.target)])}>
+			<option disabled value="" />
+			{_.map(cardsById, card =>
+				<option key={card._id} value={card._id}>{card.title}</option>
+			)}
+		</select>
+		: null;
 
 const CardSelectContainer = createContainer({
 	pure: false,

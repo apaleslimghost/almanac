@@ -2,10 +2,12 @@ import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
+import SyncedSession from 'meteor/quarterto:synced-session';
 
 import {Cards} from '../../shared/collections';
 import subscribe from '../subscribe';
 import idFirst from '../id-first';
+import {buildGraph, distances} from '../graph';
 
 import Card, {EditCard} from './card';
 import {Grid, Card as CardPrimitive, List, Label, LabelBody} from './primitives';
@@ -22,9 +24,21 @@ const CardList = createContainer(() => ({
 	</CardPrimitive>
 </Grid>);
 
-const CardListContainer = createContainer(() => ({
-	ready: Meteor.subscribe('cards.all').ready(),
-	cards: Cards.find().fetch(),
-}), ({cards}) => <CardList cards={cards} />);
+const CardListContainer = createContainer(() => {
+	const selectedCard = SyncedSession.get('selectedCard');
+	let cards = Cards.find({}).fetch();
+
+	if (selectedCard) {
+		const graph = buildGraph(cards);
+		const d = distances(graph, selectedCard);
+
+		cards.forEach(card => (card.sortedIndex = d[card._id]));
+	}
+
+	return {
+		ready: Meteor.subscribe('cards.all').ready(),
+		cards: _.orderBy(cards, ['sortedIndex', 'title']),
+	};
+}, ({cards}) => <CardList cards={cards} />);
 
 export default CardListContainer;
