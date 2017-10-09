@@ -32,6 +32,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	>
 		<FormGroup>
 			<Field name="title" placeholder="Title" tag={Input} fullWidth />
+			<Field name="type" placeholder="type" tag={Input} fullWidth />
 		</FormGroup>
 
 		<FormGroup>
@@ -89,6 +90,12 @@ const ShowCard = ({
 	selectCard,
 }) =>
 	<div>
+		{card.type && <Label colour='sky'>
+			<LabelBody>
+				{card.type}
+			</LabelBody>
+		</Label>}
+
 		<List>
 			{toggle && <Button onClick={toggle}>
 				<LabelBody>

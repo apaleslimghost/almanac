@@ -6,42 +6,37 @@ import {createContainer} from 'meteor/react-meteor-data';
 import SyncedSession from 'meteor/quarterto:synced-session';
 import {Cards} from '../../shared/collections'
 
-const ObjectivesList = createContainer(() => {
-	const currentQuest = SyncedSession.get('currentQuest');
+const getCurrentObjectives = () => {
+	const currentQuestId = SyncedSession.get('currentQuest');
+	const currentQuest = currentQuestId && Cards.findOne(currentQuestId)
 	const objectives = Cards.find({
 		type: 'objective',
-		quest: currentQuest,
+		_id: {$in: currentQuest.related || {}},
 	}).fetch();
 
-	return {
-		currentQuest: currentQuest && Cards.findOne(currentQuest),
-		objectives
-	};
-}, ({currentQuest, objectives, onComplete, onDelete}) =>
-	currentQuest ? <div>
-		<Ornamented ornament='u'>{currentQuest.title}</Ornamented>
+	return { currentQuest, objectives };
+}
 
-		<ul>{objectives.filter(({completed}) => !completed).map(objective =>
-			<li key={objective._id}>
-				{onComplete && <button onClick={() => onComplete(objective)}>☑️</button>}
-				{onDelete && <button onClick={() => onDelete(objective)}>❌</button>}
-				{objective.title}
-				{objective.completed}
-			</li>
-		)}</ul>
-	</div> : <Ornamented ornament='u'>No current quest</Ornamented>
+const ObjectivesList = createContainer(
+	getCurrentObjectives,
+	({currentQuest, objectives, onComplete, onDelete}) =>
+		currentQuest ? <div>
+			<Ornamented ornament='u'>{currentQuest.title}</Ornamented>
+
+			<ul>{objectives.filter(({completed}) => !completed).map(objective =>
+				<li key={objective._id}>
+					{onComplete && <button onClick={() => onComplete(objective)}>☑️</button>}
+					{onDelete && <button onClick={() => onDelete(objective)}>❌</button>}
+					{objective.title}
+					{objective.completed}
+				</li>
+			)}</ul>
+		</div> : <Ornamented ornament='u'>No current quest</Ornamented>
 );
 
 const ObjectivesControl = createContainer(() => {
-	const currentQuest = SyncedSession.get('currentQuest');
-	const objectives = Cards.find({
-		type: 'objective',
-		quest: currentQuest,
-	}).fetch();
-
 	return {
-		currentQuest,
-		objectives,
+		...getCurrentObjectives(),
 
 		onComplete(objective) {
 			Cards.update(objective._id, {
@@ -63,9 +58,13 @@ const ObjectivesControl = createContainer(() => {
 			Cards.insert({
 				...data,
 				completed: false,
-				quest: currentQuest,
 				type: 'objective',
-			});
+			}, (err, id) =>
+				!err && Cards.update(
+					SyncedSession.get('currentQuest'),
+					{$addToSet: {related: id}}
+				)
+			);
 		}
 	};
 }, ({currentQuest, objectives, onComplete, onDelete, onCreate}) =>
