@@ -10,7 +10,7 @@ import {getSelectValue} from './form';
 
 const CardSelect = ({cardsById, onSelect}) =>
 	_.size(cardsById)
-		? <select
+		? <select value=''
 			onChange={ev => onSelect(cardsById[getSelectValue(ev.target)])}>
 			<option disabled value="" />
 			{_.map(cardsById, card =>

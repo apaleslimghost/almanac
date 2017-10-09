@@ -3,6 +3,7 @@ import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
+import SyncedSession from 'meteor/quarterto:synced-session';
 
 import {Cards} from '../../shared/collections';
 import preventingDefault from '../preventing-default';
@@ -85,6 +86,7 @@ const ShowCard = ({
 	relatedCards,
 	removeRelated,
 	addRelated,
+	selectCard,
 }) =>
 	<div>
 		<List>
@@ -96,7 +98,11 @@ const ShowCard = ({
 		</List>
 
 		<article>
-			<h1>{card.title}</h1>
+			<h1>
+				<a onClick={preventingDefault(selectCard)} href='#'>
+					{card.title}
+				</a>
+			</h1>
 
 			<Markdown source={card.text || ''} />
 		</article>
@@ -125,6 +131,9 @@ const ShowCardContainer = createContainer(({card}) => ({
 		Cards.update(card._id, {
 			$pull: {related: related._id},
 		});
+	},
+	selectCard() {
+		SyncedSession.set('selectedCard', card._id);
 	},
 }), ShowCard);
 
