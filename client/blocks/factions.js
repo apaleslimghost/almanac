@@ -31,8 +31,8 @@ const Relationship = ({level = 0, control, modRelationship, faction}) => <Right>
 	<Icon icon={relationshipIcon[level]} />
 
 	{control && <span>
-		<button onClick={() => modRelationship(+1, faction)}>+</button>
-		<button onClick={() => modRelationship(-1, faction)}>-</button>
+		<button disabled={level >= 2}  onClick={() => modRelationship(+1, faction)}>+</button>
+		<button disabled={level <= -2} onClick={() => modRelationship(-1, faction)}>-</button>
 	</span>}
 </Right>;
 
