@@ -1,10 +1,28 @@
 import React from 'react';
-import styled, {css} from 'styled-components';
+import styled, {css, injectGlobal} from 'styled-components';
 import * as components from './components';
 import {createContainer} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
 import {Layout} from './../shared/collections';
 import withState from './components/state';
+
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+
+injectGlobal`
+	.react-grid-item {
+		overflow: auto;
+	}
+
+	.grid-control .react-grid-item {
+		border: 1px solid #e9e1da;
+		background: #f9f1ea;
+	}
+
+	.react-grid-item.react-grid-placeholder {
+		background: teal;
+	}
+`;
 
 const GridLayoutWidth = WidthProvider(GridLayout);
 
