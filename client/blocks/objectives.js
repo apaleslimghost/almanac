@@ -1,7 +1,7 @@
 import React from 'react';
 import formJson from '@quarterto/form-json';
-import {H1, H2} from './heading';
-import Ornamented from './ornamented';
+import {H1, H2} from '../components/heading';
+import Ornamented from '../components/ornamented';
 import {createContainer} from 'meteor/react-meteor-data';
 import SyncedSession from 'meteor/quarterto:synced-session';
 import {Cards} from '../../shared/collections'

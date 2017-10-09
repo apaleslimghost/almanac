@@ -1,12 +1,12 @@
 import React from 'react';
 import OdreianDate from 'odreian-date'
 import styled, {css} from 'styled-components';
-import {H1, H2, H3} from './heading';
-import withState from './state';
+import {H1, H2, H3} from '../components/heading';
+import withState from '../components/state';
 import SyncedSession from 'meteor/quarterto:synced-session';
 import {createContainer} from 'meteor/react-meteor-data';
 
-import Ornamented, {bordered} from './ornamented';
+import Ornamented, {bordered} from '../components/ornamented';
 
 const TimeOfDay = styled(H1)`
 margin: -0.2em 0 0 -0.15em;

@@ -1,6 +1,6 @@
 import React from 'react';
 import formJson from '@quarterto/form-json';
-import {H3, H4} from './heading';
+import {H3, H4} from '../components/heading';
 import _ from 'lodash';
 import pluralize from 'pluralize';
 import {Cards} from '../../shared/collections';

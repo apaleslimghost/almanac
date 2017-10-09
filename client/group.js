@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, {css, injectGlobal} from 'styled-components';
-import * as components from './components';
+import * as blocks from './blocks';
 import {createContainer} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
 import {Layout} from './../shared/collections';
@@ -38,7 +38,7 @@ const ComponentSelect = withState(
 				<option value="" disabled>
 					Component&hellip;
 				</option>
-				{Object.keys(components)
+				{Object.keys(blocks)
 					.map(component => (
 						<option value={component} key={component}>
 							{component}
@@ -97,7 +97,7 @@ export default createContainer(
 				{layout.map(({_id, component}) => <div key={_id}>
 					{which === 'control' &&
 						<CloseButton onClick={() => removeComponent(_id)}>×</CloseButton>}
-					{React.createElement(components[component][which])}
+					{React.createElement(blocks[component][which])}
 				</div>)}
 			</GridLayoutWidth>
 		</div>

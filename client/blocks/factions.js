@@ -2,8 +2,8 @@ import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import formJson from '@quarterto/form-json';
 import {Factions} from '../../shared/collections';
-import Ornamented from './ornamented';
-import Icon from './icon';
+import Ornamented from '../components/ornamented';
+import Icon from '../components/icon';
 import styled from 'styled-components';
 
 const relationshipLabel = {

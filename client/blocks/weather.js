@@ -1,8 +1,8 @@
 import React from 'react';
-import withState from './state';
+import withState from '../components/state';
 import styled from 'styled-components';
 import OdreianDate from 'odreian-date';
-import Ornamented from './ornamented';
+import Ornamented from '../components/ornamented';
 import {createContainer} from 'meteor/react-meteor-data';
 import SyncedSession from 'meteor/quarterto:synced-session';
 
