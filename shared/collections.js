@@ -5,9 +5,7 @@ import {collection} from 'meteor/quarterto:synced-session';
 export const Cards = new Mongo.Collection('cards');
 export const SyncedSession = collection;
 
-//TODO nest quests instead of quests → objectives
 export const Layout = new Mongo.Collection('layout');
-export const Factions = new Mongo.Collection('factions');
 
 if(Meteor.isClient) {
 	window.collections = exports;

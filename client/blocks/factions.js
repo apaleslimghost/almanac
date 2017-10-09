@@ -1,7 +1,7 @@
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import formJson from '@quarterto/form-json';
-import {Factions} from '../../shared/collections';
+import {Cards} from '../../shared/collections';
 import Ornamented from '../components/ornamented';
 import Icon from '../components/icon';
 import styled from 'styled-components';
@@ -26,7 +26,7 @@ const Right = styled.span`
 	float: right;
 `;
 
-const Relationship = ({level, control, modRelationship, faction}) => <Right>
+const Relationship = ({level = 0, control, modRelationship, faction}) => <Right>
 	{relationshipLabel[level]}{' '}
 	<Icon icon={relationshipIcon[level]} />
 
@@ -37,32 +37,40 @@ const Relationship = ({level, control, modRelationship, faction}) => <Right>
 </Right>;
 
 const ShowFactions = createContainer(() => ({
-	factions: Factions.find().fetch(),
+	factions: Cards.find({type: 'faction'}).fetch(),
 
 	onCreate(ev) {
 		ev.preventDefault();
 		const data = formJson(ev.target);
 		ev.target.reset();
-		Factions.insert(Object.assign({relationship: 0}, data));
+		Cards.insert({
+			relationship: 0,
+			type: 'faction',
+			...data
+		});
 	},
 
 	modRelationship(amount, faction) {
 		if(amount + faction.relationship < 3 && amount + faction.relationship > -3) {
-			Factions.update(faction._id, {
+			Cards.update(faction._id, {
 				$inc: {relationship: amount},
+			});
+		} else if(!faction.relationship) {
+			Cards.update(faction._id, {
+				$set: {relationship: amount},
 			});
 		}
 	},
 
 	remove(faction) {
-		Factions.remove(faction._id);
+		Cards.remove(faction._id);
 	}
 }), ({factions, onCreate, modRelationship, remove, control = false}) => <div>
 	<Ornamented ornament='x'>Factions</Ornamented>
 
 	<ul>
 		{factions.map(faction => <li key={faction._id}>
-			{faction.name}
+			{faction.title}
 			<Relationship
 				level={faction.relationship}
 				control={control}
@@ -73,7 +81,7 @@ const ShowFactions = createContainer(() => ({
 		</li>)}
 
 		{control && <form onSubmit={onCreate}>
-			<input placeholder='Faction' name='name' />
+			<input placeholder='Faction' name='title' />
 			<button>➕</button>
 		</form>}
 	</ul>
