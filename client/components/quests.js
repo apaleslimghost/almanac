@@ -15,7 +15,7 @@ const QuestsList = createContainer(() => ({
 	<ul>
 		{quests.map(quest =>
 			<li key={quest._id}>
-				<H3>{quest.name}</H3>
+				<H3>{quest.title}</H3>
 				<H4>{pluralize('objectives', _.size(_.reject(byQuest[quest._id], 'completed')), true)} </H4>
 				{onSelectCurrent && <button onClick={() => onSelectCurrent(quest)}>
 					{quest._id === currentQuest ? '🔚' : '🔝'}
@@ -52,7 +52,7 @@ onCreate}) =>
 		/>
 
 		<form onSubmit={onCreate}>
-			<input placeholder='Quest' name='name' />
+			<input placeholder='Quest' name='title' />
 			<button>➕</button>
 		</form>
 	</div>

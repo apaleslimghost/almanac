@@ -19,13 +19,13 @@ const ObjectivesList = createContainer(() => {
 	};
 }, ({currentQuest, objectives, onComplete, onDelete}) =>
 	currentQuest ? <div>
-		<Ornamented ornament='u'>{currentQuest.name}</Ornamented>
+		<Ornamented ornament='u'>{currentQuest.title}</Ornamented>
 
 		<ul>{objectives.filter(({completed}) => !completed).map(objective =>
 			<li key={objective._id}>
 				{onComplete && <button onClick={() => onComplete(objective)}>☑️</button>}
 				{onDelete && <button onClick={() => onDelete(objective)}>❌</button>}
-				{objective.text}
+				{objective.title}
 				{objective.completed}
 			</li>
 		)}</ul>
@@ -73,7 +73,7 @@ const ObjectivesControl = createContainer(() => {
 		<ObjectivesList onComplete={onComplete} onDelete={onDelete} />
 
 		<form onSubmit={onCreate}>
-			<input placeholder='Objective' name='text' />
+			<input placeholder='Objective' name='title' />
 			<button>➕</button>
 		</form>
 	</div> : <Ornamented ornament='u'>No current quest</Ornamented>

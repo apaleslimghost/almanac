@@ -19,7 +19,7 @@ const CompletedObjectives = createContainer(
 			<ul>
 				{objectives.map(objective => (
 					<li key={objective._id}>
-						<b>{questsById[objective.quest].name}</b> {objective.text}
+						<b>{questsById[objective.quest].title}</b> {objective.title}
 						<div>
 							✓{' '}
 							<time>
