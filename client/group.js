@@ -22,6 +22,10 @@ injectGlobal`
 	.react-grid-item.react-grid-placeholder {
 		background: teal;
 	}
+
+	.react-resizable-handle {
+		z-index: 100;
+	}
 `;
 
 const GridLayoutWidth = WidthProvider(GridLayout);
@@ -97,7 +101,9 @@ export default createContainer(
 				{layout.map(({_id, component}) => <div key={_id}>
 					{which === 'control' &&
 						<CloseButton onClick={() => removeComponent(_id)}>×</CloseButton>}
-					{React.createElement(blocks[component][which])}
+					{blocks[component]
+						? React.createElement(blocks[component][which])
+						: 'unknown component'}
 				</div>)}
 			</GridLayoutWidth>
 		</div>
