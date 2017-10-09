@@ -109,7 +109,11 @@ const ShowCard = ({
 
 		<List>
 			{relatedCards.map(related =>
-				<Label onClick={() => removeRelated(related)} colour='aqua' key={related._id}>{related.title}</Label>
+				<Label onClick={() => removeRelated(related)} colour='aqua' key={related._id}>
+					<LabelBody>
+						{related.title}
+					</LabelBody>
+				</Label>
 			)}
 			<div>
 				<CardSelect
