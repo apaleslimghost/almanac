@@ -1,0 +1,8 @@
+{
+	"buildpacks": [{
+		"url": "https://github.com/AdmitHub/meteor-buildpack-horse.git"
+	}],
+	"addons": [
+		{"plan": "mongolab:sandbox"}
+	]
+}
