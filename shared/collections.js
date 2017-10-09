@@ -6,8 +6,6 @@ export const Cards = new Mongo.Collection('cards');
 export const SyncedSession = collection;
 
 //TODO nest quests instead of quests → objectives
-export const Objectives = new Mongo.Collection('objectives');
-export const Quests = new Mongo.Collection('quests');
 export const Layout = new Mongo.Collection('layout');
 export const Factions = new Mongo.Collection('factions');
 

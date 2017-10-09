@@ -3,14 +3,14 @@ import formJson from '@quarterto/form-json';
 import {H3, H4} from './heading';
 import _ from 'lodash';
 import pluralize from 'pluralize';
-import {Quests, Objectives} from '../../shared/collections';
+import {Cards} from '../../shared/collections';
 import {createContainer} from 'meteor/react-meteor-data';
 import SyncedSession from 'meteor/quarterto:synced-session';
 
 const QuestsList = createContainer(() => ({
-	quests: Quests.find().fetch(),
+	quests: Cards.find({type: 'quest'}).fetch(),
 	currentQuest: SyncedSession.get('currentQuest'),
-	byQuest: _.groupBy(Objectives.find().fetch(), 'quest'),
+	byQuest: _.groupBy(Cards.find({type: 'objective'}).fetch(), 'quest'),
 }), ({quests, currentQuest, byQuest, onSelectCurrent, onDelete}) =>
 	<ul>
 		{quests.map(quest =>
@@ -32,13 +32,14 @@ const QuestsControl = createContainer(() => ({
 		SyncedSession.set('currentQuest', quest._id);
 	},
 	onDelete(quest) {
-		Quests.remove(quest._id);
+		Cards.remove(quest._id);
 	},
 	onCreate(ev) {
 		ev.preventDefault();
 		const data = formJson(ev.target);
+		data.type = 'quest';
 		ev.target.reset();
-		Quests.insert(data);
+		Cards.insert(data);
 	}
 }),
 ({currentQuest,onSelectCurrent,

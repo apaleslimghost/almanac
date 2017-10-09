@@ -2,16 +2,16 @@ import React from 'react';
 import OdreianDate from 'odreian-date';
 import _ from 'lodash';
 import {H1, H2} from './heading';
-import {Objectives, Quests} from '../../shared/collections';
+import {Cards} from '../../shared/collections';
 import {createContainer} from 'meteor/react-meteor-data';
 
 const CompletedObjectives = createContainer(
 	() => ({
-		objectives: Objectives.find(
-			{completed: true},
+		objectives: Cards.find(
+			{type: 'objective', completed: true},
 			{sort: [['completedDate', 'desc']]}
 		).fetch(),
-		questsById: _.groupBy(Quests.find().fetch(), '_id'),
+		questsById: _.groupBy(Cards.find({type: 'quest'}).fetch(), '_id'),
 	}),
 	({objectives, questsById}) => (
 		<div>

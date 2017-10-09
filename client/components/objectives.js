@@ -4,16 +4,17 @@ import {H1, H2} from './heading';
 import Ornamented from './ornamented';
 import {createContainer} from 'meteor/react-meteor-data';
 import SyncedSession from 'meteor/quarterto:synced-session';
-import {Objectives, Quests} from '../../shared/collections'
+import {Cards} from '../../shared/collections'
 
 const ObjectivesList = createContainer(() => {
 	const currentQuest = SyncedSession.get('currentQuest');
-	const objectives = Objectives.find({
+	const objectives = Cards.find({
+		type: 'objective',
 		quest: currentQuest,
 	}).fetch();
 
 	return {
-		currentQuest: currentQuest && Quests.findOne(currentQuest),
+		currentQuest: currentQuest && Cards.findOne(currentQuest),
 		objectives
 	};
 }, ({currentQuest, objectives, onComplete, onDelete}) =>
@@ -33,7 +34,8 @@ const ObjectivesList = createContainer(() => {
 
 const ObjectivesControl = createContainer(() => {
 	const currentQuest = SyncedSession.get('currentQuest');
-	const objectives = Objectives.find({
+	const objectives = Cards.find({
+		type: 'objective',
 		quest: currentQuest,
 	}).fetch();
 
@@ -42,7 +44,7 @@ const ObjectivesControl = createContainer(() => {
 		objectives,
 
 		onComplete(objective) {
-			Objectives.update(objective._id, {
+			Cards.update(objective._id, {
 				$set: {
 					completed: true,
 					completedDate: SyncedSession.get('date'),
@@ -51,17 +53,18 @@ const ObjectivesControl = createContainer(() => {
 		},
 
 		onDelete(objective) {
-			Objectives.remove(objective._id);
+			Cards.remove(objective._id);
 		},
 
 		onCreate(ev) {
 			ev.preventDefault();
 			const data = formJson(ev.target);
 			ev.target.reset();
-			Objectives.insert({
+			Cards.insert({
 				...data,
 				completed: false,
 				quest: currentQuest,
+				type: 'objective',
 			});
 		}
 	};
