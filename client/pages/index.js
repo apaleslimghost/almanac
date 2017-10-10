@@ -49,7 +49,7 @@ injectGlobal`
 	}
 `;
 
-route('/', {
+route('/dashboard', {
 	name: 'Home',
 	action() {
 		mount(App, {
@@ -58,7 +58,7 @@ route('/', {
 	}
 });
 
-route('/control', {
+route('/dashboard-control', {
 	name: 'Control',
 	action() {
 		mount(App, {
@@ -67,7 +67,7 @@ route('/control', {
 	}
 });
 
-route('/grail', {
+route('/', {
 	name: 'Grail',
 	action() {
 		mount(App, {
