@@ -3,7 +3,7 @@ import formJson from '@quarterto/form-json';
 import {H1, H2} from '../components/heading';
 import Ornamented from '../components/ornamented';
 import {createContainer} from 'meteor/react-meteor-data';
-import SyncedSession from 'meteor/quarterto:synced-session';
+import SyncedSession from '../../shared/session';
 import {Cards} from '../../shared/collections'
 import idFirst from '../id-first';
 import OdreianDate from 'odreian-date';

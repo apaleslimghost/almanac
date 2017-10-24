@@ -1,6 +1,6 @@
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
-import SyncedSession from 'meteor/quarterto:synced-session';
+import SyncedSession from '../../shared/session';
 
 import DatePicker from './date-picker';
 import {Padded} from './primitives';

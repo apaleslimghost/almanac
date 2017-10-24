@@ -1,11 +1,19 @@
-import SyncedSession from 'meteor/quarterto:synced-session';
+import {Session} from './collections';
 
-export default prefix => ({
-	get(key) {
-		return SyncedSession.get(prefix + key);
+export default ({campaignId}) => ({
+	get(_key) {
+		return Session.findOne({
+			campaignId,
+			_key
+		});
 	},
 
-	set(key, obj) {
-		SyncedSession.get(prefix + key, obj);
+	set(_key, obj) {
+		const existing = this.get(_key);
+		if(existing) {
+			Session.update(existing._id, {$set: obj});
+		} else {
+			Session.insert({...obj, campaignId, _key});
+		}
 	},
 });

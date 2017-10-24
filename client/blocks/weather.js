@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import OdreianDate from 'odreian-date';
 import Ornamented from '../components/ornamented';
 import {createContainer} from 'meteor/react-meteor-data';
-import SyncedSession from 'meteor/quarterto:synced-session';
+import SyncedSession from '../../shared/session';
 
 const moonPhase = date => [
 	'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',

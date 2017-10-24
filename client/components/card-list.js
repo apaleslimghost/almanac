@@ -2,7 +2,7 @@ import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
-import SyncedSession from 'meteor/quarterto:synced-session';
+import SyncedSession from '../../shared/session';
 
 import {Cards} from '../../shared/collections';
 import subscribe from '../subscribe';

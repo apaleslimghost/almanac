@@ -3,7 +3,7 @@ import OdreianDate from 'odreian-date'
 import styled, {css} from 'styled-components';
 import {H1, H2, H3} from '../components/heading';
 import withState from '../components/state';
-import SyncedSession from 'meteor/quarterto:synced-session';
+import SyncedSession from '../../shared/session';
 import {createContainer} from 'meteor/react-meteor-data';
 
 import Ornamented, {bordered} from '../components/ornamented';
