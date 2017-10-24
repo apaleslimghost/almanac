@@ -13,6 +13,7 @@ const App = ({content}) => <main>
 import Dashboard from './dashboard';
 import Control from './control';
 import Grail from './grail';
+import Home from './home';
 
 //TODO: card search
 //TODO: integrate Menagerie (monsters & spells, with JSON import/export)
@@ -80,7 +81,7 @@ route('/', {
 	name: 'Home',
 	action() {
 		mount(App, {
-			content: <h1>Almanac</h1>
+			content: <Home />
 		});
 	}
 })
