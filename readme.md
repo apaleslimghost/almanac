@@ -1,6 +1,6 @@
 # almanac
 
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/quarterto/almanac.svg?columns=To%20do)](http://waffle.io/quarterto/almanac)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/quarterto/almanac.svg?columns=Next%20release,In%20progress)](http://waffle.io/quarterto/almanac)
 
 ## getting started
 
