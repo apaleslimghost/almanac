@@ -9,12 +9,14 @@ margin-top: 0;
 
 const title = css`
 ${base}
-font-family: MrsEavesSmallCaps;
+font-family: 'Libre Baskerville', serif;
+font-variant: small-caps;
 `;
 
 const subtitle = css`
 ${base}
-font-family: ScalaSansCaps;
+font-family: 'Source Sans Pro', sans-serif;
+font-variant: small-caps;
 `;
 
 export const H1 = styled.h1`${title}`;

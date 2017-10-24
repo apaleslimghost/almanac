@@ -27,6 +27,7 @@ position: relative;
 
 const Ornament = styled.span`
 font-family: 'PC Ornaments';
+font-variant: normal;
 font-size: ${({large}) => large ? '2em' : '1.2em'};
 
 &:first-child {
@@ -41,7 +42,8 @@ font-size: ${({large}) => large ? '2em' : '1.2em'};
 `;
 
 const Ornamented = styled(H2)`
-font-family: MrsEavesRoman;
+font-family: 'Libre Baskerville', serif;
+font-variant: normal;
 margin: 0;
 
 display: flex;
