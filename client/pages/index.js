@@ -10,7 +10,7 @@ const App = ({content}) => <main>
 	{content}
 </main>;
 
-import Home from './home';
+import Dashboard from './dashboard';
 import Control from './control';
 import Grail from './grail';
 
@@ -49,20 +49,20 @@ injectGlobal`
 	}
 `;
 
-route('/dashboard', {
-	name: 'Home',
-	action() {
+route('/:campaignId/dashboard', {
+	name: 'Dashboard',
+	action({campaignId}) {
 		mount(App, {
-			content: <Home />
+			content: <Dashboard campaignId={campaignId} />
 		});
 	}
 });
 
-route('/dashboard-control', {
+route('/:campaignId/dashboard-control', {
 	name: 'Control',
-	action() {
+	action({campaignId}) {
 		mount(App, {
-			content: <Control />
+			content: <Control campaignId={campaignId} />
 		});
 	}
 });
