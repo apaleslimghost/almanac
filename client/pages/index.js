@@ -67,11 +67,20 @@ route('/dashboard-control', {
 	}
 });
 
-route('/', {
+route('/:campaignId', {
 	name: 'Grail',
-	action() {
+	action({campaignId}) {
 		mount(App, {
-			content: <Grail />
+			content: <Grail campaignId={campaignId} />
 		});
 	}
 });
+
+route('/', {
+	name: 'Home',
+	action() {
+		mount(App, {
+			content: <h1>Almanac</h1>
+		});
+	}
+})

@@ -2,7 +2,7 @@ import React from 'react';
 import CardList from '../components/card-list';
 import Filter from '../components/filter';
 
-export default () => <div>
+export default ({campaignId}) => <div>
 	<Filter />
-	<CardList />
+	<CardList campaignId={campaignId} />
 </div>;

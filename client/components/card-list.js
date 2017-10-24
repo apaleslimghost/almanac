@@ -24,9 +24,9 @@ const CardList = createContainer(() => ({
 	</CardPrimitive>
 </Grid>);
 
-const CardListContainer = createContainer(() => {
+const CardListContainer = createContainer(({campaignId}) => {
 	const selectedCard = SyncedSession.get('selectedCard');
-	let cards = Cards.find({}).fetch();
+	let cards = Cards.find({campaignId}).fetch();
 
 	if (selectedCard) {
 		const graph = buildGraph(cards);
