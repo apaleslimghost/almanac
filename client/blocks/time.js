@@ -9,7 +9,7 @@ import {createContainer} from 'meteor/react-meteor-data';
 import Ornamented, {bordered} from '../components/ornamented';
 
 const TimeOfDay = styled(H1)`
-margin: -0.2em 0 0 -0.15em;
+margin: 0;
 font-size: 6em;
 line-height: 1;
 letter-spacing: -0.1em;
@@ -18,7 +18,8 @@ font-weight: normal;
 
 const Year = styled(H3)`
 ${bordered}
-font-family: MrsEavesRoman;
+font-family: 'Libre Baskerville', serif;
+font-variant: normal;
 margin: 0;
 `;
 

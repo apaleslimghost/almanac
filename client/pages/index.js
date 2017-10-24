@@ -22,10 +22,15 @@ import Grail from './grail';
 //TODO: search by metadata
 
 injectGlobal`
+	@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Libre+Baskerville');
+
+	@font-face {
+		font-family: 'PC Ornaments';
+		src: url('/fonts/pc-ornaments.woff2') format('woff2');
+	}
+
 	body {
-		font-family: Bookmania;
-		line-height: 1.6;
-		font-size: 24px;
+		font-family: 'Source Sans Pro', sans-serif;
 		margin: 0;
 		background: ${background};
 		color: ${steel[0]};
