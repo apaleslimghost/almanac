@@ -68,21 +68,11 @@ const OrnamentedMonth = ({date}) => <Ornamented ornament={ornaments[date.monthIn
 	</Compact>
 </Ornamented>;
 
-const connectTime = ({campaignId}) => {
-	const session = getCampaignSession(campaignId)
-	return {
-		date: new OdreianDate(session.get('date') || 0),
-		session,
-	};
-};
-
-const Time = createContainer(connectTime, ({date}) =>
-	<DateGroup>
-		<OrnamentedMonth date={date} />
-		<TimeOfDay>{date.format`${'h'}:${'mm'}`}<small>{date.a}</small></TimeOfDay>
-		<Year><span>{date.YYYY}</span></Year>
-	</DateGroup>
-);
+const Time = ({date}) => <DateGroup>
+	<OrnamentedMonth date={date} />
+	<TimeOfDay>{date.format`${'h'}:${'mm'}`}<small>{date.a}</small></TimeOfDay>
+	<Year><span>{date.YYYY}</span></Year>
+</DateGroup>;
 
 const pluralize = (word, n) => Math.abs(n) > 1 ? `${word}s` : word;
 
@@ -130,8 +120,17 @@ const DateFormConnector = createContainer(({session}) => ({
 	},
 }), ({date, setDate}) => <DateForm date={date} onSubmit={setDate} />);
 
-const TimeControl = createContainer(connectTime, ({session}) => <div>
-	<Time />
+const connectTime = ({campaignId}) => {
+	const session = getCampaignSession(campaignId);
+	return {
+		date: new OdreianDate(session.get('date') || 0),
+		session,
+	};
+};
+
+const TimeContainer = createContainer(connectTime, Time);
+const TimeControl = createContainer(connectTime, ({date, session}) => <div>
+	<Time date={date} />
 
 	<Controls>
 		<div>
@@ -175,6 +174,6 @@ const TimeControl = createContainer(connectTime, ({session}) => <div>
 </div>);
 
 export {
-	Time as display,
+	TimeContainer as display,
 	TimeControl as control
 };

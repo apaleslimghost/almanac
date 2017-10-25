@@ -102,7 +102,7 @@ const QuestsControl = createContainer(({campaignId}) => {
 			Cards.update(objective._id, {
 				$set: {
 					completed: true,
-					completedDate: session.get('date'),
+					completedDate: session.get('date') || 0,
 				},
 			});
 		},
