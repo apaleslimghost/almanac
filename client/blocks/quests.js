@@ -3,7 +3,7 @@ import formJson from '@quarterto/form-json';
 import {H1, H2} from '../components/heading';
 import Ornamented from '../components/ornamented';
 import {createContainer} from 'meteor/react-meteor-data';
-import SyncedSession from '../../shared/session';
+import getCampaignSession from '../../shared/session';
 import {Cards} from '../../shared/collections'
 import idFirst from '../id-first';
 import OdreianDate from 'odreian-date';
@@ -20,7 +20,6 @@ const getQuestObjectives = quest => Cards.find({
 }).fetch();
 
 const ObjectivesList = createContainer(({quest}) => ({
-	currentQuest: SyncedSession.get('currentQuest'),
 	objectives: getQuestObjectives(quest),
 }), ({
 	quest,
@@ -79,10 +78,10 @@ const ObjectivesList = createContainer(({quest}) => ({
 	</div> : null
 );
 
-const QuestsList = createContainer(() => ({
+const QuestsList = createContainer(({currentQuest}) => ({
 	quests: idFirst(
 		Cards.find({type: 'quest'}).fetch(),
-		SyncedSession.get('currentQuest')
+		currentQuest
 	),
 }), ({onCreateQuest, quests, ...props}) => <div>
 	{quests.map(quest => <ObjectivesList key={quest._id} quest={quest} {...props} />)}
@@ -92,62 +91,69 @@ const QuestsList = createContainer(() => ({
 	</form>}
 </div>);
 
-const QuestsControl = createContainer(() => ({
-	onCompleteObjective(objective) {
-		Cards.update(objective._id, {
-			$set: {
-				completed: true,
-				completedDate: SyncedSession.get('date'),
-			},
-		});
-	},
+const QuestsControl = createContainer(({campaignId}) => {
+	const session = getCampaignSession(campaignId);
+	const currentQuest = session.get('currentQuest');
 
-	onDeleteObjective(objective) {
-		Cards.remove(objective._id);
-	},
+	return {
+		currentQuest,
 
-	onCreateObjective(ev, quest) {
-		ev.preventDefault();
-		const data = formJson(ev.target);
-		ev.target.reset();
+		onCompleteObjective(objective) {
+			Cards.update(objective._id, {
+				$set: {
+					completed: true,
+					completedDate: session.get('date'),
+				},
+			});
+		},
 
-		Cards.insert({
-			...data,
-			completed: false,
-			type: 'objective',
-		}, (err, id) =>
-			!err && Cards.update(
-				quest._id,
-				{$addToSet: {related: id}}
-			)
-		);
-	},
+		onDeleteObjective(objective) {
+			Cards.remove(objective._id);
+		},
 
-	onCreateQuest(ev) {
-		ev.preventDefault();
-		const data = formJson(ev.target);
-		ev.target.reset();
+		onCreateObjective(ev, quest) {
+			ev.preventDefault();
+			const data = formJson(ev.target);
+			ev.target.reset();
 
-		Cards.insert({
-			...data,
-			type: 'quest',
-		});
-	},
+			Cards.insert({
+				...data,
+				completed: false,
+				type: 'objective',
+			}, (err, id) =>
+				!err && Cards.update(
+					quest._id,
+					{$addToSet: {related: id}}
+				)
+			);
+		},
 
-	onDeleteQuest(quest) {
-		Cards.remove(quest._id);
-		Cards.find({
-			type: 'objective',
-			_id: {$in: quest.related || []}
-		}).forEach(({_id}) => {
-			Cards.remove(_id);
-		});
-	},
+		onCreateQuest(ev) {
+			ev.preventDefault();
+			const data = formJson(ev.target);
+			ev.target.reset();
 
-	onSelectQuest(quest) {
-		SyncedSession.set('currentQuest', quest._id);
-	}
-}), QuestsList);
+			Cards.insert({
+				...data,
+				type: 'quest',
+			});
+		},
+
+		onDeleteQuest(quest) {
+			Cards.remove(quest._id);
+			Cards.find({
+				type: 'objective',
+				_id: {$in: quest.related || []}
+			}).forEach(({_id}) => {
+				Cards.remove(_id);
+			});
+		},
+
+		onSelectQuest(quest) {
+			session.set('currentQuest', quest._id);
+		}
+	};
+}, QuestsList);
 
 export {
 	QuestsList as display,

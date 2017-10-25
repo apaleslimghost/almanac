@@ -1,6 +1,6 @@
 import {Session} from './collections';
 
-export default ({campaignId}) => ({
+export default campaignId => ({
 	get(_key) {
 		return Session.findOne({
 			campaignId,

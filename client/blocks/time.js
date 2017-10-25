@@ -3,7 +3,7 @@ import OdreianDate from 'odreian-date'
 import styled, {css} from 'styled-components';
 import {H1, H2, H3} from '../components/heading';
 import withState from '../components/state';
-import SyncedSession from '../../shared/session';
+import getCampaignSession from '../../shared/session';
 import {createContainer} from 'meteor/react-meteor-data';
 
 import Ornamented, {bordered} from '../components/ornamented';
@@ -68,10 +68,15 @@ const OrnamentedMonth = ({date}) => <Ornamented ornament={ornaments[date.monthIn
 	</Compact>
 </Ornamented>;
 
-const Time = createContainer(() => ({
-	date: new OdreianDate(SyncedSession.get('date') || 0)
-}),
-({date}) =>
+const connectTime = ({campaignId}) => {
+	const session = getCampaignSession(campaignId)
+	return {
+		date: new OdreianDate(session.get('date') || 0),
+		session,
+	};
+};
+
+const Time = createContainer(connectTime, ({date}) =>
 	<DateGroup>
 		<OrnamentedMonth date={date} />
 		<TimeOfDay>{date.format`${'h'}:${'mm'}`}<small>{date.a}</small></TimeOfDay>
@@ -103,10 +108,10 @@ const secondsIn = {
 	year: secondsInYear,
 };
 
-const Inc = createContainer(({period, multiplier = 1}) => ({
+const Inc = createContainer(({session, period, multiplier = 1}) => ({
 	onIncrement() {
-		const date = SyncedSession.get('date') || 0;
-		SyncedSession.set('date', date + secondsIn[period] * multiplier);
+		const date = session.get('date') || 0;
+		session.set('date', date + secondsIn[period] * multiplier);
 	},
 }), ({onIncrement, multiplier = 1, period}) => <TimeButton
 	onClick={onIncrement}>
@@ -118,56 +123,56 @@ const DateForm = withState(({date}) => ({date}), ({date, onSubmit}, state, setSt
 	<button onClick={() => onSubmit(OdreianDate.parse(state.date).timestamp)}>Set</button>
 </div>);
 
-const DateFormConnector = createContainer(() => ({
-	date: new OdreianDate(SyncedSession.get('date') || 0).llll,
+const DateFormConnector = createContainer(({session}) => ({
+	date: new OdreianDate(session.get('date') || 0).llll,
 	setDate(date) {
-		SyncedSession.set('date', date);
-	}
+		session.set('date', date);
+	},
 }), ({date, setDate}) => <DateForm date={date} onSubmit={setDate} />);
 
-const TimeControl = () => <div>
+const TimeControl = createContainer(connectTime, ({session}) => <div>
 	<Time />
 
 	<Controls>
 		<div>
-			<Inc period='minute' />
-			<Inc period='minute' multiplier={5} />
-			<Inc period='minute' multiplier={15} />
-			<Inc period='minute' multiplier={30} />
+			<Inc session={session} period='minute' />
+			<Inc session={session} period='minute' multiplier={5} />
+			<Inc session={session} period='minute' multiplier={15} />
+			<Inc session={session} period='minute' multiplier={30} />
 		</div>
 
 		<div>
-			<Inc period='hour' />
-			<Inc period='hour' multiplier={2} />
-			<Inc period='hour' multiplier={4} />
-			<Inc period='hour' multiplier={8} />
-			<Inc period='hour' multiplier={12} />
+			<Inc session={session} period='hour' />
+			<Inc session={session} period='hour' multiplier={2} />
+			<Inc session={session} period='hour' multiplier={4} />
+			<Inc session={session} period='hour' multiplier={8} />
+			<Inc session={session} period='hour' multiplier={12} />
 		</div>
 
 		<div>
-			<Inc period='day' />
-			<Inc period='day' multiplier={2} />
+			<Inc session={session} period='day' />
+			<Inc session={session} period='day' multiplier={2} />
 		</div>
 
 		<div>
-			<Inc period='week' />
-			<Inc period='week' multiplier={2} />
+			<Inc session={session} period='week' />
+			<Inc session={session} period='week' multiplier={2} />
 		</div>
 
 		<div>
-			<Inc period='month' />
-			<Inc period='month' multiplier={2} />
-			<Inc period='month' multiplier={6} />
+			<Inc session={session} period='month' />
+			<Inc session={session} period='month' multiplier={2} />
+			<Inc session={session} period='month' multiplier={6} />
 		</div>
 
 		<div>
-			<Inc period='year' />
-			<Inc period='year' multiplier={2} />
+			<Inc session={session} period='year' />
+			<Inc session={session} period='year' multiplier={2} />
 		</div>
 
-		<DateFormConnector />
+		<DateFormConnector session={session} />
 	</Controls>
-</div>;
+</div>);
 
 export {
 	Time as display,

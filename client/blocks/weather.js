@@ -4,7 +4,11 @@ import styled from 'styled-components';
 import OdreianDate from 'odreian-date';
 import Ornamented from '../components/ornamented';
 import {createContainer} from 'meteor/react-meteor-data';
-import SyncedSession from '../../shared/session';
+import getCampaignSession from '../../shared/session';
+
+const withSession = Component => createContainer(({campaignId}) => ({
+	session: getCampaignSession(campaignId),
+}), Component);
 
 const moonPhase = date => [
 	'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',
@@ -22,6 +26,13 @@ const weatherCondition = ({temperature, humidity}) => [
 ]
 [Math.min(3, Math.floor(humidity * 4 / 100))]
 [Math.min(5, Math.floor((20 + temperature) * 6 / 80))];
+
+const defaultWeather = {
+	temperature: 10,
+	humidity: 50,
+	windHeading: 0,
+	windSpeed: 10,
+};
 
 const WindArrow = styled.span`
 display: inline-block;
@@ -76,11 +87,11 @@ const WeatherCondition = ({temperature, humidity}) => {
 	return <img src={`/weather/${condition}.png`} alt={condition} />;
 }
 
-const Weather = createContainer(() => {
-	const date = new OdreianDate(SyncedSession.get('date'));
+const Weather = withSession(createContainer(({session}) => {
+	const date = new OdreianDate(session.get('date'));
 	// TODO: seasons, sunset time
 	return {
-		...SyncedSession.get('weather'),
+		...(session.get('weather') || defaultWeather),
 		date,
 		isNight: date.hour < 7 || date.hour >= 20
 	}
@@ -99,7 +110,7 @@ const Weather = createContainer(() => {
 			</WeatherIcon>
 		</Under>
 	</WeatherWrapper>
-);
+));
 
 const FixedWidthLabel = styled.label`
 display: inline-block;
@@ -145,17 +156,17 @@ const WeatherForm = withState(
 	</div>
 );
 
-const WeatherFormConnector = createContainer(() => ({
-	weather: SyncedSession.get('weather'),
+const WeatherFormConnector = createContainer(({session}) => ({
+	weather: session.get('weather') || defaultWeather,
 	setWeather(weather) {
-		SyncedSession.set('weather', weather);
+		session.set('weather', weather);
 	},
 }), ({weather, setWeather}) => <WeatherForm weather={weather} onSubmit={setWeather} />);
 
-const WeatherControl = () => <div>
+const WeatherControl = withSession(({session}) => <div>
 	<Weather />
-	<WeatherFormConnector />
-</div>
+	<WeatherFormConnector session={session} />
+</div>);
 
 export {
 	WeatherControl as control,
