@@ -2,7 +2,7 @@ import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
-import SyncedSession from 'meteor/quarterto:synced-session';
+import getCampaignSession from '../../shared/session';
 
 import {Cards} from '../../shared/collections';
 import subscribe from '../subscribe';
@@ -24,9 +24,9 @@ const CardList = createContainer(() => ({
 	</CardPrimitive>
 </Grid>);
 
-const CardListContainer = createContainer(() => {
-	const selectedCard = SyncedSession.get('selectedCard');
-	let cards = Cards.find({}).fetch();
+const CardListContainer = createContainer(({campaignId}) => {
+	const selectedCard = getCampaignSession(campaignId).get('selectedCard');
+	let cards = Cards.find({campaignId}).fetch();
 
 	if (selectedCard) {
 		const graph = buildGraph(cards);

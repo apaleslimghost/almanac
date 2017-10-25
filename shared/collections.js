@@ -1,10 +1,10 @@
 import {Mongo} from 'meteor/mongo';
 import {Meteor} from 'meteor/meteor';
-import {collection} from 'meteor/quarterto:synced-session';
 
 export const Cards = new Mongo.Collection('cards');
 export const Types = new Mongo.Collection('types');
-export const SyncedSession = collection;
+export const Campaigns = new Mongo.Collection('campaigns');
+export const Session = new Mongo.Collection('session');
 
 export const Layout = new Mongo.Collection('layout');
 

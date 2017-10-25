@@ -70,8 +70,8 @@ const CloseButton = styled.button`
 `;
 
 export default createContainer(
-	() => ({
-		layout: Layout.find().fetch(),
+	({campaignId}) => ({
+		layout: Layout.find({campaignId}).fetch(),
 
 		updateLayout(layout) {
 			layout.forEach(({i, ...item}) => {
@@ -80,14 +80,14 @@ export default createContainer(
 		},
 
 		addComponent(component) {
-			Layout.insert({component, x: 0, y: 0, w: 2, h: 1});
+			Layout.insert({component, x: 0, y: 0, w: 2, h: 1, campaignId});
 		},
 
 		removeComponent(_id) {
 			Layout.remove(_id);
 		}
 	}),
-	({which, layout, updateLayout, addComponent, removeComponent}) => (
+	({which, layout, updateLayout, addComponent, removeComponent, ...props}) => (
 		<div className={`grid-${which}`}>
 			{which === 'control' && <ComponentSelect onSelect={addComponent} />}
 			<GridLayoutWidth
@@ -102,7 +102,7 @@ export default createContainer(
 					{which === 'control' &&
 						<CloseButton onClick={() => removeComponent(_id)}>×</CloseButton>}
 					{blocks[component]
-						? React.createElement(blocks[component][which])
+						? React.createElement(blocks[component][which], props)
 						: 'unknown component'}
 				</div>)}
 			</GridLayoutWidth>

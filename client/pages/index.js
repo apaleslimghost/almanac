@@ -10,9 +10,10 @@ const App = ({content}) => <main>
 	{content}
 </main>;
 
-import Home from './home';
+import Dashboard from './dashboard';
 import Control from './control';
 import Grail from './grail';
+import Home from './home';
 
 //TODO: card search
 //TODO: integrate Menagerie (monsters & spells, with JSON import/export)
@@ -54,29 +55,38 @@ injectGlobal`
 	}
 `;
 
-route('/dashboard', {
+route('/:campaignId/dashboard', {
+	name: 'Dashboard',
+	action({campaignId}) {
+		mount(App, {
+			content: <Dashboard campaignId={campaignId} />
+		});
+	}
+});
+
+route('/:campaignId/dashboard-control', {
+	name: 'Control',
+	action({campaignId}) {
+		mount(App, {
+			content: <Control campaignId={campaignId} />
+		});
+	}
+});
+
+route('/:campaignId', {
+	name: 'Grail',
+	action({campaignId}) {
+		mount(App, {
+			content: <Grail campaignId={campaignId} />
+		});
+	}
+});
+
+route('/', {
 	name: 'Home',
 	action() {
 		mount(App, {
 			content: <Home />
 		});
 	}
-});
-
-route('/dashboard-control', {
-	name: 'Control',
-	action() {
-		mount(App, {
-			content: <Control />
-		});
-	}
-});
-
-route('/', {
-	name: 'Grail',
-	action() {
-		mount(App, {
-			content: <Grail />
-		});
-	}
-});
+})

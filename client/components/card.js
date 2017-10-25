@@ -3,7 +3,7 @@ import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
-import SyncedSession from 'meteor/quarterto:synced-session';
+import getCampaignSession from '../../shared/session';
 
 import {Cards} from '../../shared/collections';
 import preventingDefault from '../preventing-default';
@@ -144,7 +144,7 @@ const ShowCardContainer = createContainer(({card}) => ({
 		});
 	},
 	selectCard() {
-		SyncedSession.set('selectedCard', card._id);
+		getCampaignSession(card.campaignId).set('selectedCard', card._id);
 	},
 }), ShowCard);
 
