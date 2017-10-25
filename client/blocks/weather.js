@@ -163,8 +163,8 @@ const WeatherFormConnector = createContainer(({session}) => ({
 	},
 }), ({weather, setWeather}) => <WeatherForm weather={weather} onSubmit={setWeather} />);
 
-const WeatherControl = withSession(({session}) => <div>
-	<Weather />
+const WeatherControl = withSession(({session, campaignId}) => <div>
+	<Weather campaignId={campaignId} />
 	<WeatherFormConnector session={session} />
 </div>);
 
