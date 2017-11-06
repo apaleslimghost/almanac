@@ -1,6 +1,10 @@
-# almanac
+<h1 align="center">
+   <img src="https://raw.githubusercontent.com/quarterto/almanac/5e34a38/public/images/logo.png" alt="Almanac" width="300"><br>
 
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/quarterto/almanac.svg?columns=Next%20release,In%20progress)](http://waffle.io/quarterto/almanac)
+   <a href="http://waffle.io/quarterto/almanac">
+      <img alt="Waffle.io - Columns and their card count" src="https://badge.waffle.io/quarterto/almanac.svg?columns=Next%20release,In%20progress">
+   </a>
+</h1>
 
 ## getting started
 
@@ -21,7 +25,7 @@ the `meteor` server compiles everything in [`client`](/client), [`shared`](/shar
  - [`client/pages`](/client/pages) for top-level routes
  - [`client/components`](/client/components) for miscellaneous react components (currently no separation between presentation & data components but this will change)
  - [`client/blocks`](/client/blocks) for dashboard components
- 
+
 ### dev process
 
  - create a branch referencing an issue (e.g. `search-#19`) and push it immediately
