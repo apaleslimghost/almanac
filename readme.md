@@ -1,5 +1,5 @@
 <h1 align="center">
-   <img src="https://raw.githubusercontent.com/quarterto/almanac/ad1abcb7aa54d14004c7a754aa185cf80e545bc4/public/images/logo.png" alt="Almanac"><br>
+   <img src="https://raw.githubusercontent.com/quarterto/almanac/ad1abcb7aa54d14004c7a754aa185cf80e545bc4/public/images/logo.png" alt="Almanac" width="300"><br>
 
    <a href="http://waffle.io/quarterto/almanac">
       <img alt="Waffle.io - Columns and their card count" src="https://badge.waffle.io/quarterto/almanac.svg?columns=Next%20release,In%20progress">
