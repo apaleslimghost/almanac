@@ -13,8 +13,7 @@
     "mongolab"
   ],
   "buildpacks": [
-    {
-      "url": "https://github.com/AdmitHub/meteor-buildpack-horse.git"
-    }
+    {"url": "https://github.com/heroku/heroku-buildpack-nodejs.git"},
+    {"url": "https://github.com/AdmitHub/meteor-buildpack-horse.git"}
   ]
 }
