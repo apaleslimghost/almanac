@@ -53,7 +53,6 @@ export default class DatePicker extends Component {
 	}
 
 	render() {
-		console.log(this.state);
 		return (
 			<Form
 				initialData={initDate}

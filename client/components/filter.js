@@ -16,6 +16,6 @@ export default withCampaign(createContainer(({campaignId}) => {
 		timestamp: session.get('timestamp'),
 	};
 }, ({timestamp, setDate}) => <Padded>
-	<DatePicker timestamp={(console.log(timestamp), timestamp)} onChange={setDate} />
+	<DatePicker timestamp={timestamp} onChange={setDate} />
 	{timestamp}
 </Padded>));
