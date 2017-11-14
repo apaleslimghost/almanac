@@ -13,9 +13,9 @@ import {buildGraph, distances} from '../graph';
 import Card, {EditCard} from './card';
 import {Grid, Card as CardPrimitive, List, Label, LabelBody} from './primitives';
 
-const CardList = createContainer(() => ({
+const CardList = withCampaign(createContainer(({campaignId}) => ({
 	addCard(card) {
-		Cards.insert(card);
+		Cards.insert({...card, campaignId});
 	}
 }), ({cards, addCard}) => <Grid>
 	{cards.map(card => <Card key={card._id} card={card} />)}
@@ -23,11 +23,11 @@ const CardList = createContainer(() => ({
 	<CardPrimitive>
 		<EditCard card={{}} saveCard={addCard} />
 	</CardPrimitive>
-</Grid>);
+</Grid>));
 
 const CardListContainer = withCampaign(createContainer(({campaignId}) => {
 	const selectedCard = getCampaignSession(campaignId).get('selectedCard');
-	let cards = Cards.find().fetch();
+	let cards = Cards.find({campaignId}).fetch();
 
 	if (selectedCard) {
 		const graph = buildGraph(cards);

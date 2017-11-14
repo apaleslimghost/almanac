@@ -4,6 +4,7 @@ import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
 import getCampaignSession from '../../shared/session';
+import {withCampaign} from '../components/campaign';
 
 import {Cards} from '../../shared/collections';
 import preventingDefault from '../preventing-default';
@@ -67,11 +68,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 const EditCardContainer = createContainer(
 	() => ({
 		saveCard(card) {
-			if (card._id) {
-				Cards.update(card._id, {$set: _.omit(card, '_id')});
-			} else {
-				Cards.insert(card);
-			}
+			Cards.update(card._id, {$set: _.omit(card, '_id')});
 		},
 
 		deleteCard(card) {
@@ -131,7 +128,7 @@ const ShowCard = ({
 		</List>
 	</div>;
 
-const ShowCardContainer = createContainer(({card}) => ({
+const ShowCardContainer = withCampaign(createContainer(({card, campaignId}) => ({
 	relatedCards: Cards.find({_id: {$in: card.related || []}}).fetch(),
 	addRelated(related) {
 		Cards.update(card._id, {
@@ -144,9 +141,9 @@ const ShowCardContainer = createContainer(({card}) => ({
 		});
 	},
 	selectCard() {
-		getCampaignSession(card.campaignId).set('selectedCard', card._id);
+		getCampaignSession(campaignId).set('selectedCard', card._id);
 	},
-}), ShowCard);
+}), ShowCard));
 
 const Card = props =>
 	<CardPrimitive large={props.large}>

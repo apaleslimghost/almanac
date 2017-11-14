@@ -58,7 +58,7 @@ injectGlobal`
 
 route('/:campaignId/dashboard', {
 	name: 'Dashboard',
-	action() {
+	action({campaignId}) {
 		mount(App, {
 			campaignId,
 			content: <Dashboard />
@@ -68,7 +68,7 @@ route('/:campaignId/dashboard', {
 
 route('/:campaignId/dashboard-control', {
 	name: 'Control',
-	action() {
+	action({campaignId}) {
 		mount(App, {
 			campaignId,
 			content: <Control />
@@ -78,7 +78,7 @@ route('/:campaignId/dashboard-control', {
 
 route('/:campaignId', {
 	name: 'Grail',
-	action() {
+	action({campaignId}) {
 		mount(App, {
 			campaignId,
 			content: <Grail />

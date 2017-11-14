@@ -5,6 +5,7 @@ import {createContainer} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
 import {Layout} from './../shared/collections';
 import withState from './components/state';
+import {withCampaign} from './components/campaign';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -69,8 +70,8 @@ const CloseButton = styled.button`
 	z-index: 1000;
 `;
 
-export default createContainer(
-	() => ({
+export default withCampaign(createContainer(
+	({campaignId}) => ({
 		layout: Layout.find().fetch(),
 
 		updateLayout(layout) {
@@ -108,4 +109,4 @@ export default createContainer(
 			</GridLayoutWidth>
 		</div>
 	)
-);
+));
