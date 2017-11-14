@@ -129,7 +129,7 @@ const ShowCard = ({
 	</div>;
 
 const ShowCardContainer = withCampaign(createContainer(({card, campaignId}) => ({
-	relatedCards: Cards.find({_id: {$in: card.related || []}}).fetch(),
+	relatedCards: Cards.find({_id: {$in: card.related || [], campaignId}}).fetch(),
 	addRelated(related) {
 		Cards.update(card._id, {
 			$addToSet: {related: related._id},
