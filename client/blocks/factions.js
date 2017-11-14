@@ -5,6 +5,7 @@ import {Cards} from '../../shared/collections';
 import Ornamented from '../components/ornamented';
 import Icon from '../components/icon';
 import styled from 'styled-components';
+import {withCampaign} from '../components/campaign';
 
 const relationshipLabel = {
 	'-2': 'Hostile',
@@ -36,17 +37,18 @@ const Relationship = ({level = 0, control, modRelationship, faction}) => <Right>
 	</span>}
 </Right>;
 
-const ShowFactions = createContainer(() => ({
-	factions: Cards.find({type: 'faction'}).fetch(),
+const ShowFactions = withCampaign(createContainer(({campaignId}) => ({
+	factions: Cards.find({type: 'faction', campaignId}).fetch(),
 
 	onCreate(ev) {
 		ev.preventDefault();
 		const data = formJson(ev.target);
 		ev.target.reset();
 		Cards.insert({
+			...data,
 			relationship: 0,
 			type: 'faction',
-			...data
+			campaignId
 		});
 	},
 
@@ -85,7 +87,7 @@ const ShowFactions = createContainer(() => ({
 			<button>➕</button>
 		</form>}
 	</ul>
-</div>);
+</div>));
 
 const FactionsControl = () => <ShowFactions control />;
 
