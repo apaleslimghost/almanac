@@ -24,7 +24,7 @@ const CardSelectContainer = withCampaign(createContainer({
 	pure: false,
 	getMeteorData: ({skip = [], campaignId}) => ({
 		ready: Meteor.subscribe('cards.all').ready(),
-		cardsById: _.keyBy(Cards.find({_id: {$nin: skip, campaignId}}).fetch(), '_id'),
+		cardsById: _.keyBy(Cards.find({_id: {$nin: skip}, campaignId}).fetch(), '_id'),
 	}),
 }, CardSelect));
 
