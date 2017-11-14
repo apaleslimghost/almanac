@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import {Cards} from '../../shared/collections';
 import {getSelectValue} from './form';
+import {withCampaign} from './campaign';
 
 //TODO: typeahead?
 
