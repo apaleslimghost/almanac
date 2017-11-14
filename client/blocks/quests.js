@@ -9,6 +9,39 @@ import idFirst from '../id-first';
 import OdreianDate from 'odreian-date';
 import styled from 'styled-components';
 import {withCampaign} from '../components/campaign';
+import {background} from '../colors';
+import Portal from 'react-portal';
+
+const Modal = styled.div`
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: ${background};
+`;
+
+const QuestSplash = ({action, quest, objective}) => quest ? <div>
+	<H1>
+		{action === 'startQuest' ? 'Started: ' : ''}
+		{quest.title}
+	</H1>
+	{objective && <H2>
+		{action === 'completeObjective'
+			? 'Completed: '
+			: ''}
+		{objective.title}
+	</H2>}
+</div> : null;
+
+const QuestSplashContainer = withCampaign(createContainer(({campaignId}) => ({
+	splashQuest: getCampaignSession(campaignId).get('splashQuest'),
+}), ({splashQuest}) => splashQuest
+	? <Portal isOpened={true}>
+		<Modal><QuestSplash {...splashQuest} /></Modal>
+	</Portal>
+	: null
+));
 
 const Completed = styled.span`
 	float: right;
@@ -45,7 +78,7 @@ const ObjectivesList = withCampaign(createContainer(({quest, campaignId}) => ({
 			{objectives.filter(({completed}) => !completed).map(objective =>
 				<li key={objective._id}>
 					{onCompleteObjective &&
-						<button onClick={() => onCompleteObjective(objective)}>
+						<button onClick={() => onCompleteObjective(objective, quest)}>
 							☑️
 						</button>
 					}
@@ -91,6 +124,7 @@ const QuestsList = withCampaign(createContainer(({currentQuest, campaignId}) => 
 		<input placeholder='Quest' name='title' />
 		<button>➕</button>
 	</form>}
+	{!onCreateQuest && <QuestSplashContainer />}
 </div>));
 
 const QuestsControl = withCampaign(createContainer(({campaignId}) => {
@@ -100,12 +134,18 @@ const QuestsControl = withCampaign(createContainer(({campaignId}) => {
 	return {
 		currentQuest,
 
-		onCompleteObjective(objective) {
+		onCompleteObjective(objective, quest) {
 			Cards.update(objective._id, {
 				$set: {
 					completed: true,
 					completedDate: session.get('date') || 0,
 				},
+			});
+
+			session.set('splashQuest', {
+				action: 'completeObjective',
+				quest,
+				objective,
 			});
 		},
 
@@ -123,12 +163,19 @@ const QuestsControl = withCampaign(createContainer(({campaignId}) => {
 				completed: false,
 				type: 'objective',
 				campaignId,
-			}, (err, id) =>
-				!err && Cards.update(
+			}, (err, id) => {
+				if(err) return;
+				Cards.update(
 					quest._id,
 					{$addToSet: {related: id}}
-				)
-			);
+				);
+
+				session.set('splashQuest', {
+					action: 'startObjective',
+					quest,
+					objective: data,
+				});
+			});
 		},
 
 		onCreateQuest(ev) {
@@ -140,6 +187,11 @@ const QuestsControl = withCampaign(createContainer(({campaignId}) => {
 				...data,
 				type: 'quest',
 				campaignId,
+			});
+
+			session.set('splashQuest', {
+				action: 'startQuest',
+				quest: data,
 			});
 		},
 
