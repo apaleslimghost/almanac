@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import formJson from '@quarterto/form-json';
 import {H1, H2} from '../components/heading';
 import Ornamented from '../components/ornamented';
@@ -7,10 +7,20 @@ import getCampaignSession from '../../shared/session';
 import {Cards} from '../../shared/collections'
 import idFirst from '../id-first';
 import OdreianDate from 'odreian-date';
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 import {withCampaign} from '../components/campaign';
 import {background} from '../colors';
 import Portal from 'react-portal';
+
+const fadeIn = keyframes`
+	0%   { opacity: 0; }
+	100% { opacity: 1; }
+`;
+
+const fadeOut = keyframes`
+	0%   { opacity: 1; }
+	100% { opacity: 0; }
+`;
 
 const Modal = styled.div`
 	position: fixed;
@@ -19,9 +29,21 @@ const Modal = styled.div`
 	right: 0;
 	bottom: 0;
 	background: ${background};
+	animation-name: ${
+		({animationState}) => ({
+			opening: fadeIn,
+			closing: fadeOut,
+		})[animationState] || 'none'
+	};
+	animation-duration: ${({animationState}) => animationState === 'opening' ? '350ms' : '10s'};
+	animation-fill-mode: forwards;
+	animation-timing-function: ease-in-out;
+	animation-iteration-count: 1;
 `;
 
-const QuestSplash = ({action, quest, objective}) => quest ? <div>
+const QuestSplash = ({action, quest, objective, animationState}) => <Modal
+	animationState={animationState}
+>
 	<H1>
 		{action === 'startQuest' ? 'Started: ' : ''}
 		{quest.title}
@@ -32,16 +54,54 @@ const QuestSplash = ({action, quest, objective}) => quest ? <div>
 			: ''}
 		{objective.title}
 	</H2>}
-</div> : null;
+</Modal>;
 
 const QuestSplashContainer = withCampaign(createContainer(({campaignId}) => ({
 	splashQuest: getCampaignSession(campaignId).get('splashQuest'),
-}), ({splashQuest}) => splashQuest
-	? <Portal isOpened={true}>
-		<Modal><QuestSplash {...splashQuest} /></Modal>
-	</Portal>
-	: null
-));
+}), class extends Component {
+	state = {
+		splashQuest: null,
+		animationState: 'closed',
+	};
+
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.splashQuest) {
+			this.setState({
+				splashQuest: nextProps.splashQuest,
+				animationState: 'opening',
+			});
+
+			this.timer = setTimeout(() => {
+				this.setState({animationState: 'closing'});
+
+				this.timer = setTimeout(() => {
+					this.setState({
+						splashQuest: null,
+						animationState: 'closed',
+					});
+				}, 10000);
+			}, 15000);
+		} else {
+			this.setState({
+				splashQuest: null,
+				animationState: 'closed',
+			});
+		}
+	}
+
+	render() {
+		if(this.state.splashQuest) {
+			return <Portal isOpened={true}>
+				<QuestSplash
+					{...this.state.splashQuest}
+					animationState={this.state.animationState}
+				/>
+			</Portal>;
+		}
+
+		return null
+	}
+}));
 
 const Completed = styled.span`
 	float: right;
