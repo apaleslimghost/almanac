@@ -3,6 +3,7 @@ import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import getCampaignSession from '../../shared/session';
+import {withCampaign} from '../components/campaign';
 
 import {Cards} from '../../shared/collections';
 import subscribe from '../subscribe';
@@ -24,9 +25,9 @@ const CardList = createContainer(() => ({
 	</CardPrimitive>
 </Grid>);
 
-const CardListContainer = createContainer(({campaignId}) => {
+const CardListContainer = withCampaign(createContainer(({campaignId}) => {
 	const selectedCard = getCampaignSession(campaignId).get('selectedCard');
-	let cards = Cards.find({campaignId}).fetch();
+	let cards = Cards.find().fetch();
 
 	if (selectedCard) {
 		const graph = buildGraph(cards);
@@ -39,6 +40,6 @@ const CardListContainer = createContainer(({campaignId}) => {
 		ready: Meteor.subscribe('cards.all').ready(),
 		cards: _.orderBy(cards, ['sortedIndex', 'title']),
 	};
-}, ({cards}) => <CardList cards={cards} />);
+}, ({cards}) => <CardList cards={cards} />));
 
 export default CardListContainer;

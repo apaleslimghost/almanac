@@ -70,8 +70,8 @@ const CloseButton = styled.button`
 `;
 
 export default createContainer(
-	({campaignId}) => ({
-		layout: Layout.find({campaignId}).fetch(),
+	() => ({
+		layout: Layout.find().fetch(),
 
 		updateLayout(layout) {
 			layout.forEach(({i, ...item}) => {

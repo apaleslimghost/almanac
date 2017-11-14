@@ -8,19 +8,21 @@ import {Cards} from '../../shared/collections'
 import idFirst from '../id-first';
 import OdreianDate from 'odreian-date';
 import styled from 'styled-components';
+import {withCampaign} from '../components/campaign';
 
 const Completed = styled.span`
 	float: right;
 	font-size: 0.7em;
 `;
 
-const getQuestObjectives = quest => Cards.find({
+const getQuestObjectives = ({quest, campaignId}) => Cards.find({
 	type: 'objective',
 	_id: {$in: quest.related || []},
+	campaignId,
 }).fetch();
 
-const ObjectivesList = createContainer(({quest}) => ({
-	objectives: getQuestObjectives(quest),
+const ObjectivesList = withCampaign(createContainer(({quest, campaignId}) => ({
+	objectives: getQuestObjectives({quest, campaignId}),
 }), ({
 	quest,
 	objectives,
@@ -76,11 +78,11 @@ const ObjectivesList = createContainer(({quest}) => ({
 			</li>}
 		</ul>
 	</div> : null
-);
+));
 
-const QuestsList = createContainer(({currentQuest}) => ({
+const QuestsList = withCampaign(createContainer(({currentQuest, campaignId}) => ({
 	quests: idFirst(
-		Cards.find({type: 'quest'}).fetch(),
+		Cards.find({type: 'quest', campaignId}).fetch(),
 		currentQuest
 	),
 }), ({onCreateQuest, quests, ...props}) => <div>
@@ -89,9 +91,9 @@ const QuestsList = createContainer(({currentQuest}) => ({
 		<input placeholder='Quest' name='title' />
 		<button>➕</button>
 	</form>}
-</div>);
+</div>));
 
-const QuestsControl = createContainer(({campaignId}) => {
+const QuestsControl = withCampaign(createContainer(({campaignId}) => {
 	const session = getCampaignSession(campaignId);
 	const currentQuest = session.get('currentQuest');
 
@@ -120,6 +122,7 @@ const QuestsControl = createContainer(({campaignId}) => {
 				...data,
 				completed: false,
 				type: 'objective',
+				campaignId,
 			}, (err, id) =>
 				!err && Cards.update(
 					quest._id,
@@ -136,6 +139,7 @@ const QuestsControl = createContainer(({campaignId}) => {
 			Cards.insert({
 				...data,
 				type: 'quest',
+				campaignId,
 			});
 		},
 
@@ -153,7 +157,7 @@ const QuestsControl = createContainer(({campaignId}) => {
 			session.set('currentQuest', quest._id);
 		}
 	};
-}, QuestsList);
+}, QuestsList));
 
 export {
 	QuestsList as display,

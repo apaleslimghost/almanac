@@ -5,10 +5,11 @@ import {route} from '../router';
 import {mount} from 'react-mounter';
 import {steel, sky} from '@quarterto/colours';
 import {rgba} from 'polished';
+import {setsCampaign} from '../components/campaign';
 
-const App = ({content}) => <main>
+const App = setsCampaign(({content}) => <main>
 	{content}
-</main>;
+</main>);
 
 import Dashboard from './dashboard';
 import Control from './control';
@@ -57,27 +58,30 @@ injectGlobal`
 
 route('/:campaignId/dashboard', {
 	name: 'Dashboard',
-	action({campaignId}) {
+	action() {
 		mount(App, {
-			content: <Dashboard campaignId={campaignId} />
+			campaignId,
+			content: <Dashboard />
 		});
 	}
 });
 
 route('/:campaignId/dashboard-control', {
 	name: 'Control',
-	action({campaignId}) {
+	action() {
 		mount(App, {
-			content: <Control campaignId={campaignId} />
+			campaignId,
+			content: <Control />
 		});
 	}
 });
 
 route('/:campaignId', {
 	name: 'Grail',
-	action({campaignId}) {
+	action() {
 		mount(App, {
-			content: <Grail campaignId={campaignId} />
+			campaignId,
+			content: <Grail />
 		});
 	}
 });
@@ -89,4 +93,4 @@ route('/', {
 			content: <Home />
 		});
 	}
-})
+});

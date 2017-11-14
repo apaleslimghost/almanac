@@ -1,11 +1,12 @@
 import React from 'react';
 import {createContainer} from 'meteor/react-meteor-data';
 import getCampaignSession from '../../shared/session';
+import {withCampaign} from '../components/campaign';
 
 import DatePicker from './date-picker';
 import {Padded} from './primitives';
 
-export default createContainer(({campaignId}) => {
+export default withCampaign(createContainer(({campaignId}) => {
 	const session = getCampaignSession(campaignId);
 	return {
 		setDate(date) {
@@ -17,4 +18,4 @@ export default createContainer(({campaignId}) => {
 }, ({timestamp, setDate}) => <Padded>
 	<DatePicker timestamp={(console.log(timestamp), timestamp)} onChange={setDate} />
 	{timestamp}
-</Padded>);
+</Padded>));
