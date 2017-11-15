@@ -13,8 +13,14 @@ import {background} from '../colors';
 import Portal from 'react-portal';
 
 const fadeIn = keyframes`
-	0%   { opacity: 0; }
-	100% { opacity: 1; }
+	0% {
+		opacity: 0;
+		transform: scale(5);
+	}
+
+	100% {
+		opacity: 1;
+	}
 `;
 
 const fadeOut = keyframes`
@@ -29,31 +35,47 @@ const Modal = styled.div`
 	right: 0;
 	bottom: 0;
 	background: ${background};
+	transform-origin: center;
 	animation-name: ${
 		({animationState}) => ({
 			opening: fadeIn,
 			closing: fadeOut,
 		})[animationState] || 'none'
 	};
-	animation-duration: ${({animationState}) => animationState === 'opening' ? '350ms' : '10s'};
+	animation-duration: ${({animationState}) => animationState === 'opening' ? '200ms' : '10s'};
 	animation-fill-mode: forwards;
-	animation-timing-function: ease-in-out;
+	animation-timing-function: ${({animationState}) => animationState === 'opening' ? 'ease-out' : 'ease-in'};
 	animation-iteration-count: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+`;
+
+const QuestHeader = styled.h1`
+	font-family: "Source Sans Pro", sans-serif;
+	font-weight: bold;
+	font-size: 15em;
+`;
+
+const ObjectiveHeader = styled.h1`
+	font-family: "Source Sans Pro", sans-serif;
+	font-size: 5em;
 `;
 
 const QuestSplash = ({action, quest, objective, animationState}) => <Modal
 	animationState={animationState}
 >
-	<H1>
+	<QuestHeader>
 		{action === 'startQuest' ? 'Started: ' : ''}
 		{quest.title}
-	</H1>
-	{objective && <H2>
+	</QuestHeader>
+	{objective && <ObjectiveHeader>
 		{action === 'completeObjective'
 			? 'Completed: '
 			: ''}
 		{objective.title}
-	</H2>}
+	</ObjectiveHeader>}
 </Modal>;
 
 const QuestSplashContainer = withCampaign(createContainer(({campaignId}) => ({
