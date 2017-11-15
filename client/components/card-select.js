@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import {Cards} from '../../shared/collections';
 import {getSelectValue} from './form';
+import {withCampaign} from './campaign';
 
 //TODO: typeahead?
 
@@ -19,12 +20,12 @@ const CardSelect = ({cardsById, onSelect}) =>
 		</select>
 		: null;
 
-const CardSelectContainer = createContainer({
+const CardSelectContainer = withCampaign(createContainer({
 	pure: false,
-	getMeteorData: ({skip = []}) => ({
+	getMeteorData: ({skip = [], campaignId}) => ({
 		ready: Meteor.subscribe('cards.all').ready(),
-		cardsById: _.keyBy(Cards.find({_id: {$nin: skip}}).fetch(), '_id'),
+		cardsById: _.keyBy(Cards.find({_id: {$nin: skip}, campaignId}).fetch(), '_id'),
 	}),
-}, CardSelect);
+}, CardSelect));
 
 export default CardSelectContainer;

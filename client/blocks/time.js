@@ -5,6 +5,7 @@ import {H1, H2, H3} from '../components/heading';
 import withState from '../components/state';
 import getCampaignSession from '../../shared/session';
 import {createContainer} from 'meteor/react-meteor-data';
+import {withCampaign} from '../components/campaign';
 
 import Ornamented, {bordered} from '../components/ornamented';
 
@@ -129,8 +130,8 @@ const connectTime = ({campaignId}) => {
 	};
 };
 
-const TimeContainer = createContainer(connectTime, Time);
-const TimeControl = createContainer(connectTime, ({date, session}) => <div>
+const TimeContainer = withCampaign(createContainer(connectTime, Time));
+const TimeControl = withCampaign(createContainer(connectTime, ({date, session}) => <div>
 	<Time date={date} />
 
 	<Controls>
@@ -172,7 +173,7 @@ const TimeControl = createContainer(connectTime, ({date, session}) => <div>
 
 		<DateFormConnector session={session} />
 	</Controls>
-</div>);
+</div>));
 
 export {
 	TimeContainer as display,

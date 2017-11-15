@@ -5,10 +5,11 @@ import OdreianDate from 'odreian-date';
 import Ornamented from '../components/ornamented';
 import {createContainer} from 'meteor/react-meteor-data';
 import getCampaignSession from '../../shared/session';
+import {withCampaign} from '../components/campaign';
 
-const withSession = Component => createContainer(({campaignId}) => ({
+const withSession = Component => withCampaign(createContainer(({campaignId}) => ({
 	session: getCampaignSession(campaignId),
-}), Component);
+}), Component));
 
 const moonPhase = date => [
 	'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',
@@ -164,7 +165,7 @@ const WeatherFormConnector = createContainer(({session}) => ({
 }), ({weather, setWeather}) => <WeatherForm weather={weather} onSubmit={setWeather} />);
 
 const WeatherControl = withSession(({session, campaignId}) => <div>
-	<Weather campaignId={campaignId} />
+	<Weather />
 	<WeatherFormConnector session={session} />
 </div>);
 
