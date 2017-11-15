@@ -42,33 +42,42 @@ const Modal = styled.div`
 			closing: fadeOut,
 		})[animationState] || 'none'
 	};
-	animation-duration: ${({animationState}) => animationState === 'opening' ? '200ms' : '10s'};
+	animation-duration: ${({animationState}) => animationState === 'opening' ? '200ms' : '5s'};
 	animation-fill-mode: forwards;
 	animation-timing-function: ${({animationState}) => animationState === 'opening' ? 'ease-out' : 'ease-in'};
 	animation-iteration-count: 1;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
+	align-items: stretch;
+	text-align: center;
 `;
 
 const QuestHeader = styled.h1`
-	font-family: "Source Sans Pro", sans-serif;
-	font-weight: bold;
-	font-size: 15em;
+	font-family: "Libre Baskerville", sans-serif;
+	font-size: 5em;
+	margin: 0;
+	line-height: 1;
 `;
 
 const ObjectiveHeader = styled.h1`
 	font-family: "Source Sans Pro", sans-serif;
+	font-weight: normal;
 	font-size: 5em;
+	margin: 0;
+	line-height: 1;
 `;
 
 const QuestSplash = ({action, quest, objective, animationState}) => <Modal
 	animationState={animationState}
 >
+	{action === 'startQuest' && <ObjectiveHeader>
+		Started:
+	</ObjectiveHeader>}
 	<QuestHeader>
-		{action === 'startQuest' ? 'Started: ' : ''}
-		{quest.title}
+		<Ornamented ornament='u'>
+			{quest.title}
+		</Ornamented>
 	</QuestHeader>
 	{objective && <ObjectiveHeader>
 		{action === 'completeObjective'
@@ -101,8 +110,8 @@ const QuestSplashContainer = withCampaign(createContainer(({campaignId}) => ({
 						splashQuest: null,
 						animationState: 'closed',
 					});
-				}, 10000);
-			}, 15000);
+				}, 5000);
+			}, 10000);
 		} else {
 			this.setState({
 				splashQuest: null,
