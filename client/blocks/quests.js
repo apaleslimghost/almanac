@@ -15,7 +15,12 @@ import Portal from 'react-portal';
 const fadeIn = keyframes`
 	0% {
 		opacity: 0;
-		transform: scale(5);
+		transform: scale(3);
+	}
+
+	90% {
+		opacity: 0.9;
+		transform: scale(0.9);
 	}
 
 	100% {
@@ -44,7 +49,7 @@ const Modal = styled.div`
 	};
 	animation-duration: ${({animationState}) => animationState === 'opening' ? '200ms' : '5s'};
 	animation-fill-mode: forwards;
-	animation-timing-function: ${({animationState}) => animationState === 'opening' ? 'ease-out' : 'ease-in'};
+	animation-timing-function: linear;
 	animation-iteration-count: 1;
 	display: flex;
 	flex-direction: column;
@@ -62,7 +67,7 @@ const QuestHeader = styled.h1`
 
 const ObjectiveHeader = styled.h1`
 	font-family: "Source Sans Pro", sans-serif;
-	font-weight: normal;
+	font-weight: 300;
 	font-size: 5em;
 	margin: 0;
 	line-height: 1;
