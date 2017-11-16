@@ -41,6 +41,7 @@
     "react-markdown": "^2.5.0",
     "react-mounter": "^1.2.0",
     "react-popover": "^0.5.3",
+    "react-portal": "^3.2.0",
     "react-typeahead": "^2.0.0-alpha.5",
     "styled-components": "^2.1.0"
   }
