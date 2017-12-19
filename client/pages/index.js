@@ -41,17 +41,8 @@ injectGlobal`
 		box-sizing: border-box;
 	}
 
-	a, a:visited {
-		color: ${sky[3]};
-		text-decoration-skip: ink;
-	}
-
-	a:hover {
-		color: ${sky[4]};
-	}
-
-	a:active {
-		color: ${sky[2]};
+	:focus {
+		outline: 3px solid ${sky[3]};
 	}
 `;
 
