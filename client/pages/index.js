@@ -5,12 +5,10 @@ import {route} from '../router';
 import {mount} from 'react-mounter';
 import {steel, sky} from '@quarterto/colours';
 import {rgba} from 'polished';
+import App from './app';
+import Layout from './layout';
 import {setsCampaign} from '../components/campaign';
 import 'formdata-polyfill';
-
-const App = setsCampaign(({content}) => <main>
-	{content}
-</main>);
 
 import Dashboard from './dashboard';
 import Control from './control';
@@ -60,9 +58,9 @@ injectGlobal`
 route('/:campaignId/dashboard', {
 	name: 'Dashboard',
 	action({campaignId}) {
-		mount(App, {
+		mount(Layout, {
 			campaignId,
-			content: <Dashboard />
+			children: <Dashboard />
 		});
 	}
 });
@@ -70,9 +68,9 @@ route('/:campaignId/dashboard', {
 route('/:campaignId/dashboard-control', {
 	name: 'Control',
 	action({campaignId}) {
-		mount(App, {
+		mount(Layout, {
 			campaignId,
-			content: <Control />
+			children: <Control />
 		});
 	}
 });
@@ -80,9 +78,9 @@ route('/:campaignId/dashboard-control', {
 route('/:campaignId', {
 	name: 'Grail',
 	action({campaignId}) {
-		mount(App, {
+		mount(Layout, {
 			campaignId,
-			content: <Grail />
+			children: <Grail />
 		});
 	}
 });
@@ -91,7 +89,7 @@ route('/', {
 	name: 'Home',
 	action() {
 		mount(App, {
-			content: <Home />
+			children: <Home />
 		});
 	}
 });
