@@ -54,8 +54,8 @@ font-size: 3em;
 text-align: center;
 
 img {
-	width: 1em;
-	height: 1em;
+	width: 1rem;
+	height: 1rem;
 	vertical-align: -0.08em;
 }
 `;
@@ -63,7 +63,7 @@ img {
 const WeatherThings = styled.div`
 display: flex;
 justify-content: space-between;
-margin-top: 1em;
+margin-top: 1rem;
 margin-bottom: -2em;
 position: relative;
 z-index: 2;
@@ -80,7 +80,7 @@ z-index: 1;
 `;
 
 const WeatherWrapper = styled.div`
-margin-top: 1em;
+margin-top: 1rem;
 `;
 
 const WeatherCondition = ({temperature, humidity}) => {

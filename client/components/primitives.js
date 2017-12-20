@@ -51,23 +51,23 @@ export const List = styled.div.attrs({
 `;
 
 export const Padded = styled.div`
-	margin: 1em;
+	margin: 1rem;
 `;
 
 export const Grid = Padded.extend`
 	display: grid;
-	grid-gap: 1em;
+	grid-gap: 1rem;
 	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
 `;
 
 export const Card = styled.div`
 	grid-column-end: span ${({large}) => large ? 2 : 1};
 	border: 1px solid ${colours.steel[3]};
-	padding: 1em;
+	padding: 1rem;
 	border-radius: 2px;
 	box-shadow: ${shadow()};
 	column-width: 18em;
-	column-gap: 1em;
+	column-gap: 1rem;
 `;
 
 // TODO: use theme for label colour
@@ -180,6 +180,6 @@ export const Button = props => <Button_ large {...props} />
 
 export const Icon = styled(Ionicon)`
 	fill: currentColor;
-	height: 1em;
+	height: 1rem;
 	margin-bottom: -2px;
 `;
