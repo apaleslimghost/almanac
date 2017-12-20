@@ -47,7 +47,18 @@ const Space = styled.div`
 	flex: 1;
 `;
 
+const LogoImg = styled.img`
+	height: 2em;
+	margin: 0.5em 1em;
+`
+
+const Logo = () => <LogoImg src='/images/logo.svg' alt='Almanac' />;
+
 const Nav = withCampaign(({campaignId, extraItems}) => <Toolbar>
+	<Logo />
+
+	<Divider />
+
 	<MenuLink href={`/`}>
 		<Icon icon='circle-of-circles' />
 		Campaigns
