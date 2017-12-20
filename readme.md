@@ -2,7 +2,7 @@
    <img src="/public/images/logo.svg" alt="Almanac" width="300"><br>
 
    <a href="http://waffle.io/quarterto/almanac">
-      <img alt="Waffle.io - Columns and their card count" src="https://badge.waffle.io/quarterto/almanac.svg?columns=Next%20release,In%20progress">
+      <img alt="Waffle.io - Columns and their card count" src="https://badge.waffle.io/quarterto/almanac.svg?columns=In%20progress">
    </a>
 </h1>
 
