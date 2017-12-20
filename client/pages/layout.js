@@ -54,31 +54,37 @@ const LogoImg = styled.img`
 
 const Logo = () => <LogoImg src='/images/logo.svg' alt='Almanac' />;
 
+const NavArea = styled.div`
+	flex: 1;
+	display: flex;
+`
+
 const Nav = withCampaign(({campaignId, extraItems}) => <Toolbar>
+	<NavArea>
+		<MenuLink href={`/`}>
+			<Icon icon='circle-of-circles' />
+			Campaigns
+		</MenuLink>
+
+		<Divider />
+
+		<MenuLink href={`/${campaignId}`}>
+			<Icon icon='spades-card' />
+			Cards
+		</MenuLink>
+
+		<MenuLink href={`/${campaignId}/dashboard-control`}>
+			<Icon icon='wooden-sign' />
+			Dashboard
+		</MenuLink>
+	</NavArea>
+
 	<Logo />
 
-	<Divider />
-
-	<MenuLink href={`/`}>
-		<Icon icon='circle-of-circles' />
-		Campaigns
-	</MenuLink>
-
-	<Divider />
-
-	<MenuLink href={`/${campaignId}`}>
-		<Icon icon='spades-card' />
-		Cards
-	</MenuLink>
-
-	<MenuLink href={`/${campaignId}/dashboard-control`}>
-		<Icon icon='wooden-sign' />
-		Dashboard
-	</MenuLink>
-
-	<Space />
-
-	{extraItems}
+	<NavArea>
+		<Space />
+		{extraItems}
+	</NavArea>
 </Toolbar>);
 
 class Layout extends Component {
