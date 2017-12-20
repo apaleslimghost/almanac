@@ -34,7 +34,6 @@ http@1.2.12
 id-map@1.0.9
 insecure@1.0.7
 jquery@1.11.10
-kadira:flow-router@2.12.1
 launch-screen@1.1.1
 less@2.7.9
 livedata@1.0.18
@@ -56,6 +55,7 @@ npm-mongo@2.2.30
 observe-sequence@1.0.16
 ordered-dict@1.0.9
 promise@0.9.0
+quarterto:reactive-history@1.0.1
 quarterto:synced-session@0.0.8
 random@1.0.10
 react-meteor-data@0.2.14

@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 
+export const campaignContext = {
+	campaignId: PropTypes.string,
+};
+
 export const withCampaign = Child => {
 	const Wrapped = (props, {campaignId}) => <Child {...props} campaignId={campaignId} />;
-	Wrapped.contextTypes = {
-		campaignId: PropTypes.string,
-	};
+	Wrapped.contextTypes = campaignContext;
 	return Wrapped;
 };
 

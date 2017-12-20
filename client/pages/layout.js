@@ -1,15 +1,17 @@
-import React from 'react';
+import React, {Component} from 'react';
 import App from './app';
 import {withCampaign} from '../components/campaign';
 import Icon from '../components/icon';
 import styled, {css} from 'styled-components';
+import PropTypes from 'prop-types';
+import Link from '../components/link';
 
 const Toolbar = styled.nav`
 	display: flex;
 	border-bottom: 1px solid rgba(0,0,0,0.1);
 `;
 
-const Link = styled.a`
+export const MenuLink = styled(Link)`
 	display: block;
 	padding: 1em;
 	color: black;
@@ -45,33 +47,52 @@ const Space = styled.div`
 	flex: 1;
 `;
 
-const launchDashboard = campaignId => () => {
-	// don't preventdefault, because the link itself is opening the controls
-	window.open(`/${campaignId}/dashboard`, `${campaignId} dashboard`);
-};
-
-const Nav = withCampaign(({campaignId}) => <Toolbar>
-	<Link href={`/`}>
+const Nav = withCampaign(({campaignId, extraItems}) => <Toolbar>
+	<MenuLink href={`/`}>
 		<Icon icon='circle-of-circles' />
 		Campaigns
-	</Link>
+	</MenuLink>
 
 	<Divider />
 
-	<Link href={`/${campaignId}`}>
+	<MenuLink href={`/${campaignId}`}>
 		<Icon icon='spades-card' />
 		Cards
-	</Link>
+	</MenuLink>
 
-	<Link href={`/${campaignId}/dashboard-control`} onClick={launchDashboard(campaignId)}>
+	<MenuLink href={`/${campaignId}/dashboard-control`}>
 		<Icon icon='wooden-sign' />
-		Launch Dashboard
-	</Link>
+		Dashboard
+	</MenuLink>
+
+	<Space />
+
+	{extraItems}
 </Toolbar>);
 
-const Layout = ({children, campaignId}) => <App campaignId={campaignId}>
-	<Nav />
-	{children}
-</App>;
+class Layout extends Component {
+	static childContextTypes = {
+		setNavItems: PropTypes.func,
+	};
+
+	state = {
+		extraItems: [],
+	};
+
+	getChildContext() {
+		return {
+			setNavItems: (...extraItems) => {
+				this.setState({extraItems});
+			}
+		}
+	}
+
+	render() {
+		return <App campaignId={this.props.campaignId}>
+			<Nav extraItems={this.state.extraItems} />
+			{this.props.children}
+		</App>;
+	}
+}
 
 export default Layout;
