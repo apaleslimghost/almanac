@@ -1,5 +1,5 @@
 <h1 align="center">
-   <img src="https://raw.githubusercontent.com/quarterto/almanac/5e34a38/public/images/logo.png" alt="Almanac" width="300"><br>
+   <img src="/public/images/logo.svg" alt="Almanac" width="300"><br>
 
    <a href="http://waffle.io/quarterto/almanac">
       <img alt="Waffle.io - Columns and their card count" src="https://badge.waffle.io/quarterto/almanac.svg?columns=Next%20release,In%20progress">
@@ -54,4 +54,3 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
