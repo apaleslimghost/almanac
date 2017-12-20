@@ -37,4 +37,8 @@ export default class DashboardControl extends Component {
 			</MenuLink>
 		);
 	}
+
+	componentWillUnmount() {
+		this.context.setNavItems();
+	}
 }
