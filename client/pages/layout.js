@@ -66,17 +66,19 @@ const Nav = withCampaign(({campaignId, extraItems}) => <Toolbar>
 			Campaigns
 		</MenuLink>
 
-		<Divider />
+		{campaignId && [
+			<Divider key={1} />,
 
-		<MenuLink href={`/${campaignId}`}>
-			<Icon icon='spades-card' />
-			Cards
-		</MenuLink>
+			<MenuLink key={2} href={`/${campaignId}`}>
+				<Icon icon='spades-card' />
+				Cards
+			</MenuLink>,
 
-		<MenuLink href={`/${campaignId}/dashboard-control`}>
-			<Icon icon='wooden-sign' />
-			Dashboard
-		</MenuLink>
+			<MenuLink key={3} href={`/${campaignId}/dashboard-control`}>
+				<Icon icon='wooden-sign' />
+				Dashboard
+			</MenuLink>,
+		]}
 	</NavArea>
 
 	<Logo />
