@@ -1,21 +1,26 @@
 import React from 'react';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import getCampaignSession from '../../shared/session';
-import {withCampaign} from '../components/campaign';
+import {withCampaignSession} from '../components/campaign';
+import {compose} from 'recompose';
 
 import DatePicker from './date-picker';
 import {Padded} from './primitives';
 
-export default withCampaign(createContainer(({campaignId}) => {
-	const session = getCampaignSession(campaignId);
-	return {
-		setDate(date) {
-			session.set('timestamp', date.timestamp);
-		},
+const withDateData = withTracker(({campaignSession}) => ({
+	setDate(date) {
+		campaignSession.set('timestamp', date.timestamp);
+	},
 
-		timestamp: session.get('timestamp'),
-	};
-}, ({timestamp, setDate}) => <Padded>
+	timestamp: campaignSession.get('timestamp'),
+}));
+
+const connectFilter = compose(
+	withCampaignSession,
+	withDateData
+);
+
+export default connectFilter(({timestamp, setDate}) => <Padded>
 	<DatePicker timestamp={timestamp} onChange={setDate} />
 	{timestamp}
-</Padded>));
+</Padded>);

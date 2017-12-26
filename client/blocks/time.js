@@ -4,7 +4,7 @@ import styled, {css} from 'styled-components';
 import {H1, H2, H3} from '../components/heading';
 import withState from '../components/state';
 import getCampaignSession from '../../shared/session';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import {withCampaign} from '../components/campaign';
 
 import Ornamented, {bordered} from '../components/ornamented';
@@ -100,12 +100,14 @@ const secondsIn = {
 	year: secondsInYear,
 };
 
-const Inc = createContainer(({session, period, multiplier = 1}) => ({
+const withIncrement = withTracker(({session, period, multiplier = 1}) => ({
 	onIncrement() {
 		const date = session.get('date') || 0;
 		session.set('date', date + secondsIn[period] * multiplier);
 	},
-}), ({onIncrement, multiplier = 1, period}) => <TimeButton
+}));
+
+const Inc = withIncrement(({onIncrement, multiplier = 1, period}) => <TimeButton
 	onClick={onIncrement}>
 	{multiplier > 0 && '+'}{multiplier}{period[0]}
 </TimeButton>);
@@ -115,23 +117,25 @@ const DateForm = withState(({date}) => ({date}), ({date, onSubmit}, state, setSt
 	<button onClick={() => onSubmit(OdreianDate.parse(state.date).timestamp)}>Set</button>
 </div>);
 
-const DateFormConnector = createContainer(({session}) => ({
+const connectDateForm = withTracker(({session}) => ({
 	date: new OdreianDate(session.get('date') || 0).llll,
-	setDate(date) {
+	onSubmit(date) {
 		session.set('date', date);
 	},
-}), ({date, setDate}) => <DateForm date={date} onSubmit={setDate} />);
+}));
 
-const connectTime = ({campaignId}) => {
+const DateFormConnector = connectDateForm(DateForm);
+
+const connectTime = withTracker(({campaignId}) => {
 	const session = getCampaignSession(campaignId);
 	return {
 		date: new OdreianDate(session.get('date') || 0),
 		session,
 	};
-};
+});
 
-const TimeContainer = withCampaign(createContainer(connectTime, Time));
-const TimeControl = withCampaign(createContainer(connectTime, ({date, session}) => <div>
+const TimeContainer = withCampaign(connectTime(Time));
+const TimeControl = withCampaign(connectTime(({date, session}) => <div>
 	<Time date={date} />
 
 	<Controls>

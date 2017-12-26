@@ -5,9 +5,10 @@ import Icon from '../components/icon';
 import styled, {css} from 'styled-components';
 import PropTypes from 'prop-types';
 import Link from '../components/link';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import {H3} from '../components/heading';
 import {Campaigns} from '../../shared/collections';
+import {compose} from 'recompose';
 
 const Toolbar = styled.nav`
 	display: flex;
@@ -69,8 +70,13 @@ const MenuTitle = styled(H3)`
 	vertical-align: -1px;
 `;
 
-const CampaignTitle = createContainer(
+const withCampaignTitle = withTracker(
 	({campaignId}) => Campaigns.findOne(campaignId) || {},
+);
+
+const connectCampaignTitle = compose(withCampaign, withCampaignTitle);
+
+const CampaignTitle = connectCampaignTitle(
 	({title}) => title ? <MenuTitle>{title}</MenuTitle> : null
 );
 
@@ -84,7 +90,7 @@ const Nav = withCampaign(({campaignId, extraItems}) => <Toolbar>
 		{campaignId && [
 			<Divider key={1} />,
 
-			<CampaignTitle key={1.5} campaignId={campaignId} />,
+			<CampaignTitle key={1.5} />,
 
 			<MenuLink key={2} href={`/${campaignId}`}>
 				<Icon icon='spades-card' />

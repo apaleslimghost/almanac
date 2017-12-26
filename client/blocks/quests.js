@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import formJson from '@quarterto/form-json';
 import {H1, H2} from '../components/heading';
 import Ornamented from '../components/ornamented';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import getCampaignSession from '../../shared/session';
 import {Cards} from '../../shared/collections'
 import idFirst from '../id-first';
@@ -11,6 +11,7 @@ import styled, {keyframes} from 'styled-components';
 import {withCampaign} from '../components/campaign';
 import {background} from '../colors';
 import Portal from 'react-portal';
+import {compose} from 'recompose';
 
 const fadeIn = keyframes`
 	0% {
@@ -73,7 +74,7 @@ const ObjectiveHeader = styled.h1`
 	line-height: 1;
 `;
 
-const QuestSplash = ({action, quest, objective, animationState}) => <Modal
+const Splash = ({action, quest, objective, animationState}) => <Modal
 	animationState={animationState}
 >
 	{action === 'startQuest' && <ObjectiveHeader>
@@ -92,9 +93,16 @@ const QuestSplash = ({action, quest, objective, animationState}) => <Modal
 	</ObjectiveHeader>}
 </Modal>;
 
-const QuestSplashContainer = withCampaign(createContainer(({campaignId}) => ({
+const withSplashQuest = withTracker(({campaignId}) => ({
 	splashQuest: getCampaignSession(campaignId).get('splashQuest'),
-}), class extends Component {
+}));
+
+const connectQuestSplash = compose(
+	withCampaign,
+	withSplashQuest
+);
+
+class QuestSplash extends Component {
 	state = {
 		splashQuest: null,
 		animationState: 'closed',
@@ -128,7 +136,7 @@ const QuestSplashContainer = withCampaign(createContainer(({campaignId}) => ({
 	render() {
 		if(this.state.splashQuest) {
 			return <Portal isOpened={true}>
-				<QuestSplash
+				<Splash
 					{...this.state.splashQuest}
 					animationState={this.state.animationState}
 				/>
@@ -137,7 +145,9 @@ const QuestSplashContainer = withCampaign(createContainer(({campaignId}) => ({
 
 		return null
 	}
-}));
+}
+
+const QuestSplashContainer = connectQuestSplash(QuestSplash);
 
 const Completed = styled.span`
 	float: right;
@@ -150,9 +160,16 @@ const getQuestObjectives = ({quest, campaignId}) => Cards.find({
 	campaignId,
 }).fetch();
 
-const ObjectivesList = withCampaign(createContainer(({quest, campaignId}) => ({
+const withQuestObjectives = withTracker(({quest, campaignId}) => ({
 	objectives: getQuestObjectives({quest, campaignId}),
-}), ({
+}));
+
+const connectObjectivesList = compose(
+	withCampaign,
+	withQuestObjectives
+);
+
+const ObjectivesList = connectObjectivesList(({
 	quest,
 	objectives,
 	onCompleteObjective,
@@ -207,23 +224,30 @@ const ObjectivesList = withCampaign(createContainer(({quest, campaignId}) => ({
 			</li>}
 		</ul>
 	</div> : null
-));
+);
 
-const QuestsList = withCampaign(createContainer(({currentQuest, campaignId}) => ({
+const withQuestsData = withTracker(({currentQuest, campaignId}) => ({
 	quests: idFirst(
 		Cards.find({type: 'quest', campaignId}).fetch(),
 		currentQuest
 	),
-}), ({onCreateQuest, quests, ...props}) => <div>
+}));
+
+const connectQuestsList = compose(
+	withCampaign,
+	withQuestsData
+);
+
+const QuestsList = connectQuestsList(({onCreateQuest, quests, ...props}) => <div>
 	{quests.map(quest => <ObjectivesList key={quest._id} quest={quest} {...props} />)}
 	{onCreateQuest && <form onSubmit={onCreateQuest}>
 		<input placeholder='Quest' name='title' />
 		<button>➕</button>
 	</form>}
 	{!onCreateQuest && <QuestSplashContainer />}
-</div>));
+</div>);
 
-const QuestsControl = withCampaign(createContainer(({campaignId}) => {
+const withQuestControl = withTracker(({campaignId}) => {
 	const session = getCampaignSession(campaignId);
 	const currentQuest = session.get('currentQuest');
 
@@ -305,7 +329,14 @@ const QuestsControl = withCampaign(createContainer(({campaignId}) => {
 			session.set('currentQuest', quest._id);
 		}
 	};
-}, QuestsList));
+});
+
+const connectQuestControl = compose(
+	withCampaign,
+	withQuestControl
+);
+
+const QuestsControl = connectQuestControl(QuestsList);
 
 export {
 	QuestsList as display,

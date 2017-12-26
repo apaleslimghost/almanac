@@ -1,11 +1,12 @@
 import React from 'react';
 import styled, {css, injectGlobal} from 'styled-components';
 import * as blocks from './blocks';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
 import {Layout} from './../shared/collections';
 import withState from './components/state';
 import {withCampaign} from './components/campaign';
+import {compose} from 'recompose';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -70,43 +71,49 @@ const CloseButton = styled.button`
 	z-index: 1000;
 `;
 
-export default withCampaign(createContainer(
-	({campaignId}) => ({
-		layout: Layout.find({campaignId}).fetch(),
+const withLayoutData = withTracker(({campaignId}) => ({
+	layout: Layout.find({campaignId}).fetch(),
 
-		updateLayout(layout) {
-			layout.forEach(({i, ...item}) => {
-				Layout.update(i, {$set: item});
-			});
-		},
+	updateLayout(layout) {
+		layout.forEach(({i, ...item}) => {
+			Layout.update(i, {$set: item});
+		});
+	},
 
-		addComponent(component) {
-			Layout.insert({component, x: 0, y: 0, w: 2, h: 1, campaignId});
-		},
+	addComponent(component) {
+		Layout.insert({component, x: 0, y: 0, w: 2, h: 1, campaignId});
+	},
 
-		removeComponent(_id) {
-			Layout.remove(_id);
-		}
-	}),
-	({which, layout, updateLayout, addComponent, removeComponent, ...props}) => (
-		<div className={`grid-${which}`}>
-			{which === 'control' && <ComponentSelect onSelect={addComponent} />}
-			<GridLayoutWidth
-				layout={layout.map(({_id, ...item}) => ({i:_id, ...item}))}
-				onLayoutChange={updateLayout}
-				isDraggable={which === 'control'}
-				isResizable={which === 'control'}
-				rowHeight={60}
-				draggableCancel='input, button, select'
-			>
-				{layout.map(({_id, component}) => <div key={_id}>
-					{which === 'control' &&
-						<CloseButton onClick={() => removeComponent(_id)}>×</CloseButton>}
-					{blocks[component]
-						? React.createElement(blocks[component][which], props)
-						: 'unknown component'}
-				</div>)}
-			</GridLayoutWidth>
-		</div>
-	)
-));
+	removeComponent(_id) {
+		Layout.remove(_id);
+	}
+}));
+
+const connectLayout = compose(withCampaign, withLayoutData);
+
+export default connectLayout(({
+	which,
+	layout,
+	updateLayout,
+	addComponent,
+	removeComponent,
+	...props
+}) => <div className={`grid-${which}`}>
+	{which === 'control' && <ComponentSelect onSelect={addComponent} />}
+	<GridLayoutWidth
+		layout={layout.map(({_id, ...item}) => ({i:_id, ...item}))}
+		onLayoutChange={updateLayout}
+		isDraggable={which === 'control'}
+		isResizable={which === 'control'}
+		rowHeight={60}
+		draggableCancel='input, button, select'
+	>
+		{layout.map(({_id, component}) => <div key={_id}>
+			{which === 'control' &&
+				<CloseButton onClick={() => removeComponent(_id)}>×</CloseButton>}
+			{blocks[component]
+				? React.createElement(blocks[component][which], props)
+				: 'unknown component'}
+		</div>)}
+	</GridLayoutWidth>
+</div>);

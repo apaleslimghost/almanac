@@ -3,13 +3,10 @@ import withState from '../components/state';
 import styled from 'styled-components';
 import OdreianDate from 'odreian-date';
 import Ornamented from '../components/ornamented';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import getCampaignSession from '../../shared/session';
-import {withCampaign} from '../components/campaign';
-
-const withSession = Component => withCampaign(createContainer(({campaignId}) => ({
-	session: getCampaignSession(campaignId),
-}), Component));
+import {withCampaignSession} from '../components/campaign';
+import {compose} from 'recompose';
 
 const moonPhase = date => [
 	'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',
@@ -86,17 +83,24 @@ margin-top: 1rem;
 const WeatherCondition = ({temperature, humidity}) => {
 	const condition = weatherCondition({temperature, humidity});
 	return <img src={`/weather/${condition}.png`} alt={condition} />;
-}
+};
 
-const Weather = withSession(createContainer(({session}) => {
-	const date = new OdreianDate(session.get('date'));
+const withWeatherData = withTracker(({campaignSession}) => {
+	const date = new OdreianDate(campaignSession.get('date'));
 	// TODO: seasons, sunset time
 	return {
-		...(session.get('weather') || defaultWeather),
+		...(campaignSession.get('weather') || defaultWeather),
 		date,
 		isNight: date.hour < 7 || date.hour >= 20
 	}
-}, ({temperature, humidity, windHeading, windSpeed, isNight, date}) =>
+});
+
+const connectWeather = compose(
+	withWeatherData,
+	withCampaignSession
+);
+
+const Weather = connectWeather(({temperature, humidity, windHeading, windSpeed, isNight, date}) =>
 	<WeatherWrapper>
 		<WeatherThings>
 			<WeatherThing large>{temperature}℃</WeatherThing>
@@ -111,7 +115,7 @@ const Weather = withSession(createContainer(({session}) => {
 			</WeatherIcon>
 		</Under>
 	</WeatherWrapper>
-));
+);
 
 const FixedWidthLabel = styled.label`
 display: inline-block;
@@ -157,16 +161,18 @@ const WeatherForm = withState(
 	</div>
 );
 
-const WeatherFormConnector = createContainer(({session}) => ({
-	weather: session.get('weather') || defaultWeather,
-	setWeather(weather) {
-		session.set('weather', weather);
+const connectWeatherForm = withTracker(({campaignSession}) => ({
+	weather: campaignSession.get('weather') || defaultWeather,
+	onSubmit(weather) {
+		campaignSession.set('weather', weather);
 	},
-}), ({weather, setWeather}) => <WeatherForm weather={weather} onSubmit={setWeather} />);
+}));
 
-const WeatherControl = withSession(({session, campaignId}) => <div>
+const WeatherFormConnector = connectWeatherForm(WeatherForm);
+
+const WeatherControl = withCampaignSession(({campaignSession}) => <div>
 	<Weather />
-	<WeatherFormConnector session={session} />
+	<WeatherFormConnector campaignSession={campaignSession} />
 </div>);
 
 export {

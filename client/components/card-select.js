@@ -1,7 +1,8 @@
 import {Meteor} from 'meteor/meteor'
 import React from 'react';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
+import {compose} from 'recompose';
 
 import {Cards} from '../../shared/collections';
 import {getSelectValue} from './form';
@@ -20,12 +21,14 @@ const CardSelect = ({cardsById, onSelect}) =>
 		</select>
 		: null;
 
-const CardSelectContainer = withCampaign(createContainer({
+const withCardData = withTracker({
 	pure: false,
 	getMeteorData: ({skip = [], campaignId}) => ({
 		ready: Meteor.subscribe('cards.all').ready(),
 		cardsById: _.keyBy(Cards.find({_id: {$nin: skip}, campaignId}).fetch(), '_id'),
 	}),
-}, CardSelect));
+});
 
-export default CardSelectContainer;
+const connectCardSelect = compose(withCampaign, withCardData);
+
+export default connectCardSelect(CardSelect);

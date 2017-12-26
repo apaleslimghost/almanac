@@ -1,10 +1,11 @@
 import {Meteor} from 'meteor/meteor';
 import React from 'react';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
 import getCampaignSession from '../../shared/session';
 import {withCampaign} from '../components/campaign';
+import {compose, withHandlers} from 'recompose';
 
 import {Cards} from '../../shared/collections';
 import preventingDefault from '../preventing-default';
@@ -65,18 +66,17 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 		</List>
 	</Form>;
 
-const EditCardContainer = createContainer(
-	() => ({
-		saveCard(card) {
-			Cards.update(card._id, {$set: _.omit(card, '_id')});
-		},
+const connectEditCard = withHandlers({
+	saveCard(card) {
+		Cards.update(card._id, {$set: _.omit(card, '_id')});
+	},
 
-		deleteCard(card) {
-			Cards.remove(card._id);
-		},
-	}),
-	EditCard
-);
+	deleteCard(card) {
+		Cards.remove(card._id);
+	},
+});
+
+const EditCardContainer = connectEditCard(EditCard);
 
 const ShowCard = ({
 	card,
@@ -128,7 +128,7 @@ const ShowCard = ({
 		</List>
 	</div>;
 
-const ShowCardContainer = withCampaign(createContainer(({card, campaignId}) => ({
+const withCardData = withTracker(({card, campaignId}) => ({
 	relatedCards: Cards.find({_id: {$in: card.related || []}, campaignId}).fetch(),
 	addRelated(related) {
 		Cards.update(card._id, {
@@ -143,7 +143,11 @@ const ShowCardContainer = withCampaign(createContainer(({card, campaignId}) => (
 	selectCard() {
 		getCampaignSession(campaignId).set('selectedCard', card._id);
 	},
-}), ShowCard));
+}));
+
+const connectCard = compose(withCampaign, withCardData);
+
+const ShowCardContainer = connectCard(ShowCard);
 
 const Card = props =>
 	<CardPrimitive large={props.large}>

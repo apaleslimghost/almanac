@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
+import {compose} from 'recompose';
+import getCampaignSession from '../../shared/session';
 
 export const campaignContext = {
 	campaignId: PropTypes.string,
@@ -27,3 +29,10 @@ export const setsCampaign = Child => class Wrapped extends Component {
 		return <Child {...props} />;
 	}
 };
+
+export const withCampaignSession = compose(
+	Child => ({campaignId, ...props}) => (
+		<Child {...props} campaignSession={getCampaignSession(campaignId)} />
+	),
+	withCampaign
+);

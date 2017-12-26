@@ -1,9 +1,10 @@
 import {Meteor} from 'meteor/meteor';
 import React from 'react';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
-import getCampaignSession from '../../shared/session';
-import {withCampaign} from '../components/campaign';
+import {withCampaignSession} from '../components/campaign';
+import {compose, withHandlers} from 'recompose';
+import {render} from 'react-dom';
 
 import {Cards} from '../../shared/collections';
 import subscribe from '../subscribe';
@@ -13,20 +14,9 @@ import {buildGraph, distances} from '../graph';
 import Card, {EditCard} from './card';
 import {Grid, Card as CardPrimitive, List, Label, LabelBody} from './primitives';
 
-const CardList = withCampaign(createContainer(({campaignId}) => ({
-	addCard(card) {
-		Cards.insert({...card, campaignId});
-	}
-}), ({cards, addCard}) => <Grid>
-	{cards.map(card => <Card key={card._id} card={card} />)}
-
-	<CardPrimitive>
-		<EditCard card={{}} saveCard={addCard} />
-	</CardPrimitive>
-</Grid>));
-
-const CardListContainer = withCampaign(createContainer(({campaignId}) => {
-	const selectedCard = getCampaignSession(campaignId).get('selectedCard');
+const withCardListActions = withTracker(props => {
+	const {campaignSession, campaignId} = props;
+	const selectedCard = campaignSession.get('selectedCard');
 	let cards = Cards.find({campaignId}).fetch();
 
 	if (selectedCard) {
@@ -39,7 +29,27 @@ const CardListContainer = withCampaign(createContainer(({campaignId}) => {
 	return {
 		ready: Meteor.subscribe('cards.all').ready(),
 		cards: _.orderBy(cards, ['sortedIndex', 'title']),
+		addCard(card) {
+			Cards.insert({...card, campaignId});
+		}
 	};
-}, ({cards}) => <CardList cards={cards} />));
+});
 
-export default CardListContainer;
+const connectCardList = compose(
+	withCampaignSession,
+	withCardListActions
+);
+
+const F = connectCardList(
+	p => {console.log(p) ; return <div>hello</div>}
+);
+
+const CardList = connectCardList(({cards, addCard}) => <Grid>
+	{cards.map(card => <Card key={card._id} card={card} />)}
+
+	<CardPrimitive>
+		<EditCard card={{}} saveCard={addCard} />
+	</CardPrimitive>
+</Grid>);
+
+export default CardList;

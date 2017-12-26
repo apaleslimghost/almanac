@@ -1,11 +1,12 @@
 import React from 'react';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import formJson from '@quarterto/form-json';
 import {Cards} from '../../shared/collections';
 import Ornamented from '../components/ornamented';
 import Icon from '../components/icon';
 import styled from 'styled-components';
 import {withCampaign} from '../components/campaign';
+import {compose} from 'recompose';
 
 const relationshipLabel = {
 	'-2': 'Hostile',
@@ -37,7 +38,7 @@ const Relationship = ({level = 0, control, modRelationship, faction}) => <Right>
 	</span>}
 </Right>;
 
-const ShowFactions = withCampaign(createContainer(({campaignId}) => ({
+const withFactionData = withTracker(({campaignId}) => ({
 	factions: Cards.find({type: 'faction', campaignId}).fetch(),
 
 	onCreate(ev) {
@@ -67,7 +68,14 @@ const ShowFactions = withCampaign(createContainer(({campaignId}) => ({
 	remove(faction) {
 		Cards.remove(faction._id);
 	}
-}), ({factions, onCreate, modRelationship, remove, control = false}) => <div>
+}));
+
+const connectFactions = compose(
+	withCampaign,
+	withFactionData
+);
+
+const ShowFactions = connectFactions(({factions, onCreate, modRelationship, remove, control = false}) => <div>
 	<Ornamented ornament='x'>Factions</Ornamented>
 
 	<ul>
@@ -87,7 +95,7 @@ const ShowFactions = withCampaign(createContainer(({campaignId}) => ({
 			<button>➕</button>
 		</form>}
 	</ul>
-</div>));
+</div>);
 
 const FactionsControl = () => <ShowFactions control />;
 
