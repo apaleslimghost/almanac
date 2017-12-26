@@ -40,10 +40,6 @@ const connectCardList = compose(
 	withCardListActions
 );
 
-const F = connectCardList(
-	p => {console.log(p) ; return <div>hello</div>}
-);
-
 const CardList = connectCardList(({cards, addCard}) => <Grid>
 	{cards.map(card => <Card key={card._id} card={card} />)}
 
