@@ -8,7 +8,7 @@ import Link from '../components/link';
 import {withTracker} from 'meteor/react-meteor-data';
 import {H3} from '../components/heading';
 import {Campaigns} from '../../shared/collections';
-import {compose} from 'recompose';
+import {compose, withContext, withState} from 'recompose';
 
 const Toolbar = styled.nav`
 	display: flex;
@@ -112,29 +112,26 @@ const Nav = withCampaign(({campaignId, extraItems}) => <Toolbar>
 	</NavArea>
 </Toolbar>);
 
-class Layout extends Component {
-	static childContextTypes = {
-		setNavItems: PropTypes.func,
-	};
-
-	state = {
-		extraItems: [],
-	};
-
-	getChildContext() {
-		return {
-			setNavItems: (...extraItems) => {
-				this.setState({extraItems});
-			}
+const layoutState = withState('extraItems', 'setExtraItems', []);
+const layoutContext = withContext(
+	{ setNavItems: PropTypes.func },
+	({setExtraItems}) => ({
+		setNavItems(...extraItems) {
+			setExtraItems(extraItems);
 		}
-	}
+	})
+);
 
-	render() {
-		return <App campaignId={this.props.campaignId}>
-			<Nav extraItems={this.state.extraItems} />
-			{this.props.children}
-		</App>;
-	}
-}
+const connectLayout = compose(
+	layoutState,
+	layoutContext
+);
+
+const Layout = connectLayout(({campaignId, extraItems, children}) =>
+	<App campaignId={campaignId}>
+		<Nav extraItems={extraItems} />
+		{children}
+	</App>
+);
 
 export default Layout;
