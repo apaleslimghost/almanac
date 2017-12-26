@@ -1,12 +1,12 @@
+import React from 'react';
+import getCampaignSession from '../../shared/session';
 import PropTypes from 'prop-types';
-import React, {Component} from 'react';
 import {
 	compose,
 	withProps,
 	withContext,
 	getContext
 } from 'recompose';
-import getCampaignSession from '../../shared/session';
 
 export const campaignContext = {
 	campaignId: PropTypes.string,
