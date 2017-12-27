@@ -4,7 +4,7 @@ import {compose} from 'recompose';
 import Portal from 'react-portal';
 import {withTracker} from 'meteor/react-meteor-data';
 import Modal from '../../components/presentation/modal';
-import {withCampaign} from '../../components/campaign';
+import {withCampaignSession} from '../../components/campaign';
 
 const QuestHeader = styled.h1`
 	font-family: "Libre Baskerville", sans-serif;
@@ -40,12 +40,12 @@ const Splash = ({action, quest, objective, animationState}) => <Modal
 	</ObjectiveHeader>}
 </Modal>;
 
-const withSplashQuest = withTracker(({campaignId}) => ({
-	splashQuest: getCampaignSession(campaignId).get('splashQuest'),
+const withSplashQuest = withTracker(({campaignSession}) => ({
+	splashQuest: campaignSession.get('splashQuest'),
 }));
 
 const connectQuestSplash = compose(
-	withCampaign,
+	withCampaignSession,
 	withSplashQuest
 );
 

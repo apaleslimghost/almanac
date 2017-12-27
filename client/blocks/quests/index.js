@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import formJson from '@quarterto/form-json';
 import {H1, H2} from '../../components/heading';
 import Ornamented from '../../components/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
@@ -8,8 +7,11 @@ import {Cards} from '../../../shared/collections'
 import idFirst from '../../id-first';
 import OdreianDate from 'odreian-date';
 import styled, {keyframes} from 'styled-components';
-import {withCampaign} from '../../components/campaign';
-import {compose} from 'recompose';
+import {withCampaign, withCampaignSession} from '../../components/campaign';
+import {compose, branch, withProps} from 'recompose';
+import questActions from './connect/quest-actions';
+import questsActions from './connect/quests-actions';
+import objectiveActions from './connect/objective-actions';
 
 import QuestSplash from './splash';
 
@@ -17,6 +19,38 @@ const Completed = styled.span`
 	float: right;
 	font-size: 0.7em;
 `;
+
+const isControl = ({control}) => control;
+
+const connectObjective = compose(
+	withCampaignSession,
+	objectiveActions
+);
+
+const Objective = connectObjective(({
+	objective, quest, onCompleteObjective, onDeleteObjective, control
+}) => <div>
+	{control && !objective.completed &&
+		<button onClick={onCompleteObjective}>
+			☑️
+		</button>
+	}
+
+	{control &&
+		<button onClick={onDeleteObjective}>
+			❌
+		</button>
+	}
+
+	{objective.completed
+		? <s>{objective.title}</s>
+		: objective.title
+	}
+
+	{objective.completed && <Completed>
+		{new OdreianDate(objective.completedDate).format`${'llll'}`}
+	</Completed>}
+</div>);
 
 const withQuestObjectives = withTracker(({quest, campaignId}) => ({
 	objectives: Cards.find({
@@ -26,60 +60,45 @@ const withQuestObjectives = withTracker(({quest, campaignId}) => ({
 	}).fetch(),
 }));
 
-const connectObjectivesList = compose(
-	withCampaign,
-	withQuestObjectives
+const withQuestActions = branch(
+	isControl,
+	questActions
 );
 
-const ObjectivesList = connectObjectivesList(({
+const connectQuest = compose(
+	withCampaignSession,
+	withQuestObjectives,
+	withQuestActions
+);
+
+const Quest = connectQuest(({
 	quest,
 	objectives,
-	onCompleteObjective,
-	onDeleteObjective,
 	onCreateObjective,
 	onDeleteQuest,
 	onSelectQuest,
 	currentQuest,
+	control,
 }) =>
-	objectives.length > 0 || onCreateObjective ? <div>
+	objectives.length > 0 || control ? <div>
 		<Ornamented ornament='u'>
 			{quest.title}
-			{onSelectQuest && currentQuest !== quest._id &&
+			{control && currentQuest !== quest._id &&
 				<button onClick={() => onSelectQuest(quest)}>🔝</button>}
-			{onDeleteQuest && <button onClick={() => onDeleteQuest(quest)}>❌</button>}
+			{control && <button onClick={onDeleteQuest}>❌</button>}
 		</Ornamented>
 
 		<ul>
-			{objectives.filter(({completed}) => !completed).map(objective =>
-				<li key={objective._id}>
-					{onCompleteObjective &&
-						<button onClick={() => onCompleteObjective(objective, quest)}>
-							☑️
-						</button>
-					}
-					{onDeleteObjective &&
-						<button onClick={() => onDeleteObjective(objective)}>
-							❌
-						</button>
-					}
-					{objective.title}
-				</li>
-			)}
-			{objectives.filter(({completed}) => completed).map(objective =>
-				<li key={objective._id}>
-					{onDeleteObjective &&
-						<button onClick={() => onDeleteObjective(objective)}>
-							❌
-						</button>
-					}
-					<s>{objective.title}</s>
-					<Completed>
-						{new OdreianDate(objective.completedDate).format`${'llll'}`}
-					</Completed>
-				</li>
-			)}
-			{onCreateObjective && <li>
-				<form onSubmit={ev => onCreateObjective(ev, quest)}>
+			{objectives.filter(({completed}) => !completed).map(objective => <li key={objective._id}>
+				<Objective quest={quest} objective={objective} control={control} />
+			</li>)}
+
+			{objectives.filter(({completed}) => completed).map(objective => <li key={objective._id}>
+				<Objective quest={quest} objective={objective} control={control} />
+			</li>)}
+
+			{control && <li>
+				<form onSubmit={onCreateObjective}>
 					<input placeholder='Objective' name='title' />
 					<button>➕</button>
 				</form>
@@ -100,102 +119,24 @@ const connectQuestsList = compose(
 	withQuestsData
 );
 
-const QuestsList = connectQuestsList(({onCreateQuest, quests, ...props}) => <div>
-	{quests.map(quest => <ObjectivesList key={quest._id} quest={quest} {...props} />)}
-	{onCreateQuest && <form onSubmit={onCreateQuest}>
+const QuestsList = connectQuestsList(({onCreateQuest, control, quests, ...props}) => <div>
+	{quests.map(quest => <Quest key={quest._id} quest={quest} control={control} {...props} />)}
+	{control && <form onSubmit={onCreateQuest}>
 		<input placeholder='Quest' name='title' />
 		<button>➕</button>
 	</form>}
-	{!onCreateQuest && <QuestSplash />}
+	{!control && <QuestSplash />}
 </div>);
 
-const withQuestControl = withTracker(({campaignId}) => {
-	const session = getCampaignSession(campaignId);
-	const currentQuest = session.get('currentQuest');
-
-	return {
-		currentQuest,
-
-		onCompleteObjective(objective, quest) {
-			Cards.update(objective._id, {
-				$set: {
-					completed: true,
-					completedDate: session.get('date') || 0,
-				},
-			});
-
-			session.set('splashQuest', {
-				action: 'completeObjective',
-				quest,
-				objective,
-			});
-		},
-
-		onDeleteObjective(objective) {
-			Cards.remove(objective._id);
-		},
-
-		onCreateObjective(ev, quest) {
-			ev.preventDefault();
-			const data = formJson(ev.target);
-			ev.target.reset();
-
-			Cards.insert({
-				...data,
-				completed: false,
-				type: 'objective',
-				campaignId,
-			}, (err, id) => {
-				if(err) return;
-				Cards.update(
-					quest._id,
-					{$addToSet: {related: id}}
-				);
-
-				session.set('splashQuest', {
-					action: 'startObjective',
-					quest,
-					objective: data,
-				});
-			});
-		},
-
-		onCreateQuest(ev) {
-			ev.preventDefault();
-			const data = formJson(ev.target);
-			ev.target.reset();
-
-			Cards.insert({
-				...data,
-				type: 'quest',
-				campaignId,
-			});
-
-			session.set('splashQuest', {
-				action: 'startQuest',
-				quest: data,
-			});
-		},
-
-		onDeleteQuest(quest) {
-			Cards.remove(quest._id);
-			Cards.find({
-				type: 'objective',
-				_id: {$in: quest.related || []}
-			}).forEach(({_id}) => {
-				Cards.remove(_id);
-			});
-		},
-
-		onSelectQuest(quest) {
-			session.set('currentQuest', quest._id);
-		}
-	};
-});
+const questControlData = withTracker(({campaignSession}) => ({
+	currentQuest: campaignSession.get('currentQuest'),
+}));
 
 const connectQuestControl = compose(
-	withCampaign,
-	withQuestControl
+	withCampaignSession,
+	questControlData,
+	questsActions,
+	withProps({control: true})
 );
 
 const QuestsControl = connectQuestControl(QuestsList);
