@@ -5,6 +5,7 @@ import Portal from 'react-portal';
 import {withTracker} from 'meteor/react-meteor-data';
 import Modal from '../../components/presentation/modal';
 import {withCampaignSession} from '../../components/campaign';
+import Ornamented from '../../components/ornamented';
 
 const QuestHeader = styled.h1`
 	font-family: "Libre Baskerville", sans-serif;
@@ -66,10 +67,7 @@ class QuestSplash extends Component {
 				this.setState({animationState: 'closing'});
 
 				this.timer = setTimeout(() => {
-					this.setState({
-						splashQuest: null,
-						animationState: 'closed',
-					});
+					this.props.campaignSession.set('splashQuest', null);
 				}, 5000);
 			}, 10000);
 		} else {
