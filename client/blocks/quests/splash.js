@@ -50,6 +50,8 @@ const connectQuestSplash = compose(
 	withSplashQuest
 );
 
+// TODO: doesn't properly splash on creation
+
 class QuestSplash extends Component {
 	state = {
 		splashQuest: null,
