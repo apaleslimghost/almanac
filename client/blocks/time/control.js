@@ -3,9 +3,10 @@ import Time from './display';
 import {withCampaignSession} from '../../components/campaign';
 import {withTracker} from 'meteor/react-meteor-data';
 import connectTime from './connect/time';
-import {compose, withState, withHandlers} from 'recompose';
+import {compose, withState, withHandlers, withPropsOnChange} from 'recompose';
 import {Button} from '../../components/primitives';
-import OdreianDate from 'odreian-date'
+import OdreianDate from 'odreian-date';
+import preventingDefault from '../../preventing-default';
 
 // TODO: this all needs to be exported from OdreianDate
 const secondsInMinute = 60;
@@ -52,16 +53,16 @@ const Inc = connectIncrement(({onIncrement, multiplier = 1, period}) => <Button
 </Button>);
 
 const withDateActions = withHandlers({
-	onSubmit: ({campaignSession, date}) => ev => {
+	onSubmit: ({campaignSession, _date}) => ev => {
 		campaignSession.set(
 			'date',
-			OdreianDate.parse(date).timestamp
+			OdreianDate.parse(_date).timestamp
 		);
 	},
 });
 
 const withDateState = withState(
-	'date',
+	'_date',
 	'setDate',
 	({date}) => date.llll
 );
@@ -70,13 +71,16 @@ const connectDateForm = compose(
 	withCampaignSession,
 	connectTime,
 	withDateState,
-	withDateActions
+	withDateActions,
+	withPropsOnChange(['date'], ({date, setDate}) => {
+		setDate(date.llll);
+	})
 );
 
-const DateForm = connectDateForm(({date, setDate, onSubmit}) => <div>
-	<input value={date} onChange={ev => setDate(ev.target.value)} size={35} />
-	<button onClick={() => onSubmit()}>Set</button>
-</div>);
+const DateForm = connectDateForm(({_date, setDate, onSubmit}) => <form onSubmit={preventingDefault(onSubmit)}>
+	<input value={_date} onChange={ev => setDate(ev.target.value)} size={35} />
+	<button>Set</button>
+</form>);
 
 const TimeControl = () => <div>
 	<Time />
