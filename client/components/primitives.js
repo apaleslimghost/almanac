@@ -30,7 +30,7 @@ export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = fal
 	box-shadow: ${[
 		sunken && `inset ${shadow()}`,
 		focused && `0 0 3px 2px ${colours.sky[4]}`,
-	].filter(i => i).join() || 'none'};
+	].filter(i => i).join() || 'unset'};
 `;
 
 export const List = styled.div.attrs({
@@ -173,7 +173,41 @@ const Button_ = Label.withComponent('button').extend`
 	}
 `;
 
-export const Button = props => <Button_ large {...props} />
+export const Button = props => <Button_ large {...props}>
+	<LabelBody>{props.children}</LabelBody>
+</Button_>;
+
+export const Group = List.extend`
+	${List} > & {
+		margin: 2px;
+	}
+
+	box-shadow: ${shadow(1)};
+
+	${Button_} {
+		margin-left: -1px;
+		margin-right: 0;
+		border-radius: 0;
+
+		&:hover {
+			box-shadow: ${shadow(0.5)};
+		}
+
+		&:active {
+			box-shadow: ${shadow(0)};
+		}
+
+		&:first-child {
+			border-top-left-radius: .15em;
+			border-bottom-left-radius: .15em;
+		}
+
+		&:last-child {
+			border-top-right-radius: .15em;
+			border-bottom-right-radius: .15em;
+		}
+	}
+`;
 
 export const Icon = styled(Ionicon)`
 	fill: currentColor;

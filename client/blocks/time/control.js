@@ -4,7 +4,7 @@ import {withCampaignSession} from '../../components/campaign';
 import {withTracker} from 'meteor/react-meteor-data';
 import connectTime from './connect/time';
 import {compose, withState, withHandlers, withPropsOnChange} from 'recompose';
-import {Button} from '../../components/primitives';
+import {Button, List, Input, Group} from '../../components/primitives';
 import OdreianDate from 'odreian-date';
 import preventingDefault from '../../preventing-default';
 
@@ -47,8 +47,7 @@ const connectIncrement = compose(
 	withIncrement
 );
 
-const Inc = connectIncrement(({onIncrement, multiplier = 1, period}) => <Button
-	onClick={onIncrement}>
+const Inc = connectIncrement(({onIncrement, multiplier = 1, period}) => <Button large={false} colour='steel' onClick={onIncrement}>
 	{multiplier > 0 && '+'}{multiplier}{period[0]}
 </Button>);
 
@@ -78,28 +77,30 @@ const connectDateForm = compose(
 );
 
 const DateForm = connectDateForm(({_date, setDate, onSubmit}) => <form onSubmit={preventingDefault(onSubmit)}>
-	<input value={_date} onChange={ev => setDate(ev.target.value)} size={35} />
-	<button>Set</button>
+	<Input value={_date} onChange={ev => setDate(ev.target.value)} size={35} />
+	<Button>Set</Button>
 </form>);
 
 const TimeControl = () => <div>
 	<Time />
 
-	<div>
-		<Inc period='minute' />
-		<Inc period='minute' multiplier={5} />
-		<Inc period='minute' multiplier={10} />
-		<Inc period='minute' multiplier={30} />
-	</div>
+	<List>
+		<Group>
+			<Inc period='minute' />
+			<Inc period='minute' multiplier={5} />
+			<Inc period='minute' multiplier={10} />
+			<Inc period='minute' multiplier={30} />
+		</Group>
 
-	<div>
-		<Inc period='hour' />
-		<Inc period='hour' multiplier={8} />
-	</div>
+		<Group>
+			<Inc period='hour' />
+			<Inc period='hour' multiplier={8} />
+		</Group>
 
-	<div>
-		<Inc period='day' />
-	</div>
+		<Group>
+			<Inc period='day' />
+		</Group>
+	</List>
 
 	<DateForm />
 </div>;

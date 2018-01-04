@@ -43,25 +43,19 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 
 		<List>
 			<Button colour={card._id ? 'sky' : 'apple'}>
-				<LabelBody>
-					{card._id ? <Icon icon="ion-checkmark" /> : <Icon icon="ion-plus" />}
-					{card._id ? 'Save' : 'Add'} card
-				</LabelBody>
+				{card._id ? <Icon icon="ion-checkmark" /> : <Icon icon="ion-plus" />}
+				{card._id ? 'Save' : 'Add'} card
 			</Button>
 			{toggle &&
 				<Button onClick={preventingDefault(toggle)} colour="steel">
-					<LabelBody>
-						<Icon icon="ion-close" /> Cancel
-					</LabelBody>
+					<Icon icon="ion-close" /> Cancel
 				</Button>}
 			{deleteCard &&
 				<Button
 					onClick={preventingDefault(() => deleteCard(card))}
 					colour="scarlet"
 				>
-					<LabelBody>
-						<Icon icon="ion-trash-a" /> Delete
-					</LabelBody>
+					<Icon icon="ion-trash-a" /> Delete
 				</Button>}
 		</List>
 	</Form>;
