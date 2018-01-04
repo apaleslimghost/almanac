@@ -5,9 +5,6 @@ import contrast from 'contrast';
 import {darken} from 'polished';
 import Ionicon from 'react-ionicons';
 
-//TODO: bring in Wick typography
-//TODO: split out into a @quarterto/primitives module
-
 export const background = ({colour = 'sky', shade = 3}) => {
 	const bg = colours[colour][shade];
 

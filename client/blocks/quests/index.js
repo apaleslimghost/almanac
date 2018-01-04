@@ -9,9 +9,9 @@ import OdreianDate from 'odreian-date';
 import styled, {keyframes} from 'styled-components';
 import {withCampaign, withCampaignSession} from '../../components/campaign';
 import {compose, branch, withProps} from 'recompose';
-import questActions from './actions/quest';
-import questsActions from './actions/quests';
-import objectiveActions from './actions/objective';
+import questActions from './connect/quest';
+import questsActions from './connect/quests';
+import objectiveActions from './connect/objective';
 
 import QuestSplash from './splash';
 

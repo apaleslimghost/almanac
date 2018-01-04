@@ -16,14 +16,14 @@ export const withCampaign = getContext(campaignContext);
 
 export const setsCampaign = withContext(
 	campaignContext,
-	({campaignId}) => ({campaignId})
+	props => ({campaignId: props.campaignId}),
 );
 
 const setCampaignSession = withProps(({campaignId}) => ({
-	campaignSession: getCampaignSession(campaignId)
+	campaignSession: getCampaignSession(campaignId),
 }));
 
 export const withCampaignSession = compose(
-	setCampaignSession,
-	withCampaign
+	withCampaign,
+	setCampaignSession
 );
