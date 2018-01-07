@@ -51,17 +51,16 @@ font-size: 3em;
 text-align: center;
 
 img {
-	width: 1rem;
-	height: 1rem;
-	vertical-align: -0.08em;
+	width: 1em;
+	height: 1em;
 }
 `;
 
 const WeatherThings = styled.div`
 display: flex;
 justify-content: space-between;
-margin-top: 1rem;
-margin-bottom: -2em;
+margin-top: 2rem;
+margin-bottom: -2rem;
 position: relative;
 z-index: 2;
 `;
@@ -96,14 +95,14 @@ const withWeatherData = withTracker(({campaignSession}) => {
 });
 
 const connectWeather = compose(
-	withWeatherData,
-	withCampaignSession
+	withCampaignSession,
+	withWeatherData
 );
 
 const Weather = connectWeather(({temperature, humidity, windHeading, windSpeed, isNight, date}) =>
 	<WeatherWrapper>
 		<WeatherThings>
-			<WeatherThing large>{temperature}℃</WeatherThing>
+			<WeatherThing large>{temperature}°C</WeatherThing>
 			<WeatherThing><WindDirection heading={windHeading} /></WeatherThing>
 		</WeatherThings>
 		<Under ornament='k'>
@@ -126,7 +125,7 @@ const WeatherForm = withState(
 	({weather}) => weather,
 	({weather, onSubmit}, state, setState) => <div>
 		<div>
-			<FixedWidthLabel>{state.temperature}℃</FixedWidthLabel>
+			<FixedWidthLabel>{state.temperature}°C</FixedWidthLabel>
 			<input
 				type='range' min={-20} max={60}
 				placeholder='temperature'
