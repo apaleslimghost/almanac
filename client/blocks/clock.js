@@ -3,32 +3,20 @@ import styled, {keyframes} from 'styled-components';
 import {compose, lifecycle, withState} from 'recompose';
 
 const blink = keyframes`
-	0% {
-		opacity: 0;
-	}
-
-	49% {
-		opacity: 0;
-	}
-
-	50% {
-		opacity: 1;
-	}
-
-	100% {
-		opacity: 0;
-	}
+	0%   { opacity: 0; }
+	49%  { opacity: 0; }
+	50%  { opacity: 1; }
+	100% { opacity: 0; }
 `;
 
 const Time = styled.span`
 	font-size: 2em;
 	line-height: 1;
 	color: ${({late, reallyLate}) =>
-		reallyLate
-			? '#900'
-			: late
-				? '#600'
-				: 'black'
+		lateAF     ? '#c00' :
+		reallyLate ? '#900' :
+		late       ? '#600' :
+		             'black'
 	};
 
 	transition: color linear 60s;
@@ -72,6 +60,7 @@ export const control = connectClock(({date}) => {
 
 	const late = date.getHours() > 20;
 	const reallyLate = date.getHours() > 21;
+	const lateAF = date.getHours() > 22;
 
 	return <Time {...{late, reallyLate}}>
 		<Hour>{h}</Hour>
