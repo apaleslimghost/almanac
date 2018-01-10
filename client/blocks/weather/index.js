@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import OdreianDate from 'odreian-date';
-import Ornamented from '../components/ornamented';
+import Ornamented from '../../components/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
-import getCampaignSession from '../../shared/session';
-import {withCampaignSession} from '../components/campaign';
+import getCampaignSession from '../../../shared/session';
+import {withCampaignSession} from '../../components/campaign';
 import {compose, withReducer, withHandlers, withPropsOnChange} from 'recompose';
-import preventingDefault from '../preventing-default';
+import preventingDefault from '../../preventing-default';
 
 const moonPhase = date => [
 	'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',
@@ -32,11 +32,16 @@ const defaultWeather = {
 	windSpeed: 10,
 };
 
+// fast linear that      ︵__
+// goes a bit too far   /
+// and slinks back     /
+const youreSoVane = 'cubic-bezier(.52, 1.65, .29, .9)';
+
 const WindArrow = styled.span`
 display: inline-block;
 will-change: transform;
 transform: rotate(${({heading}) => heading}deg);
-transition: transform 2s cubic-bezier(.52,1.65,.29,.9);
+transition: transform 2s ${youreSoVane};
 `;
 
 const WindDirection = ({heading}) => <span>
