@@ -5,6 +5,7 @@ import {List} from '../components/primitives';
 import Link from '../components/link';
 import {go} from '../router';
 import formJson from '@quarterto/form-json';
+require('formdata-polyfill');
 
 export default createContainer(() => ({
 	campaigns: Campaigns.find({}).fetch(),
