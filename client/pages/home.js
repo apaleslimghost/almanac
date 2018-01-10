@@ -6,6 +6,7 @@ import Link from '../components/link';
 import {go} from '../router';
 import formJson from '@quarterto/form-json';
 
+
 export default createContainer(() => ({
 	campaigns: Campaigns.find({}).fetch(),
 	createCampaign(ev, quest) {
