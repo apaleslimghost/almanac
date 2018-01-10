@@ -6,6 +6,7 @@ import {mount} from 'react-mounter';
 import {steel, sky} from '@quarterto/colours';
 import {rgba} from 'polished';
 import {setsCampaign} from '../components/campaign';
+import 'formdata-polyfill';
 
 const App = setsCampaign(({content}) => <main>
 	{content}
