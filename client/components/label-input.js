@@ -37,9 +37,7 @@ export class AutosizingInput extends Component {
 		}
 
 		this.setState(
-			{
-				value: ev.target.value,
-			},
+			{ value: ev.target.value },
 			() => this.updateWidth()
 		);
 	};

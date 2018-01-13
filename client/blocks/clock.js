@@ -12,7 +12,7 @@ const blink = keyframes`
 const Time = styled.span`
 	font-size: 2em;
 	line-height: 1;
-	color: ${({late, reallyLate}) =>
+	color: ${({late, reallyLate, lateAF}) =>
 		lateAF     ? '#c00' :
 		reallyLate ? '#900' :
 		late       ? '#600' :

@@ -1,11 +1,11 @@
 import React from 'react';
 import styled, {css, injectGlobal} from 'styled-components';
-import * as blocks from './blocks';
+import * as blocks from '../blocks';
 import {withTracker} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
-import {Layout} from './../shared/collections';
-import withState from './components/state';
-import {withCampaign} from './components/campaign';
+import {Layout} from './../../shared/collections';
+import {withState} from 'recompose';
+import {withCampaign} from './campaign';
 import {compose} from 'recompose';
 
 import 'react-grid-layout/css/styles.css';
@@ -32,37 +32,37 @@ injectGlobal`
 
 const GridLayoutWidth = WidthProvider(GridLayout);
 
-const ComponentSelect = withState(
-	{selected: ''},
-	({onSelect}, {selected}, setState) => (
-		<div>
-			<select
-				value={selected}
-				onChange={ev =>
-					setState({selected: ev.target.selectedOptions[0].value})}
-			>
-				<option value="" disabled>
-					Component&hellip;
-				</option>
-				{Object.keys(blocks)
-					.map(component => (
-						<option value={component} key={component}>
-							{component}
-						</option>
-					))}
-			</select>
-			<button
-				onClick={() => {
-					onSelect(selected);
-					setState({selected: ''});
-				}}
-				disabled={!selected}
-			>
-				+
-			</button>
-		</div>
-	)
+const connectSelect = withState(
+	'selected',
+	'select',
+	''
 );
+
+const ComponentSelect = connectSelect(({onSelect, select, selected}) => <div>
+	<select
+		value={selected}
+		onChange={ev => select(ev.target.selectedOptions[0].value)}
+	>
+		<option value="" disabled>
+			Component&hellip;
+		</option>
+		{Object.keys(blocks)
+			.map(component => (
+				<option value={component} key={component}>
+					{component}
+				</option>
+			))}
+	</select>
+	<button
+		onClick={() => {
+			onSelect(selected);
+			select('');
+		}}
+		disabled={!selected}
+	>
+		+
+	</button>
+</div>);
 
 const CloseButton = styled.button`
 	position: absolute;

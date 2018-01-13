@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import Group from '../group';
+import BlockLayout from '../components/block-layout';
 import PropTypes from 'prop-types';
 import {MenuLink} from './layout';
-import Icon from '../components/icon';
+import Icon from '../components/presentation/icon';
 import {campaignContext} from '../components/campaign';
 
 export default class DashboardControl extends Component {
@@ -12,7 +12,7 @@ export default class DashboardControl extends Component {
 	}
 
 	render() {
-		return <Group which='control' />;
+		return <BlockLayout which='control' />;
 	}
 
 	launchDashboard = (ev) => {
