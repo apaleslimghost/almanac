@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import App from './app';
 import {withCampaign} from '../components/campaign';
-import Icon from '../components/presentation/icon';
+import Icon from '../components/visual/icon';
 import styled, {css} from 'styled-components';
 import PropTypes from 'prop-types';
 import Link from '../components/link';

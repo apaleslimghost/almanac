@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {compose} from 'recompose';
 import Portal from 'react-portal';
 import {withTracker} from 'meteor/react-meteor-data';
-import Modal from '../../components/presentation/modal';
+import Modal from '../../components/visual/modal';
 import {withCampaignSession} from '../../components/campaign';
 import Ornamented from '../../components/ornamented';
 

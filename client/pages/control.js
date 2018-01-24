@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import BlockLayout from '../components/block-layout';
 import PropTypes from 'prop-types';
 import {MenuLink} from './layout';
-import Icon from '../components/presentation/icon';
+import Icon from '../components/visual/icon';
 import {campaignContext} from '../components/campaign';
 
 export default class DashboardControl extends Component {
