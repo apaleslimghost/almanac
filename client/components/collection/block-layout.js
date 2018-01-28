@@ -1,11 +1,11 @@
 import React from 'react';
 import styled, {css, injectGlobal} from 'styled-components';
-import * as blocks from '../blocks';
+import * as blocks from '../../blocks';
 import {withTracker} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
-import {Layout} from './../../shared/collections';
+import {Layout} from '../../../shared/collections';
 import {withState} from 'recompose';
-import {withCampaign} from './collection/campaign';
+import {withCampaign} from '../data/campaign';
 import {compose} from 'recompose';
 
 import 'react-grid-layout/css/styles.css';

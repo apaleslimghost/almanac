@@ -4,7 +4,7 @@ import OdreianDate from 'odreian-date';
 import Ornamented from '../../components/visual/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
 import getCampaignSession from '../../../shared/session';
-import {withCampaignSession} from '../../components/collection/campaign';
+import {withCampaignSession} from '../../components/data/campaign';
 import {compose, withReducer, withHandlers, withPropsOnChange} from 'recompose';
 import preventingDefault from '../../preventing-default';
 

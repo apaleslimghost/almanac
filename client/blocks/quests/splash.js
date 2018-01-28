@@ -4,7 +4,7 @@ import {compose} from 'recompose';
 import Portal from 'react-portal';
 import {withTracker} from 'meteor/react-meteor-data';
 import Modal from '../../components/visual/modal';
-import {withCampaignSession} from '../../components/collection/campaign';
+import {withCampaignSession} from '../../components/data/campaign';
 import Ornamented from '../../components/visual/ornamented';
 
 const QuestHeader = styled.h1`

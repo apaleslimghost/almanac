@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 
 import {Field} from './form';
-import {Label, LabelTitle, LabelBody} from './visual/primitives';
+import {Label, LabelTitle, LabelBody} from '../visual/primitives';
 
 const ActualLabel = Label.withComponent('label');
 

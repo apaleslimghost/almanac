@@ -2,7 +2,7 @@ import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
-import {withCampaignSession} from '../../components/collection/campaign';
+import {withCampaignSession} from '../../components/data/campaign';
 import {compose, withHandlers} from 'recompose';
 import {render} from 'react-dom';
 
@@ -11,7 +11,7 @@ import subscribe from '../../subscribe';
 import idFirst from '../../id-first';
 import {buildGraph, distances} from '../../graph';
 
-import Card, {EditCard} from '../card';
+import Card, {EditCard} from '../document/card';
 import {Grid, Card as CardPrimitive, List, Label, LabelBody} from '../visual/primitives';
 
 const withCardListActions = withTracker(props => {

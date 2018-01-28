@@ -2,7 +2,7 @@ import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import {Campaigns} from '../../shared/collections';
 import {List} from '../components/visual/primitives';
-import Link from '../components/link';
+import Link from '../components/control/link';
 import {go} from '../router';
 import formJson from '@quarterto/form-json';
 

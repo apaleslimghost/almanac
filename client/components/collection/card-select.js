@@ -5,8 +5,8 @@ import _ from 'lodash';
 import {compose} from 'recompose';
 
 import {Cards} from '../../../shared/collections';
-import {getSelectValue} from '../form';
-import {withCampaign} from './campaign';
+import {getSelectValue} from '../control/form';
+import {withCampaign} from '../data/campaign';
 
 //TODO: typeahead?
 

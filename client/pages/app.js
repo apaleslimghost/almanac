@@ -1,5 +1,5 @@
 import React from 'react';
-import {setsCampaign} from '../components/collection/campaign';
+import {setsCampaign} from '../components/data/campaign';
 
 const App = setsCampaign(({children}) => <main>
 	{children}

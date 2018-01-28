@@ -1,11 +1,11 @@
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
-import getCampaignSession from '../../shared/session';
-import {withCampaignSession} from '../components/collection/campaign';
+import getCampaignSession from '../../../shared/session';
+import {withCampaignSession} from '../data/campaign';
 import {compose} from 'recompose';
 
 import DatePicker from './date-picker';
-import {Padded} from './visual/primitives';
+import {Padded} from '../visual/primitives';
 
 const withDateData = withTracker(({campaignSession}) => ({
 	setDate(date) {

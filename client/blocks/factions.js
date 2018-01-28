@@ -5,7 +5,7 @@ import {Cards} from '../../shared/collections';
 import Ornamented from '../components/visual/ornamented';
 import Icon from '../components/visual/icon';
 import styled from 'styled-components';
-import {withCampaign} from '../components/collection/campaign';
+import {withCampaign} from '../components/data/campaign';
 import {compose, withHandlers, withProps} from 'recompose';
 import {Button} from '../components/visual/primitives';
 import withCards from '../components/data/card';

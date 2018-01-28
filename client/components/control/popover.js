@@ -3,8 +3,8 @@ import colours from '@quarterto/colours';
 import {injectGlobal} from 'styled-components';
 import BasePopover from 'react-popover';
 
-import {LabelButton, Icon, shadow} from './visual/primitives';
-import preventingDefault from '../preventing-default';
+import {LabelButton, Icon, shadow} from '../visual/primitives';
+import preventingDefault from '../../preventing-default';
 
 injectGlobal`
 .Popover-body {

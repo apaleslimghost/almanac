@@ -3,14 +3,14 @@ import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
-import getCampaignSession from '../../shared/session';
-import {withCampaign} from '../components/collection/campaign';
+import getCampaignSession from '../../../shared/session';
+import {withCampaign} from '../data/campaign';
 import {compose, withHandlers} from 'recompose';
 
-import {Cards} from '../../shared/collections';
-import preventingDefault from '../preventing-default';
+import {Cards} from '../../../shared/collections';
+import preventingDefault from '../../preventing-default';
 
-import Toggler from './toggler';
+import Toggler from '../control/toggler';
 import {
 	Card as CardPrimitive,
 	Label,
@@ -21,10 +21,10 @@ import {
 	Button,
 	Icon,
 	LabelBody,
-} from './visual/primitives';
-import {Field, Form, Select} from './form';
-import CardSelect from './collection/card-select';
-import LabelInput from './label-input';
+} from '../visual/primitives';
+import {Field, Form, Select} from '../control/form';
+import CardSelect from '../collection/card-select';
+import LabelInput from '../control/label-input';
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form

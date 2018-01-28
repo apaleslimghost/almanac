@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import BlockLayout from '../components/block-layout';
+import BlockLayout from '../components/collection/block-layout';
 import PropTypes from 'prop-types';
 import {MenuLink} from './layout';
 import Icon from '../components/visual/icon';
-import {campaignContext} from '../components/collection/campaign';
+import {campaignContext} from '../components/data/campaign';
 
 export default class DashboardControl extends Component {
 	static contextTypes = {

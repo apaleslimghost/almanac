@@ -1,6 +1,6 @@
 import React from 'react';
 import Time from './display';
-import {withCampaignSession} from '../../components/collection/campaign';
+import {withCampaignSession} from '../../components/data/campaign';
 import connectTime from './connect/time';
 import {compose, withState, withHandlers, withPropsOnChange} from 'recompose';
 import {Button, List, Input, Group} from '../../components/visual/primitives';
