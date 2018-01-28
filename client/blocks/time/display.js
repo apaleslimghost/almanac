@@ -1,9 +1,9 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
-import {H1, H2, H3} from '../../components/visual/heading';
+import {H1, H2, H3} from '../../visual/heading';
 import connectTime from './connect/time';
 
-import Ornamented, {bordered} from '../../components/visual/ornamented';
+import Ornamented, {bordered} from '../../visual/ornamented';
 
 const TimeOfDay = styled(H1)`
 margin: 0;

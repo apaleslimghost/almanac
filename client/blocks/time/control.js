@@ -1,9 +1,9 @@
 import React from 'react';
 import Time from './display';
-import {withCampaignSession} from '../../components/data/campaign';
+import {withCampaignSession} from '../../data/campaign';
 import connectTime from './connect/time';
 import {compose, withState, withHandlers, withPropsOnChange} from 'recompose';
-import {Button, List, Input, Group} from '../../components/visual/primitives';
+import {Button, List, Input, Group} from '../../visual/primitives';
 import OdreianDate from 'odreian-date';
 import preventingDefault from '../../preventing-default';
 

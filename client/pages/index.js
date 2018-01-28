@@ -7,7 +7,7 @@ import {steel, sky} from '@quarterto/colours';
 import {rgba} from 'polished';
 import App from './app';
 import Layout from './layout';
-import {setsCampaign} from '../components/data/campaign';
+import {setsCampaign} from '../data/campaign';
 import 'formdata-polyfill';
 
 import url from 'url';

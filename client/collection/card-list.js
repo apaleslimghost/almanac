@@ -2,7 +2,7 @@ import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
-import {withCampaignSession} from '../../components/data/campaign';
+import {withCampaignSession} from '../../data/campaign';
 import {compose, withHandlers} from 'recompose';
 import {render} from 'react-dom';
 

@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import {compose} from 'recompose';
 import Portal from 'react-portal';
 import {withTracker} from 'meteor/react-meteor-data';
-import Modal from '../../components/visual/modal';
-import {withCampaignSession} from '../../components/data/campaign';
-import Ornamented from '../../components/visual/ornamented';
+import Modal from '../../visual/modal';
+import {withCampaignSession} from '../../data/campaign';
+import Ornamented from '../../visual/ornamented';
 
 const QuestHeader = styled.h1`
 	font-family: "Libre Baskerville", sans-serif;

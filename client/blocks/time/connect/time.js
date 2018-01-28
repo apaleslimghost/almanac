@@ -1,4 +1,4 @@
-import {withCampaignSession} from '../../../components/data/campaign';
+import {withCampaignSession} from '../../../data/campaign';
 import {withTracker} from 'meteor/react-meteor-data';
 import {compose} from 'recompose';
 import OdreianDate from 'odreian-date'
