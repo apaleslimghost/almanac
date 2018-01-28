@@ -20,11 +20,15 @@ Then `npm install` and `npm start` and you're away on [localhost:3000](http://lo
 
 the `meteor` server compiles everything in [`client`](/client), [`shared`](/shared) and [`server`](/server). main client entry point is [`client/pages/index.js`](/client/pages/index.js), which sets up routes.
 
-### structure (subject to change)
+### structure
 
  - [`client/pages`](/client/pages) for top-level routes
- - [`client/components`](/client/components) for miscellaneous react components (currently no separation between presentation & data components but this will change)
  - [`client/blocks`](/client/blocks) for dashboard components
+ - [`client/documents`](/client/documents) for components that represent a single database item
+ - [`client/collections`](/client/collections) for components that represent a list of database items
+ - [`client/control`](/client/control) for misc form-control-esque components
+ - [`client/visual`](/client/visual) for purely visual/presentational components
+ - [`client/data`](/client/data) for data-fetching higher-order-components
 
 ### dev process
 
