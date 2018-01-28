@@ -17,7 +17,8 @@ import {Grid, Card as CardPrimitive, List, Label, LabelBody} from '../visual/pri
 const withCardListActions = withTracker(props => {
 	const {campaignSession, campaignId} = props;
 	const selectedCard = campaignSession.get('selectedCard');
-	let cards = Cards.find({campaignId}).fetch();
+	// TODO: use withCard
+	const cards = Cards.find({campaignId}).fetch();
 
 	if (selectedCard) {
 		const graph = buildGraph(cards);

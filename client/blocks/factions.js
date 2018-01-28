@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import {withCampaign} from '../components/collection/campaign';
 import {compose, withHandlers, withProps} from 'recompose';
 import {Button} from '../components/visual/primitives';
+import withCards from '../components/data/card';
 
 const relationshipLabel = {
 	'-2': 'Hostile',
@@ -83,9 +84,7 @@ const Remove = connectRemoveButton(
 	({remove}) => <Button onClick={remove}>×</Button>
 );
 
-const withFactionData = withTracker(({campaignId}) => ({
-	factions: Cards.find({type: 'faction', campaignId}).fetch(),
-}));
+const withFactionData = withCards('factions', {type: 'faction'});
 
 const connectFactions = compose(
 	withCampaign,

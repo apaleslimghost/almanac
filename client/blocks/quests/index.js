@@ -12,6 +12,7 @@ import {compose, branch, withProps} from 'recompose';
 import questActions from './connect/quest';
 import questsActions from './connect/quests';
 import objectiveActions from './connect/objective';
+import withCards from '../../components/data/card';
 
 import QuestSplash from './splash';
 
@@ -52,13 +53,13 @@ const Objective = connectObjective(({
 	</Completed>}
 </div>);
 
-const withQuestObjectives = withTracker(({quest, campaignId}) => ({
-	objectives: Cards.find({
+const withQuestObjectives = withCards(
+	'objectives',
+	({quest}) => ({
 		type: 'objective',
 		_id: {$in: quest.related || []},
-		campaignId,
-	}).fetch(),
-}));
+	})
+);
 
 const withQuestActions = branch(
 	isControl,
@@ -112,6 +113,7 @@ const withQuestsData = withTracker(({campaignId, campaignSession}) => {
 	return {
 		currentQuest,
 		quests: idFirst(
+			// TODO: use withCard
 			Cards.find({type: 'quest', campaignId}).fetch(),
 			currentQuest
 		),

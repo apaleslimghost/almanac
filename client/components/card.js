@@ -123,6 +123,7 @@ const ShowCard = ({
 	</div>;
 
 const withCardData = withTracker(({card, campaignId}) => ({
+	// TODO: use withCard
 	relatedCards: Cards.find({_id: {$in: card.related || []}, campaignId}).fetch(),
 	addRelated(related) {
 		Cards.update(card._id, {

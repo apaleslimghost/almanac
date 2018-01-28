@@ -1,7 +1,6 @@
 import React from 'react';
 import Time from './display';
 import {withCampaignSession} from '../../components/collection/campaign';
-import {withTracker} from 'meteor/react-meteor-data';
 import connectTime from './connect/time';
 import {compose, withState, withHandlers, withPropsOnChange} from 'recompose';
 import {Button, List, Input, Group} from '../../components/visual/primitives';

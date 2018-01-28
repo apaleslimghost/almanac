@@ -25,6 +25,7 @@ const withCardData = withTracker({
 	pure: false,
 	getMeteorData: ({skip = [], campaignId}) => ({
 		ready: Meteor.subscribe('cards.all').ready(),
+		//TODO: use withCard
 		cardsById: _.keyBy(Cards.find({_id: {$nin: skip}, campaignId}).fetch(), '_id'),
 	}),
 });
