@@ -3,7 +3,7 @@ import {Form, Field, Select as SelectField} from './form';
 import OdreianDate from 'odreian-date';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import {Input, Select, List} from './primitives';
+import {Input, Select, List} from '../visual/primitives';
 
 const ageYearMaxValues = OdreianDate.ages
 	.slice(1)

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 
 import {Field} from './form';
-import {Label, LabelTitle, LabelBody} from './primitives';
+import {Label, LabelTitle, LabelBody} from '../visual/primitives';
 
 const ActualLabel = Label.withComponent('label');
 
@@ -37,9 +37,7 @@ export class AutosizingInput extends Component {
 		}
 
 		this.setState(
-			{
-				value: ev.target.value,
-			},
+			{ value: ev.target.value },
 			() => this.updateWidth()
 		);
 	};

@@ -1,11 +1,14 @@
 import React from 'react';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import formJson from '@quarterto/form-json';
 import {Cards} from '../../shared/collections';
-import Ornamented from '../components/ornamented';
-import Icon from '../components/icon';
+import Ornamented from '../visual/ornamented';
+import Icon from '../visual/icon';
 import styled from 'styled-components';
-import {withCampaign} from '../components/campaign';
+import {withCampaign} from '../data/campaign';
+import {compose, withHandlers, withProps} from 'recompose';
+import {Button} from '../visual/primitives';
+import withCards from '../data/card';
 
 const relationshipLabel = {
 	'-2': 'Hostile',
@@ -27,32 +30,8 @@ const Right = styled.span`
 	float: right;
 `;
 
-const Relationship = ({level = 0, control, modRelationship, faction}) => <Right>
-	{relationshipLabel[level]}{' '}
-	<Icon icon={relationshipIcon[level]} />
-
-	{control && <span>
-		<button disabled={level >= 2}  onClick={() => modRelationship(+1, faction)}>+</button>
-		<button disabled={level <= -2} onClick={() => modRelationship(-1, faction)}>-</button>
-	</span>}
-</Right>;
-
-const ShowFactions = withCampaign(createContainer(({campaignId}) => ({
-	factions: Cards.find({type: 'faction', campaignId}).fetch(),
-
-	onCreate(ev) {
-		ev.preventDefault();
-		const data = formJson(ev.target);
-		ev.target.reset();
-		Cards.insert({
-			...data,
-			relationship: 0,
-			type: 'faction',
-			campaignId
-		});
-	},
-
-	modRelationship(amount, faction) {
+const connectModRelationship = withHandlers({
+	modRelationship: ({amount, faction}) => ev => {
 		if(amount + faction.relationship < 3 && amount + faction.relationship > -3) {
 			Cards.update(faction._id, {
 				$inc: {relationship: amount},
@@ -63,33 +42,77 @@ const ShowFactions = withCampaign(createContainer(({campaignId}) => ({
 			});
 		}
 	},
+});
 
-	remove(faction) {
+const ModRelationship = connectModRelationship(({amount, faction, modRelationship}) =>
+	<Button disabled={amount * faction.relationship >= 2} onClick={modRelationship}>
+		{amount > 0 ? '+' : '-'}
+	</Button>
+);
+
+const Relationship = ({control, modRelationship, faction}) => <Right>
+	{relationshipLabel[faction.relationship || 0]}{' '}
+	<Icon icon={relationshipIcon[faction.relationship || 0]} />
+
+	{control && <span>
+		<ModRelationship faction={faction} amount={+1} />
+		<ModRelationship faction={faction} amount={-1} />
+	</span>}
+</Right>;
+
+const withFactionActions = withHandlers({
+	onCreate: ({campaignId}) => ev => {
+		ev.preventDefault();
+		const data = formJson(ev.target);
+		ev.target.reset();
+		Cards.insert({
+			...data,
+			relationship: 0,
+			type: 'faction',
+			campaignId
+		});
+	},
+});
+
+const connectRemoveButton = withHandlers({
+	remove: ({faction}) => ev => {
 		Cards.remove(faction._id);
-	}
-}), ({factions, onCreate, modRelationship, remove, control = false}) => <div>
+	},
+});
+
+const Remove = connectRemoveButton(
+	({remove}) => <Button onClick={remove}>×</Button>
+);
+
+const withFactionData = withCards('factions', {type: 'faction'});
+
+const connectFactions = compose(
+	withCampaign,
+	withFactionData,
+	withFactionActions
+);
+
+const ShowFactions = connectFactions(({factions, onCreate, remove, control = false}) => <div>
 	<Ornamented ornament='x'>Factions</Ornamented>
 
 	<ul>
 		{factions.map(faction => <li key={faction._id}>
 			{faction.title}
 			<Relationship
-				level={faction.relationship}
 				control={control}
-				modRelationship={modRelationship}
 				faction={faction}
 			/>
-			{control && <button onClick={() => remove(faction)}>×</button>}
+			{control && <Remove faction={faction} />}
 		</li>)}
 
 		{control && <form onSubmit={onCreate}>
 			<input placeholder='Faction' name='title' />
-			<button>➕</button>
+			<Button>➕</Button>
 		</form>}
 	</ul>
-</div>));
+</div>);
 
-const FactionsControl = () => <ShowFactions control />;
+const FactionsControl = withProps({control: true})(ShowFactions);
 
 export {
 	ShowFactions as display,

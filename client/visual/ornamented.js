@@ -1,7 +1,7 @@
 import React, {Children} from 'react';
 import styled, {css} from 'styled-components';
 import {H2} from './heading';
-import {background} from '../colors';
+import {background} from '../../colors';
 
 export const bordered = css`
 position: relative;

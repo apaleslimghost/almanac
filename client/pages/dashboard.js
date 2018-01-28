@@ -1,4 +1,4 @@
 import React from 'react';
-import Group from '../group';
+import BlockLayout from '../collection/block-layout';
 
-export default () => <Group which='display' />;
+export default () => <BlockLayout which='display' />;

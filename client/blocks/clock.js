@@ -1,33 +1,22 @@
 import React, {Component} from 'react';
 import styled, {keyframes} from 'styled-components';
+import {compose, lifecycle, withState} from 'recompose';
 
 const blink = keyframes`
-	0% {
-		opacity: 0;
-	}
-
-	49% {
-		opacity: 0;
-	}
-
-	50% {
-		opacity: 1;
-	}
-
-	100% {
-		opacity: 0;
-	}
+	0%   { opacity: 0; }
+	49%  { opacity: 0; }
+	50%  { opacity: 1; }
+	100% { opacity: 0; }
 `;
 
 const Time = styled.span`
 	font-size: 2em;
 	line-height: 1;
-	color: ${({late, reallyLate}) =>
-		reallyLate
-			? '#900'
-			: late
-				? '#600'
-				: 'black'
+	color: ${({late, reallyLate, lateAF}) =>
+		lateAF     ? '#c00' :
+		reallyLate ? '#900' :
+		late       ? '#600' :
+		             'black'
 	};
 
 	transition: color linear 60s;
@@ -46,37 +35,39 @@ const AmPm = styled.span`
 	font-size: 0.66em;
 `;
 
-export const control = class Clock extends Component {
-	state = {
-		date: new Date
-	};
-
+const dateState = withState('date', 'setDate', new Date());
+const dateTimer = lifecycle({
 	componentWillMount() {
 		this.timer = setInterval(() => {
-			this.setState({date: new Date});
+			this.props.setDate(new Date());
 		}, 1000);
-	}
+	},
 
 	componentWillUnmount() {
 		clearInterval(this.timer);
 	}
+});
 
-	render() {
-		const {date} = this.state;
-		const h = date.getHours() % 12;
-		const m = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
-		const ampm = date.getHours() < 12 ? 'am' : 'pm';
+const connectClock = compose(
+	dateState,
+	dateTimer
+);
 
-		const late = date.getHours() > 20;
-		const reallyLate = date.getHours() > 21;
+export const control = connectClock(({date}) => {
+	const h = date.getHours() % 12;
+	const m = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+	const ampm = date.getHours() < 12 ? 'am' : 'pm';
 
-		return <Time {...{late, reallyLate}}>
-			<Hour>{h}</Hour>
-			<Colon>:</Colon>
-			<Minute>{m}</Minute>
-			<AmPm>{ampm}</AmPm>
-		</Time>;
-	}
-}
+	const late = date.getHours() > 20;
+	const reallyLate = date.getHours() > 21;
+	const lateAF = date.getHours() > 22;
+
+	return <Time {...{late, reallyLate}}>
+		<Hour>{h}</Hour>
+		<Colon>:</Colon>
+		<Minute>{m}</Minute>
+		<AmPm>{ampm}</AmPm>
+	</Time>;
+});
 
 export const display = () => null;

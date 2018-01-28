@@ -1,16 +1,16 @@
 import React from 'react';
 import {injectGlobal} from 'styled-components'
 import {background} from '../colors';
-import {route} from '../router';
+import route from '../router';
 import {mount} from 'react-mounter';
 import {steel, sky} from '@quarterto/colours';
 import {rgba} from 'polished';
-import {setsCampaign} from '../components/campaign';
+import App from './app';
+import Layout from './layout';
+import {setsCampaign} from '../data/campaign';
 import 'formdata-polyfill';
 
-const App = setsCampaign(({content}) => <main>
-	{content}
-</main>);
+import url from 'url';
 
 import Dashboard from './dashboard';
 import Control from './control';
@@ -24,8 +24,22 @@ import Home from './home';
 //TODO: reinstate metadata
 //TODO: search by metadata
 
+const buildGoogleFontsUrl = fonts => url.format({
+	protocol: 'https',
+	host: 'fonts.googleapis.com',
+	pathname: 'css',
+	query: {
+		family: Object.keys(fonts).map(font =>
+			`${font}${fonts[font].length ? `:${fonts[font].join(',')}` : ''}`
+		).join('|'),
+	},
+})
+
 injectGlobal`
-	@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,700,700i|Libre+Baskerville');
+	@import url(${buildGoogleFontsUrl({
+		'Source Sans Pro': ['400', '400i', '700', '700i'],
+		'Libre Baskerville': []
+	})});
 
 	@font-face {
 		font-family: 'PC Ornaments';
@@ -43,55 +57,36 @@ injectGlobal`
 		box-sizing: border-box;
 	}
 
-	a, a:visited {
-		color: ${sky[3]};
-		text-decoration-skip: ink;
-	}
-
-	a:hover {
-		color: ${sky[4]};
-	}
-
-	a:active {
-		color: ${sky[2]};
+	:focus {
+		outline: 3px solid ${sky[3]};
 	}
 `;
 
-route('/:campaignId/dashboard', {
-	name: 'Dashboard',
-	action({campaignId}) {
+route({
+	'/:campaignId/dashboard' ({campaignId}) {
 		mount(App, {
 			campaignId,
-			content: <Dashboard />
+			children: <Dashboard />
 		});
-	}
-});
+	},
 
-route('/:campaignId/dashboard-control', {
-	name: 'Control',
-	action({campaignId}) {
-		mount(App, {
+	'/:campaignId/dashboard-control' ({campaignId}) {
+		mount(Layout, {
 			campaignId,
-			content: <Control />
+			children: <Control />
 		});
-	}
-});
+	},
 
-route('/:campaignId', {
-	name: 'Grail',
-	action({campaignId}) {
-		mount(App, {
+	'/:campaignId' ({campaignId}) {
+		mount(Layout, {
 			campaignId,
-			content: <Grail />
+			children: <Grail />
 		});
-	}
-});
+	},
 
-route('/', {
-	name: 'Home',
-	action() {
-		mount(App, {
-			content: <Home />
+	'/' () {
+		mount(Layout, {
+			children: <Home />
 		});
-	}
+	},
 });

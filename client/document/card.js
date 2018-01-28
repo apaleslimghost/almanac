@@ -1,15 +1,16 @@
 import {Meteor} from 'meteor/meteor';
 import React from 'react';
-import {createContainer} from 'meteor/react-meteor-data';
+import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
-import getCampaignSession from '../../shared/session';
-import {withCampaign} from '../components/campaign';
+import getCampaignSession from '../../../shared/session';
+import {withCampaign} from '../data/campaign';
+import {compose, withHandlers} from 'recompose';
 
-import {Cards} from '../../shared/collections';
-import preventingDefault from '../preventing-default';
+import {Cards} from '../../../shared/collections';
+import preventingDefault from '../../preventing-default';
 
-import Toggler from './toggler';
+import Toggler from '../control/toggler';
 import {
 	Card as CardPrimitive,
 	Label,
@@ -20,10 +21,10 @@ import {
 	Button,
 	Icon,
 	LabelBody,
-} from './primitives';
-import {Field, Form, Select} from './form';
-import CardSelect from './card-select';
-import LabelInput from './label-input';
+} from '../visual/primitives';
+import {Field, Form, Select} from '../control/form';
+import CardSelect from '../collection/card-select';
+import LabelInput from '../control/label-input';
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
@@ -42,41 +43,34 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 
 		<List>
 			<Button colour={card._id ? 'sky' : 'apple'}>
-				<LabelBody>
-					{card._id ? <Icon icon="ion-checkmark" /> : <Icon icon="ion-plus" />}
-					{card._id ? 'Save' : 'Add'} card
-				</LabelBody>
+				{card._id ? <Icon icon="ion-checkmark" /> : <Icon icon="ion-plus" />}
+				{card._id ? 'Save' : 'Add'} card
 			</Button>
 			{toggle &&
 				<Button onClick={preventingDefault(toggle)} colour="steel">
-					<LabelBody>
-						<Icon icon="ion-close" /> Cancel
-					</LabelBody>
+					<Icon icon="ion-close" /> Cancel
 				</Button>}
 			{deleteCard &&
 				<Button
 					onClick={preventingDefault(() => deleteCard(card))}
 					colour="scarlet"
 				>
-					<LabelBody>
-						<Icon icon="ion-trash-a" /> Delete
-					</LabelBody>
+					<Icon icon="ion-trash-a" /> Delete
 				</Button>}
 		</List>
 	</Form>;
 
-const EditCardContainer = createContainer(
-	() => ({
-		saveCard(card) {
-			Cards.update(card._id, {$set: _.omit(card, '_id')});
-		},
+const connectEditCard = withHandlers({
+	saveCard(card) {
+		Cards.update(card._id, {$set: _.omit(card, '_id')});
+	},
 
-		deleteCard(card) {
-			Cards.remove(card._id);
-		},
-	}),
-	EditCard
-);
+	deleteCard(card) {
+		Cards.remove(card._id);
+	},
+});
+
+const EditCardContainer = connectEditCard(EditCard);
 
 const ShowCard = ({
 	card,
@@ -128,7 +122,8 @@ const ShowCard = ({
 		</List>
 	</div>;
 
-const ShowCardContainer = withCampaign(createContainer(({card, campaignId}) => ({
+const withCardData = withTracker(({card, campaignId}) => ({
+	// TODO: use withCard
 	relatedCards: Cards.find({_id: {$in: card.related || []}, campaignId}).fetch(),
 	addRelated(related) {
 		Cards.update(card._id, {
@@ -143,7 +138,11 @@ const ShowCardContainer = withCampaign(createContainer(({card, campaignId}) => (
 	selectCard() {
 		getCampaignSession(campaignId).set('selectedCard', card._id);
 	},
-}), ShowCard));
+}));
+
+const connectCard = compose(withCampaign, withCardData);
+
+const ShowCardContainer = connectCard(ShowCard);
 
 const Card = props =>
 	<CardPrimitive large={props.large}>

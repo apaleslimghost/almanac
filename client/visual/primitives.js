@@ -5,9 +5,6 @@ import contrast from 'contrast';
 import {darken} from 'polished';
 import Ionicon from 'react-ionicons';
 
-//TODO: bring in Wick typography
-//TODO: split out into a @quarterto/primitives module
-
 export const background = ({colour = 'sky', shade = 3}) => {
 	const bg = colours[colour][shade];
 
@@ -33,7 +30,7 @@ export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = fal
 	box-shadow: ${[
 		sunken && `inset ${shadow()}`,
 		focused && `0 0 3px 2px ${colours.sky[4]}`,
-	].filter(i => i).join() || 'none'};
+	].filter(i => i).join() || 'unset'};
 `;
 
 export const List = styled.div.attrs({
@@ -51,23 +48,23 @@ export const List = styled.div.attrs({
 `;
 
 export const Padded = styled.div`
-	margin: 1em;
+	margin: 1rem;
 `;
 
 export const Grid = Padded.extend`
 	display: grid;
-	grid-gap: 1em;
+	grid-gap: 1rem;
 	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
 `;
 
 export const Card = styled.div`
 	grid-column-end: span ${({large}) => large ? 2 : 1};
 	border: 1px solid ${colours.steel[3]};
-	padding: 1em;
+	padding: 1rem;
 	border-radius: 2px;
 	box-shadow: ${shadow()};
 	column-width: 18em;
-	column-gap: 1em;
+	column-gap: 1rem;
 `;
 
 // TODO: use theme for label colour
@@ -176,10 +173,44 @@ const Button_ = Label.withComponent('button').extend`
 	}
 `;
 
-export const Button = props => <Button_ large {...props} />
+export const Button = props => <Button_ large {...props}>
+	<LabelBody>{props.children}</LabelBody>
+</Button_>;
+
+export const Group = List.extend`
+	${List} > & {
+		margin: 2px;
+	}
+
+	box-shadow: ${shadow(1)};
+
+	${Button_} {
+		margin-left: -1px;
+		margin-right: 0;
+		border-radius: 0;
+
+		&:hover {
+			box-shadow: ${shadow(0.5)};
+		}
+
+		&:active {
+			box-shadow: ${shadow(0)};
+		}
+
+		&:first-child {
+			border-top-left-radius: .15em;
+			border-bottom-left-radius: .15em;
+		}
+
+		&:last-child {
+			border-top-right-radius: .15em;
+			border-bottom-right-radius: .15em;
+		}
+	}
+`;
 
 export const Icon = styled(Ionicon)`
 	fill: currentColor;
-	height: 1em;
+	height: 1rem;
 	margin-bottom: -2px;
 `;
