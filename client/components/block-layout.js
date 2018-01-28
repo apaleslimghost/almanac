@@ -5,7 +5,7 @@ import {withTracker} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
 import {Layout} from './../../shared/collections';
 import {withState} from 'recompose';
-import {withCampaign} from './campaign';
+import {withCampaign} from './collection/campaign';
 import {compose} from 'recompose';
 
 import 'react-grid-layout/css/styles.css';

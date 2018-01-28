@@ -2,12 +2,12 @@ import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import formJson from '@quarterto/form-json';
 import {Cards} from '../../shared/collections';
-import Ornamented from '../components/ornamented';
+import Ornamented from '../components/visual/ornamented';
 import Icon from '../components/visual/icon';
 import styled from 'styled-components';
-import {withCampaign} from '../components/campaign';
+import {withCampaign} from '../components/collection/campaign';
 import {compose, withHandlers, withProps} from 'recompose';
-import {Button} from '../components/primitives';
+import {Button} from '../components/visual/primitives';
 
 const relationshipLabel = {
 	'-2': 'Hostile',

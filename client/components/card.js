@@ -4,7 +4,7 @@ import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
 import getCampaignSession from '../../shared/session';
-import {withCampaign} from '../components/campaign';
+import {withCampaign} from '../components/collection/campaign';
 import {compose, withHandlers} from 'recompose';
 
 import {Cards} from '../../shared/collections';
@@ -21,9 +21,9 @@ import {
 	Button,
 	Icon,
 	LabelBody,
-} from './primitives';
+} from './visual/primitives';
 import {Field, Form, Select} from './form';
-import CardSelect from './card-select';
+import CardSelect from './collection/card-select';
 import LabelInput from './label-input';
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>

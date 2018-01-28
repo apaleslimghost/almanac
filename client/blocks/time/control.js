@@ -1,10 +1,10 @@
 import React from 'react';
 import Time from './display';
-import {withCampaignSession} from '../../components/campaign';
+import {withCampaignSession} from '../../components/collection/campaign';
 import {withTracker} from 'meteor/react-meteor-data';
 import connectTime from './connect/time';
 import {compose, withState, withHandlers, withPropsOnChange} from 'recompose';
-import {Button, List, Input, Group} from '../../components/primitives';
+import {Button, List, Input, Group} from '../../components/visual/primitives';
 import OdreianDate from 'odreian-date';
 import preventingDefault from '../../preventing-default';
 

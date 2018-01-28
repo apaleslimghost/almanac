@@ -3,7 +3,7 @@ import colours from '@quarterto/colours';
 import styled from 'styled-components';
 import Popover from './popover';
 
-import {etched} from './primitives';
+import {etched} from './visual/primitives';
 import {fieldLike} from './form';
 
 const hues = Object.keys(colours);

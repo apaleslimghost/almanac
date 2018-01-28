@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {H1, H2} from '../../components/heading';
-import Ornamented from '../../components/ornamented';
+import {H1, H2} from '../../components/visual/heading';
+import Ornamented from '../../components/visual/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
 import getCampaignSession from '../../../shared/session';
 import {Cards} from '../../../shared/collections'
 import idFirst from '../../id-first';
 import OdreianDate from 'odreian-date';
 import styled, {keyframes} from 'styled-components';
-import {withCampaign, withCampaignSession} from '../../components/campaign';
+import {withCampaign, withCampaignSession} from '../../components/collection/campaign';
 import {compose, branch, withProps} from 'recompose';
 import questActions from './connect/quest';
 import questsActions from './connect/quests';

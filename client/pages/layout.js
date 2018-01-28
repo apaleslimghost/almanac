@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import App from './app';
-import {withCampaign} from '../components/campaign';
+import {withCampaign} from '../components/collection/campaign';
 import Icon from '../components/visual/icon';
 import styled, {css} from 'styled-components';
 import PropTypes from 'prop-types';
 import Link from '../components/link';
 import {withTracker} from 'meteor/react-meteor-data';
-import {H3} from '../components/heading';
+import {H3} from '../components/visual/heading';
 import {Campaigns} from '../../shared/collections';
 import {compose, withContext, withState} from 'recompose';
 

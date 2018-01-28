@@ -1,5 +1,5 @@
 import React from 'react';
-import getCampaignSession from '../../shared/session';
+import getCampaignSession from '../../../shared/session';
 import PropTypes from 'prop-types';
 import {
 	compose,

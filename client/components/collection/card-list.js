@@ -2,17 +2,17 @@ import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
-import {withCampaignSession} from '../components/campaign';
+import {withCampaignSession} from '../../components/collection/campaign';
 import {compose, withHandlers} from 'recompose';
 import {render} from 'react-dom';
 
-import {Cards} from '../../shared/collections';
-import subscribe from '../subscribe';
-import idFirst from '../id-first';
-import {buildGraph, distances} from '../graph';
+import {Cards} from '../../../shared/collections';
+import subscribe from '../../subscribe';
+import idFirst from '../../id-first';
+import {buildGraph, distances} from '../../graph';
 
-import Card, {EditCard} from './card';
-import {Grid, Card as CardPrimitive, List, Label, LabelBody} from './primitives';
+import Card, {EditCard} from '../card';
+import {Grid, Card as CardPrimitive, List, Label, LabelBody} from '../visual/primitives';
 
 const withCardListActions = withTracker(props => {
 	const {campaignSession, campaignId} = props;

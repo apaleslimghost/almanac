@@ -4,8 +4,8 @@ import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import {compose} from 'recompose';
 
-import {Cards} from '../../shared/collections';
-import {getSelectValue} from './form';
+import {Cards} from '../../../shared/collections';
+import {getSelectValue} from '../form';
 import {withCampaign} from './campaign';
 
 //TODO: typeahead?

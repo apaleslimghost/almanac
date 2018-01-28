@@ -3,7 +3,7 @@ import colours from '@quarterto/colours';
 import {injectGlobal} from 'styled-components';
 import BasePopover from 'react-popover';
 
-import {LabelButton, Icon, shadow} from './primitives';
+import {LabelButton, Icon, shadow} from './visual/primitives';
 import preventingDefault from '../preventing-default';
 
 injectGlobal`
@@ -19,6 +19,7 @@ injectGlobal`
 .Popover-tip {
 	border-bottom: 1px solid white; /* cover the bottom stroke of the triangle */
 }
+
 .Popover-tipShape {
 	stroke: ${colours.steel[3]};
 	fill: white;

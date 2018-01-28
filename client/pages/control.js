@@ -3,7 +3,7 @@ import BlockLayout from '../components/block-layout';
 import PropTypes from 'prop-types';
 import {MenuLink} from './layout';
 import Icon from '../components/visual/icon';
-import {campaignContext} from '../components/campaign';
+import {campaignContext} from '../components/collection/campaign';
 
 export default class DashboardControl extends Component {
 	static contextTypes = {
