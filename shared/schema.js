@@ -1,16 +1,33 @@
 export default {
 	quest: {
 		name: 'Quest',
-		editable: false,
+		fields: {
+			completed: {
+				label: 'Completed',
+				type: 'checkbox',
+			}
+		}
 	},
 
 	objective: {
 		name: 'Objective',
-		editable: false,
+		fields: {
+			completed: {
+				label: 'Completed',
+				type: 'checkbox',
+			}
+		}
 	},
 
 	faction: {
 		name: 'Faction',
-		editable: false,
+		fields: {
+			relationship: {
+				label: 'Relationship',
+				type: 'number',
+				min: -2,
+				max: +2,
+			}
+		}
 	},
 };

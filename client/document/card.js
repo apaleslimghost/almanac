@@ -7,6 +7,7 @@ import {withCampaignSession} from '../data/campaign';
 import {compose, withHandlers} from 'recompose';
 import TypeSelect from '../collection/type-select';
 import {Cards} from '../../shared/collections';
+import schema from '../../shared/schema';
 import preventingDefault from '../utils/preventing-default';
 
 import Toggler from '../control/toggler';
@@ -20,10 +21,24 @@ import {
 	Button,
 	Icon,
 	LabelBody,
+	LabelledInput,
+	Select as SelectPrimitive,
 } from '../visual/primitives';
-import {Field, Form, Select} from '../control/form';
+import {Field, Form, Select, fieldLike} from '../control/form';
 import CardSelect from '../collection/card-select';
 import LabelInput from '../control/label-input';
+
+const SchemaFields = (props, context) => context.fields.type ? <FormGroup>
+	{_.map(
+		schema[context.fields.type].fields,
+		({label, ...field}, key) => <LabelledInput key={key}>
+			<div>{label}</div>
+			<Field {...field} tag={Input} name={key} key={key} />
+		</LabelledInput>
+	)}
+</FormGroup> : null;
+
+SchemaFields.contextTypes = fieldLike;
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
@@ -32,13 +47,17 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 		initialData={card}
 	>
 		<FormGroup>
-			<Field name="title" placeholder="Title" tag={Input} fullWidth />
-			<TypeSelect name="type" placeholder="Type" />
+			<List>
+				<Field name="title" placeholder="Title" tag={Input} flex />
+				<TypeSelect tag={SelectPrimitive} name="type" placeholder="Type..." />
+			</List>
 		</FormGroup>
 
 		<FormGroup>
 			<Field name="text" tag={Textarea} fullWidth />
 		</FormGroup>
+
+		<SchemaFields />
 
 		<List>
 			<Button colour={card._id ? 'sky' : 'apple'}>
@@ -88,9 +107,7 @@ const ShowCard = ({
 
 		<List>
 			{toggle && <Button onClick={toggle}>
-				<LabelBody>
-					<Icon icon='ion-edit' />
-				</LabelBody>
+				<Icon icon='ion-edit' />
 			</Button>}
 		</List>
 
@@ -115,7 +132,9 @@ const ShowCard = ({
 			<div>
 				<CardSelect
 					onSelect={addRelated}
+					tag={SelectPrimitive}
 					skip={[card._id].concat(card.related || [])}
+					placeholder='Link card...'
 				/>
 			</div>
 		</List>

@@ -128,6 +128,7 @@ const Input_ = Label.withComponent('input').extend`
 	padding-right: .3em;
 	font: inherit;
 	${({fullWidth}) => fullWidth && css`width: 100%;`}
+	${({flex}) => flex && css`flex: 1;`}
 	${({right}) => right && css`text-align: right;`}
 `;
 
@@ -137,15 +138,24 @@ const Textarea_ = Input_.withComponent('textarea').extend`
 `;
 
 const Select_ = Input_.withComponent('select').extend`
-	background: transparent;
+	background-color: white;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='10' height='5'%3E%3Cpath d='M 5,5 0,0 10,0 Z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-size: 0.5em 0.25em;
+	background-position: right 0.5em center;
 	appearance: none;
+	padding-right: 1.5em;
+
+	&:invalid {
+		color: rgba(0, 0, 0, 0.6);
+	}
 `;
 
-const fieldIsh = Tag => props => <Tag colour='steel' shade={4} sunken large {...props} />
+const fieldIsh = (Tag, extra) => props => <Tag colour='steel' shade={4} sunken large {...extra} {...props} />
 
 export const Input = fieldIsh(Input_);
 export const Textarea = fieldIsh(Textarea_);
-export const Select = fieldIsh(Select_);
+export const Select = fieldIsh(Select_, {required: true});
 
 export const FormGroup = styled.label`
 	display: block;
@@ -213,4 +223,8 @@ export const Icon = styled(Ionicon)`
 	fill: currentColor;
 	height: 1rem;
 	margin-bottom: -2px;
+`;
+
+export const LabelledInput = List.withComponent('label').extend`
+	align-items: center;
 `;

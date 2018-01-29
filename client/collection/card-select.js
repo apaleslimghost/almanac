@@ -10,15 +10,15 @@ import {withCampaign} from '../data/campaign';
 
 //TODO: typeahead?
 
-const CardSelect = ({cardsById, onSelect}) =>
+const CardSelect = ({cardsById, onSelect, tag: Tag = 'select', placeholder}) =>
 	_.size(cardsById)
-		? <select value=''
+		? <Tag value=''
 			onChange={ev => onSelect(cardsById[getSelectValue(ev.target)])}>
-			<option disabled value="" />
+			<option disabled value=''>{placeholder}</option>
 			{_.map(cardsById, card =>
 				<option key={card._id} value={card._id}>{card.title}</option>
 			)}
-		</select>
+		</Tag>
 		: null;
 
 const withCardData = withTracker({
