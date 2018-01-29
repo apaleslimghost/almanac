@@ -3,12 +3,11 @@ import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
-import getCampaignSession from '../../../shared/session';
-import {withCampaign} from '../data/campaign';
+import {withCampaignSession} from '../data/campaign';
 import {compose, withHandlers} from 'recompose';
 
-import {Cards} from '../../../shared/collections';
-import preventingDefault from '../../preventing-default';
+import {Cards} from '../../shared/collections';
+import preventingDefault from '../utils/preventing-default';
 
 import Toggler from '../control/toggler';
 import {
@@ -122,7 +121,7 @@ const ShowCard = ({
 		</List>
 	</div>;
 
-const withCardData = withTracker(({card, campaignId}) => ({
+const withCardData = withTracker(({card, campaignId, campaignSession}) => ({
 	// TODO: use withCard
 	relatedCards: Cards.find({_id: {$in: card.related || []}, campaignId}).fetch(),
 	addRelated(related) {
@@ -136,11 +135,11 @@ const withCardData = withTracker(({card, campaignId}) => ({
 		});
 	},
 	selectCard() {
-		getCampaignSession(campaignId).set('selectedCard', card._id);
+		campaignSession.set('selectedCard', card._id);
 	},
 }));
 
-const connectCard = compose(withCampaign, withCardData);
+const connectCard = compose(withCampaignSession, withCardData);
 
 const ShowCardContainer = connectCard(ShowCard);
 

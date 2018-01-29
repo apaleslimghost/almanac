@@ -1,21 +1,21 @@
 import React from 'react';
 import {injectGlobal} from 'styled-components'
-import {background} from '../colors';
-import route from '../router';
+import {background} from './utils/colors';
+import route from './utils/router';
 import {mount} from 'react-mounter';
 import {steel, sky} from '@quarterto/colours';
 import {rgba} from 'polished';
-import App from './app';
-import Layout from './layout';
-import {setsCampaign} from '../data/campaign';
+import App from './pages/app';
+import Layout from './pages/layout';
+import {setsCampaign} from './data/campaign';
 import 'formdata-polyfill';
 
 import url from 'url';
 
-import Dashboard from './dashboard';
-import Control from './control';
-import Grail from './grail';
-import Home from './home';
+import Dashboard from './pages/dashboard';
+import Control from './pages/control';
+import Grail from './pages/grail';
+import Home from './pages/home';
 
 //TODO: card search
 //TODO: integrate Menagerie (monsters & spells, with JSON import/export)

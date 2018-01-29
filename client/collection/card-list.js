@@ -2,14 +2,14 @@ import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
-import {withCampaignSession} from '../../data/campaign';
+import {withCampaignSession} from '../data/campaign';
 import {compose, withHandlers} from 'recompose';
 import {render} from 'react-dom';
 
-import {Cards} from '../../../shared/collections';
-import subscribe from '../../subscribe';
-import idFirst from '../../id-first';
-import {buildGraph, distances} from '../../graph';
+import {Cards} from '../../shared/collections';
+import subscribe from '../utils/subscribe';
+import idFirst from '../utils/id-first';
+import {buildGraph, distances} from '../utils/graph';
 
 import Card, {EditCard} from '../document/card';
 import {Grid, Card as CardPrimitive, List, Label, LabelBody} from '../visual/primitives';

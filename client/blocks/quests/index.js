@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import {H1, H2} from '../../visual/heading';
 import Ornamented from '../../visual/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
-import getCampaignSession from '../../../shared/session';
-import {Cards} from '../../../shared/collections'
-import idFirst from '../../id-first';
+import {Cards} from '../../../shared/collections';
+import idFirst from '../../utils/id-first';
 import OdreianDate from 'odreian-date';
 import styled, {keyframes} from 'styled-components';
 import {withCampaign, withCampaignSession} from '../../data/campaign';
