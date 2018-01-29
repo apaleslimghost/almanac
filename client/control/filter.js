@@ -1,6 +1,5 @@
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
-import getCampaignSession from '../../../shared/session';
 import {withCampaignSession} from '../data/campaign';
 import {compose} from 'recompose';
 

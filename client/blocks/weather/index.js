@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import OdreianDate from 'odreian-date';
 import Ornamented from '../../visual/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
-import getCampaignSession from '../../../shared/session';
 import {withCampaignSession} from '../../data/campaign';
 import {compose, withReducer, withHandlers, withPropsOnChange} from 'recompose';
-import preventingDefault from '../../preventing-default';
+import preventingDefault from '../../utils/preventing-default';
 
 const moonPhase = date => [
 	'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',

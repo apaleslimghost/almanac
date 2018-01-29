@@ -1,5 +1,5 @@
 import {withTracker} from 'meteor/react-meteor-data';
-import {Cards} from '../../../shared/collections';
+import {Cards} from '../../shared/collections';
 
 export default (key, query = {}) => withTracker(({campaignId, ...props}) => ({
 	[key]: Cards.find(

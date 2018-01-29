@@ -3,7 +3,7 @@ import {withTracker} from 'meteor/react-meteor-data';
 import {Campaigns} from '../../shared/collections';
 import {List} from '../visual/primitives';
 import Link from '../control/link';
-import {go} from '../router';
+import {go} from '../utils/router';
 import formJson from '@quarterto/form-json';
 
 const withCampaignData = withTracker(() => ({

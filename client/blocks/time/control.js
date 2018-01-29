@@ -5,7 +5,7 @@ import connectTime from './connect/time';
 import {compose, withState, withHandlers, withPropsOnChange} from 'recompose';
 import {Button, List, Input, Group} from '../../visual/primitives';
 import OdreianDate from 'odreian-date';
-import preventingDefault from '../../preventing-default';
+import preventingDefault from '../../utils/preventing-default';
 
 // TODO: this all needs to be exported from OdreianDate
 const secondsInMinute = 60;

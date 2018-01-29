@@ -1,5 +1,5 @@
 import styled, {keyframes} from 'styled-components';
-import {background} from '../../colors';
+import {background} from '../utils/colors';
 
 const fadeIn = keyframes`
 	0% {
