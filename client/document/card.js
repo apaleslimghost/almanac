@@ -20,6 +20,7 @@ import {
 	FormGroup,
 	Button,
 	Icon,
+	LabelTitle,
 	LabelBody,
 	LabelledInput,
 	Select as SelectPrimitive,
@@ -120,6 +121,16 @@ const ShowCard = ({
 
 			<Markdown source={card.text || ''} />
 		</article>
+
+		<List>
+			{_.map(
+				schema[card.type].fields,
+				({label, format = a => a}, key) => <Label key={key} sunken>
+					<LabelTitle>{label}</LabelTitle>
+					<LabelBody>{format(card[key])}</LabelBody>
+				</Label>
+			)}
+		</List>
 
 		<List>
 			{relatedCards.map(related =>

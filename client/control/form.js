@@ -9,6 +9,7 @@ export const getInputValue = el =>
 			number: 'valueAsNumber',
 			range: 'valueAsNumber',
 			date: 'valueAsDate',
+			checkbox: 'checked',
 		}[el.type] || 'value'
 	];
 

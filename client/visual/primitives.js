@@ -25,7 +25,7 @@ export const shadow = (level = 1, {colour = 'steel', shade = 5} = {}) => [
 	.join(' ');
 
 export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = false}) => css`
-	${!sunken && background({colour, shade})}
+	${sunken ? css`background-color: white;` : background({colour, shade})}
 	border: solid 1px ${({colour = 'sky', shade = 3}) => colours[colour][shade - 1]};
 	box-shadow: ${[
 		sunken && `inset ${shadow()}`,
@@ -138,7 +138,6 @@ const Textarea_ = Input_.withComponent('textarea').extend`
 `;
 
 const Select_ = Input_.withComponent('select').extend`
-	background-color: white;
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='10' height='5'%3E%3Cpath d='M 5,5 0,0 10,0 Z'/%3E%3C/svg%3E");
 	background-repeat: no-repeat;
 	background-size: 0.5em 0.25em;

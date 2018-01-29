@@ -5,6 +5,7 @@ export default {
 			completed: {
 				label: 'Completed',
 				type: 'checkbox',
+				format: val => val ? '✔︎' : '✘',
 			}
 		}
 	},
@@ -15,6 +16,7 @@ export default {
 			completed: {
 				label: 'Completed',
 				type: 'checkbox',
+				format: val => val ? '✔︎' : '✘',
 			}
 		}
 	},
