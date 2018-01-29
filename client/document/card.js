@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Markdown from 'react-markdown';
 import {withCampaignSession} from '../data/campaign';
 import {compose, withHandlers} from 'recompose';
-
+import TypeSelect from '../collection/type-select';
 import {Cards} from '../../shared/collections';
 import preventingDefault from '../utils/preventing-default';
 
@@ -33,7 +33,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	>
 		<FormGroup>
 			<Field name="title" placeholder="Title" tag={Input} fullWidth />
-			<Field name="type" placeholder="type" tag={Input} fullWidth />
+			<TypeSelect name="type" placeholder="Type" />
 		</FormGroup>
 
 		<FormGroup>
@@ -51,7 +51,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 				</Button>}
 			{deleteCard &&
 				<Button
-					onClick={preventingDefault(() => deleteCard(card))}
+					onClick={deleteCard}
 					colour="scarlet"
 				>
 					<Icon icon="ion-trash-a" /> Delete
@@ -60,11 +60,11 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	</Form>;
 
 const connectEditCard = withHandlers({
-	saveCard(card) {
+	saveCard: () => card => {
 		Cards.update(card._id, {$set: _.omit(card, '_id')});
 	},
 
-	deleteCard(card) {
+	deleteCard: ({card}) => ev => {
 		Cards.remove(card._id);
 	},
 });

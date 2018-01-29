@@ -1,7 +1,4 @@
-import {Types} from '../shared/collections';
-import ensureDocs from './ensure-docs';
-
-ensureDocs(Types, {
+export default {
 	quest: {
 		name: 'Quest',
 		editable: false,
@@ -16,4 +13,4 @@ ensureDocs(Types, {
 		name: 'Faction',
 		editable: false,
 	},
-});
+};
