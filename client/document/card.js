@@ -5,8 +5,9 @@ import _ from 'lodash';
 import Markdown from 'react-markdown';
 import {withCampaignSession} from '../data/campaign';
 import {compose, withHandlers} from 'recompose';
-
+import TypeSelect from '../collection/type-select';
 import {Cards} from '../../shared/collections';
+import schema from '../../shared/schema';
 import preventingDefault from '../utils/preventing-default';
 
 import Toggler from '../control/toggler';
@@ -19,11 +20,26 @@ import {
 	FormGroup,
 	Button,
 	Icon,
+	LabelTitle,
 	LabelBody,
+	LabelledInput,
+	Select as SelectPrimitive,
 } from '../visual/primitives';
-import {Field, Form, Select} from '../control/form';
+import {Field, Form, Select, fieldLike} from '../control/form';
 import CardSelect from '../collection/card-select';
 import LabelInput from '../control/label-input';
+
+const SchemaFields = (props, context) => context.fields.type ? <FormGroup>
+	{_.map(
+		schema[context.fields.type].fields,
+		({label, ...field}, key) => <LabelledInput key={key}>
+			<div>{label}</div>
+			<Field {...field} tag={Input} name={key} key={key} />
+		</LabelledInput>
+	)}
+</FormGroup> : null;
+
+SchemaFields.contextTypes = fieldLike;
 
 export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	<Form
@@ -32,13 +48,17 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 		initialData={card}
 	>
 		<FormGroup>
-			<Field name="title" placeholder="Title" tag={Input} fullWidth />
-			<Field name="type" placeholder="type" tag={Input} fullWidth />
+			<List>
+				<Field name="title" placeholder="Title" tag={Input} flex />
+				<TypeSelect tag={SelectPrimitive} name="type" placeholder="Type..." />
+			</List>
 		</FormGroup>
 
 		<FormGroup>
 			<Field name="text" tag={Textarea} fullWidth />
 		</FormGroup>
+
+		<SchemaFields />
 
 		<List>
 			<Button colour={card._id ? 'sky' : 'apple'}>
@@ -51,7 +71,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 				</Button>}
 			{deleteCard &&
 				<Button
-					onClick={preventingDefault(() => deleteCard(card))}
+					onClick={deleteCard}
 					colour="scarlet"
 				>
 					<Icon icon="ion-trash-a" /> Delete
@@ -60,11 +80,11 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	</Form>;
 
 const connectEditCard = withHandlers({
-	saveCard(card) {
+	saveCard: () => card => {
 		Cards.update(card._id, {$set: _.omit(card, '_id')});
 	},
 
-	deleteCard(card) {
+	deleteCard: ({card}) => ev => {
 		Cards.remove(card._id);
 	},
 });
@@ -88,9 +108,7 @@ const ShowCard = ({
 
 		<List>
 			{toggle && <Button onClick={toggle}>
-				<LabelBody>
-					<Icon icon='ion-edit' />
-				</LabelBody>
+				<Icon icon='ion-edit' />
 			</Button>}
 		</List>
 
@@ -105,6 +123,16 @@ const ShowCard = ({
 		</article>
 
 		<List>
+			{_.map(
+				schema[card.type].fields,
+				({label, format = a => a}, key) => <Label key={key} sunken>
+					<LabelTitle>{label}</LabelTitle>
+					<LabelBody>{format(card[key])}</LabelBody>
+				</Label>
+			)}
+		</List>
+
+		<List>
 			{relatedCards.map(related =>
 				<Label onClick={() => removeRelated(related)} colour='aqua' key={related._id}>
 					<LabelBody>
@@ -115,7 +143,9 @@ const ShowCard = ({
 			<div>
 				<CardSelect
 					onSelect={addRelated}
+					tag={SelectPrimitive}
 					skip={[card._id].concat(card.related || [])}
+					placeholder='Link card...'
 				/>
 			</div>
 		</List>
