@@ -6,40 +6,8 @@ import {compose, withState, withHandlers, withPropsOnChange} from 'recompose';
 import {Button, List, Input, Group} from '../../visual/primitives';
 import OdreianDate from 'odreian-date';
 import preventingDefault from '../../utils/preventing-default';
-
-// TODO: this all needs to be exported from OdreianDate
-const secondsInMinute = 60;
-const minutesInHour = 60;
-const hoursInDay = 24;
-const daysInMonth = 30;
-const daysInWeek = 6;
-const monthsInYear = 12;
-
-const secondsInHour = secondsInMinute * minutesInHour;
-const secondsInDay = secondsInHour * hoursInDay;
-const secondsInWeek = secondsInDay * daysInWeek;
-const secondsInMonth = secondsInDay * daysInMonth;
-const secondsInYear = secondsInMonth * monthsInYear;
-
-const secondsIn = {
-	minute: secondsInMinute,
-	hour: secondsInHour,
-	day: secondsInDay,
-	week: secondsInWeek,
-	month: secondsInMonth,
-	year: secondsInYear,
-};
-
-const withIncrement = withHandlers({
-	onIncrement: ({campaignSession, period, multiplier = 1}) => () => {
-		campaignSession.set(
-			'date',
-			(
-				campaignSession.get('date') || 0
-			) + secondsIn[period] * multiplier
-		);
-	},
-});
+import withIncrement from './connect/increment';
+import AdvanceTime from './advance';
 
 const connectIncrement = compose(
 	withCampaignSession,
@@ -102,6 +70,8 @@ const TimeControl = () => <div>
 	</List>
 
 	<DateForm />
+
+	<AdvanceTime />
 </div>;
 
 export default TimeControl;
