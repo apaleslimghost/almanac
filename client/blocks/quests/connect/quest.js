@@ -1,6 +1,7 @@
 import {Cards} from '../../../../shared/collections';
 import {withHandlers} from 'recompose';
 import formJson from '@quarterto/form-json';
+import generateSlug from '../utils/generate-slug';
 
 const questActions = withHandlers({
 	onDeleteQuest: ({quest}) => ev => {
@@ -23,7 +24,7 @@ const questActions = withHandlers({
 		ev.target.reset();
 
 		Cards.insert({
-			...data,
+			...generateSlug(data),
 			completed: false,
 			type: 'objective',
 			campaignId,
