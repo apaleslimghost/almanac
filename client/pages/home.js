@@ -5,6 +5,7 @@ import {List} from '../visual/primitives';
 import Link from '../control/link';
 import {go} from '../utils/router';
 import formJson from '@quarterto/form-json';
+import generateSlug from '../utils/generate-slug';
 
 const withCampaignData = withTracker(() => ({
 	campaigns: Campaigns.find({}).fetch(),
@@ -13,9 +14,10 @@ const withCampaignData = withTracker(() => ({
 		const data = formJson(ev.target);
 		ev.target.reset();
 
-		Campaigns.insert(data, (err, id) => {
-			go(`/${id}`);
-		});
+		Campaigns.insert(
+			generateSlug(data),
+			(err, id) => go(`/${id}`)
+		);
 	},
 }));
 
