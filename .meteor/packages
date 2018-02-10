@@ -20,9 +20,9 @@ shell-server@0.3.1            # Server-side component of the `meteor shell` comm
 react-meteor-data
 dynamic-import@0.3.0
 session@1.1.7
-insecure@1.0.7
-quarterto:synced-session
 less@2.7.11
 nagoshi:rpg-awesome
-autopublish@1.0.7
 quarterto:reactive-history
+accounts-password
+alanning:roles
+std:accounts-ui

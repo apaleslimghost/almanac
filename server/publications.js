@@ -1,7 +1,27 @@
 import publish from './publish';
-import {Cards} from '../shared/collections';
+import {Cards, Campaigns, Session, Layout} from '../shared/collections';
+
+const visible = collection => ({userId}) => collection.find({
+	$or: [
+		{owner: userId},
+		{members: userId},
+	],
+});
 
 publish({
 	cards: {
-		all: () => Cards.find(),
-	},});
+		all: visible(Cards),
+	},
+
+	campaigns: {
+		all: visible(Campaigns),
+	},
+
+	session: {
+		all: visible(Session),
+	},
+
+	layout: {
+		all: visible(Layout),
+	},
+});
