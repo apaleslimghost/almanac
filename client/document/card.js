@@ -9,6 +9,7 @@ import TypeSelect from '../collection/type-select';
 import {Cards} from '../../shared/collections';
 import schema from '../../shared/schema';
 import preventingDefault from '../utils/preventing-default';
+import Link from '../control/link';
 
 import Toggler from '../control/toggler';
 import {
@@ -97,7 +98,6 @@ const ShowCard = ({
 	relatedCards,
 	removeRelated,
 	addRelated,
-	selectCard,
 }) =>
 	<div>
 		{card.type && <Label colour='sky'>
@@ -114,9 +114,9 @@ const ShowCard = ({
 
 		<article>
 			<h1>
-				<a onClick={preventingDefault(selectCard)} href='#'>
+				<Link href={`/${card.campaignId}/${card._id}`}>
 					{card.title}
-				</a>
+				</Link>
 			</h1>
 
 			<Markdown source={card.text || ''} />
@@ -159,13 +159,11 @@ const withCardData = withTracker(({card, campaignId, campaignSession}) => ({
 			$addToSet: {related: related._id},
 		});
 	},
+
 	removeRelated(related) {
 		Cards.update(card._id, {
 			$pull: {related: related._id},
 		});
-	},
-	selectCard() {
-		campaignSession.set('selectedCard', card._id);
 	},
 }));
 

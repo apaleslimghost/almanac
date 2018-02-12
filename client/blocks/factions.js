@@ -9,6 +9,7 @@ import {withCampaign} from '../data/campaign';
 import {compose, withHandlers, withProps} from 'recompose';
 import {Button} from '../visual/primitives';
 import withCards from '../data/card';
+import generateSlug from '../utils/generate-slug';
 
 const relationshipLabel = {
 	'-2': 'Hostile',
@@ -66,7 +67,7 @@ const withFactionActions = withHandlers({
 		const data = formJson(ev.target);
 		ev.target.reset();
 		Cards.insert({
-			...data,
+			...generateSlug(data),
 			relationship: 0,
 			type: 'faction',
 			campaignId

@@ -77,6 +77,13 @@ route({
 		});
 	},
 
+	'/:campaignId/:cardId' ({campaignId, cardId}) {
+		mount(Layout, {
+			campaignId,
+			children: <Grail selectCard={cardId} />
+		});
+	},
+
 	'/:campaignId' ({campaignId}) {
 		mount(Layout, {
 			campaignId,
