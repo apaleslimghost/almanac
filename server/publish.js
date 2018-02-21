@@ -4,7 +4,7 @@ const publish = (publications, path = []) => Object.keys(publications).forEach(k
 	const nextPath = path.concat(key);
 	if(typeof publications[key] === 'function') {
 		Meteor.publish(nextPath.join('.'), function(...args) {
-			publications[key]({userId: this.userId, args});
+			return publications[key]({userId: this.userId, args});
 		});
 	} else {
 		publish(publications[key], nextPath);

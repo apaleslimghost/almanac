@@ -1,3 +1,6 @@
 import {Meteor} from 'meteor/meteor'
 
-export default (...subs) => subs.map(Meteor.subscribe).every(sub => sub.ready());
+export default (...subs) =>
+	subs
+		.map(name => Meteor.subscribe(name))
+		.every(sub => sub.ready());

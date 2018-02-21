@@ -5,24 +5,40 @@ import {List} from '../visual/primitives';
 import Link from '../control/link';
 import {go} from '../utils/router';
 import formJson from '@quarterto/form-json';
+import {Meteor} from 'meteor/meteor';
+import subscribe from '../utils/subscribe';
+import {compose, withHandlers} from 'recompose';
+import withLoading from '../control/loading';
 import generateSlug from '../utils/generate-slug';
 import {calendarList} from '../data/calendar';
 
 const withCampaignData = withTracker(() => ({
+	ready: subscribe('campaigns.all'),
 	campaigns: Campaigns.find({}).fetch(),
-	createCampaign(ev, quest) {
+}));
+
+const withCampaignActions = withHandlers({
+	createCampaign: () => ev => {
 		ev.preventDefault();
 		const data = formJson(ev.target);
 		ev.target.reset();
+
+		data.owner = Meteor.userId();
 
 		Campaigns.insert(
 			generateSlug(data),
 			(err, id) => go(`/${id}`)
 		);
 	},
-}));
+});
 
-export default withCampaignData(({campaigns, createCampaign}) => <ul>
+const connectCampaign = compose(
+	withCampaignData,
+	withCampaignActions,
+	withLoading
+);
+
+export default connectCampaign(({campaigns, createCampaign}) => <ul>
 	{campaigns.map(campaign => <li key={campaign._id}>
 		<Link href={`/${campaign._id}`}>{campaign.title}</Link>
 	</li>)}
