@@ -1,28 +1,51 @@
 import {route_} from 'boulevard';
-import {history, link, navigate, start} from 'meteor/quarterto:reactive-history';
+import * as reactiveHistory from 'meteor/quarterto:reactive-history';
+import {withTracker} from 'meteor/react-meteor-data';
+import {compose, lifecycle, withProps} from 'recompose';
 
-export {link};
-export const go = navigate;
+export const link = reactiveHistory.link;
+export const setUrl = reactiveHistory.setUrl;
+export const go = reactiveHistory.navigate;
 
 const router = route_({
-	getUrl() {
-		return history.get();
+	getUrl({url}) {
+		return url;
 	},
 
-	addParams(params) {
-		return [params];
+	addParams(params, {state, url}) {
+		return [params, state, url];
 	},
 
-	fourOhFour() {
+	fourOhFour(params, state, url) {
 		return <h1>
-			${history.get()} not found
+			${url} not found
 		</h1>;
+	},
+});
+
+const withHistoryLifecycle = lifecycle({
+	componentDidMount() {
+		reactiveHistory.start();
+	},
+
+	componentWillUnmount() {
+		reactiveHistory.stop();
 	}
 });
 
-export default routes => {
-	const route = router(routes);
-	start();
+const withRouter = withProps(({routes}) => ({
+	router: router(routes)
+}));
 
-	Tracker.autorun(() => route());
-};
+const withHistory = withTracker(({router}) => ({
+	children: router({
+		url: reactiveHistory.history.get(),
+		state: reactiveHistory.state.get(),
+	}),
+}));
+
+export default compose(
+	withHistoryLifecycle,
+	withRouter,
+	withHistory,
+);

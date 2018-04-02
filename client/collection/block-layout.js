@@ -4,7 +4,7 @@ import * as blocks from '../blocks';
 import {withTracker} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
 import {Layout} from '../../shared/collections';
-import {withState} from 'recompose';
+import {withState, withHandlers} from 'recompose';
 import {withCampaign} from '../data/campaign';
 import {compose} from 'recompose';
 
@@ -73,23 +73,29 @@ const CloseButton = styled.button`
 
 const withLayoutData = withTracker(({campaignId}) => ({
 	layout: Layout.find({campaignId}).fetch(),
+}));
 
-	updateLayout(layout) {
+const withLayoutActions = withHandlers({
+	updateLayout: () => layout => {
 		layout.forEach(({i, ...item}) => {
 			Layout.update(i, {$set: item});
 		});
 	},
 
-	addComponent(component) {
+	addComponent: ({campaignId}) => component => {
 		Layout.insert({component, x: 0, y: 0, w: 2, h: 1, campaignId});
 	},
 
-	removeComponent(_id) {
+	removeComponent: () => _id => {
 		Layout.remove(_id);
 	}
-}));
+});
 
-const connectLayout = compose(withCampaign, withLayoutData);
+const connectLayout = compose(
+	withCampaign,
+	withLayoutData,
+	withLayoutActions
+);
 
 export default connectLayout(({
 	which,

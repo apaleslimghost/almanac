@@ -1,13 +1,16 @@
 import React from 'react';
 import {injectGlobal} from 'styled-components'
 import {background} from './utils/colors';
-import route from './utils/router';
+import withRouter from './utils/router';
 import {mount} from 'react-mounter';
 import {steel, sky} from '@quarterto/colours';
 import {rgba} from 'polished';
 import App from './pages/app';
 import Layout from './pages/layout';
 import {setsCampaign} from './data/campaign';
+import {Campaigns} from '../shared/collections';
+import subscribe from './utils/subscribe';
+
 import 'formdata-polyfill';
 
 import url from 'url';
@@ -62,38 +65,40 @@ injectGlobal`
 	}
 `;
 
-route({
-	'/:campaignId/dashboard' ({campaignId}) {
-		mount(App, {
-			campaignId,
-			children: <Dashboard />
-		});
-	},
+const Main = withRouter(({children}) => <div>
+	{children}
+</div>);
 
-	'/:campaignId/dashboard-control' ({campaignId}) {
-		mount(Layout, {
-			campaignId,
-			children: <Control />
-		});
-	},
+mount(Main, {
+	routes: {
+		'/:campaignId/dashboard' ({campaignId}) {
+			return <App campaignId={campaignId}>
+				<Dashboard />
+			</App>;
+		},
 
-	'/:campaignId/:cardId' ({campaignId, cardId}) {
-		mount(Layout, {
-			campaignId,
-			children: <Grail selectCard={cardId} />
-		});
-	},
+		'/:campaignId/dashboard-control' ({campaignId}) {
+			return <Layout campaignId={campaignId}>
+				<Control />
+			</Layout>;
+		},
 
-	'/:campaignId' ({campaignId}) {
-		mount(Layout, {
-			campaignId,
-			children: <Grail />
-		});
-	},
+		'/:campaignId/:cardId' ({campaignId, cardId}) {
+			return <Layout campaignId={campaignId}>
+				<Grail selectCard={cardId} />
+			</Layout>;
+		},
 
-	'/' () {
-		mount(Layout, {
-			children: <Home />
-		});
-	},
+		'/:campaignId' ({campaignId}) {
+			return <Layout campaignId={campaignId}>
+				<Grail />
+			</Layout>;
+		},
+
+		'/' () {
+			return <Layout>
+				<Home />
+			</Layout>;
+		},
+	}
 });
