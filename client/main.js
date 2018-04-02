@@ -12,13 +12,6 @@ import Control from './pages/control';
 import Grail from './pages/grail';
 import Home from './pages/home';
 
-//TODO: card search
-//TODO: integrate Menagerie (monsters & spells, with JSON import/export)
-//TODO: sidebar
-//TODO: time and location as a first class concept
-//TODO: reinstate metadata
-//TODO: search by metadata
-
 mount(App, {
 	routes: {
 		'/:campaignId/dashboard' ({campaignId}) {
