@@ -8,6 +8,15 @@ import {withTracker} from 'meteor/react-meteor-data';
 import {H3} from '../visual/heading';
 import {Campaigns} from '../../shared/collections';
 import {compose, withContext, withState} from 'recompose';
+import {withUserData, logout} from '../utils/logged-in';
+
+const LogoutButton = withUserData(({user}) => user
+	? <MenuLink onClick={logout} href='/logout'>
+		<Icon icon='key' />
+		{user.emails[0].address}
+	</MenuLink>
+	: null
+);
 
 const Toolbar = styled.nav`
 	display: flex;
@@ -108,6 +117,7 @@ const Nav = withCampaign(({campaignId, extraItems}) => <Toolbar>
 	<NavArea>
 		<Space />
 		{extraItems}
+		<LogoutButton />
 	</NavArea>
 </Toolbar>);
 
