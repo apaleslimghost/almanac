@@ -1,7 +1,7 @@
 import {Cards} from '../../../../shared/collections';
 import {withHandlers} from 'recompose';
 import formJson from '@quarterto/form-json';
-import generateSlug from '../../../utils/generate-slug';
+import generateSlug from '../../../../shared/utils/generate-slug';
 
 const questActions = withHandlers({
 	onDeleteQuest: ({quest}) => ev => {

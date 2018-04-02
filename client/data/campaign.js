@@ -20,7 +20,7 @@ export const campaignExists = withTracker(({campaignId}) => {
 		throw new NotFound(`Campaign ${campaignId} not found`);
 	}
 
-	return {campaignId};
+	return {ready, campaignId};
 });
 
 export const campaignContext = {

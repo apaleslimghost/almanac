@@ -5,7 +5,7 @@ import _ from 'lodash';
 import {withCampaignSession} from '../data/campaign';
 import {compose, withHandlers} from 'recompose';
 import {render} from 'react-dom';
-import generateSlug from '../utils/generate-slug';
+import generateSlug from '../../shared/utils/generate-slug';
 
 import {Cards} from '../../shared/collections';
 import subscribe from '../utils/subscribe';

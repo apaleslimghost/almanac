@@ -9,7 +9,7 @@ import {Meteor} from 'meteor/meteor';
 import subscribe from '../utils/subscribe';
 import {compose, withHandlers} from 'recompose';
 import withLoading from '../control/loading';
-import generateSlug from '../utils/generate-slug';
+import generateSlug from '../../shared/utils/generate-slug';
 import {calendarList} from '../data/calendar';
 
 const withCampaignData = withTracker(() => ({
@@ -23,19 +23,14 @@ const withCampaignActions = withHandlers({
 		const data = formJson(ev.target);
 		ev.target.reset();
 
-		data.owner = Meteor.userId();
-
-		Campaigns.insert(
-			generateSlug(data),
-			(err, id) => go(`/${id}`)
-		);
+		Meteor.call('createCampaign', data, (err, id) => go(`/${id}`));
 	},
 });
 
 const connectCampaign = compose(
 	withCampaignData,
 	withCampaignActions,
-	withLoading
+	// withLoading
 );
 
 export default connectCampaign(({campaigns, createCampaign}) => <ul>

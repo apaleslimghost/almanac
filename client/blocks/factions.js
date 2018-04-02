@@ -9,7 +9,7 @@ import {withCampaign} from '../data/campaign';
 import {compose, withHandlers, withProps} from 'recompose';
 import {Button} from '../visual/primitives';
 import withCards from '../data/card';
-import generateSlug from '../utils/generate-slug';
+import generateSlug from '../../shared/utils/generate-slug';
 
 const relationshipLabel = {
 	'-2': 'Hostile',
