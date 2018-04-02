@@ -1,6 +1,10 @@
 import React from 'react';
 import getCampaignSession from '../../shared/session';
 import PropTypes from 'prop-types';
+import {withTracker} from 'meteor/react-meteor-data';
+import {Campaigns} from '../../shared/collections';
+import subscribe from '../utils/subscribe';
+import {NotFound} from 'http-errors';
 import {
 	compose,
 	withProps,
@@ -8,15 +12,31 @@ import {
 	getContext
 } from 'recompose';
 
+export const campaignExists = withTracker(({campaignId}) => {
+	const ready = subscribe('campaigns.all');
+	const campaign = Campaigns.findOne(campaignId);
+
+	if(ready && !campaign) {
+		throw new NotFound(`Campaign ${campaignId} not found`);
+	}
+
+	return {campaignId};
+});
+
 export const campaignContext = {
 	campaignId: PropTypes.string,
 };
 
 export const withCampaign = getContext(campaignContext);
 
-export const setsCampaign = withContext(
+export const setsCampaignContext = withContext(
 	campaignContext,
 	props => ({campaignId: props.campaignId}),
+);
+
+export const setsCampaign = compose(
+	campaignExists,
+	setsCampaignContext
 );
 
 const setCampaignSession = withProps(({campaignId}) => ({

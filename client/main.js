@@ -10,6 +10,9 @@ import Layout from './pages/layout';
 import {setsCampaign} from './data/campaign';
 import {Campaigns} from '../shared/collections';
 import subscribe from './utils/subscribe';
+import {compose, branch, renderComponent, withState} from 'recompose';
+import withCatch from './utils/catch';
+import {HttpError} from 'http-errors';
 
 import 'formdata-polyfill';
 
@@ -65,7 +68,33 @@ injectGlobal`
 	}
 `;
 
-const Main = withRouter(({children}) => <div>
+const errorState = withState('error', 'setError', null);
+
+const mainCatch = withCatch((error, info, props) => {
+	props.setError(Object.assign(error, info));
+});
+
+const Error = ({error}) => <div>
+	<pre>{error.message}</pre>
+	<pre>{error.componentStack}</pre>
+	<small>
+		<pre>{error.stack}</pre>
+	</small>
+</div>;
+
+const displayError = branch(
+	({error}) => !!error,
+	renderComponent(Error)
+);
+
+const connectMain = compose(
+	withRouter,
+	errorState,
+	mainCatch,
+	displayError
+);
+
+const Main = connectMain(({children}) => <div>
 	{children}
 </div>);
 
