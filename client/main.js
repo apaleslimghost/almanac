@@ -1,19 +1,11 @@
 import React from 'react';
-import {injectGlobal} from 'styled-components'
-import {background} from './utils/colors';
-import withRouter from './utils/router';
 import {mount} from 'react-mounter';
-import {steel, sky} from '@quarterto/colours';
-import {rgba} from 'polished';
 import Layout, {Basic as BasicLayout} from './pages/layout';
-import subscribe from './utils/subscribe';
-import {compose, branch, renderComponent, withState} from 'recompose';
-import withCatch from './utils/catch';
-import {HttpError} from 'http-errors';
+import App from './app';
 
 import 'formdata-polyfill';
 
-import url from 'url';
+import './visual/global';
 
 import Dashboard from './pages/dashboard';
 import Control from './pages/control';
@@ -27,75 +19,7 @@ import Home from './pages/home';
 //TODO: reinstate metadata
 //TODO: search by metadata
 
-const buildGoogleFontsUrl = fonts => url.format({
-	protocol: 'https',
-	host: 'fonts.googleapis.com',
-	pathname: 'css',
-	query: {
-		family: Object.keys(fonts).map(font =>
-			`${font}${fonts[font].length ? `:${fonts[font].join(',')}` : ''}`
-		).join('|'),
-	},
-})
-
-injectGlobal`
-	@import url(${buildGoogleFontsUrl({
-		'Source Sans Pro': ['400', '400i', '700', '700i'],
-		'Libre Baskerville': []
-	})});
-
-	@font-face {
-		font-family: 'PC Ornaments';
-		src: url('/fonts/pc-ornaments.woff2') format('woff2');
-	}
-
-	body {
-		font-family: 'Source Sans Pro', sans-serif;
-		margin: 0;
-		background: ${background};
-		color: ${steel[0]};
-	}
-
-	* {
-		box-sizing: border-box;
-	}
-
-	:focus {
-		outline: 3px solid ${sky[3]};
-	}
-`;
-
-const errorState = withState('error', 'setError', null);
-
-const mainCatch = withCatch((error, info, props) => {
-	props.setError(Object.assign(error, info));
-});
-
-const Error = ({error}) => <div>
-	<pre>{error.message}</pre>
-	<pre>{error.componentStack}</pre>
-	<small>
-		<pre>{error.stack}</pre>
-	</small>
-</div>;
-
-const displayError = branch(
-	({error}) => !!error,
-	renderComponent(Error)
-);
-
-const connectMain = compose(
-	withRouter,
-	errorState,
-	mainCatch,
-	displayError
-);
-
-const Main = connectMain(({children}) => <div>
-	{children}
-</div>);
-
-mount(Main, {
+mount(App, {
 	routes: {
 		'/:campaignId/dashboard' ({campaignId}) {
 			return <BasicLayout campaignId={campaignId}>
