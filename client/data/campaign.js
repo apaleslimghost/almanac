@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {withTracker} from 'meteor/react-meteor-data';
 import {Campaigns} from '../../shared/collections';
 import subscribe from '../utils/subscribe';
+import withLoading from '../control/loading';
 import {NotFound} from 'http-errors';
 import {
 	compose,
@@ -36,6 +37,7 @@ export const setsCampaignContext = withContext(
 
 export const setsCampaign = compose(
 	campaignExists,
+	withLoading,
 	setsCampaignContext
 );
 

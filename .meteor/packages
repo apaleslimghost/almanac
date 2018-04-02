@@ -25,4 +25,5 @@ nagoshi:rpg-awesome
 quarterto:reactive-history
 accounts-password
 alanning:roles
-std:accounts-ui
+accounts-ui
+gadicc:blaze-react-component

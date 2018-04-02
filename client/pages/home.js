@@ -10,6 +10,7 @@ import subscribe from '../utils/subscribe';
 import {compose, withHandlers} from 'recompose';
 import withLoading from '../control/loading';
 import generateSlug from '../../shared/utils/generate-slug';
+import loggedIn from '../utils/logged-in';
 import {calendarList} from '../data/calendar';
 
 const withCampaignData = withTracker(() => ({
@@ -28,9 +29,10 @@ const withCampaignActions = withHandlers({
 });
 
 const connectCampaign = compose(
+	loggedIn,
 	withCampaignData,
 	withCampaignActions,
-	// withLoading
+	withLoading
 );
 
 export default connectCampaign(({campaigns, createCampaign}) => <ul>
