@@ -5,10 +5,7 @@ import withRouter from './utils/router';
 import {mount} from 'react-mounter';
 import {steel, sky} from '@quarterto/colours';
 import {rgba} from 'polished';
-import App from './pages/app';
-import Layout from './pages/layout';
-import {setsCampaign} from './data/campaign';
-import {Campaigns} from '../shared/collections';
+import Layout, {Basic as BasicLayout} from './pages/layout';
 import subscribe from './utils/subscribe';
 import {compose, branch, renderComponent, withState} from 'recompose';
 import withCatch from './utils/catch';
@@ -101,9 +98,9 @@ const Main = connectMain(({children}) => <div>
 mount(Main, {
 	routes: {
 		'/:campaignId/dashboard' ({campaignId}) {
-			return <App campaignId={campaignId}>
+			return <BasicLayout campaignId={campaignId}>
 				<Dashboard />
-			</App>;
+			</BasicLayout>;
 		},
 
 		'/:campaignId/dashboard-control' ({campaignId}) {
@@ -119,6 +116,8 @@ mount(Main, {
 		},
 
 		'/:campaignId' ({campaignId}) {
+			if(!campaignId) return false;
+
 			return <Layout campaignId={campaignId}>
 				<Grail />
 			</Layout>;

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import App from './app';
-import {withCampaign} from '../data/campaign';
+import {setsCampaign, withCampaign} from '../data/campaign';
 import Icon from '../visual/icon';
 import styled, {css} from 'styled-components';
 import PropTypes from 'prop-types';
@@ -127,11 +126,15 @@ const connectLayout = compose(
 	layoutContext
 );
 
+export const Basic = setsCampaign(({children}) => <div>
+	{children}
+</div>);
+
 const Layout = connectLayout(({campaignId, extraItems, children}) =>
-	<App campaignId={campaignId}>
+	<Basic campaignId={campaignId}>
 		<Nav extraItems={extraItems} />
 		{children}
-	</App>
+	</Basic>
 );
 
 export default Layout;

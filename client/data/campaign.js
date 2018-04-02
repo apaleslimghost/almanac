@@ -16,7 +16,7 @@ export const campaignExists = withTracker(({campaignId}) => {
 	const ready = subscribe('campaigns.all');
 	const campaign = Campaigns.findOne(campaignId);
 
-	if(ready && !campaign) {
+	if(campaignId && ready && !campaign) {
 		throw new NotFound(`Campaign ${campaignId} not found`);
 	}
 
