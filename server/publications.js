@@ -1,18 +1,27 @@
 import publish from './utils/publish';
 import {Cards, Campaigns, Session, Layout} from '../shared/collections';
-import {Roles} from 'meteor/alanning:roles';
 
-//TODO: per-card visibility
+//TODO: public/private
 
-const visible = (collection, key = 'campaignId') => ({userId}) => collection.find({
-	[key]: {
-		$in: Roles.getGroupsForUser(userId, ['campaign-owner', 'campaign-member']),
-	},
+const _visibleDocs = (collection, {userId, campaignIds = []}) => collection.find({
+	$or: [
+		{owner: userId},
+		{member: userId},
+		{campaignId: {$in: campaignIds}}
+	]
 });
+
+const visibleDocs = collection => ({userId}) => _visibleDocs(collection, {userId});
+
+const visible = (collection, checkCampaign = true) => ({userId}) => {
+	const visibleCampaigns = _visibleDocs(Campaigns, {userId}).fetch();
+
+	return _visibleDocs(collection, {userId, campaignIds: visibleCampaigns.map(c => c._id)});
+};
 
 publish({
 	campaigns: {
-		all: visible(Campaigns, '_id'),
+		all: visibleDocs(Campaigns),
 	},
 
 	cards: {
