@@ -9,8 +9,8 @@ const questsActions = withHandlers({
 		const data = formJson(ev.target);
 		ev.target.reset();
 
-		Cards.insert({
-			...generateSlug(data),
+		Meteor.call('createCard', {
+			...data,
 			type: 'quest',
 			campaignId,
 		});

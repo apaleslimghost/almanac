@@ -7,6 +7,7 @@ import {Layout} from '../../shared/collections';
 import {withState, withHandlers} from 'recompose';
 import {withCampaign} from '../data/campaign';
 import {compose} from 'recompose';
+import subscribe from '../utils/subscribe';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -72,22 +73,23 @@ const CloseButton = styled.button`
 `;
 
 const withLayoutData = withTracker(({campaignId}) => ({
+	ready: subscribe('layout.all'),
 	layout: Layout.find({campaignId}).fetch(),
 }));
 
 const withLayoutActions = withHandlers({
 	updateLayout: () => layout => {
 		layout.forEach(({i, ...item}) => {
-			Layout.update(i, {$set: item});
+			Meteor.call('updateLayout', {_id: i}, item);
 		});
 	},
 
 	addComponent: ({campaignId}) => component => {
-		Layout.insert({component, x: 0, y: 0, w: 2, h: 1, campaignId});
+		Meteor.call('addLayout', {component, x: 0, y: 0, w: 2, h: 1, campaignId});
 	},
 
-	removeComponent: () => _id => {
-		Layout.remove(_id);
+	removeComponent: () => layout => {
+		Meteor.call('removeLayout', layout);
 	}
 });
 
@@ -107,18 +109,18 @@ export default connectLayout(({
 }) => <div className={`grid-${which}`}>
 	{which === 'control' && <ComponentSelect onSelect={addComponent} />}
 	<GridLayoutWidth
-		layout={layout.map(({_id, ...item}) => ({i:_id, ...item}))}
+		layout={layout.map(({_id, ...item}) => ({i: _id, ...item}))}
 		onLayoutChange={updateLayout}
 		isDraggable={which === 'control'}
 		isResizable={which === 'control'}
 		rowHeight={60}
 		draggableCancel='input, button, select'
 	>
-		{layout.map(({_id, component}) => <div key={_id}>
+		{layout.map((layout) => <div key={layout._id}>
 			{which === 'control' &&
-				<CloseButton onClick={() => removeComponent(_id)}>×</CloseButton>}
-			{blocks[component]
-				? React.createElement(blocks[component][which], props)
+				<CloseButton onClick={() => removeComponent(layout)}>×</CloseButton>}
+			{blocks[layout.component]
+				? React.createElement(blocks[layout.component][which], props)
 				: 'unknown component'}
 		</div>)}
 	</GridLayoutWidth>

@@ -33,14 +33,10 @@ const Right = styled.span`
 
 const connectModRelationship = withHandlers({
 	modRelationship: ({amount, faction}) => ev => {
+		const relationship = (faction.relationship || 0) + amount;
+
 		if(amount + faction.relationship < 3 && amount + faction.relationship > -3) {
-			Cards.update(faction._id, {
-				$inc: {relationship: amount},
-			});
-		} else if(!faction.relationship) {
-			Cards.update(faction._id, {
-				$set: {relationship: amount},
-			});
+			Meteor.call('updateCard', faction, { relationship });
 		}
 	},
 });
@@ -66,8 +62,8 @@ const withFactionActions = withHandlers({
 		ev.preventDefault();
 		const data = formJson(ev.target);
 		ev.target.reset();
-		Cards.insert({
-			...generateSlug(data),
+
+		Meteor.call('createCard', {
 			relationship: 0,
 			type: 'faction',
 			campaignId
@@ -77,7 +73,7 @@ const withFactionActions = withHandlers({
 
 const connectRemoveButton = withHandlers({
 	remove: ({faction}) => ev => {
-		Cards.remove(faction._id);
+		Meteor.call('deleteCard', faction);
 	},
 });
 

@@ -29,10 +29,13 @@ const withCardListActions = withTracker(props => {
 	}
 
 	return {
-		ready: Meteor.subscribe('cards.all').ready(),
+		ready: subscribe('cards.all'),
 		cards: _.orderBy(cards, ['sortedIndex', 'title']),
 		addCard(card) {
-			Cards.insert({...generateSlug(card), campaignId});
+			console.log('FORM', card);
+			Meteor.call('createCard', {...card, campaignId}, (err, card) => {
+				console.log({err, card});
+			});
 		}
 	};
 });

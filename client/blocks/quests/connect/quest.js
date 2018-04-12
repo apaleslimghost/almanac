@@ -5,13 +5,7 @@ import generateSlug from '../../../../shared/utils/generate-slug';
 
 const questActions = withHandlers({
 	onDeleteQuest: ({quest}) => ev => {
-		Cards.remove(quest._id);
-		Cards.find({
-			type: 'objective',
-			_id: {$in: quest.related || []}
-		}).forEach(({_id}) => {
-			Cards.remove(_id);
-		});
+		Meteor.call('deleteCardWithRelated', quest, {ofType: 'objective'});
 	},
 
 	onSelectQuest: ({quest, campaignSession}) => ev => {
@@ -23,22 +17,20 @@ const questActions = withHandlers({
 		const data = formJson(ev.target);
 		ev.target.reset();
 
-		Cards.insert({
-			...generateSlug(data),
+		Meteor.call('createCard', {
+			...data,
 			completed: false,
 			type: 'objective',
 			campaignId,
-		}, (err, id) => {
+		}, (err, objective) => {
 			if(err) return;
-			Cards.update(
-				quest._id,
-				{$addToSet: {related: id}}
-			);
+
+			Meteor.call('addRelated', quest, objective);
 
 			campaignSession.set('splashQuest', {
 				action: 'startObjective',
 				quest,
-				objective: data,
+				objective,
 			});
 		});
 	},

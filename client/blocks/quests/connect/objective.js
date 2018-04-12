@@ -3,11 +3,9 @@ import {withHandlers} from 'recompose';
 
 const objectiveActions = withHandlers({
 	onCompleteObjective: ({objective, quest, campaignSession}) => ev => {
-		Cards.update(objective._id, {
-			$set: {
-				completed: true,
-				completedDate: campaignSession.get('date') || 0,
-			},
+		Meteor.call('updateCard', objective, {
+			completed: true,
+			completedDate: campaignSession.get('date') || 0,
 		});
 
 		campaignSession.set('splashQuest', {
@@ -18,7 +16,7 @@ const objectiveActions = withHandlers({
 	},
 
 	onDeleteObjective: ({objective}) => ev => {
-		Cards.remove(objective._id);
+		Meteor.call('deleteCard', objective);
 	},
 });
 

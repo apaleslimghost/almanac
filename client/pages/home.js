@@ -24,7 +24,7 @@ const withCampaignActions = withHandlers({
 		const data = formJson(ev.target);
 		ev.target.reset();
 
-		Meteor.call('createCampaign', data, (err, id) => go(`/${id}`));
+		Meteor.call('createCampaign', data, (err, {_id}) => go(`/${_id}`));
 	},
 });
 

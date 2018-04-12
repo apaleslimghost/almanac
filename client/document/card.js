@@ -81,12 +81,12 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	</Form>;
 
 const connectEditCard = withHandlers({
-	saveCard: () => card => {
-		Cards.update(card._id, {$set: _.omit(card, '_id')});
+	saveCard: ({card}) => data => {
+		Meteor.call('updateCard', card, data);
 	},
 
 	deleteCard: ({card}) => ev => {
-		Cards.remove(card._id);
+		Meteor.call('removeCard', card);
 	},
 });
 
@@ -155,15 +155,11 @@ const withCardData = withTracker(({card, campaignId, campaignSession}) => ({
 	// TODO: use withCard
 	relatedCards: Cards.find({_id: {$in: card.related || []}, campaignId}).fetch(),
 	addRelated(related) {
-		Cards.update(card._id, {
-			$addToSet: {related: related._id},
-		});
+		Meteor.call('addRelated', card, related);
 	},
 
 	removeRelated(related) {
-		Cards.update(card._id, {
-			$pull: {related: related._id},
-		});
+		Meteor.call('removeRelated', card, related);
 	},
 }));
 
