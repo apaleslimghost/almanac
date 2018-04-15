@@ -5,10 +5,10 @@ import {Cards, Campaigns, Session, Layout} from '../shared/collections';
 
 const _visibleDocs = (collection, {userId, campaignIds = []}) => collection.find({
 	$or: [
-		{owner: userId},
-		{member: userId},
+		userId && {owner: userId},
+		userId && {member: userId},
 		{campaignId: {$in: campaignIds}}
-	]
+	].filter(a => a)
 });
 
 const visibleDocs = collection => ({userId}) => _visibleDocs(collection, {userId});
