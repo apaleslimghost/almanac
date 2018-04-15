@@ -110,7 +110,7 @@ export class Form extends Component {
 		ev.preventDefault();
 		Promise.resolve(this.props.onSubmit(this.fields))
 			.then(() => {
-				if (this.mounted) {
+				if(this.mounted) {
 					this.setState({
 						fields: this.props.initialData
 					});
