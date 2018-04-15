@@ -108,21 +108,21 @@ const Quest = connectQuest(({
 	</div> : null
 );
 
-const withQuestsData = withTracker(({campaignId, campaignSession}) => {
+const withQuestsData = withCards('quests', {type: 'quest'});
+
+const withCurrentQuest = withTracker(({quests, campaignSession}) => {
 	const currentQuest = campaignSession.get('currentQuest');
+
 	return {
 		currentQuest,
-		quests: idFirst(
-			// TODO: use withCard
-			Cards.find({type: 'quest', campaignId}).fetch(),
-			currentQuest
-		),
+		quests: idFirst(quests, currentQuest),
 	};
 });
 
 const connectQuestsList = compose(
 	withCampaignSession,
-	withQuestsData
+	withQuestsData,
+	withCurrentQuest
 );
 
 const QuestsList = connectQuestsList(({onCreateQuest, control, quests, ...props}) => <div>
