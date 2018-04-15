@@ -16,10 +16,7 @@ const visibleDocs = collection => ({userId}) => _visibleDocs(collection, {userId
 const visible = collection => ({userId}) => {
 	const visibleCampaigns = _visibleDocs(Campaigns, {userId}).fetch();
 
-	const c = _visibleDocs(collection, {userId, campaignIds: visibleCampaigns.map(c => c._id)});
-	console.log(collection.find({}).fetch(), userId, visibleCampaigns, c.fetch());
-
-	return c;
+	return _visibleDocs(collection, {userId, campaignIds: visibleCampaigns.map(c => c._id)});
 };
 
 publish({
