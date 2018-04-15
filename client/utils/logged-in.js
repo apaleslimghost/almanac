@@ -1,7 +1,7 @@
 import React from 'react';
 import {Meteor} from 'meteor/meteor';
 import {withTracker} from 'meteor/react-meteor-data';
-import {branch, renderComponent, compose} from 'recompose';
+import {branch, renderComponent, compose} from 'recompact';
 import {ComboBox} from 'meteor/universe:accounts-ui';
 
 export const withUserData = withTracker(() => ({

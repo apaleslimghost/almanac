@@ -1,6 +1,6 @@
 import React from 'react';
 import CardList from '../collection/card-list';
-import {compose, withPropsOnChange} from 'recompose';
+import {compose, withPropsOnChange} from 'recompact';
 import {withCampaignSession} from '../data/campaign';
 
 const selectCard = withPropsOnChange(

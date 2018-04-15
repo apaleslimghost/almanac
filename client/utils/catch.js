@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {wrapDisplayName, compose} from 'recompose';
+import {wrapDisplayName, compose} from 'recompact';
 
 const withCatch = onCatch => Child => class Catcher extends Component {
 	static displayName = wrapDisplayName(Child, 'withCatch');

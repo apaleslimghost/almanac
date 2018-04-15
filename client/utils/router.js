@@ -1,7 +1,7 @@
 import {route_} from 'boulevard';
 import * as reactiveHistory from 'meteor/quarterto:reactive-history';
 import {withTracker} from 'meteor/react-meteor-data';
-import {compose, lifecycle, withProps} from 'recompose';
+import {compose, lifecycle, withProps} from 'recompact';
 
 export const link = reactiveHistory.link;
 export const setUrl = reactiveHistory.setUrl;

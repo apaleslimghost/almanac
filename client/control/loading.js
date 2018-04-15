@@ -1,5 +1,5 @@
 import React from 'react';
-import {renderComponent, branch} from 'recompose';
+import {renderComponent, branch} from 'recompact';
 
 export const Loading = () => <div>Loading...</div>;
 

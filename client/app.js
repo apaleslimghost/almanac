@@ -1,5 +1,5 @@
 import React from 'react';
-import {compose, withState} from 'recompose';
+import {compose, withState} from 'recompact';
 import withRouter from './utils/router';
 import withCatch from './utils/catch';
 import displayError from './utils/error';

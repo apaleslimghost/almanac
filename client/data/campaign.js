@@ -11,7 +11,7 @@ import {
 	withProps,
 	withContext,
 	getContext
-} from 'recompose';
+} from 'recompact';
 
 export const campaignExists = withTracker(({campaignId}) => {
 	const ready = subscribe('campaigns.all');

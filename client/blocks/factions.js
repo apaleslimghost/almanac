@@ -6,7 +6,7 @@ import Ornamented from '../visual/ornamented';
 import Icon from '../visual/icon';
 import styled from 'styled-components';
 import {withCampaign} from '../data/campaign';
-import {compose, withHandlers, withProps} from 'recompose';
+import {compose, withHandlers, withProps} from 'recompact';
 import {Button} from '../visual/primitives';
 import withCards from '../data/card';
 import generateSlug from '../../shared/utils/generate-slug';

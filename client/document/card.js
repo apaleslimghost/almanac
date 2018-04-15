@@ -4,7 +4,7 @@ import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
 import {withCampaignSession} from '../data/campaign';
-import {compose, withHandlers} from 'recompose';
+import {compose, withHandlers} from 'recompact';
 import TypeSelect from '../collection/type-select';
 import {Cards} from '../../shared/collections';
 import schema from '../../shared/schema';

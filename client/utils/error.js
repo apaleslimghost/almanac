@@ -1,5 +1,5 @@
 import React from 'react';
-import {branch, renderComponent} from 'recompose';
+import {branch, renderComponent} from 'recompact';
 
 export const Error = ({error}) => <div>
 	<pre>{error.message}</pre>

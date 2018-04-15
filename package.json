@@ -52,7 +52,7 @@
     "react-portal": "^3.2.0",
     "react-resizable": "^1.7.5",
     "react-typeahead": "^2.0.0-alpha.5",
-    "recompose": "^0.26.0",
+    "recompact": "^3.3.0",
     "styled-components": "^2.1.0"
   }
 }

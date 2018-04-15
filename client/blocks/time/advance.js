@@ -1,7 +1,7 @@
 import React from 'react';
 import withTimer from '../../utils/timer';
 import {withCampaignSession} from '../../data/campaign';
-import {withState, withHandlers, withProps, compose} from 'recompose';
+import {withState, withHandlers, withProps, compose} from 'recompact';
 import withIncrement from './connect/increment';
 
 const connectAdvanceTime = compose(

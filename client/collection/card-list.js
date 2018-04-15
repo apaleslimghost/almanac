@@ -3,7 +3,7 @@ import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import {withCampaignSession} from '../data/campaign';
-import {compose, withHandlers} from 'recompose';
+import {compose, withHandlers} from 'recompact';
 import {render} from 'react-dom';
 import generateSlug from '../../shared/utils/generate-slug';
 

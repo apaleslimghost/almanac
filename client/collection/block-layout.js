@@ -4,9 +4,9 @@ import * as blocks from '../blocks';
 import {withTracker} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
 import {Layout} from '../../shared/collections';
-import {withState, withHandlers} from 'recompose';
+import {withState, withHandlers} from 'recompact';
 import {withCampaign} from '../data/campaign';
-import {compose} from 'recompose';
+import {compose} from 'recompact';
 import subscribe from '../utils/subscribe';
 
 import 'react-grid-layout/css/styles.css';

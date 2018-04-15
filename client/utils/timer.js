@@ -1,4 +1,4 @@
-import {lifecycle} from 'recompose';
+import {lifecycle} from 'recompact';
 
 export default (interval, onFire) => lifecycle({
 	componentDidMount() {

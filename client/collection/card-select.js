@@ -2,7 +2,7 @@ import {Meteor} from 'meteor/meteor'
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
-import {compose} from 'recompose';
+import {compose} from 'recompact';
 
 import {Cards} from '../../shared/collections';
 import {getSelectValue} from '../control/form';

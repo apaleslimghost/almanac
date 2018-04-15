@@ -7,7 +7,7 @@ import {go} from '../utils/router';
 import formJson from '@quarterto/form-json';
 import {Meteor} from 'meteor/meteor';
 import subscribe from '../utils/subscribe';
-import {compose, withHandlers} from 'recompose';
+import {compose, withHandlers} from 'recompact';
 import withLoading from '../control/loading';
 import generateSlug from '../../shared/utils/generate-slug';
 import loggedIn from '../utils/logged-in';

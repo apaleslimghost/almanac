@@ -2,7 +2,7 @@ import React from 'react';
 import Time from './display';
 import {withCampaignSession} from '../../data/campaign';
 import connectTime from './connect/time';
-import {compose, withState, withHandlers, withPropsOnChange} from 'recompose';
+import {compose, withState, withHandlers, withPropsOnChange} from 'recompact';
 import {Button, List, Input, Group} from '../../visual/primitives';
 import {withCampaignDate} from '../../data/calendar';
 import preventingDefault from '../../utils/preventing-default';
