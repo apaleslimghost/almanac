@@ -64,6 +64,7 @@ const withFactionActions = withHandlers({
 		ev.target.reset();
 
 		Meteor.call('createCard', {
+			...data,
 			relationship: 0,
 			type: 'faction',
 			campaignId
