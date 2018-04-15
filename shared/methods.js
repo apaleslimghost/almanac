@@ -38,7 +38,6 @@ Meteor.methods({
 		data.owner = this.userId;
 
 		Cards.insert(data);
-		console.log(data);
 		return data;
 	},
 
@@ -78,7 +77,7 @@ Meteor.methods({
 	},
 
 	addLayout(data) {
-		console.log(Layout.insert(data));
+		Layout.insert(data);
 	},
 
 	updateLayout(layout, $set) {

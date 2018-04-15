@@ -32,10 +32,7 @@ const withCardListActions = withTracker(props => {
 		ready: subscribe('cards.all'),
 		cards: _.orderBy(cards, ['sortedIndex', 'title']),
 		addCard(card) {
-			console.log('FORM', card);
-			Meteor.call('createCard', {...card, campaignId}, (err, card) => {
-				console.log({err, card});
-			});
+			Meteor.call('createCard', {...card, campaignId});
 		}
 	};
 });
