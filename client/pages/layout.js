@@ -7,8 +7,9 @@ import Link from '../control/link';
 import {withTracker} from 'meteor/react-meteor-data';
 import {H3} from '../visual/heading';
 import {Campaigns} from '../../shared/collections';
-import {compose, withContext, withState} from 'recompact';
+import {compose, withContext, withState, lifecycle, getContext} from 'recompact';
 import {withUserData, logout} from '../utils/logged-in';
+import Logo from '../visual/logo';
 
 const LogoutButton = withUserData(({user}) => user
 	? <MenuLink onClick={logout} href='/logout'>
@@ -58,13 +59,6 @@ const Divider = styled.div`
 const Space = styled.div`
 	flex: 1;
 `;
-
-const LogoImg = styled.img`
-	height: 2em;
-	margin: 0.5em 1rem;
-`
-
-const Logo = () => <LogoImg src='/images/logo.svg' alt='Almanac' />;
 
 const NavArea = styled.div`
 	flex: 1;
@@ -121,28 +115,65 @@ const Nav = withCampaign(({campaignId, extraItems}) => <Toolbar>
 	</NavArea>
 </Toolbar>);
 
-const layoutState = withState('extraItems', 'setExtraItems', []);
-const layoutContext = withContext(
-	{ setNavItems: PropTypes.func },
-	({setExtraItems}) => ({
-		setNavItems(...extraItems) {
-			setExtraItems(extraItems);
-		}
+const navContext = {
+	setExtraNavItems: PropTypes.func,
+	setNavShown: PropTypes.func,
+};
+
+export const withNavContext = getContext(navContext);
+
+const navState = withState('state', 'setState', {
+	extraItems: [],
+	navShown: true,
+});
+
+const setNavContext = withContext(
+	navContext,
+	({setState, state}) => ({
+		setExtraNavItems(...extraItems) {
+			setState({
+				...state,
+				extraItems,
+			})
+		},
+
+		setNavShown(navShown = true) {
+			setState({
+				...state,
+				navShown,
+			})
+		},
+	})
+);
+
+export const hidesNav = compose(
+	withNavContext,
+	lifecycle({
+		componentDidMount() {
+			this.props.setNavShown(false);
+		},
+
+		componentWillUnmount() {
+			this.props.setNavShown(true);
+		},
 	})
 );
 
 const connectLayout = compose(
-	layoutState,
-	layoutContext
+	navState,
+	setNavContext
 );
 
 export const Basic = setsCampaign(({children}) => <div>
 	{children}
 </div>);
 
-const Layout = connectLayout(({campaignId, extraItems, children}) =>
+const Layout = connectLayout(({campaignId, state, children}) =>
 	<Basic campaignId={campaignId}>
-		<Nav extraItems={extraItems} />
+		{state.navShown &&
+			<Nav extraItems={state.extraItems} />
+		}
+
 		{children}
 	</Basic>
 );

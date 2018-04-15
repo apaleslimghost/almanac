@@ -8,7 +8,7 @@ import {campaignContext} from '../data/campaign';
 export default class DashboardControl extends Component {
 	static contextTypes = {
 		...campaignContext,
-		setNavItems: PropTypes.func
+		setExtraNavItems: PropTypes.func
 	}
 
 	render() {
@@ -26,7 +26,7 @@ export default class DashboardControl extends Component {
 	};
 
 	componentDidMount() {
-		this.context.setNavItems(
+		this.context.setExtraNavItems(
 			<MenuLink
 				href={`/${this.context.campaignId}/dashboard`}
 				onClick={this.launchDashboard}
@@ -39,6 +39,6 @@ export default class DashboardControl extends Component {
 	}
 
 	componentWillUnmount() {
-		this.context.setNavItems();
+		this.context.setExtraNavItems();
 	}
 }

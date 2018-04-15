@@ -13,12 +13,12 @@ export const logout = ev => {
 	Meteor.logout();
 };
 
-const showLogin = branch(
+const showLogin = (or = renderComponent(ComboBox)) => branch(
 	({user}) => !user,
-	renderComponent(ComboBox)
+	or
 );
 
-export default compose(
+export default or => compose(
 	withUserData,
-	showLogin
+	showLogin(or)
 );
