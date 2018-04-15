@@ -86,6 +86,6 @@ Meteor.methods({
 	},
 
 	removeLayout(layout) {
-		Layout.remove(_id);
+		Layout.remove(layout._id);
 	},
 });
