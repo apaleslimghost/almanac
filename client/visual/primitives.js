@@ -172,13 +172,13 @@ const Button_ = Label.withComponent('button').extend`
 	&:hover {
 		${({colour = 'sky', shade = 3}) => background({colour, shade: Math.min(6, shade + 1)})}
 		box-shadow: ${shadow(1.5)};
-		transform: translateY(-1px);
+		${'' /* transform: translateY(-1px); */}
 	}
 
 	&:active {
 		transition-property: box-shadow, background;
 		box-shadow: ${shadow(0)};
-		transform: translateY(2px);
+		${'' /* transform: translateY(2px); */}
 	}
 `;
 
