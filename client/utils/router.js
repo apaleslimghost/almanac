@@ -1,3 +1,4 @@
+import React from 'react';
 import {route_} from 'boulevard';
 import * as reactiveHistory from 'meteor/quarterto:reactive-history';
 import {withTracker} from 'meteor/react-meteor-data';
@@ -18,7 +19,7 @@ const router = route_({
 
 	fourOhFour(params, state, url) {
 		return <h1>
-			${url} not found
+			{url} not found
 		</h1>;
 	},
 });

@@ -12,6 +12,7 @@ import Control from './pages/control';
 import Grail from './pages/grail';
 import Home from './pages/home';
 import Login from './pages/login';
+import GetStarted from './pages/get-started';
 
 mount(App, {
 	routes: {
@@ -38,6 +39,12 @@ mount(App, {
 
 			return <Layout campaignId={campaignId}>
 				<Grail />
+			</Layout>;
+		},
+
+		'/get-started' (params, {title}) {
+			return <Layout>
+				<GetStarted title={title} />
 			</Layout>;
 		},
 

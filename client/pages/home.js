@@ -178,6 +178,12 @@ const CTA = Button.extend`
 	font-size: 1.1em;
 `;
 
+const startCreateFlow = ev => {
+	ev.preventDefault();
+	const {title} = formJson(ev.target);
+	go(ev.target.action, {title});
+};
+
 const Splash = hidesNav(() => <SplashBackground>
 	<SplashLogo />
 	<Hero>
@@ -185,9 +191,9 @@ const Splash = hidesNav(() => <SplashBackground>
 
 		<Split>
 			<HeroBlurb>Everything you need to run a sandbox tabletop RPG & get your players involved in your world.</HeroBlurb>
-			<SplashForm>
+			<SplashForm action='/get-started' onSubmit={startCreateFlow}>
 				<H3>Start your campaign</H3>
-				<Input size={30} placeholder={generateCampaign()} required />
+				<Input name='title' size={30} placeholder={generateCampaign()} required />
 				<div>
 					<CTA>Get started</CTA> or, <Link href='/login'>log in</Link>.
 				</div>
