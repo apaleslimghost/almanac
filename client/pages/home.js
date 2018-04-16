@@ -17,6 +17,7 @@ import Logo from '../visual/logo';
 import {Button, Input} from '../visual/primitives';
 import {H3} from '../visual/heading';
 import {aqua} from '@quarterto/colours';
+import generateCampaign from '@quarterto/campaign-name-generator';
 import {calendarList} from '../data/calendar';
 
 const withCampaignData = withTracker(() => ({
@@ -186,7 +187,7 @@ const Splash = hidesNav(() => <SplashBackground>
 			<HeroBlurb>Everything you need to run a sandbox tabletop RPG & get your players involved in your world.</HeroBlurb>
 			<SplashForm>
 				<H3>Start your campaign</H3>
-				<Input size={30} placeholder='Lost Mines of Phandelver' required />
+				<Input size={30} placeholder={generateCampaign()} required />
 				<div>
 					<CTA>Get started</CTA> or, <Link href='/login'>log in</Link>.
 				</div>
