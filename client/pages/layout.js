@@ -83,8 +83,8 @@ const CampaignTitle = connectCampaignTitle(
 );
 
 const connectNav = compose(
-	withUserData,
-	withCampaign
+	withCampaign,
+	withUserData
 );
 
 const Nav = connectNav(({user,campaignId, extraItems}) => <Toolbar>
