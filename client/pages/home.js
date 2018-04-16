@@ -130,6 +130,7 @@ const HeroBlurb = styled.p`
 		font-size: 1.2em;
 		text-align: right;
 		margin-right: 1em;
+		margin-bottom: 0;
 		padding-right: 1em;
 		border-right: 1px solid white;
 	}
@@ -187,7 +188,7 @@ const Splash = hidesNav(() => <SplashBackground>
 				<H3>Start your campaign</H3>
 				<Input size={30} placeholder='Lost Mines of Phandelver' required />
 				<div>
-					<CTA>Get started</CTA> or, <a href='/login'>log in</a>.
+					<CTA>Get started</CTA> or, <Link href='/login'>log in</Link>.
 				</div>
 			</SplashForm>
 		</Split>

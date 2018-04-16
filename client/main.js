@@ -11,6 +11,7 @@ import Dashboard from './pages/dashboard';
 import Control from './pages/control';
 import Grail from './pages/grail';
 import Home from './pages/home';
+import Login from './pages/login';
 
 mount(App, {
 	routes: {
@@ -37,6 +38,12 @@ mount(App, {
 
 			return <Layout campaignId={campaignId}>
 				<Grail />
+			</Layout>;
+		},
+
+		'/login' () {
+			return <Layout>
+				<Login />
 			</Layout>;
 		},
 

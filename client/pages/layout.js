@@ -82,11 +82,24 @@ const CampaignTitle = connectCampaignTitle(
 	({title}) => title ? <MenuTitle>{title}</MenuTitle> : null
 );
 
-const Nav = withCampaign(({campaignId, extraItems}) => <Toolbar>
+const connectNav = compose(
+	withUserData,
+	withCampaign
+);
+
+const Nav = connectNav(({user,campaignId, extraItems}) => <Toolbar>
 	<NavArea>
 		<MenuLink href={`/`}>
-			<Icon icon='circle-of-circles' />
-			Campaigns
+			{user
+				? <>
+					<Icon icon='circle-of-circles' />
+					Campaigns
+				</>
+				: <>
+					<Icon icon='castle-emblem' />
+					Home
+				</>
+			}
 		</MenuLink>
 
 		{campaignId && [
