@@ -14,14 +14,14 @@ export const background = ({colour = 'sky', shade = 3}) => {
 	`;
 };
 
-export const shadow = (level = 1, {colour = 'steel', shade = 5} = {}) => [
+export const shadow = (level = 1) => [
 	0,
 	5,
 	4 * level - 3.5,
 	2 * level - 5,
 ]
 	.map(a => `${a}px`)
-	.concat(darken(0.2 * (level - 1), colours[colour][shade]))
+	.concat(`rgba(0, 0, 0, 0.2)`)
 	.join(' ');
 
 export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = false}) => css`
@@ -182,9 +182,19 @@ const Button_ = Label.withComponent('button').extend`
 	}
 `;
 
-export const Button = props => <Button_ large {...props}>
-	<LabelBody>{props.children}</LabelBody>
-</Button_>;
+const makeButton = ({Button, Body}) => props => <Button large {...props}>
+	<Body>{props.children}</Body>
+</Button>;
+
+export const Button = makeButton({
+	Button: Button_,
+	Body: LabelBody,
+});
+
+Button.extend = (...args) => makeButton({
+	Button: Button_.extend(...args),
+	Body: LabelBody,
+});
 
 export const Group = List.extend`
 	${List} > & {
