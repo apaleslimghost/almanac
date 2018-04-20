@@ -32,7 +32,7 @@
     "boulevard": "^2.3.5",
     "contrast": "^1.0.1",
     "core-js": "^2.5.3",
-    "dream-date": "^0.3.0",
+    "dream-date": "^0.4.1",
     "formdata-polyfill": "^3.0.9",
     "lodash": "^4.17.4",
     "meteor-node-stubs": "~0.2.4",

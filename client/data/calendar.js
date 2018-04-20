@@ -2,6 +2,7 @@ import {Campaigns} from '../../shared/collections';
 import {withCampaign} from '../data/campaign';
 import {withTracker} from 'meteor/react-meteor-data';
 import HarptosDate from 'dream-date/calendar/harptos';
+import HarptosCommonDate from 'dream-date/calendar/harptos-common';
 import OdreianDate from 'dream-date/calendar/odreian';
 import TideDate from 'dream-date/calendar/tide';
 import {compose} from 'recompose';
@@ -10,6 +11,10 @@ export const calendars = {
 	harptosV1: {
 		name: 'Harptos',
 		dateConstructor: HarptosDate
+	},
+	harptosCommonV1: {
+		name: 'Harptos (common)',
+		dateConstructor: HarptosCommonDate
 	},
 	odreianV1: {
 		name: 'Odreian',
