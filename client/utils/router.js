@@ -13,7 +13,7 @@ const router = route_({
 		return url;
 	},
 
-	addParams(params, {state, url}) {
+	addParams(params, [{state, url}]) {
 		return [params, state, url];
 	},
 
