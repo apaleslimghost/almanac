@@ -35,7 +35,7 @@ const ornaments = [
 const OrnamentedMonth = ({date}) => <Ornamented ornament={ornaments[date.monthIndex]} large>
 	<Compact>
 		<div>{date.format`${'dddd'} ${'Do'}`}</div>
-		<small>Month of {date.format`${'MM'}`}</small>
+		<small>{date.format`${'MMMM'}`}</small>
 	</Compact>
 </Ornamented>;
 

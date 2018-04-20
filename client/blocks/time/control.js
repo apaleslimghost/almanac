@@ -4,7 +4,7 @@ import {withCampaignSession} from '../../data/campaign';
 import connectTime from './connect/time';
 import {compose, withState, withHandlers, withPropsOnChange} from 'recompose';
 import {Button, List, Input, Group} from '../../visual/primitives';
-import OdreianDate from 'odreian-date';
+import OdreianDate from 'dream-date/calendar/odreian';
 import preventingDefault from '../../utils/preventing-default';
 import withIncrement from './connect/increment';
 import AdvanceTime from './advance';
@@ -22,7 +22,7 @@ const withDateActions = withHandlers({
 	onSubmit: ({campaignSession, _date}) => ev => {
 		campaignSession.set(
 			'date',
-			OdreianDate.parse(_date).timestamp
+			new OdreianDate(_date).timestamp
 		);
 	},
 });
@@ -30,7 +30,7 @@ const withDateActions = withHandlers({
 const withDateState = withState(
 	'_date',
 	'setDate',
-	({date}) => date.llll
+	({date}) => date.P
 );
 
 const connectDateForm = compose(
@@ -39,7 +39,7 @@ const connectDateForm = compose(
 	withDateState,
 	withDateActions,
 	withPropsOnChange(['date'], ({date, setDate}) => {
-		setDate(date.llll);
+		setDate(date.P);
 	})
 );
 
