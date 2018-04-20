@@ -4,7 +4,7 @@ import Ornamented from '../../visual/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
 import {Cards} from '../../../shared/collections';
 import idFirst from '../../utils/id-first';
-import OdreianDate from 'odreian-date';
+import OdreianDate from 'dream-date/calendar/odreian';
 import styled, {keyframes} from 'styled-components';
 import {withCampaign, withCampaignSession} from '../../data/campaign';
 import {compose, branch, withProps} from 'recompose';
@@ -48,7 +48,7 @@ const Objective = connectObjective(({
 	}
 
 	{objective.completed && <Completed>
-		{new OdreianDate(objective.completedDate).format`${'llll'}`}
+		{new OdreianDate(objective.completedDate).format`${'h'}:${'mm'}${'a'}, ${'dddd'}, ${'Do'} of ${'MM'}, ${'YY'}`}
 	</Completed>}
 </div>);
 
