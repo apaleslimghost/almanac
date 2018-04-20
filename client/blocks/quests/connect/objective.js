@@ -1,9 +1,9 @@
-import {Cards} from '../../../../shared/collections';
 import {withHandlers} from 'recompact';
+import {updateCard, deleteCard} from '../../../../shared/methods';
 
 const objectiveActions = withHandlers({
 	onCompleteObjective: ({objective, quest, campaignSession}) => ev => {
-		Meteor.call('updateCard', objective, {
+		updateCard(objective, {
 			completed: true,
 			completedDate: campaignSession.get('date') || 0,
 		});
@@ -16,7 +16,7 @@ const objectiveActions = withHandlers({
 	},
 
 	onDeleteObjective: ({objective}) => ev => {
-		Meteor.call('deleteCard', objective);
+		deleteCard(objective);
 	},
 });
 

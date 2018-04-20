@@ -1,4 +1,5 @@
 import {Session} from './collections';
+import {setSession} from './methods';
 
 export default campaignId => ({
 	get(_key) {
@@ -13,6 +14,6 @@ export default campaignId => ({
 	},
 
 	set(_key, data) {
-		Meteor.call('setSession', campaignId, _key, data);
+		setSession(campaignId, _key, data);
 	},
 });

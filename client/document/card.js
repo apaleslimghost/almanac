@@ -10,6 +10,7 @@ import {Cards} from '../../shared/collections';
 import schema from '../../shared/schema';
 import preventingDefault from '../utils/preventing-default';
 import Link from '../control/link';
+import {updateCard, removeCard, addRelated, removeRelated} from '../../shared/methods';
 
 import Toggler from '../control/toggler';
 import {
@@ -82,11 +83,11 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 
 const connectEditCard = withHandlers({
 	saveCard: ({card}) => data => {
-		Meteor.call('updateCard', card, data);
+		updateCard(card, data);
 	},
 
 	deleteCard: ({card}) => ev => {
-		Meteor.call('removeCard', card);
+		removeCard(card);
 	},
 });
 
@@ -155,11 +156,11 @@ const withCardData = withTracker(({card, campaignId, campaignSession}) => ({
 	// TODO: use withCard
 	relatedCards: Cards.find({_id: {$in: card.related || []}, campaignId}).fetch(),
 	addRelated(related) {
-		Meteor.call('addRelated', card, related);
+		addRelated(card, related);
 	},
 
 	removeRelated(related) {
-		Meteor.call('removeRelated', card, related);
+		removeRelated(card, related);
 	},
 }));
 

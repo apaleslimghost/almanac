@@ -8,6 +8,7 @@ import {render} from 'react-dom';
 import generateSlug from '../../shared/utils/generate-slug';
 
 import {Cards} from '../../shared/collections';
+import {createCard} from '../../shared/methods';
 import subscribe from '../utils/subscribe';
 import idFirst from '../utils/id-first';
 import {buildGraph, distances} from '../utils/graph';
@@ -32,7 +33,7 @@ const withCardListActions = withTracker(props => {
 		ready: subscribe('cards.all'),
 		cards: _.orderBy(cards, ['sortedIndex', 'title']),
 		addCard(card) {
-			Meteor.call('createCard', {...card, campaignId});
+			createCard({...card, campaignId});
 		}
 	};
 });

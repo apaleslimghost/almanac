@@ -1,11 +1,11 @@
-import {Cards} from '../../../../shared/collections';
 import {withHandlers} from 'recompact';
 import formJson from '@quarterto/form-json';
 import generateSlug from '../../../../shared/utils/generate-slug';
+import {deleteCardWithRelated, createCard, addRelated} from '../../../../shared/methods';
 
 const questActions = withHandlers({
 	onDeleteQuest: ({quest}) => ev => {
-		Meteor.call('deleteCardWithRelated', quest, {ofType: 'objective'});
+		deleteCardWithRelated(quest, {ofType: 'objective'});
 	},
 
 	onSelectQuest: ({quest, campaignSession}) => ev => {
@@ -17,7 +17,7 @@ const questActions = withHandlers({
 		const data = formJson(ev.target);
 		ev.target.reset();
 
-		Meteor.call('createCard', {
+		createCard({
 			...data,
 			completed: false,
 			type: 'objective',
@@ -25,7 +25,7 @@ const questActions = withHandlers({
 		}, (err, objective) => {
 			if(err) return;
 
-			Meteor.call('addRelated', quest, objective);
+			addRelated(quest, objective);
 
 			campaignSession.set('splashQuest', {
 				action: 'startObjective',

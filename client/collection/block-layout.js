@@ -8,6 +8,7 @@ import {withState, withHandlers} from 'recompact';
 import {withCampaign} from '../data/campaign';
 import {compose} from 'recompact';
 import subscribe from '../utils/subscribe';
+import {updateLayout, addLayout, removeLayout} from '../../shared/methods';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -80,16 +81,16 @@ const withLayoutData = withTracker(({campaignId}) => ({
 const withLayoutActions = withHandlers({
 	updateLayout: () => layout => {
 		layout.forEach(({i, ...item}) => {
-			Meteor.call('updateLayout', {_id: i}, item);
+			updateLayout({_id: i}, item);
 		});
 	},
 
 	addComponent: ({campaignId}) => component => {
-		Meteor.call('addLayout', {component, x: 0, y: 0, w: 2, h: 1, campaignId});
+		addLayout({component, x: 0, y: 0, w: 2, h: 1, campaignId});
 	},
 
 	removeComponent: () => layout => {
-		Meteor.call('removeLayout', layout);
+		removeLayout(layout);
 	}
 });
 

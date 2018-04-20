@@ -10,6 +10,7 @@ import {compose, withHandlers, withProps} from 'recompact';
 import {Button} from '../visual/primitives';
 import withCards from '../data/card';
 import generateSlug from '../../shared/utils/generate-slug';
+import {updateCard, createCard, deleteCard} from '../../shared/methods';
 
 const relationshipLabel = {
 	'-2': 'Hostile',
@@ -36,7 +37,7 @@ const connectModRelationship = withHandlers({
 		const relationship = (faction.relationship || 0) + amount;
 
 		if(amount + faction.relationship < 3 && amount + faction.relationship > -3) {
-			Meteor.call('updateCard', faction, { relationship });
+			updateCard(faction, { relationship });
 		}
 	},
 });
@@ -63,7 +64,7 @@ const withFactionActions = withHandlers({
 		const data = formJson(ev.target);
 		ev.target.reset();
 
-		Meteor.call('createCard', {
+		createCard({
 			...data,
 			relationship: 0,
 			type: 'faction',
@@ -74,7 +75,7 @@ const withFactionActions = withHandlers({
 
 const connectRemoveButton = withHandlers({
 	remove: ({faction}) => ev => {
-		Meteor.call('deleteCard', faction);
+		deleteCard(faction);
 	},
 });
 
