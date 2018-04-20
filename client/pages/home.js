@@ -6,6 +6,7 @@ import Link from '../control/link';
 import {go} from '../utils/router';
 import formJson from '@quarterto/form-json';
 import generateSlug from '../utils/generate-slug';
+import {calendarList} from '../data/calendar';
 
 const withCampaignData = withTracker(() => ({
 	campaigns: Campaigns.find({}).fetch(),
@@ -29,6 +30,12 @@ export default withCampaignData(({campaigns, createCampaign}) => <ul>
 	<li>
 		<form onSubmit={createCampaign}>
 			<input placeholder='Campaign' name='title' />
+			<select name='calendar'>
+				<option value=''>Select Calendar System</option>
+				{calendarList.map(calendar => <option value={calendar.id} key={calendar.id}>
+					{calendar.name}
+				</option>)}
+			</select>
 			<button>➕</button>
 		</form>
 	</li>

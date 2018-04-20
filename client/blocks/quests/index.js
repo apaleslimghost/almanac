@@ -4,7 +4,7 @@ import Ornamented from '../../visual/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
 import {Cards} from '../../../shared/collections';
 import idFirst from '../../utils/id-first';
-import OdreianDate from 'dream-date/calendar/odreian';
+import {withCampaignDate} from '../../data/calendar';
 import styled, {keyframes} from 'styled-components';
 import {withCampaign, withCampaignSession} from '../../data/campaign';
 import {compose, branch, withProps} from 'recompose';
@@ -24,11 +24,12 @@ const isControl = ({control}) => control;
 
 const connectObjective = compose(
 	withCampaignSession,
+	withCampaignDate,
 	objectiveActions
 );
 
 const Objective = connectObjective(({
-	objective, quest, onCompleteObjective, onDeleteObjective, control
+	objective, quest, onCompleteObjective, onDeleteObjective, control, CampaignDate
 }) => <div>
 	{control && !objective.completed &&
 		<button onClick={onCompleteObjective}>
@@ -48,7 +49,7 @@ const Objective = connectObjective(({
 	}
 
 	{objective.completed && <Completed>
-		{new OdreianDate(objective.completedDate).format`${'h'}:${'mm'}${'a'}, ${'dddd'}, ${'Do'} of ${'MM'}, ${'YY'}`}
+		{new CampaignDate(objective.completedDate).format`${'h'}:${'mm'}${'a'}, ${'dddd'}, ${'Do'} of ${'MM'}, ${'YY'}`}
 	</Completed>}
 </div>);
 

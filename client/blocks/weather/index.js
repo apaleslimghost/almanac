@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import OdreianDate from 'dream-date/calendar/odreian';
+import {withCampaignDate} from '../../data/calendar';
 import Ornamented from '../../visual/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
 import {withCampaignSession} from '../../data/campaign';
@@ -92,8 +92,8 @@ const WeatherCondition = ({temperature, humidity}) => {
 
 // TODO: seasons, sunset time
 
-const withWeatherData = withTracker(({campaignSession}) => {
-	const date = new OdreianDate(campaignSession.get('date'));
+const withWeatherData = withTracker(({campaignSession, CampaignDate}) => {
+	const date = new CampaignDate(campaignSession.get('date'));
 	return {
 		weather: campaignSession.get('weather') || defaultWeather,
 		date
@@ -102,6 +102,7 @@ const withWeatherData = withTracker(({campaignSession}) => {
 
 const connectWeather = compose(
 	withCampaignSession,
+	withCampaignDate,
 	withWeatherData
 );
 
@@ -143,6 +144,7 @@ const weatherFormActions = withHandlers({
 
 const connectWeatherForm = compose(
 	withCampaignSession,
+	withCampaignDate,
 	withWeatherData,
 	withWeatherState,
 	weatherFormActions,
