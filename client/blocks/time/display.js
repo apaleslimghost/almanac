@@ -32,7 +32,7 @@ const ornaments = [
 	'h', 'f', 'a', 't', 'n', 'c', 'o', 'p', 'e', 'r', 'k', 'l'
 ];
 
-const OrnamentedMonth = ({date}) => <Ornamented ornament={ornaments[date.monthIndex]} large>
+const OrnamentedMonth = ({date}) => <Ornamented ornament={ornaments[Math.min(date.monthIndex, 11)]} large>
 	<Compact>
 		<div>{date.format`${'dddd'} ${'Do'}`}</div>
 		<small>{date.format`${'MMMM'}`}</small>
