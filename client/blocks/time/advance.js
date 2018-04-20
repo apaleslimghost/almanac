@@ -7,7 +7,7 @@ import withIncrement from './connect/increment';
 const connectAdvanceTime = compose(
 	withState('enabled', 'setEnabled', false),
 	withCampaignSession,
-	withProps({amount: 60}),
+	withProps({period: 'minute', amount: 1}),
 	withIncrement,
 	withTimer(30000, ({enabled, onIncrement}) => enabled && onIncrement())
 );
