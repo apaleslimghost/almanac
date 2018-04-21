@@ -1,5 +1,5 @@
 import publish from './utils/publish';
-import {Cards, Campaigns, Session, Layout} from '../shared/collections';
+import {Cards, Campaigns, Session, Layouts} from '../shared/collections';
 
 //TODO: public/private
 
@@ -33,6 +33,6 @@ publish({
 	},
 
 	layout: {
-		all: visible(Layout),
+		all: visible(Layouts),
 	},
 });

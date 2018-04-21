@@ -1,26 +1,36 @@
 import React from 'react';
 import {withCampaignData} from '../data/campaign';
 import unsplashImages from '../visual/unsplash.json';
-import {withProps} from 'recompact';
+import {compose, withProps} from 'recompact';
 import styled from 'styled-components';
 import stringHash from 'string-hash';
+import {SplashBackground, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
+import {withTracker} from 'meteor/react-meteor-data';
+import {Meteor} from 'meteor/meteor';
+
+const withOwnerData = key => withTracker(props => ({
+	ownerUser: Meteor.users.findOne(props[key].owner),
+}));
 
 const Splash = withProps(({campaignId}) => {
 	const image = unsplashImages[stringHash(campaignId) % unsplashImages.length];
 
 	return {
-		img: image.urls.regular,
+		url: image.urls.regular,
 		color: image.color,
 	};
-})(styled.div`
-	background: url(${({img}) => img}), ${({color}) => color};
-	background-size: cover;
-	width: 100vw;
-	height: 30vw;
-	max-height: 40vh;
-	background-position: center;
-`);
+})(SplashBackground);
 
-export default withCampaignData(({campaign}) => <div>
-	<Splash campaignId={campaign._id} />
+const connectCampaign = compose(
+	withCampaignData,
+	withOwnerData('campaign')
+);
+
+export default connectCampaign(({campaign, ownerUser}) => <div>
+	<Splash campaignId={campaign._id}>
+		<Hero>
+			<HeroTitle>{campaign.title}</HeroTitle>
+			<HeroBlurb>A campaign by {JSON.stringify(ownerUser)}</HeroBlurb>
+		</Hero>
+	</Splash>
 </div>);
