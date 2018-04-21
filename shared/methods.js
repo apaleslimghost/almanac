@@ -1,5 +1,4 @@
 import {Meteor} from 'meteor/meteor';
-import generateSlug from './utils/generate-slug';
 import {Campaigns, Cards, Session, Layouts} from './collections';
 import method from './utils/method';
 import collectionMethods from './utils/collection-methods';

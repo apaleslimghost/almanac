@@ -87,7 +87,8 @@ const connectEditCard = withHandlers({
 	},
 
 	deleteCard: ({card}) => ev => {
-		removeCard(card);
+		ev.preventDefault();
+		Card.delete(card);
 	},
 });
 
