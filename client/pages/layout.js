@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {setsCampaign, withCampaign} from '../data/campaign';
+import {setsCampaign, withCampaign, withCampaignData} from '../data/campaign';
 import Icon from '../visual/icon';
 import styled, {css} from 'styled-components';
 import PropTypes from 'prop-types';
@@ -68,18 +68,16 @@ const NavArea = styled.div`
 const MenuTitle = styled(H3)`
 	display: inline-block;
 	margin: 0;
-	padding: 1rem;
+	${'' /* padding: 1rem; */}
 	vertical-align: -1px;
 `;
 
-const withCampaignTitle = withTracker(
-	({campaignId}) => Campaigns.findOne(campaignId) || {},
-);
-
-const connectCampaignTitle = compose(withCampaign, withCampaignTitle);
-
-const CampaignTitle = connectCampaignTitle(
-	({title}) => title ? <MenuTitle>{title}</MenuTitle> : null
+const CampaignTitle = withCampaignData(
+	({campaign}) => <MenuLink href={`/${campaign._id}`}>
+		<MenuTitle>
+			{campaign.title}
+		</MenuTitle>
+	</MenuLink>
 );
 
 const connectNav = compose(
@@ -87,7 +85,7 @@ const connectNav = compose(
 	withUserData
 );
 
-const Nav = connectNav(({user,campaignId, extraItems}) => <Toolbar>
+const Nav = connectNav(({user, campaignId, extraItems}) => <Toolbar>
 	<NavArea>
 		<MenuLink href={`/`}>
 			{user
@@ -107,7 +105,7 @@ const Nav = connectNav(({user,campaignId, extraItems}) => <Toolbar>
 
 			<CampaignTitle key={1.5} />,
 
-			<MenuLink key={2} href={`/${campaignId}`}>
+			<MenuLink key={2} href={`/${campaignId}/cards`}>
 				<Icon icon='spades-card' />
 				Cards
 			</MenuLink>,

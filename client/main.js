@@ -13,6 +13,7 @@ import Grail from './pages/grail';
 import Home from './pages/home';
 import Login from './pages/login';
 import GetStarted from './pages/get-started';
+import Campaign from './pages/campaign';
 
 mount(App, {
 	routes: {
@@ -28,9 +29,15 @@ mount(App, {
 			</Layout>;
 		},
 
-		'/:campaignId/:cardId' ({campaignId, cardId}) {
+		'/:campaignId/cards/:cardId' ({campaignId, cardId}) {
 			return <Layout campaignId={campaignId}>
 				<Grail selectCard={cardId} />
+			</Layout>;
+		},
+
+		'/:campaignId/cards' ({campaignId}) {
+			return <Layout campaignId={campaignId}>
+				<Grail />
 			</Layout>;
 		},
 
@@ -38,7 +45,7 @@ mount(App, {
 			if(!campaignId) return false;
 
 			return <Layout campaignId={campaignId}>
-				<Grail />
+				<Campaign />
 			</Layout>;
 		},
 

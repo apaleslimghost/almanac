@@ -13,22 +13,34 @@ import {
 	getContext
 } from 'recompact';
 
-export const campaignExists = withTracker(({campaignId}) => {
-	const ready = subscribe('campaigns.all');
-	const campaign = Campaigns.findOne(campaignId);
+export const getCampaign = withTracker(({campaignId}) => ({
+	ready: subscribe('campaigns.all'),
+	campaign: Campaigns.findOne(campaignId),
+}));
 
+const checkCampaignExists = withProps(({campaign, ready, campaignId}) => {
 	if(campaignId && ready && !campaign) {
 		throw new NotFound(`Campaign ${campaignId} not found`);
 	}
-
-	return {ready, campaignId};
 });
+
+export const campaignExists = compose(
+	getCampaign,
+	checkCampaignExists
+);
 
 export const campaignContext = {
 	campaignId: PropTypes.string,
 };
 
 export const withCampaign = getContext(campaignContext);
+export const withCampaignId = withCampaign;
+
+export const withCampaignData = compose(
+	withCampaignId,
+	getCampaign,
+	withLoading
+);
 
 export const setsCampaignContext = withContext(
 	campaignContext,
