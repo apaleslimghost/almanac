@@ -12,7 +12,7 @@ import withLoading from '../control/loading';
 import generateSlug from '../../shared/utils/generate-slug';
 import loggedIn from '../utils/logged-in';
 import Splash from './splash';
-import {createCampaign} from '../../shared/methods';
+import {Campaign} from '../../shared/methods';
 import {calendarList} from '../data/calendar';
 
 const withCampaignData = withTracker(() => ({
@@ -26,7 +26,7 @@ const withCampaignActions = withHandlers({
 		const data = formJson(ev.target);
 		ev.target.reset();
 
-		createCampaign(data, (err, {_id}) => go(`/${_id}`));
+		Campaign.create(data, (err, {_id}) => go(`/${_id}`));
 	},
 });
 

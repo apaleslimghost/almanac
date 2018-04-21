@@ -1,7 +1,7 @@
 import {withHandlers} from 'recompact';
 import formJson from '@quarterto/form-json';
 import generateSlug from '../../../../shared/utils/generate-slug';
-import {deleteCardWithRelated, createCard, addRelated} from '../../../../shared/methods';
+import {deleteCardWithRelated, Card, addRelated} from '../../../../shared/methods';
 
 const questActions = withHandlers({
 	onDeleteQuest: ({quest}) => ev => {
@@ -17,7 +17,7 @@ const questActions = withHandlers({
 		const data = formJson(ev.target);
 		ev.target.reset();
 
-		createCard({
+		Card.create({
 			...data,
 			completed: false,
 			type: 'objective',

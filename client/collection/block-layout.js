@@ -3,12 +3,12 @@ import styled, {css, injectGlobal} from 'styled-components';
 import * as blocks from '../blocks';
 import {withTracker} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
-import {Layout} from '../../shared/collections';
+import {Layouts} from '../../shared/collections';
 import {withState, withHandlers} from 'recompact';
 import {withCampaign} from '../data/campaign';
 import {compose} from 'recompact';
 import subscribe from '../utils/subscribe';
-import {updateLayout, addLayout, removeLayout} from '../../shared/methods';
+import {Layout} from '../../shared/methods';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -75,22 +75,22 @@ const CloseButton = styled.button`
 
 const withLayoutData = withTracker(({campaignId}) => ({
 	ready: subscribe('layout.all'),
-	layout: Layout.find({campaignId}).fetch(),
+	layout: Layouts.find({campaignId}).fetch(),
 }));
 
 const withLayoutActions = withHandlers({
 	updateLayout: () => layout => {
 		layout.forEach(({i, ...item}) => {
-			updateLayout({_id: i}, item);
+			Layout.update({_id: i}, item);
 		});
 	},
 
 	addComponent: ({campaignId}) => component => {
-		addLayout({component, x: 0, y: 0, w: 2, h: 1, campaignId});
+		Layout.create({component, x: 0, y: 0, w: 2, h: 1, campaignId});
 	},
 
 	removeComponent: () => layout => {
-		removeLayout(layout);
+		Layout.delete(layout);
 	}
 });
 

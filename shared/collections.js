@@ -4,7 +4,7 @@ import {Meteor} from 'meteor/meteor';
 export const Cards = new Mongo.Collection('cards');
 export const Campaigns = new Mongo.Collection('campaigns');
 export const Session = new Mongo.Collection('session');
-export const Layout = new Mongo.Collection('layout');
+export const Layouts = new Mongo.Collection('layout');
 
 if(Meteor.isClient) {
 	window.collections = exports;

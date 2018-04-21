@@ -8,12 +8,12 @@ import {render} from 'react-dom';
 import generateSlug from '../../shared/utils/generate-slug';
 
 import {Cards} from '../../shared/collections';
-import {createCard} from '../../shared/methods';
+import {Card} from '../../shared/methods';
 import subscribe from '../utils/subscribe';
 import idFirst from '../utils/id-first';
 import {buildGraph, distances} from '../utils/graph';
 
-import Card, {EditCard} from '../document/card';
+import ShowCard, {EditCard} from '../document/card';
 import {Grid, Card as CardPrimitive, List, Label, LabelBody} from '../visual/primitives';
 
 const withCardListActions = withTracker(props => {
@@ -33,7 +33,7 @@ const withCardListActions = withTracker(props => {
 		ready: subscribe('cards.all'),
 		cards: _.orderBy(cards, ['sortedIndex', 'title']),
 		addCard(card) {
-			createCard({...card, campaignId});
+			Card.create({...card, campaignId});
 		}
 	};
 });
@@ -44,7 +44,7 @@ const connectCardList = compose(
 );
 
 const CardList = connectCardList(({cards, addCard}) => <Grid>
-	{cards.map(card => <Card key={card._id} card={card} />)}
+	{cards.map(card => <ShowCard key={card._id} card={card} />)}
 
 	<CardPrimitive>
 		<EditCard card={{}} saveCard={addCard} />

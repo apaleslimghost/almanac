@@ -10,7 +10,7 @@ import {Cards} from '../../shared/collections';
 import schema from '../../shared/schema';
 import preventingDefault from '../utils/preventing-default';
 import Link from '../control/link';
-import {updateCard, removeCard, addRelated, removeRelated} from '../../shared/methods';
+import {Card, addRelated, removeRelated} from '../../shared/methods';
 
 import Toggler from '../control/toggler';
 import {
@@ -83,7 +83,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 
 const connectEditCard = withHandlers({
 	saveCard: ({card}) => data => {
-		updateCard(card, data);
+		Card.update(card, data);
 	},
 
 	deleteCard: ({card}) => ev => {
@@ -168,7 +168,7 @@ const connectCard = compose(withCampaignSession, withCardData);
 
 const ShowCardContainer = connectCard(ShowCard);
 
-const Card = props =>
+const CardWrapper = props =>
 	<CardPrimitive large={props.large}>
 		<Toggler
 			active={EditCardContainer}
@@ -177,4 +177,4 @@ const Card = props =>
 		/>
 	</CardPrimitive>;
 
-export default Card;
+export default CardWrapper;

@@ -1,9 +1,9 @@
 import {withHandlers} from 'recompact';
-import {updateCard, deleteCard} from '../../../../shared/methods';
+import {Card} from '../../../../shared/methods';
 
 const objectiveActions = withHandlers({
 	onCompleteObjective: ({objective, quest, campaignSession}) => ev => {
-		updateCard(objective, {
+		Card.update(objective, {
 			completed: true,
 			completedDate: campaignSession.get('date') || 0,
 		});
@@ -16,7 +16,7 @@ const objectiveActions = withHandlers({
 	},
 
 	onDeleteObjective: ({objective}) => ev => {
-		deleteCard(objective);
+		Card.delete(objective);
 	},
 });
 
