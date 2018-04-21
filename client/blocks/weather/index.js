@@ -1,15 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import OdreianDate from 'odreian-date';
+import {withCampaignDate} from '../../data/calendar';
 import Ornamented from '../../visual/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
 import {withCampaignSession} from '../../data/campaign';
 import {compose, withReducer, withHandlers, withPropsOnChange} from 'recompose';
 import preventingDefault from '../../utils/preventing-default';
 
-const moonPhase = date => [
-	'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',
-][Math.floor(date * 8/30)];
+// For now we just use the first moon in the schema,
+// later we may want to support multiple moons 😱.
+// We also have to have a default because moon phases
+// are configurable in Dream Date
+const moonPhaseIcon = date => {
+	const moonPhaseIndex = Object.values(date.moonPhaseIndices)[0] || 0;
+	return [
+		'🌕', '🌖', '🌗', '🌘', '🌑', '🌒', '🌓', '🌔',
+	][moonPhaseIndex] || '🌕'
+};
 
 const compassDir = heading => [
 	'N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW',
@@ -85,31 +92,31 @@ const WeatherCondition = ({temperature, humidity}) => {
 
 // TODO: seasons, sunset time
 
-const withWeatherData = withTracker(({campaignSession}) => {
-	const date = new OdreianDate(campaignSession.get('date'));
+const withWeatherData = withTracker(({campaignSession, CampaignDate}) => {
+	const date = new CampaignDate(campaignSession.get('date'));
 	return {
 		weather: campaignSession.get('weather') || defaultWeather,
-		date,
-		isNight: date.hour < 7 || date.hour >= 20
+		date
 	}
 });
 
 const connectWeather = compose(
 	withCampaignSession,
+	withCampaignDate,
 	withWeatherData
 );
 
 const Weather = connectWeather(
-	({weather: {temperature, humidity, windHeading, windSpeed}, isNight, date}) =>
+	({weather: {temperature, humidity, windHeading, windSpeed}, date}) =>
 		<WeatherWrapper>
 			<WeatherThings>
 				<WeatherThing large>{temperature}°C</WeatherThing>
 				<WeatherThing><WindDirection heading={windHeading} /></WeatherThing>
 			</WeatherThings>
 			<Ornamented ornament='k'>
-				<WeatherIcon small={isNight}>
-					{isNight
-						? moonPhase(date.dateIndex)
+				<WeatherIcon small={date.isNight}>
+					{date.isNight
+						? moonPhaseIcon(date)
 						: <WeatherCondition {...{temperature, humidity}} />
 					}
 				</WeatherIcon>
@@ -137,6 +144,7 @@ const weatherFormActions = withHandlers({
 
 const connectWeatherForm = compose(
 	withCampaignSession,
+	withCampaignDate,
 	withWeatherData,
 	withWeatherState,
 	weatherFormActions,
