@@ -65,16 +65,16 @@ export const SplashBackground = styled.div`
 	height: ${({large}) => large ? '60vw' : '40vw'};
 	max-height: ${({large}) => large ? '60vh' : '40vh'};
 
-	background:
+	background-image:
 		linear-gradient(rgba(0, 20, 40, 0) 30%, rgba(0, 20, 40, 0.9)),
-		url(${({url}) => url}),
-		${({color}) => color};
+		url(${({url}) => url});
 
-	${({url2x, color}) => url2x && css`@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-		background:
+	background-color: ${({color}) => color};
+
+	${({url2x}) => url2x && css`@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+		background-image:
 			linear-gradient(rgba(0, 20, 40, 0) 30%, rgba(0, 20, 40, 0.9)),
-			url(${url2x}),
-			${color};
+			url(${url2x});
 	}`}
 
 	background-size: cover;

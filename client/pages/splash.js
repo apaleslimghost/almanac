@@ -9,6 +9,7 @@ import generateCampaign from '@quarterto/campaign-name-generator';
 import {H3} from '../visual/heading';
 import {SplashBackground, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
 import formJson from '@quarterto/form-json';
+import url from 'url';
 
 const formHeight = '160px';
 
@@ -86,7 +87,9 @@ const CTA = Button.extend`
 const startCreateFlow = ev => {
 	ev.preventDefault();
 	const {title} = formJson(ev.target);
-	go(ev.target.action, {title});
+	const {pathname} = url.parse(ev.target.action);
+
+	go(pathname, {title});
 };
 
 const Splash = hidesNav(() => <SplashWithForm large url='/images/splash.jpg' url2x='/images/splash@2x.jpg' color='#BEBDA0'>
