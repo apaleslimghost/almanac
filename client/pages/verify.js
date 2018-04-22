@@ -11,7 +11,8 @@ const resetPassword = token => ({password}) => Accounts.resetPassword(token, pas
 		alert(err.reason);
 	} else {
 		Accounts._enableAutoLogin();
-		go('/');
+		const {profile} = Meteor.user();
+		go(`/${profile.defaultCampaign}`);
 	}
 });
 

@@ -52,10 +52,11 @@ export const setSession = method('setSession', function(campaignId, _key, data) 
 export const createAccount = method('createAccount', function(user, campaign) {
 	if(!this.isSimulation) { // this only works on the server
 		const userId = Accounts.createUser(user);
-		Campaign.create(Object.assign({
+		const {_id: defaultCampaign} = Campaign.create(Object.assign({
 			owner: userId,
 		}, campaign));
 
+		Meteor.users.update(userId, {$set: {'profile.defaultCampaign': defaultCampaign}});
 		Accounts.sendEnrollmentEmail(userId, user.email);
 	}
 });
