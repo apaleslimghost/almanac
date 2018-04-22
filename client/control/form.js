@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Children} from 'react';
 import PropTypes from 'prop-types';
 
 // TODO: split into module
@@ -15,6 +15,8 @@ export const getInputValue = el =>
 
 export const getSelectValue = el => el.options[el.selectedIndex].value;
 
+export const FormFieldData = ({render}, context) => render(context.fields);
+
 export const Field = (
 	{name, fieldRef, tag: Tag = 'input', ...props},
 	context
@@ -24,15 +26,23 @@ export const Field = (
 		name={name}
 		type="text"
 		{...props}
-		value={name in context.fields ? context.fields[name] : ''}
+		value={name in context.fields ? context.fields[name] : props.value}
 		onChange={ev => {
 			if (props.onChange) {
 				props.onChange(ev);
 			}
 
-			context.setFields({
-				[name]: getInputValue(ev.target),
-			});
+			if(props.type === 'radio') {
+				if(ev.target.checked) {
+					context.setFields({
+						[name]: props.value,
+					});
+				}
+			} else {
+				context.setFields({
+					[name]: getInputValue(ev.target),
+				});
+			}
 		}}
 	/>;
 
@@ -137,4 +147,8 @@ export const fieldLike = {
 	setFields: PropTypes.func,
 };
 
-Field.contextTypes = Select.contextTypes = Form.contextTypes = fieldLike;
+Field.contextTypes =
+Select.contextTypes =
+Form.contextTypes =
+FormFieldData.contextTypes =
+	fieldLike;

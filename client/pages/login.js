@@ -8,6 +8,7 @@ import {Form, Field} from '../control/form';
 const doLogin = ({userOrEmail, password}) => {
 	Meteor.loginWithPassword(userOrEmail, password, err => {
 		if(err) {
+			// TODO error handling
 			alert(err.reason);
 		} else {
 			navigate('/');
@@ -20,7 +21,7 @@ const Input = props => <Field tag={BaseInput} {...props} />;
 export default () => <Form onSubmit={doLogin}>
 	<label>
 		Username or email
-		<Input name='userOrEmail' placeholder='user@example.com' />
+		<Input name='userOrEmail' type='email' placeholder='user@example.com' />
 	</label>
 	<label>
 		Password

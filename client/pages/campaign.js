@@ -12,8 +12,8 @@ const withOwnerData = key => withTracker(props => ({
 	ownerUser: Meteor.users.findOne(props[key].owner),
 }));
 
-const Splash = withProps(({campaignId}) => {
-	const image = unsplashImages[stringHash(campaignId) % unsplashImages.length];
+const Splash = withProps(({campaign}) => {
+	const image = unsplashImages[stringHash(campaign._id) % unsplashImages.length];
 
 	return {
 		url: image.urls.regular,
@@ -27,7 +27,7 @@ const connectCampaign = compose(
 );
 
 export default connectCampaign(({campaign, ownerUser}) => <div>
-	<Splash campaignId={campaign._id}>
+	<Splash campaign={campaign}>
 		<Hero>
 			<HeroTitle>{campaign.title}</HeroTitle>
 			<HeroBlurb>A campaign by {JSON.stringify(ownerUser)}</HeroBlurb>
