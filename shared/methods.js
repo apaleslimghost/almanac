@@ -52,7 +52,7 @@ export const setSession = method('setSession', function(campaignId, _key, data) 
 export const createAccount = method('createAccount', function(user, campaign) {
 	if(!this.isSimulation) { // this only works on the server
 		const userId = Accounts.createUser(user);
-		Campaigns.insert(Object.assign({
+		Campaign.create(Object.assign({
 			owner: userId,
 		}, campaign));
 

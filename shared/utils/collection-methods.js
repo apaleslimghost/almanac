@@ -4,6 +4,10 @@ import generateSlug from './generate-slug';
 import {Meteor} from 'meteor/meteor';
 
 const validateAccess = (collection, data, userId, verb) => {
+	if(!userId) {
+		throw new Meteor.Error('not-logged-in', `Can't ${verb} something if you're not logged in`);
+	}
+
 	if(collection !== Campaigns) { // hmmm
 		if(!data.campaignId) throw new Meteor.Error('campaign-missing', 'No campaign ID in data');
 
@@ -22,10 +26,11 @@ export default collection => ({
 	create: method(`${collection._name}.create`, function(data) {
 		// TODO validate data against card schema
 		const {_id} = generateSlug(data);
+		const userId = this.userId || data.owner;
 
-		validateAccess(collection, data, this.userId, 'create');
+		validateAccess(collection, data, userId, 'create');
 
-		data.owner = this.userId;
+		data.owner = userId;
 		collection.insert(data);
 
 		return data;
