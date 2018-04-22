@@ -26,7 +26,7 @@ export const Field = (
 		name={name}
 		type="text"
 		{...props}
-		value={name in context.fields ? context.fields[name] : props.value}
+		value={(name in context.fields ? context.fields[name] : props.value) || ''}
 		onChange={ev => {
 			if (props.onChange) {
 				props.onChange(ev);
