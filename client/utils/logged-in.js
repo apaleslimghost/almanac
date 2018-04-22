@@ -1,8 +1,7 @@
 import React from 'react';
 import {Meteor} from 'meteor/meteor';
 import {withTracker} from 'meteor/react-meteor-data';
-import {branch, renderComponent, compose} from 'recompact';
-import {ComboBox} from 'meteor/universe:accounts-ui';
+import {branch, renderNothing, compose} from 'recompact';
 
 export const withUserData = withTracker(() => ({
 	user: Meteor.user(),
@@ -13,7 +12,7 @@ export const logout = ev => {
 	Meteor.logout();
 };
 
-const showLogin = (or = renderComponent(ComboBox)) => branch(
+const showLogin = (or = renderNothing) => branch(
 	({user}) => !user,
 	or
 );

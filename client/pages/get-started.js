@@ -4,11 +4,14 @@ import {Form, Field, FormFieldData} from '../control/form';
 import {Input as BaseInput, Button} from '../visual/primitives';
 import unsplashImages from '../visual/unsplash.json';
 import {createAccount} from '../../shared/methods';
+import {go} from '../utils/router';
 
 const Input = props => <Field tag={BaseInput} {...props} />;
 
 const onSubmit = ({username, email, ...campaign}) => {
 	createAccount({username, email}, campaign);
+	// TODO success messaging
+	go('/');
 };
 
 export default ({title}) => <Form initialData={{title}} onSubmit={onSubmit}>
