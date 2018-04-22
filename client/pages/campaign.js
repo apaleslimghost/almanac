@@ -13,7 +13,9 @@ const withOwnerData = key => withTracker(props => ({
 }));
 
 const Splash = withProps(({campaign}) => {
-	const image = unsplashImages[stringHash(campaign._id) % unsplashImages.length];
+	const image = campaign.theme
+		? unsplashImages.find(({id}) => id === campaign.theme)
+		: unsplashImages[stringHash(campaign._id) % (unsplashImages.length - 1)]; // never choose the last one, so i can select it for testing purposes
 
 	return {
 		url: image.urls.regular,
