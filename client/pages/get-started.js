@@ -3,14 +3,19 @@ import {H2} from '../visual/heading';
 import {Form, Field, FormFieldData} from '../control/form';
 import {Input as BaseInput, Button} from '../visual/primitives';
 import unsplashImages from '../visual/unsplash.json';
+import {createAccount} from '../../shared/methods';
 
 const Input = props => <Field tag={BaseInput} {...props} />;
 
-export default ({title}) => <Form initialData={{title}}>
+const onSubmit = ({username, email, ...campaign}) => {
+	createAccount({username, email}, campaign);
+};
+
+export default ({title}) => <Form initialData={{title}} onSubmit={onSubmit}>
 	<H2>About you</H2>
 	<label>
 		Username
-		<Input required name='user' placeholder='user' />
+		<Input required name='username' placeholder='user' />
 	</label>
 
 	<label>
@@ -30,7 +35,7 @@ export default ({title}) => <Form initialData={{title}}>
 		Tagline
 		<FormFieldData
 			render={
-				({user = 'user'}) => <Input name='tagline' placeholder={`A campaign by ${user}`} />
+				({username = 'user'}) => <Input name='tagline' placeholder={`A campaign by ${username}`} />
 			}
 		/>
 	</label>
@@ -42,4 +47,6 @@ export default ({title}) => <Form initialData={{title}}>
 			<img src={image.urls.thumb} width={100} height={60} alt={image.user.name} />
 		</label>)}
 	</fieldset>
+
+	<Button>Create your account</Button>
 </Form>;

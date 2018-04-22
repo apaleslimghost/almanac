@@ -14,7 +14,7 @@ import Logo from '../visual/logo';
 const LogoutButton = withUserData(({user}) => user
 	? <MenuLink onClick={logout} href='/logout'>
 		<Icon icon='key' />
-		{user.emails[0].address}
+		{user.username || user.emails[0].address}
 	</MenuLink>
 	: null
 );

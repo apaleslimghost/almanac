@@ -14,6 +14,7 @@ import Home from './pages/home';
 import Login from './pages/login';
 import GetStarted from './pages/get-started';
 import Campaign from './pages/campaign';
+import Verify from './pages/verify';
 
 mount(App, {
 	routes: {
@@ -58,6 +59,12 @@ mount(App, {
 		'/login' () {
 			return <Layout>
 				<Login />
+			</Layout>;
+		},
+
+		'/verify/:token' ({token}) {
+			return <Layout>
+				<Verify token={token} />
 			</Layout>;
 		},
 

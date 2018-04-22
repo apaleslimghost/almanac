@@ -30,7 +30,7 @@ export default connectCampaign(({campaign, ownerUser}) => <div>
 	<Splash campaign={campaign}>
 		<Hero>
 			<HeroTitle>{campaign.title}</HeroTitle>
-			<HeroBlurb>A campaign by {JSON.stringify(ownerUser)}</HeroBlurb>
+			<HeroBlurb>{campaign.tagline || `A campaign by ${ownerUser.username}`}</HeroBlurb>
 		</Hero>
 	</Splash>
 </div>);

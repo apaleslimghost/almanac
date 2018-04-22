@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor';
 import {Campaigns, Cards, Session, Layouts} from './collections';
 import method from './utils/method';
 import collectionMethods from './utils/collection-methods';
+import {Accounts} from 'meteor/accounts-base';
 
 export const Campaign = collectionMethods(Campaigns);
 export const Card = collectionMethods(Cards);
@@ -45,5 +46,16 @@ export const setSession = method('setSession', function(campaignId, _key, data) 
 		}
 	} else {
 		console.trace('No campaign id');
+	}
+});
+
+export const createAccount = method('createAccount', function(user, campaign) {
+	if(!this.isSimulation) { // this only works on the server
+		const userId = Accounts.createUser(user);
+		Campaigns.insert(Object.assign({
+			owner: userId,
+		}, campaign));
+
+		Accounts.sendEnrollmentEmail(userId, user.email);
 	}
 });
