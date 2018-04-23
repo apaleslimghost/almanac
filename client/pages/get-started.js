@@ -28,12 +28,14 @@ export default ({title}) => <Form initialData={{title}} onSubmit={onSubmit}>
 
 	<small>We'll send you an email with a link to verify your address and set your password.</small>
 
+	{/* TODO move this to a campaign settings component and bring the calendar selector in */}
 	<H2>About your campaign</H2>
 	<label>
 		Name
 		<Input required name='title' />
 	</label>
 
+	{/* TODO most of this can be in an "advanced settings" accordion? */}
 	<label>
 		Tagline
 		<FormFieldData

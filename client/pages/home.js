@@ -44,6 +44,7 @@ export default connectCampaign(({campaigns, createCampaign}) => <ul>
 	</li>)}
 
 	<li>
+		{/* TODO make this a link to a creation page that throws up the campaign settings form */}
 		<form onSubmit={createCampaign}>
 			<input placeholder='Campaign' name='title' />
 			<select name='calendar'>
