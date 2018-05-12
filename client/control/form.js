@@ -96,7 +96,7 @@ export class Form extends Component {
 		return {
 			initialData: {},
 			onSubmit() {},
-			tagName: 'form',
+			tag: 'form',
 		};
 	}
 
@@ -135,9 +135,9 @@ export class Form extends Component {
 
 	render() {
 		return (
-			<this.props.tagName onSubmit={this.onSubmit}>
+			<this.props.tag onSubmit={this.onSubmit}>
 				{this.props.children}
-			</this.props.tagName>
+			</this.props.tag>
 		);
 	}
 }
