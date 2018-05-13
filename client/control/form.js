@@ -1,8 +1,6 @@
 import React, {Component, Children} from 'react';
 import PropTypes from 'prop-types';
 
-// TODO: split into module
-
 export const getInputValue = el =>
 	el[
 		{
@@ -17,7 +15,7 @@ export const getSelectValue = el => el.options[el.selectedIndex].value;
 
 export const FormFieldData = ({render}, context) => render(context.fields);
 
-export const Field = (
+export const Input = (
 	{name, fieldRef, tag: Tag = 'input', ...props},
 	context
 ) =>
@@ -147,7 +145,7 @@ export const fieldLike = {
 	setFields: PropTypes.func,
 };
 
-Field.contextTypes =
+Input.contextTypes =
 Select.contextTypes =
 Form.contextTypes =
 FormFieldData.contextTypes =

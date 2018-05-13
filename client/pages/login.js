@@ -2,8 +2,9 @@ import React from 'react';
 import {Meteor} from 'meteor/meteor';
 import {Accounts} from 'meteor/accounts-base'
 import {go} from '../utils/router';
-import {Input as BaseInput, Button} from '../visual/primitives';
-import {Form, Field} from '../control/form';
+import {LabelledInput, Button} from '../visual/primitives';
+import {Form} from '../control/form';
+import {Input} from '../visual/form';
 
 const doLogin = ({userOrEmail, password}) => {
 	Meteor.loginWithPassword(userOrEmail, password, err => {
@@ -17,16 +18,14 @@ const doLogin = ({userOrEmail, password}) => {
 	})
 };
 
-const Input = props => <Field tag={BaseInput} {...props} />;
-
 export default () => <Form onSubmit={doLogin}>
-	<label>
+	<LabelledInput>
 		Username or email
 		<Input name='userOrEmail' inputmode='email' placeholder='user@example.com' />
-	</label>
-	<label>
+	</LabelledInput>
+	<LabelledInput>
 		Password
 		<Input name='password' placeholder='secret' type='password' />
-	</label>
+	</LabelledInput>
 	<Button>Log in</Button>
 </Form>;

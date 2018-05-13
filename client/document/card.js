@@ -17,26 +17,23 @@ import {
 	Card as CardPrimitive,
 	Label,
 	List,
-	Input,
-	Textarea,
 	FormGroup,
 	Button,
-	Icon,
 	LabelTitle,
 	LabelBody,
 	LabelledInput,
-	Select as SelectPrimitive,
 } from '../visual/primitives';
-import {Field, Form, Select, fieldLike} from '../control/form';
+import {Form, fieldLike} from '../control/form';
+import {Input, Textarea} from '../visual/form';
 import CardSelect from '../collection/card-select';
-import LabelInput from '../control/label-input';
+import Icon from '../visual/icon';
 
 const SchemaFields = (props, context) => context.fields.type ? <FormGroup>
 	{_.map(
 		schema[context.fields.type].fields,
 		({label, ...field}, key) => <LabelledInput key={key}>
 			<div>{label}</div>
-			<Field {...field} tag={Input} name={key} key={key} />
+			<Input {...field} name={key} key={key} />
 		</LabelledInput>
 	)}
 </FormGroup> : null;
@@ -51,32 +48,32 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	>
 		<FormGroup>
 			<List>
-				<Field name="title" placeholder="Title" tag={Input} flex />
+				<Input name="title" placeholder="Title" flex />
 				<TypeSelect tag={SelectPrimitive} name="type" placeholder="Type..." />
 			</List>
 		</FormGroup>
 
 		<FormGroup>
-			<Field name="text" tag={Textarea} fullWidth />
+			<Textarea name="text" fullWidth />
 		</FormGroup>
 
 		<SchemaFields />
 
 		<List>
 			<Button colour={card._id ? 'sky' : 'apple'}>
-				{card._id ? <Icon icon="ion-checkmark" /> : <Icon icon="ion-plus" />}
+				{card._id ? <Icon icon="check" /> : <Icon icon="plus" />}
 				{card._id ? 'Save' : 'Add'} card
 			</Button>
 			{toggle &&
 				<Button onClick={preventingDefault(toggle)} colour="steel">
-					<Icon icon="ion-close" /> Cancel
+					<Icon icon="times" /> Cancel
 				</Button>}
 			{deleteCard &&
 				<Button
 					onClick={deleteCard}
 					colour="scarlet"
 				>
-					<Icon icon="ion-trash-a" /> Delete
+					<Icon icon="trash" /> Delete
 				</Button>}
 		</List>
 	</Form>;
@@ -110,7 +107,7 @@ const ShowCard = ({
 
 		<List>
 			{toggle && <Button onClick={toggle}>
-				<Icon icon='ion-edit' />
+				<Icon icon='edit' />
 			</Button>}
 		</List>
 

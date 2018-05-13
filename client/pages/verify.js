@@ -1,10 +1,9 @@
 import React from 'react';
-import {Input as BaseInput, Button} from '../visual/primitives';
-import {Field, Form} from '../control/form';
+import {LabelledInput, Button} from '../visual/primitives';
+import {Form} from '../control/form';
+import {Input} from '../visual/form';
 import {Accounts} from 'meteor/accounts-base';
 import {go} from '../utils/router';
-
-const Input = props => <Field tag={BaseInput} {...props} />;
 
 const resetPassword = token => ({password}) => Accounts.resetPassword(token, password, (err, ...r) => {
 	if(err) {
@@ -17,10 +16,10 @@ const resetPassword = token => ({password}) => Accounts.resetPassword(token, pas
 });
 
 export default ({token}) => <Form onSubmit={resetPassword(token)}>
-	<label>
+	<LabelledInput>
 		Password
 		<Input placeholder='correct horse battery staple' type='password' name='password' />
-	</label>
+	</LabelledInput>
 
 	<Button>Set password & create account</Button>
 </Form>
