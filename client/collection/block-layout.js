@@ -100,6 +100,10 @@ const connectLayout = compose(
 	withLayoutActions
 );
 
+const Bleed = styled.div`
+	grid-area: bleed;
+`
+
 export default connectLayout(({
 	which,
 	layout,
@@ -107,7 +111,7 @@ export default connectLayout(({
 	addComponent,
 	removeComponent,
 	...props
-}) => <div className={`grid-${which}`}>
+}) => <Bleed className={`grid-${which}`}>
 	{which === 'control' && <ComponentSelect onSelect={addComponent} />}
 	<GridLayoutWidth
 		layout={layout.map(({_id, ...item}) => ({i: _id, ...item}))}
@@ -125,4 +129,4 @@ export default connectLayout(({
 				: 'unknown component'}
 		</div>)}
 	</GridLayoutWidth>
-</div>);
+</Bleed>);
