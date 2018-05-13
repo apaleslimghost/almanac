@@ -27,7 +27,7 @@ export const Input = (
 		value={
 			context.fields
 				? (name in context.fields ? context.fields[name] : props.value) || ''
-				: undefined /* uncontrolled component if there's no context */}
+				: 'value' in props ? props.value : undefined /* uncontrolled component if there's no context */}
 		onChange={ev => {
 			if(props.onChange) {
 				props.onChange(ev);
@@ -52,7 +52,11 @@ export const Input = (
 export const Select = ({tag: Tag = 'select', ...props}, context) => {
 	return <Tag
 		{...props}
-		value={context.fields[props.name] || ''}
+		value={
+			context.fields
+				? (props.name in context.fields ? context.fields[props.name] : props.value) || ''
+				: 'value' in props ? props.value : undefined
+		}
 		onChange={ev => {
 			if(props.onChange) {
 				props.onChange(ev);
