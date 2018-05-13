@@ -30,7 +30,6 @@ const withCampaignActions = withHandlers({
 	},
 });
 
-
 const connectCampaign = compose(
 	loggedIn(renderComponent(Splash)),
 	withCampaignData,

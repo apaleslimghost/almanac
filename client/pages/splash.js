@@ -4,12 +4,13 @@ import Link from '../control/link';
 import {go} from '../utils/router';
 import {hidesNav} from './layout';
 import Logo from '../visual/logo';
-import {Button, Input} from '../visual/primitives';
+import {Button} from '../visual/primitives';
 import generateCampaign from '@quarterto/campaign-name-generator';
 import {H3} from '../visual/heading';
 import {SplashBackground, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
 import formJson from '@quarterto/form-json';
 import url from 'url';
+import {Input} from '../visual/form';
 
 const formHeight = '160px';
 

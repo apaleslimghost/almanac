@@ -24,22 +24,27 @@ export const Input = (
 		name={name}
 		type="text"
 		{...props}
-		value={(name in context.fields ? context.fields[name] : props.value) || ''}
+		value={
+			context.fields
+				? (name in context.fields ? context.fields[name] : props.value) || ''
+				: undefined /* uncontrolled component if there's no context */}
 		onChange={ev => {
-			if (props.onChange) {
+			if(props.onChange) {
 				props.onChange(ev);
 			}
 
-			if(props.type === 'radio') {
-				if(ev.target.checked) {
+			if(context.setFields) {
+				if(props.type === 'radio') {
+					if(ev.target.checked) {
+						context.setFields({
+							[name]: props.value,
+						});
+					}
+				} else {
 					context.setFields({
-						[name]: props.value,
+						[name]: getInputValue(ev.target),
 					});
 				}
-			} else {
-				context.setFields({
-					[name]: getInputValue(ev.target),
-				});
 			}
 		}}
 	/>;
@@ -49,7 +54,11 @@ export const Select = ({tag: Tag = 'select', ...props}, context) => {
 		{...props}
 		value={context.fields[props.name] || ''}
 		onChange={ev => {
-			context.setFields({
+			if(props.onChange) {
+				props.onChange(ev);
+			}
+
+			context.setFields && context.setFields({
 				[props.name]: getSelectValue(ev.target),
 			});
 		}}
@@ -67,13 +76,13 @@ export class Form extends Component {
 		this.setState({
 			fields: Object.assign(this.fields, f),
 		}, () => {
-			if (this.context.setFields && this.props.name) {
+			if(this.context.setFields && this.props.name) {
 				this.context.setFields({
 					[this.props.name]: this.fields,
 				});
 			}
 
-			if (this.props.onChange) {
+			if(this.props.onChange) {
 				this.props.onChange(this.fields);
 			}
 		});
