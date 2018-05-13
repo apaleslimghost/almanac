@@ -49,7 +49,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 		<FormGroup>
 			<List>
 				<Input name="title" placeholder="Title" flex />
-				<TypeSelect tag={SelectPrimitive} name="type" placeholder="Type..." />
+				<TypeSelect name="type" placeholder="Type..." />
 			</List>
 		</FormGroup>
 

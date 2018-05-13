@@ -1,6 +1,7 @@
 import * as FormControls from '../control/form';
 import {Label} from './primitives';
 import {compose, withProps} from 'recompact';
+import {css} from 'styled-components';
 
 const withInputProps = withProps({
 	colour: 'steel',
