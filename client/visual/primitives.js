@@ -228,12 +228,6 @@ export const Group = List.extend`
 	}
 `;
 
-export const Icon = styled(Ionicon)`
-	fill: currentColor;
-	height: 1rem;
-	margin-bottom: -2px;
-`;
-
 export const LabelledInput = List.withComponent('label').extend`
 	align-items: center;
 `;
