@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {withCampaignData} from '../data/campaign';
 import unsplashImages from '../visual/unsplash.json';
 import {compose, withProps} from 'recompact';
@@ -28,11 +28,11 @@ const connectCampaign = compose(
 	withOwnerData('campaign')
 );
 
-export default connectCampaign(({campaign, ownerUser}) => <div>
+export default connectCampaign(({campaign, ownerUser}) => <Fragment>
 	<Splash campaign={campaign}>
 		<Hero>
 			<HeroTitle>{campaign.title}</HeroTitle>
 			<HeroBlurb>{campaign.tagline || `A campaign by ${ownerUser.username}`}</HeroBlurb>
 		</Hero>
 	</Splash>
-</div>);
+</Fragment>);

@@ -10,6 +10,7 @@ import {Campaigns} from '../../shared/collections';
 import {compose, withContext, withState, lifecycle, getContext} from 'recompact';
 import {withUserData, logout} from '../utils/logged-in';
 import Logo from '../visual/logo';
+import Grid from '../visual/grid';
 
 const LogoutButton = withUserData(({user}) => user
 	? <MenuLink onClick={logout} href='/logout'>
@@ -185,7 +186,9 @@ const Layout = connectLayout(({campaignId, state, children}) =>
 			<Nav extraItems={state.extraItems} />
 		}
 
-		{children}
+		<Grid>
+			{children}
+		</Grid>
 	</Basic>
 );
 

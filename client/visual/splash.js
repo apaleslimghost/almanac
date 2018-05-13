@@ -56,6 +56,7 @@ export const HeroBlurb = styled.p`
 `;
 
 export const SplashBackground = styled.div`
+	grid-area: bleed;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
