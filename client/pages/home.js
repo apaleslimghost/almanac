@@ -13,7 +13,6 @@ import generateSlug from '../../shared/utils/generate-slug';
 import loggedIn from '../utils/logged-in';
 import Splash from './splash';
 import {Campaign} from '../../shared/methods';
-import {calendarList} from '../data/calendar';
 
 const withCampaignData = withTracker(() => ({
 	ready: subscribe('campaigns.all'),
@@ -43,16 +42,6 @@ export default connectCampaign(({campaigns, createCampaign}) => <ul>
 	</li>)}
 
 	<li>
-		{/* TODO make this a link to a creation page that throws up the campaign settings form */}
-		<form onSubmit={createCampaign}>
-			<input placeholder='Campaign' name='title' />
-			<select name='calendar'>
-				<option value=''>Select Calendar System</option>
-				{calendarList.map(calendar => <option value={calendar.id} key={calendar.id}>
-					{calendar.name}
-				</option>)}
-			</select>
-			<button>➕</button>
-		</form>
+		<Link href='/new-campaign'>Add a campaign</Link>
 	</li>
 </ul>);

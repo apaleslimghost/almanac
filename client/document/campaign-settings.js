@@ -1,8 +1,9 @@
 import React from 'react';
 import {Form, Input as InputField, FormFieldData} from '../control/form';
-import {Input} from '../visual/form';
+import {Input, Select} from '../visual/form';
 import {Button, LabelledInput as Label} from '../visual/primitives';
 import unsplashImages from '../visual/unsplash.json';
+import {calendarList} from '../data/calendar';
 
 export default ({campaign, ...props}) => <Form initialData={campaign} {...props}>
 	<Label>
@@ -18,6 +19,18 @@ export default ({campaign, ...props}) => <Form initialData={campaign} {...props}
 				({username = 'user'}) => <Input name='tagline' placeholder={`A campaign by ${username}`} />
 			}
 		/>
+	</Label>
+
+	<Label>
+		Calendar system
+		<Select name='calendar'>
+			<option value=''>Select Calendar System</option>
+			{calendarList.map(calendar =>
+				<option value={calendar.id} key={calendar.id}>
+					{calendar.name}
+				</option>
+			)}
+		</Select>
 	</Label>
 
 	<fieldset>

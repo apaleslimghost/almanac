@@ -15,6 +15,7 @@ import Login from './pages/login';
 import GetStarted from './pages/get-started';
 import Campaign from './pages/campaign';
 import CampaignSettings from './pages/campaign-settings';
+import NewCampaign from './pages/new-campaign';
 import Verify from './pages/verify';
 
 mount(App, {
@@ -56,6 +57,13 @@ mount(App, {
 				<Campaign />
 			</Layout>;
 		},
+
+		'/new-campaign' (params) {
+			return <Layout>
+				<NewCampaign />
+			</Layout>;
+		},
+
 
 		'/get-started' (params, {title}) {
 			return <Layout>
