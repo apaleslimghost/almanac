@@ -23,7 +23,7 @@ export default ({campaign, ...props}) => <Form initialData={campaign} {...props}
 
 	<Label>
 		Calendar system
-		<Select name='calendar'>
+		<Select name='calendar' required>
 			<option value=''>Select Calendar System</option>
 			{calendarList.map(calendar =>
 				<option value={calendar.id} key={calendar.id}>
