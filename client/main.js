@@ -14,6 +14,7 @@ import Home from './pages/home';
 import Login from './pages/login';
 import GetStarted from './pages/get-started';
 import Campaign from './pages/campaign';
+import CampaignSettings from './pages/campaign-settings';
 import Verify from './pages/verify';
 
 mount(App, {
@@ -39,6 +40,12 @@ mount(App, {
 		'/:campaignId/cards' ({campaignId}) {
 			return <Layout campaignId={campaignId}>
 				<Grail />
+			</Layout>;
+		},
+
+		'/:campaignId/settings' ({campaignId}) {
+			return <Layout campaignId={campaignId}>
+				<CampaignSettings />
 			</Layout>;
 		},
 

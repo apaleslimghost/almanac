@@ -22,9 +22,12 @@ export default ({campaign, ...props}) => <Form initialData={campaign} {...props}
 
 	<fieldset>
 		<legend>Theme</legend>
+		{/* TODO: actual unsplash search. these images should be a collection */}
 		{unsplashImages.map(image => <Label key={image.id}>
 			<InputField type='radio' name='theme' value={image.id} />
 			<img src={image.urls.thumb} width={100} height={60} alt={image.user.name} />
 		</Label>)}
 	</fieldset>
+
+	{props.onSubmit && <Button>Save</Button>}
 </Form>;
