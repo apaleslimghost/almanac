@@ -27,12 +27,12 @@ export const HeroTitle = styled.h2`
 	font-size: 1.4em;
 	margin-bottom: 0.5rem;
 
-	@media (min-width: 400px) {
+	@media (min-width: 25em) {
 		font-size: 2em;
 		margin-bottom: 1rem;
 	}
 
-	@media (min-width: 640px) {
+	@media (min-width: 40em) {
 		font-size: 2.4em;
 		margin-bottom: 2rem;
 	}
@@ -46,11 +46,11 @@ export const HeroBlurb = styled.p`
 	margin: 0 0 1em;
 	font-size: .8em;
 
-	@media (min-width: 400px) {
+	@media (min-width: 25em) {
 		font-size: 1em;
 	}
 
-	@media (min-width: 640px) {
+	@media (min-width: 40em) {
 		font-size: 1.2em;
 	}
 `;

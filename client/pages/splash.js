@@ -16,7 +16,7 @@ const formHeight = '160px';
 const SplashWithForm = SplashBackground.extend`
 	margin-bottom: ${formHeight};
 
-	@media (min-width: 640px) {
+	@media (min-width: 40em) {
 		margin-bottom: 0;
 	}
 `;
@@ -24,11 +24,11 @@ const SplashWithForm = SplashBackground.extend`
 const SplashLogo = styled(Logo)`
 	height: 1.4em;
 
-	@media (min-width: 400px) {
+	@media (min-width: 25em) {
 		height: 2em;
 	}
 
-	@media (min-width: 640px) {
+	@media (min-width: 40em) {
 		height: 3em;
 	}
 `;
@@ -40,8 +40,8 @@ const Split = styled.div`
 	margin: 0 auto 1em;
 	flex-direction: column;
 
-	@media (min-width: 640px) {
-		width: 640px;
+	@media (min-width: 40em) {
+		width: 40em;
 		align-items: center;
 		margin-top: 0;
 		flex-direction: row;
@@ -49,7 +49,7 @@ const Split = styled.div`
 `;
 
 const SplitBlurb = HeroBlurb.extend`
-	@media (min-width: 640px) {
+	@media (min-width: 40em) {
 		text-align: right;
 		margin-right: 1em;
 		margin-bottom: 0;
@@ -68,7 +68,7 @@ const SplashForm = styled.form`
 	justify-content: center;
 	align-items: center;
 
-	@media (min-width: 640px) {
+	@media (min-width: 40em) {
 		height: auto;
 		margin-bottom: 0;
 		padding: 0 1em 0 0;
