@@ -142,7 +142,6 @@ const ShowCard = ({
 			<div>
 				<CardSelect
 					onSelect={addRelated}
-					tag={SelectPrimitive}
 					skip={[card._id].concat(card.related || [])}
 					placeholder='Link card...'
 				/>
