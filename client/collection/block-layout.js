@@ -9,6 +9,7 @@ import {withCampaign} from '../data/campaign';
 import {compose} from 'recompact';
 import subscribe from '../utils/subscribe';
 import {Layout} from '../../shared/methods';
+import {Bleed} from '../visual/grid';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -99,10 +100,6 @@ const connectLayout = compose(
 	withLayoutData,
 	withLayoutActions
 );
-
-const Bleed = styled.div`
-	grid-area: bleed;
-`
 
 export default connectLayout(({
 	which,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {H2} from '../visual/heading';
 import {Form} from '../control/form';
 import {Input} from '../visual/form';
@@ -28,7 +28,7 @@ export default ({title}) => <Form onSubmit={onSubmit}>
 	<small>We'll send you an email with a link to verify your address and set your password.</small>
 
 	<H2>About your campaign</H2>
-	<CampaignSettings campaign={{title}} name='campaign' tag='div' />
+	<CampaignSettings campaign={{title}} name='campaign' tag={Fragment} />
 
 	<Button>Create your account</Button>
 </Form>;

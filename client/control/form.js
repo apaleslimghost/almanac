@@ -106,7 +106,6 @@ export class Form extends Component {
 	static get defaultProps() {
 		return {
 			initialData: {},
-			onSubmit() {},
 			tag: 'form',
 		};
 	}
@@ -146,7 +145,12 @@ export class Form extends Component {
 
 	render() {
 		return (
-			<this.props.tag onSubmit={this.onSubmit}>
+			<this.props.tag
+				{...(this.props.onSubmit
+					? {onSubmit: this.onSubmit}
+					: {}
+				)}
+			>
 				{this.props.children}
 			</this.props.tag>
 		);

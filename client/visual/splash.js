@@ -1,5 +1,6 @@
 import styled, {css} from 'styled-components';
 import {aqua} from '@quarterto/colours';
+import {Bleed} from '../visual/grid';
 
 export const Hero = styled.div`
 	margin-top: auto;
@@ -55,8 +56,7 @@ export const HeroBlurb = styled.p`
 	}
 `;
 
-export const SplashBackground = styled.div`
-	grid-area: bleed;
+export const SplashBackground = Bleed.extend`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
