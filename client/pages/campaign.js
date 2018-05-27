@@ -7,6 +7,7 @@ import stringHash from 'string-hash';
 import {SplashBackground, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
 import {withTracker} from 'meteor/react-meteor-data';
 import {Meteor} from 'meteor/meteor';
+import Title from '../utils/title';
 
 const withOwnerData = key => withTracker(props => ({
 	ownerUser: Meteor.users.findOne(props[key].owner),
@@ -29,6 +30,8 @@ const connectCampaign = compose(
 );
 
 export default connectCampaign(({campaign, ownerUser}) => <Fragment>
+	<Title>{campaign.title}</Title>
+
 	<Splash campaign={campaign}>
 		<Hero>
 			<HeroTitle>{campaign.title}</HeroTitle>

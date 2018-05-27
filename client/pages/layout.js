@@ -11,6 +11,7 @@ import {compose, withContext, withState, lifecycle, getContext} from 'recompact'
 import {withUserData, logout} from '../utils/logged-in';
 import Logo from '../visual/logo';
 import Grid from '../visual/grid';
+import Title from '../utils/title';
 
 const LogoutButton = withUserData(({user}) => user
 	? <MenuLink onClick={logout} href='/logout'>
@@ -171,6 +172,7 @@ const connectLayout = compose(
 );
 
 export const Basic = setsCampaign(({children}) => <div>
+	<Title />
 	{children}
 </div>);
 
