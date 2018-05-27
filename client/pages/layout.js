@@ -43,6 +43,10 @@ export const MenuLink = styled(Link)`
 	&:active {
 		background: rgba(0,0,0,0.1);
 	}
+
+	${Logo} {
+		margin: -0.5rem 0;
+	}
 `;
 
 const Divider = styled.div`
@@ -69,8 +73,8 @@ const NavArea = styled.div`
 const MenuTitle = styled(H3)`
 	display: inline-block;
 	margin: 0;
-	${'' /* padding: 1rem; */}
 	vertical-align: -1px;
+	white-space: nowrap;
 `;
 
 const CampaignTitle = withCampaignData(
@@ -89,16 +93,7 @@ const connectNav = compose(
 const Nav = connectNav(({user, campaignId, extraItems}) => <Toolbar>
 	<NavArea>
 		<MenuLink href={`/`}>
-			{user
-				? <>
-					<Icon icon='circle-of-circles' />
-					Campaigns
-				</>
-				: <>
-					<Icon icon='castle-emblem' />
-					Home
-				</>
-			}
+			<Logo />
 		</MenuLink>
 
 		{campaignId && [
@@ -118,7 +113,6 @@ const Nav = connectNav(({user, campaignId, extraItems}) => <Toolbar>
 		]}
 	</NavArea>
 
-	<Logo />
 
 	<NavArea>
 		<Space />
