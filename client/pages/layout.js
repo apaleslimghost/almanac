@@ -45,7 +45,7 @@ export const MenuLink = styled(Link)`
 	}
 
 	${Logo} {
-		margin: -0.5rem 0;
+		margin: -0.3rem 0;
 	}
 `;
 
