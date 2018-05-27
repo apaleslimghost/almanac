@@ -1,13 +1,14 @@
 import React, {Fragment} from 'react';
-import {withCampaignData} from '../data/campaign';
+import {withCampaignData, withCampaignSession} from '../data/campaign';
 import unsplashImages from '../visual/unsplash.json';
-import {compose, withProps} from 'recompact';
+import {compose, withProps, withPropsOnChange} from 'recompact';
 import styled from 'styled-components';
 import stringHash from 'string-hash';
 import {SplashBackground, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
 import {withTracker} from 'meteor/react-meteor-data';
 import {Meteor} from 'meteor/meteor';
 import Title from '../utils/title';
+import CardList from '../collection/card-list';
 
 const withOwnerData = key => withTracker(props => ({
 	ownerUser: Meteor.users.findOne(props[key].owner),
@@ -29,6 +30,19 @@ const connectCampaign = compose(
 	withOwnerData('campaign')
 );
 
+const selectCard = withPropsOnChange(
+	['selectCard'], ({selectCard, campaignSession}) => {
+		campaignSession.set('selectedCard', selectCard);
+	}
+);
+
+const connectGrail = compose(
+	withCampaignSession,
+	selectCard
+);
+
+const Grail = connectGrail(CardList);
+
 export default connectCampaign(({campaign, ownerUser}) => <Fragment>
 	<Title>{campaign.title}</Title>
 
@@ -38,4 +52,6 @@ export default connectCampaign(({campaign, ownerUser}) => <Fragment>
 			<HeroBlurb>{campaign.tagline || `A campaign by ${ownerUser.username}`}</HeroBlurb>
 		</Hero>
 	</Splash>
+
+	<Grail />
 </Fragment>);

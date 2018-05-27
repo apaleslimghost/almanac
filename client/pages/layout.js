@@ -97,21 +97,16 @@ const Nav = connectNav(({user, campaignId, extraItems}) => <Toolbar>
 			<Logo />
 		</MenuLink>
 
-		{campaignId && [
-			<Divider key={1} />,
+		{campaignId && <>
+			<Divider />
 
-			<CampaignTitle key={1.5} />,
+			<CampaignTitle />
 
-			<MenuLink key={2} href={`/${campaignId}/cards`}>
-				<Icon icon='spades-card' />
-				Cards
-			</MenuLink>,
-
-			<MenuLink key={3} href={`/${campaignId}/dashboard-control`}>
+			<MenuLink href={`/${campaignId}/dashboard-control`}>
 				<Icon icon='wooden-sign' />
 				Dashboard
-			</MenuLink>,
-		]}
+			</MenuLink>
+		</>}
 	</NavArea>
 
 

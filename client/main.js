@@ -9,7 +9,6 @@ import './visual/global';
 
 import Dashboard from './pages/dashboard';
 import Control from './pages/control';
-import Grail from './pages/grail';
 import Home from './pages/home';
 import Login from './pages/login';
 import GetStarted from './pages/get-started';
@@ -38,12 +37,6 @@ mount(App, {
 			</Layout>;
 		},
 
-		'/:campaignId/cards' ({campaignId}) {
-			return <Layout campaignId={campaignId}>
-				<Grail />
-			</Layout>;
-		},
-
 		'/:campaignId/settings' ({campaignId}) {
 			return <Layout campaignId={campaignId}>
 				<CampaignSettings />
@@ -63,7 +56,6 @@ mount(App, {
 				<NewCampaign />
 			</Layout>;
 		},
-
 
 		'/get-started' (params, {title}) {
 			return <Layout>
