@@ -11,8 +11,7 @@ export default styled.div`
 	display: grid;
 	width: 100%;
 
-	grid-template-rows: [bleed-start] auto [content-start content-end] auto [bleed-end];
-	grid-template-columns: [bleed-start] auto [content-start] fit-content(60em) [content-end] auto [bleed-end];
+	grid-template-columns: [bleed-start] 1fr [content-start] minmax(auto, 60em) [content-end] 1fr [bleed-end];
 	grid-gap: 1em;
 
 	> :not(.${bleed}) {

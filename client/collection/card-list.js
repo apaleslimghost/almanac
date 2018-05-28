@@ -5,7 +5,7 @@ import _ from 'lodash';
 import {withCampaignSession} from '../data/campaign';
 import {compose, withHandlers} from 'recompact';
 import {render} from 'react-dom';
-import generateSlug from '../../shared/utils/generate-slug';
+import styled from 'styled-components';
 
 import {Cards} from '../../shared/collections';
 import {Card} from '../../shared/methods';
@@ -14,7 +14,13 @@ import idFirst from '../utils/id-first';
 import {buildGraph, distances} from '../utils/graph';
 
 import ShowCard, {EditCard} from '../document/card';
-import {Grid, Card as CardPrimitive, List, Label, LabelBody} from '../visual/primitives';
+import {Card as CardPrimitive, List, Label, LabelBody} from '../visual/primitives';
+
+export const CardGrid = styled.div`
+	display: grid;
+	grid-gap: 1rem;
+	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+`;
 
 const withCardListActions = withTracker(props => {
 	const {campaignSession, campaignId} = props;
@@ -43,12 +49,12 @@ const connectCardList = compose(
 	withCardListActions
 );
 
-const CardList = connectCardList(({cards, addCard}) => <Grid>
+const CardList = connectCardList(({cards, addCard}) => <CardGrid>
 	{cards.map(card => <ShowCard key={card._id} card={card} />)}
 
 	<CardPrimitive>
 		<EditCard card={{}} saveCard={addCard} />
 	</CardPrimitive>
-</Grid>);
+</CardGrid>);
 
 export default CardList;

@@ -51,12 +51,6 @@ export const Padded = styled.div`
 	margin: 1rem;
 `;
 
-export const Grid = Padded.extend`
-	display: grid;
-	grid-gap: 1rem;
-	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
-`;
-
 export const Card = styled.div`
 	grid-column-end: span ${({large}) => large ? 2 : 1};
 	border: 1px solid ${colours.steel[3]};

@@ -99,7 +99,6 @@ const Nav = connectNav(({user, campaignId, extraItems}) => <Toolbar>
 
 		{campaignId && <>
 			<Divider />
-
 			<CampaignTitle />
 
 			<MenuLink href={`/${campaignId}/dashboard-control`}>
