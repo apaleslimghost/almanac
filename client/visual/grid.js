@@ -15,7 +15,7 @@ export default styled.div`
 	/* |---| left | center | right |---| */
 	/* |---|   left-main   |       |---| */
 	/* |---|      |   right-main   |---| */
-	/* |             bleed             | */
+	/* |            bleed              | */
 
 	grid-template-columns:
 		[ bleed-start ]
@@ -28,7 +28,7 @@ export default styled.div`
 			minmax(auto, 15em)
 		[ right-end   main-right-end   main-end     ]
 			1fr
-		[ bleed-end] ;
+		[ bleed-end ];
 
 	grid-gap: 1em;
 

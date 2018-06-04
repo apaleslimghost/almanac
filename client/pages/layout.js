@@ -105,6 +105,12 @@ const Nav = connectNav(({user, campaignId, extraItems}) => <Toolbar>
 				<Icon icon='wooden-sign' />
 				Dashboard
 			</MenuLink>
+
+			<MenuLink href={`/${campaignId}/settings`}>
+				<Icon icon='gears' />
+				Settings
+			</MenuLink>
+
 		</>}
 	</NavArea>
 
