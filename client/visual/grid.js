@@ -7,6 +7,12 @@ export const Bleed = styled.div.attrs({className: bleed})`
 	grid-column: bleed;
 `;
 
+export const FlexGrid = styled.div`
+	display: grid;
+	grid-gap: 1rem;
+	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+`;
+
 export default styled.div`
 	display: grid;
 	width: 100%;
@@ -30,9 +36,13 @@ export default styled.div`
 			1fr
 		[ bleed-end ];
 
-	grid-gap: 1em;
+	grid-gap: 1rem;
 
 	> :not(.${bleed}) {
 		grid-column: main;
+	}
+
+	> :first-child:not(.${bleed}) {
+		margin-top: 1rem;
 	}
 `;

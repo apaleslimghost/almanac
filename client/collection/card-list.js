@@ -15,12 +15,7 @@ import {buildGraph, distances} from '../utils/graph';
 
 import ShowCard, {EditCard} from '../document/card';
 import {Card as CardPrimitive, List, Label, LabelBody} from '../visual/primitives';
-
-export const CardGrid = styled.div`
-	display: grid;
-	grid-gap: 1rem;
-	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
-`;
+import {FlexGrid} from '../visual/grid';
 
 const withCardListActions = withTracker(props => {
 	const {campaignSession, campaignId} = props;
@@ -49,12 +44,12 @@ const connectCardList = compose(
 	withCardListActions
 );
 
-const CardList = connectCardList(({cards, addCard}) => <CardGrid>
+const CardList = connectCardList(({cards, addCard}) => <FlexGrid>
 	{cards.map(card => <ShowCard key={card._id} card={card} />)}
 
 	<CardPrimitive>
 		<EditCard card={{}} saveCard={addCard} />
 	</CardPrimitive>
-</CardGrid>);
+</FlexGrid>);
 
 export default CardList;

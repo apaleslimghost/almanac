@@ -7,14 +7,14 @@ import Logo from '../visual/logo';
 import {Button} from '../visual/primitives';
 import generateCampaign from '@quarterto/campaign-name-generator';
 import {H3} from '../visual/heading';
-import {SplashBackground, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
+import {SplashBleed, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
 import formJson from '@quarterto/form-json';
 import url from 'url';
 import {Input} from '../visual/form';
 
 const formHeight = '160px';
 
-const SplashWithForm = SplashBackground.extend`
+const SplashWithForm = SplashBleed.extend`
 	margin-bottom: ${formHeight};
 
 	@media (min-width: 40em) {

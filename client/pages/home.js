@@ -1,18 +1,19 @@
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
+import formJson from '@quarterto/form-json';
+import {compose, withHandlers, renderComponent} from 'recompact';
+
 import {Campaigns} from '../../shared/collections';
-import {List} from '../visual/primitives';
 import Link from '../control/link';
 import {go} from '../utils/router';
-import formJson from '@quarterto/form-json';
-import {Meteor} from 'meteor/meteor';
 import subscribe from '../utils/subscribe';
-import {compose, withHandlers, renderComponent} from 'recompact';
 import withLoading from '../control/loading';
-import generateSlug from '../../shared/utils/generate-slug';
 import loggedIn from '../utils/logged-in';
 import Splash from './splash';
 import {Campaign} from '../../shared/methods';
+import {SplashBackground, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
+import {FlexGrid} from '../visual/grid';
+import connectSplashImage from '../data/splash';
 
 const withCampaignData = withTracker(() => ({
 	ready: subscribe('campaigns.all'),
@@ -36,12 +37,21 @@ const connectCampaign = compose(
 	withLoading
 );
 
-export default connectCampaign(({campaigns, createCampaign}) => <ul>
-	{campaigns.map(campaign => <li key={campaign._id}>
-		<Link href={`/${campaign._id}`}>{campaign.title}</Link>
-	</li>)}
+const CampaignTile = connectSplashImage(SplashBackground.withComponent(Link).extend`
+	height: 20vw;
+	border-radius: 3px;
+	text-decoration: none;
+`);
 
-	<li>
-		<Link href='/new-campaign'>Add a campaign</Link>
-	</li>
-</ul>);
+export default connectCampaign(({campaigns, createCampaign, ownerUser}) => <FlexGrid>
+	{campaigns.map(
+		campaign => <CampaignTile campaign={campaign} href={`/${campaign._id}`} key={campaign._id}>
+			<Hero>
+				<HeroTitle>{campaign.title}</HeroTitle>
+				<HeroBlurb>{campaign.tagline}</HeroBlurb>
+			</Hero>
+		</CampaignTile>
+	)}
+
+	<Link href='/new-campaign'>Add a campaign</Link>
+</FlexGrid>);

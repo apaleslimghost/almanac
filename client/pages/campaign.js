@@ -1,29 +1,14 @@
 import React, {Fragment} from 'react';
 import {withCampaignData, withCampaignSession} from '../data/campaign';
-import unsplashImages from '../visual/unsplash.json';
-import {compose, withProps, withPropsOnChange} from 'recompact';
+import {compose, withPropsOnChange} from 'recompact';
 import styled from 'styled-components';
-import stringHash from 'string-hash';
-import {SplashBackground, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
-import {withTracker} from 'meteor/react-meteor-data';
-import {Meteor} from 'meteor/meteor';
+import {SplashBleed, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
 import Title from '../utils/title';
 import CardList from '../collection/card-list';
+import connectSplashImage from '../data/splash';
+import withOwnerData from '../data/owner';
 
-const withOwnerData = key => withTracker(props => ({
-	ownerUser: Meteor.users.findOne(props[key].owner),
-}));
-
-const Splash = withProps(({campaign}) => {
-	const image = campaign.theme
-		? unsplashImages.find(({id}) => id === campaign.theme)
-		: unsplashImages[stringHash(campaign._id) % (unsplashImages.length - 1)]; // never choose the last one, so i can select it for testing purposes
-
-	return {
-		url: image.urls.regular,
-		color: image.color,
-	};
-})(SplashBackground);
+const Splash = connectSplashImage(SplashBleed);
 
 const connectCampaign = compose(
 	withCampaignData,
