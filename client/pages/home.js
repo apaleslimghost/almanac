@@ -38,7 +38,7 @@ const connectCampaign = compose(
 );
 
 const CampaignTile = connectSplashImage(SplashBackground.withComponent(Link).extend`
-	height: 20vw;
+	height: 25vmin;
 	border-radius: 3px;
 	text-decoration: none;
 `);

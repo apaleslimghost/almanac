@@ -15,7 +15,7 @@ const doLogin = ({userOrEmail, password}) => {
 			const {profile} = Meteor.user();
 			go(`/${profile.defaultCampaign}`);
 		}
-	})
+	});
 };
 
 export default () => <Form onSubmit={doLogin}>
