@@ -41,6 +41,12 @@ const CampaignTile = connectSplashImage(SplashBackground.withComponent(Link).ext
 	height: 25vmin;
 	border-radius: 3px;
 	text-decoration: none;
+	transition: filter 0.2s;
+	will-change: filter;
+
+	&:hover {
+		filter: contrast(120%) brightness(95%) saturate(110%);
+	}
 `);
 
 export default connectCampaign(({campaigns, createCampaign, ownerUser}) => <FlexGrid>
