@@ -12,10 +12,11 @@ import {withUserData, logout} from '../utils/logged-in';
 import Logo from '../visual/logo';
 import Grid from '../visual/grid';
 import Title from '../utils/title';
+import Gravatar from '../visual/gravatar';
 
 const LogoutButton = withUserData(({user}) => user
 	? <MenuLink onClick={logout} href='/logout'>
-		<Icon icon='key' />
+		<Gravatar email={user.emails[0].address} />
 		{user.username || user.emails[0].address}
 	</MenuLink>
 	: null
