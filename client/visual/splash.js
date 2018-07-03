@@ -34,7 +34,6 @@ export const SplashBleed = Bleed.extend`
 	max-height: ${({large}) => large ? '60vh' : '40vh'};
 `;
 
-
 export const Hero = styled.div`
 	margin-top: auto;
 	color: white;
