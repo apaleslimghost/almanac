@@ -36,9 +36,12 @@ const Players = connectPlayers(({players}) => <ul>
 </ul>);
 
 const connectPlayerSearch = compose(
+	withCampaignData,
 	withState('search', 'setSearch', ''),
-	withPropsOnChange(['search'], ({search}) => ({
-		results: userSearch(search),
+	withPropsOnChange(['search'], ({search, campaign}) => ({
+		results: userSearch(search).filter(
+			({item}) => ![campaign.owner].concat(campaign.member || []).includes(item._id)
+		),
 		isEmail: emailRegex({exact: true}).test(search),
 	})),
 	withTracker(({search, isEmail}) => ({
@@ -48,19 +51,26 @@ const connectPlayerSearch = compose(
 	}))
 );
 
+const SelectUser = ({children}) => <a href='#'>
+	{children}
+</a>;
+
 const PlayerSearch = connectPlayerSearch(({search, setSearch, results, isEmail, isExistingUser}) => <div>
 	<Input onChange={ev => setSearch(ev.target.value)} value={search} placeholder='Search for a user...' />
 
 	{isEmail && !isExistingUser && `Invite ${search} to Almanac...`}
 
-	{!!results.length && <ul>
-		{results.map(
-			(result) => <li key={result.item._id}>
-				<User user={result.item} />
-				<pre>{JSON.stringify(result, null, 2)}</pre>
-			</li>
-		)}
-	</ul>}
+	{!!search && (
+		results.length
+		? <ul>
+			{results.map(
+				(result) => <li key={result.item._id}>
+					<User user={result.item} component={SelectUser} />
+				</li>
+			)}
+		</ul>
+		: 'No users found'
+	)}
 </div>);
 
 export default () =><div>
