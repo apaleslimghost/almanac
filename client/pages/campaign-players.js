@@ -7,6 +7,7 @@ import User from '../document/user';
 import {Input} from '../visual/form';
 import search from '../utils/search';
 import emailRegex from 'email-regex';
+import {Campaign} from '../../shared/methods';
 
 const userSearch = search(Meteor.users, {
 	includeMatches: true,
@@ -51,9 +52,25 @@ const connectPlayerSearch = compose(
 	}))
 );
 
-const SelectUser = ({children}) => <a href='#'>
+const connectSelectUser = compose(
+	withCampaignData,
+	withHandlers({
+		addUser: ({campaign, user}) => ev => {
+			ev.preventDefault();
+			Campaign.update(campaign._id, {
+				$addToSet: {member: user._id} // can't do this yet kara, cf collection-methods.js#44
+			})
+		}
+	})
+);
+
+const SelectUser = ({children}) => withTracker(() => ({
+	addUser(ev) {
+
+	}
+}))(<a href='#'>
 	{children}
-</a>;
+</a>);
 
 const PlayerSearch = connectPlayerSearch(({search, setSearch, results, isEmail, isExistingUser}) => <div>
 	<Input onChange={ev => setSearch(ev.target.value)} value={search} placeholder='Search for a user...' />
