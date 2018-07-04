@@ -14,6 +14,7 @@ import Login from './pages/login';
 import GetStarted from './pages/get-started';
 import Campaign from './pages/campaign';
 import CampaignSettings from './pages/campaign-settings';
+import CampaignPlayers from './pages/campaign-players';
 import NewCampaign from './pages/new-campaign';
 import Verify from './pages/verify';
 
@@ -40,6 +41,12 @@ mount(App, {
 		'/:campaignId/settings' ({campaignId}) {
 			return <Layout campaignId={campaignId}>
 				<CampaignSettings />
+			</Layout>;
+		},
+
+		'/:campaignId/players' ({campaignId}) {
+			return <Layout campaignId={campaignId}>
+				<CampaignPlayers />
 			</Layout>;
 		},
 

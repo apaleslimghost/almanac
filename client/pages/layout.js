@@ -12,13 +12,10 @@ import {withUserData, logout} from '../utils/logged-in';
 import Logo from '../visual/logo';
 import Grid from '../visual/grid';
 import Title from '../utils/title';
-import Gravatar from '../visual/gravatar';
+import User from '../document/user';
 
 const LogoutButton = withUserData(({user}) => user
-	? <MenuLink onClick={logout} href='/logout'>
-		<Gravatar email={user.emails[0].address} />
-		{user.username || user.emails[0].address}
-	</MenuLink>
+	? <User user={user} component={MenuLink} onClick={logout} href='/logout' />
 	: null
 );
 
@@ -105,6 +102,11 @@ const Nav = connectNav(({user, campaignId, extraItems}) => <Toolbar>
 			<MenuLink href={`/${campaignId}/dashboard-control`}>
 				<Icon icon='wooden-sign' />
 				Dashboard
+			</MenuLink>
+
+			<MenuLink href={`/${campaignId}/players`}>
+				<Icon icon='double-team' />
+				Players
 			</MenuLink>
 
 			<MenuLink href={`/${campaignId}/settings`}>

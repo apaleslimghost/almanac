@@ -60,3 +60,18 @@ export const createAccount = method('createAccount', function(user, campaign) {
 		Accounts.sendEnrollmentEmail(userId, user.email);
 	}
 });
+
+export const createAccountAndInvite = method('createAccountAndInvite', function(user, campaignId) {
+	if(!this.isSimulation) {
+		const userId = Accounts.createUser(user);
+
+		Campaigns.update(campaignId, {
+			$addToSet: {
+				member: userId,
+			}
+		});
+
+		Meteor.users.update(userId, {$set: {'profile.defaultCampaign': defaultCampaign}});
+		Accounts.sendEnrollmentEmail(userId, user.email);
+	}
+});
