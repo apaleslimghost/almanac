@@ -9,7 +9,7 @@ const UserText = styled.span`
 	color: ${({verified}) => verified ? colours.steel[0] : colours.steel[2]};
 `;
 
-export default ({user, component: Component = 'span', children, ...props}) => <Component {...props}>
+export default ({user, component: Component = 'span', children, ...props}) => <Component user={user} {...props}>
 	<Gravatar email={user.emails[0].address} />
 	<UserText verified={user.emails[0].verified}>
 		{user.username || user.emails[0].address}

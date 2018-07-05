@@ -5,21 +5,10 @@ import {withTracker} from 'meteor/react-meteor-data';
 import {compose, withState, withPropsOnChange, withHandlers} from 'recompact';
 import User from '../document/user';
 import {Input} from '../visual/form';
-import search from '../utils/search';
 import emailRegex from 'email-regex';
 import {Campaign, createAccountAndInvite, addMember, removeMember} from '../../shared/methods';
 import {Button} from '../visual/primitives';
 import subscribe from '../utils/subscribe';
-
-const userSearch = search(Meteor.users, {
-	includeMatches: true,
-	includeScore: true,
-	shouldSort: true,
-	keys: [
-		'username',
-		'emails.address',
-	],
-});
 
 const withPlayerData = withTracker(({campaign}) => ({
 	loading: subscribe('campaigns.members'),
@@ -49,13 +38,14 @@ const Players = connectPlayers(({players, campaign, removeUser}) => <ul>
 const connectPlayerSearch = compose(
 	withCampaignData,
 	withState('search', 'setSearch', ''),
-	withPropsOnChange(['search'], ({search, campaign}) => ({
-		results: userSearch(search).filter(
-			({item}) => ![campaign.owner].concat(campaign.member || []).includes(item._id)
-		),
+	withPropsOnChange(['search'], ({search}) => ({
 		isEmail: emailRegex({exact: true}).test(search),
 	})),
-	withTracker(({search, isEmail}) => ({
+	withTracker(({search, isEmail, campaign}) => ({
+		ready: Meteor.subscribe('users.search', search),
+		results: Meteor.users.find({
+			_id: {$nin: [campaign.owner].concat(campaign.member || [])}
+		}).fetch(),
 		isExistingUser: isEmail && Meteor.users.findOne({
 			emails: {$elemMatch: {address: search}}
 		}),
@@ -103,8 +93,8 @@ const PlayerSearch = connectPlayerSearch(({search, setSearch, results, isEmail, 
 		results.length
 		? <ul>
 			{results.map(
-				(result) => <li key={result.item._id}>
-					<User user={result.item} component={SelectUser} />
+				user => <li key={user._id}>
+					<User user={user} component={SelectUser} />
 				</li>
 			)}
 		</ul>

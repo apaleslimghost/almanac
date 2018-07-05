@@ -1,6 +1,12 @@
 import publish from './utils/publish';
+import search from './utils/search';
 import {Cards, Campaigns, Session, Layouts} from '../shared/collections';
 import {Meteor} from 'meteor/meteor';
+
+Meteor.users._ensureIndex({
+	username: 'text',
+	'emails.address': 'text',
+});
 
 //TODO: public/private
 
@@ -21,6 +27,14 @@ const visible = collection => ({userId}) => {
 };
 
 publish({
+	users: {
+		search({args}) {
+			return Meteor.users.find({
+				$text: {$search: args[0]},
+			});
+		}
+	},
+
 	campaigns: {
 		all: visibleDocs(Campaigns),
 		members({userId}) {
