@@ -1,5 +1,6 @@
 import publish from './utils/publish';
 import {Cards, Campaigns, Session, Layouts} from '../shared/collections';
+import {Meteor} from 'meteor/meteor';
 
 //TODO: public/private
 
@@ -22,6 +23,17 @@ const visible = collection => ({userId}) => {
 publish({
 	campaigns: {
 		all: visibleDocs(Campaigns),
+		members({userId}) {
+			const visibleCampaigns = _visibleDocs(Campaigns, {userId}).fetch();
+			const allCampaignUsers = visibleCampaigns.reduce(
+				(users, campaign) => users.concat(campaign.owner).concat(campaign.member),
+				[]
+			);
+
+			return Meteor.users.find({
+				_id: {$in: allCampaignUsers}
+			});
+		}
 	},
 
 	cards: {

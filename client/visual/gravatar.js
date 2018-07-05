@@ -19,6 +19,9 @@ const formatGravatarUrl = email => url.format({
 	scheme: 'https',
 	host: 'www.gravatar.com',
 	pathname: `/avatar/${gravatarHash(email)}`,
+	query: {
+		d: 'identicon',
+	},
 });
 
 export default ({email, ...props}) => <Gravatar src={formatGravatarUrl(email)} alt={email} {...props} />

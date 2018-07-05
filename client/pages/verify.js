@@ -22,4 +22,4 @@ export default ({token}) => <Form onSubmit={resetPassword(token)}>
 	</LabelledInput>
 
 	<Button>Set password & create account</Button>
-</Form>
+</Form>;

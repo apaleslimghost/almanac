@@ -8,6 +8,18 @@ export const Campaign = collectionMethods(Campaigns);
 export const Card = collectionMethods(Cards);
 export const Layout = collectionMethods(Layouts);
 
+export const addMember = method('addMember', function(campaign, user) {
+	Campaigns.update(campaign._id, {
+		$addToSet: {member: user._id},
+	});
+});
+
+export const removeMember = method('removeMember', function(campaign, user) {
+	Campaigns.update(campaign._id, {
+		$pull: {member: user._id},
+	});
+});
+
 export const addRelated = method('addRelated', function(card, related) {
 	Cards.update(card._id, {
 		$addToSet: {related: related._id},
@@ -61,17 +73,13 @@ export const createAccount = method('createAccount', function(user, campaign) {
 	}
 });
 
-export const createAccountAndInvite = method('createAccountAndInvite', function(user, campaignId) {
-	if(!this.isSimulation) {
+export const createAccountAndInvite = method('createAccountAndInvite', function(user, campaign) {
+	if(!this.isSimulation) { // this only works on the server
 		const userId = Accounts.createUser(user);
 
-		Campaigns.update(campaignId, {
-			$addToSet: {
-				member: userId,
-			}
-		});
+		addMember(campaign, {_id: userId});
+		Meteor.users.update(userId, {$set: {'profile.defaultCampaign': campaign._id}});
 
-		Meteor.users.update(userId, {$set: {'profile.defaultCampaign': defaultCampaign}});
 		Accounts.sendEnrollmentEmail(userId, user.email);
 	}
 });
