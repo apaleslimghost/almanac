@@ -13,7 +13,7 @@ import subscribe from '../utils/subscribe';
 const withPlayerData = withTracker(({campaign}) => ({
 	loading: subscribe('campaigns.members'),
 	players: Meteor.users.find({
-		_id: {$in: [campaign.owner].concat(campaign.member || [])},
+		_id: {$in: [campaign.owner].concat(campaign.member)},
 	}).fetch(),
 
 	removeUser(user) {
@@ -44,7 +44,7 @@ const connectPlayerSearch = compose(
 	withTracker(({search, isEmail, campaign}) => ({
 		ready: Meteor.subscribe('users.search', search),
 		results: Meteor.users.find({
-			_id: {$nin: [campaign.owner].concat(campaign.member || [])}
+			_id: {$nin: [campaign.owner].concat(campaign.member)}
 		}).fetch(),
 		isExistingUser: isEmail && Meteor.users.findOne({
 			emails: {$elemMatch: {address: search}}
@@ -83,7 +83,7 @@ const SelectUser = connectSelectUser(({children, addUser}) =>
 );
 
 const PlayerSearch = connectPlayerSearch(({search, setSearch, results, isEmail, isExistingUser}) => <div>
-	<Input onChange={ev => setSearch(ev.target.value)} value={search} placeholder='Search for a user...' />
+	<Input type='search' onChange={ev => setSearch(ev.target.value)} value={search} placeholder='Search for a user...' />
 
 	{isEmail && !isExistingUser &&
 		<InviteUser email={search} />

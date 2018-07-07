@@ -6,6 +6,7 @@ import {go} from '../utils/router';
 
 const withCampaignActions = withHandlers({
 	onSubmit: ({campaign}) => data => {
+		data.member = [];
 		Campaign.create(data, (err, {_id}) => {
 			go(`/${_id}`);
 		});

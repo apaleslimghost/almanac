@@ -20,20 +20,9 @@ const withCampaignData = withTracker(() => ({
 	campaigns: Campaigns.find({}).fetch(),
 }));
 
-const withCampaignActions = withHandlers({
-	createCampaign: () => ev => {
-		ev.preventDefault();
-		const data = formJson(ev.target);
-		ev.target.reset();
-
-		Campaign.create(data, (err, {_id}) => go(`/${_id}`));
-	},
-});
-
 const connectCampaign = compose(
 	loggedIn(renderComponent(Splash)),
 	withCampaignData,
-	withCampaignActions,
 	withLoading
 );
 
@@ -49,7 +38,7 @@ const CampaignTile = connectSplashImage(SplashBackground.withComponent(Link).ext
 	}
 `);
 
-export default connectCampaign(({campaigns, createCampaign, ownerUser}) => <FlexGrid>
+export default connectCampaign(({campaigns, ownerUser}) => <FlexGrid>
 	{campaigns.map(
 		campaign => <CampaignTile campaign={campaign} href={`/${campaign._id}`} key={campaign._id}>
 			<Hero>
