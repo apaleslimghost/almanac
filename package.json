@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "open-once-listening --timeout 120 http://localhost:3000 &",
     "start": "meteor",
     "heroku-postbuild": "heroku-version-infer && package-version-github-release"
   },
@@ -52,5 +53,8 @@
     "react-typeahead": "^2.0.0-alpha.5",
     "recompose": "^0.26.0",
     "styled-components": "^2.1.0"
+  },
+  "devDependencies": {
+    "@quarterto/open-once-listening": "^1.3.0"
   }
 }
