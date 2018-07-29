@@ -18,7 +18,6 @@ export const assertAmOwner = key => compose(
 	iAmOwner(key),
 	withProps(({ready, isOwner, ...props}) => {
 		if(ready && isOwner === false) {
-			console.log(props);
 			throw new Forbidden(`You're not allowed to do that`);
 		}
 	})
