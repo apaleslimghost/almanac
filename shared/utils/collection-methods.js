@@ -12,7 +12,7 @@ const validateAccess = (collection, data, userId, verb) => {
 		if(!data.campaignId) throw new Meteor.Error('campaign-missing', 'No campaign ID in data');
 
 		const campaign = Campaigns.findOne(data.campaignId);
-		if(!campaign || campaign.owner !== userId || !campaign.member.includes(userId)) {
+		if(!campaign || (campaign.owner !== userId && !campaign.member.includes(userId))) {
 			throw new Meteor.Error('campaign-access-denied', `Can't ${verb} a document in that campaign`);
 		}
 	}
