@@ -4,6 +4,7 @@ import CampaignSettings from '../document/campaign-settings';
 import {compose, withHandlers} from 'recompact';
 import {Campaign} from '../../shared/methods';
 import {go} from '../utils/router';
+import {assertAmOwner} from '../data/owner';
 
 const withCampaignActions = withHandlers({
 	onSubmit: ({campaign}) => data => {
@@ -14,6 +15,7 @@ const withCampaignActions = withHandlers({
 
 const connectCampaignSettings = compose(
 	withCampaignData,
+	assertAmOwner('campaign'),
 	withCampaignActions
 );
 

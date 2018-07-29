@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {withCampaignData, withCampaignSession} from '../data/campaign';
 import {compose, withPropsOnChange} from 'recompact';
 import styled from 'styled-components';
@@ -6,7 +6,7 @@ import {SplashBleed, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
 import Title from '../utils/title';
 import CardList from '../collection/card-list';
 import connectSplashImage from '../data/splash';
-import withOwnerData from '../data/owner';
+import { withOwnerData } from '../data/owner';
 
 const Splash = connectSplashImage(SplashBleed);
 
@@ -28,7 +28,7 @@ const connectGrail = compose(
 
 const Grail = connectGrail(CardList);
 
-export default connectCampaign(({campaign, ownerUser}) => <Fragment>
+export default connectCampaign(({campaign, ownerUser}) => <>
 	<Title>{campaign.title}</Title>
 
 	<Splash campaign={campaign}>
@@ -39,4 +39,4 @@ export default connectCampaign(({campaign, ownerUser}) => <Fragment>
 	</Splash>
 
 	<Grail />
-</Fragment>);
+</>);

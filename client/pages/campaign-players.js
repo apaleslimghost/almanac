@@ -9,6 +9,7 @@ import emailRegex from 'email-regex';
 import {Campaign, createAccountAndInvite, addMember, removeMember} from '../../shared/methods';
 import {Button} from '../visual/primitives';
 import subscribe from '../utils/subscribe';
+import {assertAmOwner} from '../data/owner';
 
 const withPlayerData = withTracker(({campaign}) => ({
 	loading: subscribe('campaigns.members'),
@@ -23,6 +24,7 @@ const withPlayerData = withTracker(({campaign}) => ({
 
 const connectPlayers = compose(
 	withCampaignData,
+	assertAmOwner('campaign'),
 	withPlayerData,
 );
 

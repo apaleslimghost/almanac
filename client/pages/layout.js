@@ -13,6 +13,7 @@ import Logo from '../visual/logo';
 import Grid from '../visual/grid';
 import Title from '../utils/title';
 import User from '../document/user';
+import {iAmOwner} from '../data/owner';
 
 const LogoutButton = withUserData(({user}) => user
 	? <User user={user} component={MenuLink} onClick={logout} href='/logout' />
@@ -76,20 +77,19 @@ const MenuTitle = styled(H3)`
 	white-space: nowrap;
 `;
 
-const CampaignTitle = withCampaignData(
-	({campaign}) => <MenuLink href={`/${campaign._id}`}>
-		<MenuTitle>
-			{campaign.title}
-		</MenuTitle>
-	</MenuLink>
-);
+const CampaignTitle = ({campaign}) => <MenuLink href={`/${campaign._id}`}>
+	<MenuTitle>
+		{campaign.title}
+	</MenuTitle>
+</MenuLink>;
 
 const connectNav = compose(
-	withCampaign,
+	withCampaignData,
+	iAmOwner('campaign'),
 	withUserData
 );
 
-const Nav = connectNav(({user, campaignId, extraItems}) => <Toolbar>
+const Nav = connectNav(({user, campaignId, campaign, isOwner, extraItems}) => <Toolbar>
 	<NavArea>
 		<MenuLink href={`/`}>
 			<Logo />
@@ -97,22 +97,24 @@ const Nav = connectNav(({user, campaignId, extraItems}) => <Toolbar>
 
 		{campaignId && <>
 			<Divider />
-			<CampaignTitle />
+			<CampaignTitle campaign={campaign} />
 
-			<MenuLink href={`/${campaignId}/dashboard-control`}>
-				<Icon icon='wooden-sign' />
-				Dashboard
-			</MenuLink>
+			{isOwner && <>
+				<MenuLink href={`/${campaignId}/dashboard-control`}>
+					<Icon icon='wooden-sign' />
+					Dashboard
+				</MenuLink>
 
-			<MenuLink href={`/${campaignId}/players`}>
-				<Icon icon='double-team' />
-				Players
-			</MenuLink>
+				<MenuLink href={`/${campaignId}/players`}>
+					<Icon icon='double-team' />
+					Players
+				</MenuLink>
 
-			<MenuLink href={`/${campaignId}/settings`}>
-				<Icon icon='gears' />
-				Settings
-			</MenuLink>
+				<MenuLink href={`/${campaignId}/settings`}>
+					<Icon icon='gears' />
+					Settings
+				</MenuLink>
+			</>}
 
 		</>}
 	</NavArea>
