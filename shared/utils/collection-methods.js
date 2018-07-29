@@ -17,8 +17,15 @@ const validateAccess = (collection, data, userId, verb) => {
 		}
 	}
 
-	if(verb !== 'create' && data.owner !== userId) {
-		throw new Meteor.Error('doc-access-denied', `Can't ${verb} that document`);
+	if(verb !== 'create') {
+		const originalData = collection.findOne(data._id);
+		if(!originalData) {
+			throw new Meteor.Error('doc-doesnt-exist', `Can't ${verb} a document that doesn't exist`);
+		}
+
+		if(originalData.owner !== userId) {
+			throw new Meteor.Error('doc-access-denied', `Can't ${verb} that document`);
+		}
 	}
 };
 
