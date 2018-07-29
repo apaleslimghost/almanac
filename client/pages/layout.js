@@ -171,6 +171,21 @@ export const hidesNav = compose(
 	})
 );
 
+export const withExtraNavItems = (...navItems) => compose(
+	withNavContext,
+	lifecycle({
+		componentDidMount() {
+			this.props.setExtraNavItems(...navItems.map(
+				(NavItem, i) => <NavItem {...this.props} key={i} />
+			));
+		},
+
+		componentWillUnmount() {
+			this.props.setExtraNavItems();
+		},
+	})
+);
+
 const connectLayout = compose(
 	navState,
 	setNavContext
