@@ -3,29 +3,6 @@ import {Campaigns} from '../collections';
 import generateSlug from './generate-slug';
 import {Meteor} from 'meteor/meteor';
 
-/*
-okay kara what are the dimensions
-
-user relative to campaign of thing
-user relative to thing
-visibility of thing
-action
-
-visibility possibilities:
-public, campaign, me & gm, only me
-
-user relative to campaign of thing:
-gm, member, not a member
-
-user relative to thing:
-owner, not owner
-
-action:
-create, update, delete
-
-72 permutations kara :/
-*/
-
 const validateAccess = (collection, data, userId, verb) => {
 	if(!userId) {
 		throw new Meteor.Error('not-logged-in', `Can't ${verb} something if you're not logged in`);
