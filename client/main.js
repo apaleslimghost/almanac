@@ -10,7 +10,7 @@ import './visual/global';
 import Dashboard from './pages/dashboard';
 import Control from './pages/control';
 import Home from './pages/home';
-import Login from './pages/login';
+import Login, {loggedInRedirect} from './pages/login';
 import GetStarted from './pages/get-started';
 import Campaign from './pages/campaign';
 import CampaignSettings from './pages/campaign-settings';
@@ -65,19 +65,19 @@ mount(App, {
 		},
 
 		'/get-started' (params, {title}) {
-			return <Layout>
+			return loggedInRedirect() || <Layout>
 				<GetStarted title={title} />
 			</Layout>;
 		},
 
 		'/login' () {
-			return <Layout>
+			return loggedInRedirect() || <Layout>
 				<Login />
 			</Layout>;
 		},
 
 		'/verify/:token' ({token}) {
-			return <Layout>
+			return loggedInRedirect() || <Layout>
 				<Verify token={token} />
 			</Layout>;
 		},

@@ -3,6 +3,29 @@ import {Campaigns} from '../collections';
 import generateSlug from './generate-slug';
 import {Meteor} from 'meteor/meteor';
 
+/*
+okay kara what are the dimensions
+
+user relative to campaign of thing
+user relative to thing
+visibility of thing
+action
+
+visibility possibilities:
+public, campaign, me & gm, only me
+
+user relative to campaign of thing:
+gm, member, not a member
+
+user relative to thing:
+owner, not owner
+
+action:
+create, update, delete
+
+72 permutations kara :/
+*/
+
 const validateAccess = (collection, data, userId, verb) => {
 	if(!userId) {
 		throw new Meteor.Error('not-logged-in', `Can't ${verb} something if you're not logged in`);
@@ -33,9 +56,7 @@ export default collection => ({
 	create: method(`${collection._name}.create`, function(data) {
 		// TODO validate data against card schema
 		const {_id} = generateSlug(data);
-		const userId = this.userId || data.owner;
-
-		validateAccess(collection, data, userId, 'create');
+		validateAccess(collection, data, this.userId, 'create');
 
 		data.owner = userId;
 		collection.insert(data);
@@ -46,7 +67,7 @@ export default collection => ({
 	update: method(`${collection._name}.update`, function({_id}, $set) {
 		// TODO validate update against card schema
 		const data = collection.findOne(_id);
-		validateAccess(collection, data, this.userId, 'modify');
+		validateAccess(collection, data, this.userId, 'update');
 
 		collection.update(_id, { $set });
 	}),

@@ -6,14 +6,23 @@ import {LabelledInput, Button} from '../visual/primitives';
 import {Form} from '../control/form';
 import {Input} from '../visual/form';
 
+export const loggedInRedirect = () => {
+	const user = Meteor.user();
+
+	if(user) {
+		go(`/${user.profile.defaultCampaign}`);
+	} else {
+		return false;
+	}
+}
+
 const doLogin = ({userOrEmail, password}) => {
 	Meteor.loginWithPassword(userOrEmail, password, err => {
 		if(err) {
-			// TODO error handling
+			// TODO error handling lol
 			alert(err.reason);
 		} else {
-			const {profile} = Meteor.user();
-			go(`/${profile.defaultCampaign}`);
+			loggedInRedirect();
 		}
 	});
 };
