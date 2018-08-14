@@ -16,6 +16,8 @@ if(missingMailgunVars.length === 0) {
 		port: process.env.MAILGUN_SMTP_PORT,
 		auth: `${process.env.MAILGUN_SMTP_LOGIN}:${process.env.MAILGUN_SMTP_PASSWORD}`,
 	});
+
+	console.log(`mailgunning via ${process.env.MAIL_URL}`);
 } else {
 	console.log(`mailgun environment variables ${missingMailgunVars} missing, falling back to outputting emails to stdout`);
 }
