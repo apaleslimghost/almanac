@@ -12,6 +12,7 @@ const missingMailgunVars = [
 if(missingMailgunVars.length === 0) {
 	process.env.MAIL_URL = url.format({
 		protocol: 'smtp',
+		slashes: true,
 		hostname: process.env.MAILGUN_SMTP_SERVER,
 		port: process.env.MAILGUN_SMTP_PORT,
 		auth: `${process.env.MAILGUN_SMTP_LOGIN}:${process.env.MAILGUN_SMTP_PASSWORD}`,
