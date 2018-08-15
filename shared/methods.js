@@ -64,7 +64,9 @@ export const setSession = method('setSession', function(campaignId, _key, data) 
 export const createAccount = method('createAccount', function(user, campaign) {
 	if(!this.isSimulation) { // Accounts.createUser only works on the server
 		const userId = Accounts.createUser(user);
-		const {_id: defaultCampaign} = Campaign.create(Object.assign({
+
+		// use Campaigns.insert not Campaign.create to bypass validation lol
+		const {_id: defaultCampaign} = Campaigns.insert(Object.assign({
 			owner: userId,
 			member: [],
 		}, campaign));
