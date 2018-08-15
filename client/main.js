@@ -18,6 +18,8 @@ import CampaignPlayers from './pages/campaign-players';
 import NewCampaign from './pages/new-campaign';
 import Verify from './pages/verify';
 
+import {errorTest} from '../shared/methods';
+
 mount(App, {
 	routes: {
 		'/:campaignId/dashboard' ({campaignId}) {
@@ -80,6 +82,12 @@ mount(App, {
 			return loggedInRedirect() || <Layout>
 				<Verify token={token} />
 			</Layout>;
+		},
+
+		'/debug' () {
+			return <Layout>
+				<button onClick={() => errorTest()}>throw a meteor.call error</button>
+			</Layout>
 		},
 
 		'/' () {

@@ -15,6 +15,9 @@ import Title from '../utils/title';
 import User from '../document/user';
 import {iAmOwner} from '../data/owner';
 
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 const LogoutButton = withUserData(({user}) => user
 	? <User user={user} component={MenuLink} onClick={logout} href='/logout' />
 	: null
@@ -191,10 +194,11 @@ const connectLayout = compose(
 	setNavContext
 );
 
-export const Basic = setsCampaign(({children}) => <div>
+export const Basic = setsCampaign(({children}) => <>
 	<Title />
+	<ToastContainer />
 	{children}
-</div>);
+</>);
 
 const Layout = connectLayout(({campaignId, state, children}) =>
 	<Basic campaignId={campaignId}>

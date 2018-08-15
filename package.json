@@ -57,6 +57,7 @@
     "react-popover": "^0.5.3",
     "react-portal": "^3.2.0",
     "react-resizable": "^1.7.5",
+    "react-toastify": "^4.2.0",
     "react-typeahead": "^2.0.0-alpha.5",
     "recompact": "^3.3.0",
     "string-hash": "^1.1.3",

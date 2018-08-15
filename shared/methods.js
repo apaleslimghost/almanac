@@ -87,3 +87,7 @@ export const createAccountAndInvite = method('createAccountAndInvite', function(
 		Accounts.sendEnrollmentEmail(userId, user.email);
 	}
 });
+
+export const errorTest = method('errorTest', () => {
+	throw new Meteor.Error('test-error', 'You done goofed');
+});

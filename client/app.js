@@ -20,8 +20,6 @@ const connectApp = compose(
 	}),
 );
 
-const App = connectApp(({children}) => <div>
-	{children}
-</div>);
+const App = connectApp(({children}) => children);
 
 export default App;
