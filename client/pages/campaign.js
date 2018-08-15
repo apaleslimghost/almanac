@@ -34,7 +34,9 @@ export default connectCampaign(({campaign, ownerUser}) => <>
 	<Splash campaign={campaign}>
 		<Hero>
 			<HeroTitle>{campaign.title}</HeroTitle>
-			<HeroBlurb>{campaign.tagline || `A campaign by ${ownerUser.username}`}</HeroBlurb>
+			{(campaign.tagline || ownerUser) &&
+				<HeroBlurb>{campaign.tagline || `A campaign by ${ownerUser.username}`}</HeroBlurb>
+			}
 		</Hero>
 	</Splash>
 

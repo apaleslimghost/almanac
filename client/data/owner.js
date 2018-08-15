@@ -2,8 +2,10 @@ import {Meteor} from 'meteor/meteor';
 import {withTracker} from 'meteor/react-meteor-data';
 import {Forbidden} from 'http-errors';
 import {compose, withProps} from 'recompact';
+import subscribe from '../utils/subscribe';
 
 export const withOwnerData = key => withTracker(props => ({
+	ready: subscribe('users.all'),
 	ownerUser: props[key] ? Meteor.users.findOne(props[key].owner) : null,
 }));
 
