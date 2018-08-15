@@ -8,3 +8,6 @@ Object.assign(Accounts.urls, {
 		);
 	},
 });
+
+Accounts.emailTemplates.siteName = "Almanac";
+Accounts.emailTemplates.from = "Almanac <dm@almanac.wiki>";
