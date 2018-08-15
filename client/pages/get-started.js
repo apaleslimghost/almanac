@@ -6,10 +6,11 @@ import {Button, LabelledInput} from '../visual/primitives';
 import {createAccount} from '../../shared/methods';
 import {go} from '../utils/router';
 import CampaignSettings from '../document/campaign-settings';
+import {toast} from 'react-toastify';
 
-const onSubmit = ({username, email, campaign}) => {
-	createAccount({username, email}, campaign);
-	// TODO success messaging
+const onSubmit = async ({username, email, campaign}) => {
+	await createAccount({username, email}, campaign);
+	toast.success(`We've sent an email to ${email} to verify your address. Check your inbox.`);
 	go('/');
 };
 

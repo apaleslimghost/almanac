@@ -5,6 +5,7 @@ import {go} from '../utils/router';
 import {LabelledInput, Button} from '../visual/primitives';
 import {Form} from '../control/form';
 import {Input} from '../visual/form';
+import {toast} from 'react-toastify';
 
 export const loggedInRedirect = () => {
 	const user = Meteor.user();
@@ -19,8 +20,7 @@ export const loggedInRedirect = () => {
 const doLogin = ({userOrEmail, password}) => {
 	Meteor.loginWithPassword(userOrEmail, password, err => {
 		if(err) {
-			// TODO error handling lol
-			alert(err.reason);
+			toast.error(err.reason);
 		} else {
 			loggedInRedirect();
 		}

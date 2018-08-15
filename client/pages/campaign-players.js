@@ -10,6 +10,7 @@ import {Campaign, createAccountAndInvite, addMember, removeMember} from '../../s
 import {Button} from '../visual/primitives';
 import subscribe from '../utils/subscribe';
 import {assertAmOwner} from '../data/owner';
+import {toast} from 'react-toastify';
 
 const withPlayerData = withTracker(({campaign}) => ({
 	loading: subscribe('campaigns.members'),
@@ -57,9 +58,9 @@ const connectPlayerSearch = compose(
 const connectInviteUser = compose(
 	withCampaignData,
 	withHandlers({
-		inviteUser: ({campaign, email}) => ev => {
-			createAccountAndInvite({email}, campaign);
-			//TODO success messaging
+		inviteUser: ({campaign, email}) => async ev => {
+			await createAccountAndInvite({email}, campaign);
+			toast.success(`${email} invited to ${campaign.name}`);
 		}
 	})
 );
