@@ -66,7 +66,7 @@ export const createAccount = method('createAccount', function(user, campaign) {
 		const userId = Accounts.createUser(user);
 
 		// use Campaigns.insert not Campaign.create to bypass validation lol
-		const {_id: defaultCampaign} = Campaigns.insert(Object.assign({
+		const defaultCampaign = Campaigns.insert(Object.assign({
 			owner: userId,
 			member: [],
 		}, campaign));
