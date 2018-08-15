@@ -28,7 +28,7 @@ const visible = collection => ({userId}) => {
 
 publish({
 	users: {
-		all: Meteor.users.find({}, {fields: ['username']}),
+		all: Meteor.users.find({}, {fields: {username: 1}}),
 
 		search({args}) {
 			return Meteor.users.find({
