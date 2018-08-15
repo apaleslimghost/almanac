@@ -3,6 +3,7 @@ import {Campaigns, Cards, Session, Layouts} from './collections';
 import method from './utils/method';
 import collectionMethods from './utils/collection-methods';
 import {Accounts} from 'meteor/accounts-base';
+import generateSlug from './utils/generate-slug';
 
 export const Campaign = collectionMethods(Campaigns);
 export const Card = collectionMethods(Cards);
@@ -66,7 +67,7 @@ export const createAccount = method('createAccount', function(user, campaign) {
 		const userId = Accounts.createUser(user);
 
 		// use Campaigns.insert not Campaign.create to bypass validation lol
-		const defaultCampaign = Campaigns.insert(Object.assign({
+		const defaultCampaign = Campaigns.insert(generateSlug({
 			owner: userId,
 			member: [],
 		}, campaign));
