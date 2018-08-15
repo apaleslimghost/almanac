@@ -1,5 +1,5 @@
 import React from 'react';
-import {compose, withState} from 'recompact';
+import {compose, withState, withPropsOnChange} from 'recompact';
 import withRouter from './utils/router';
 import withCatch from './utils/catch';
 import displayError from './utils/error';
@@ -14,7 +14,10 @@ const connectApp = compose(
 	withRouter,
 	errorState,
 	mainCatch,
-	displayError
+	displayError,
+	withPropsOnChange('currentRoute', ({setError}) => {
+		setError(null);
+	}),
 );
 
 const App = connectApp(({children}) => <div>

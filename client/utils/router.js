@@ -39,6 +39,7 @@ const withRouter = withProps(({routes}) => ({
 }));
 
 const withHistory = withTracker(({router}) => ({
+	currentRoute: reactiveHistory.history.get(),
 	children: router({
 		url: reactiveHistory.history.get(),
 		state: reactiveHistory.state.get(),
