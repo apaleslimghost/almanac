@@ -196,7 +196,7 @@ const connectLayout = compose(
 
 export const Basic = setsCampaign(({children}) => <>
 	<Title />
-	<ToastContainer />
+	<ToastContainer autoClose={10000} />
 	{children}
 </>);
 
