@@ -4,10 +4,11 @@ import {Form} from '../control/form';
 import {Input} from '../visual/form';
 import {Accounts} from 'meteor/accounts-base';
 import {go} from '../utils/router';
+import {toast} from 'react-toastify';
 
 const resetPassword = token => ({password}) => Accounts.resetPassword(token, password, (err, ...r) => {
 	if(err) {
-		alert(err.reason);
+		toast.error(err.reason);
 	} else {
 		Accounts._enableAutoLogin();
 		const {profile} = Meteor.user();

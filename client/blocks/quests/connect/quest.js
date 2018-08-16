@@ -11,26 +11,24 @@ const questActions = withHandlers({
 		campaignSession.set('currentQuest', quest._id);
 	},
 
-	onCreateObjective: ({quest, campaignId, campaignSession}) => ev => {
+	onCreateObjective: ({quest, campaignId, campaignSession}) => async ev => {
 		ev.preventDefault();
 		const data = formJson(ev.target);
 		ev.target.reset();
 
-		Card.create({
+		const objective = await Card.create({
 			...data,
 			completed: false,
 			type: 'objective',
 			campaignId,
-		}, (err, objective) => {
-			if(err) return;
+		});
 
-			addRelated(quest, objective);
+		addRelated(quest, objective);
 
-			campaignSession.set('splashQuest', {
-				action: 'startObjective',
-				quest,
-				objective,
-			});
+		campaignSession.set('splashQuest', {
+			action: 'startObjective',
+			quest,
+			objective,
 		});
 	},
 });
