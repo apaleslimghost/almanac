@@ -11,9 +11,10 @@ import {Button} from '../visual/primitives';
 import subscribe from '../utils/subscribe';
 import {assertAmOwner} from '../data/owner';
 import {toast} from 'react-toastify';
+import withLoading from '../control/loading';
 
 const withPlayerData = withTracker(({campaign}) => ({
-	loading: subscribe('campaigns.members'),
+	ready: subscribe('campaigns.members'),
 	players: Meteor.users.find({
 		_id: {$in: [campaign.owner].concat(campaign.member)},
 	}).fetch(),
@@ -27,6 +28,7 @@ const connectPlayers = compose(
 	withCampaignData,
 	assertAmOwner('campaign'),
 	withPlayerData,
+	withLoading,
 );
 
 const Players = connectPlayers(({players, campaign, removeUser}) => <ul>
