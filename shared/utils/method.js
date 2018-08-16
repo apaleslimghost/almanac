@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import {toast} from 'react-toastify';
 
-module.exports = (name, fn) => {
+export default function method(name, fn) {
 	Meteor.methods({
 		[name]: fn
 	});

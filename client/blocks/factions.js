@@ -9,7 +9,6 @@ import {withCampaign} from '../data/campaign';
 import {compose, withHandlers, withProps} from 'recompact';
 import {Button} from '../visual/primitives';
 import withCards from '../data/card';
-import generateSlug from '../../shared/utils/generate-slug';
 import {Card} from '../../shared/methods';
 
 const relationshipLabel = {

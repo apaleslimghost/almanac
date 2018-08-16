@@ -1,6 +1,5 @@
 import {withHandlers} from 'recompact';
 import formJson from '@quarterto/form-json';
-import generateSlug from '../../../../shared/utils/generate-slug';
 import {Card} from '../../../../shared/methods';
 
 const questsActions = withHandlers({

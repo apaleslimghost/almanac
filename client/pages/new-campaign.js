@@ -5,11 +5,10 @@ import {Campaign} from '../../shared/methods';
 import {go} from '../utils/router';
 
 const withCampaignActions = withHandlers({
-	onSubmit: ({campaign}) => data => {
+	onSubmit: ({campaign}) => async data => {
 		data.member = [];
-		Campaign.create(data, (err, {_id}) => {
-			go(`/${_id}`);
-		});
+		const {_id} = await Campaign.create(data);
+		go(`/${_id}`);
 	}
 });
 
