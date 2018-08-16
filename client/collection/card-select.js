@@ -2,23 +2,24 @@ import {Meteor} from 'meteor/meteor'
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
-import {compose} from 'recompose';
+import {compose} from 'recompact';
 
 import {Cards} from '../../shared/collections';
 import {getSelectValue} from '../control/form';
+import {Select} from '../visual/form';
 import {withCampaign} from '../data/campaign';
 
 //TODO: typeahead?
 
-const CardSelect = ({cardsById, onSelect, tag: Tag = 'select', placeholder}) =>
+const CardSelect = ({cardsById, onSelect, placeholder}) =>
 	_.size(cardsById)
-		? <Tag value=''
+		? <Select value=''
 			onChange={ev => onSelect(cardsById[getSelectValue(ev.target)])}>
 			<option disabled value=''>{placeholder}</option>
 			{_.map(cardsById, card =>
 				<option key={card._id} value={card._id}>{card.title}</option>
 			)}
-		</Tag>
+		</Select>
 		: null;
 
 const withCardData = withTracker({

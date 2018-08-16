@@ -1,4 +1,5 @@
 import {Session} from './collections';
+import {setSession} from './methods';
 
 export default campaignId => ({
 	get(_key) {
@@ -13,19 +14,6 @@ export default campaignId => ({
 	},
 
 	set(_key, data) {
-		const existing = Session.findOne({
-			campaignId,
-			_key
-		});
-
-		if(campaignId) {
-			if(existing) {
-				Session.update(existing._id, {$set: {data}});
-			} else {
-				Session.insert({data, campaignId, _key});
-			}
-		} else {
-			console.trace('No campaign id');
-		}
+		setSession(campaignId, _key, data);
 	},
 });

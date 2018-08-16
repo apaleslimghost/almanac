@@ -1,6 +1,6 @@
 import {withCampaignSession} from '../../../data/campaign';
 import {withTracker} from 'meteor/react-meteor-data';
-import {compose} from 'recompose';
+import {compose} from 'recompact';
 import {withCampaignDate} from '../../../data/calendar';
 
 const withTime = withTracker(({campaignSession, CampaignDate}) => ({
@@ -8,3 +8,4 @@ const withTime = withTracker(({campaignSession, CampaignDate}) => ({
 }));
 
 export default compose(withCampaignSession, withCampaignDate, withTime);
+

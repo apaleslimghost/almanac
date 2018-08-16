@@ -5,7 +5,7 @@ import HarptosDate from 'dream-date/calendar/harptos';
 import HarptosCommonDate from 'dream-date/calendar/harptos-common';
 import OdreianDate from 'dream-date/calendar/odreian';
 import TideDate from 'dream-date/calendar/tide';
-import {compose} from 'recompose';
+import {compose} from 'recompact';
 
 export const calendars = {
 	harptosV1: {

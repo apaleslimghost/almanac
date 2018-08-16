@@ -1,13 +1,11 @@
-import {Cards} from '../../../../shared/collections';
-import {withHandlers} from 'recompose';
+import {withHandlers} from 'recompact';
+import {Card} from '../../../../shared/methods';
 
 const objectiveActions = withHandlers({
 	onCompleteObjective: ({objective, quest, campaignSession}) => ev => {
-		Cards.update(objective._id, {
-			$set: {
-				completed: true,
-				completedDate: campaignSession.get('date') || 0,
-			},
+		Card.update(objective, {
+			completed: true,
+			completedDate: campaignSession.get('date') || 0,
 		});
 
 		campaignSession.set('splashQuest', {
@@ -18,7 +16,7 @@ const objectiveActions = withHandlers({
 	},
 
 	onDeleteObjective: ({objective}) => ev => {
-		Cards.remove(objective._id);
+		Card.delete(objective);
 	},
 });
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styled, {keyframes} from 'styled-components';
-import {compose, lifecycle, withState} from 'recompose';
+import {compose, lifecycle, withState} from 'recompact';
 
 const blink = keyframes`
 	0%   { opacity: 0; }

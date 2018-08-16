@@ -6,10 +6,10 @@ import Ornamented from '../visual/ornamented';
 import Icon from '../visual/icon';
 import styled from 'styled-components';
 import {withCampaign} from '../data/campaign';
-import {compose, withHandlers, withProps} from 'recompose';
+import {compose, withHandlers, withProps} from 'recompact';
 import {Button} from '../visual/primitives';
 import withCards from '../data/card';
-import generateSlug from '../utils/generate-slug';
+import {Card} from '../../shared/methods';
 
 const relationshipLabel = {
 	'-2': 'Hostile',
@@ -33,14 +33,10 @@ const Right = styled.span`
 
 const connectModRelationship = withHandlers({
 	modRelationship: ({amount, faction}) => ev => {
+		const relationship = (faction.relationship || 0) + amount;
+
 		if(amount + faction.relationship < 3 && amount + faction.relationship > -3) {
-			Cards.update(faction._id, {
-				$inc: {relationship: amount},
-			});
-		} else if(!faction.relationship) {
-			Cards.update(faction._id, {
-				$set: {relationship: amount},
-			});
+			Card.update(faction, { relationship });
 		}
 	},
 });
@@ -66,8 +62,9 @@ const withFactionActions = withHandlers({
 		ev.preventDefault();
 		const data = formJson(ev.target);
 		ev.target.reset();
-		Cards.insert({
-			...generateSlug(data),
+
+		Card.create({
+			...data,
 			relationship: 0,
 			type: 'faction',
 			campaignId
@@ -77,7 +74,7 @@ const withFactionActions = withHandlers({
 
 const connectRemoveButton = withHandlers({
 	remove: ({faction}) => ev => {
-		Cards.remove(faction._id);
+		Card.delete(faction);
 	},
 });
 

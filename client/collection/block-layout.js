@@ -3,10 +3,13 @@ import styled, {css, injectGlobal} from 'styled-components';
 import * as blocks from '../blocks';
 import {withTracker} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
-import {Layout} from '../../shared/collections';
-import {withState} from 'recompose';
+import {Layouts} from '../../shared/collections';
+import {withState, withHandlers} from 'recompact';
 import {withCampaign} from '../data/campaign';
-import {compose} from 'recompose';
+import {compose} from 'recompact';
+import subscribe from '../utils/subscribe';
+import {Layout} from '../../shared/methods';
+import {Bleed} from '../visual/grid';
 
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -72,24 +75,31 @@ const CloseButton = styled.button`
 `;
 
 const withLayoutData = withTracker(({campaignId}) => ({
-	layout: Layout.find({campaignId}).fetch(),
+	ready: subscribe('layout.all'),
+	layout: Layouts.find({campaignId}).fetch(),
+}));
 
-	updateLayout(layout) {
+const withLayoutActions = withHandlers({
+	updateLayout: () => layout => {
 		layout.forEach(({i, ...item}) => {
-			Layout.update(i, {$set: item});
+			Layout.update({_id: i}, item);
 		});
 	},
 
-	addComponent(component) {
-		Layout.insert({component, x: 0, y: 0, w: 2, h: 1, campaignId});
+	addComponent: ({campaignId}) => component => {
+		Layout.create({component, x: 0, y: 0, w: 2, h: 1, campaignId});
 	},
 
-	removeComponent(_id) {
-		Layout.remove(_id);
+	removeComponent: () => layout => {
+		Layout.delete(layout);
 	}
-}));
+});
 
-const connectLayout = compose(withCampaign, withLayoutData);
+const connectLayout = compose(
+	withCampaign,
+	withLayoutData,
+	withLayoutActions
+);
 
 export default connectLayout(({
 	which,
@@ -98,22 +108,22 @@ export default connectLayout(({
 	addComponent,
 	removeComponent,
 	...props
-}) => <div className={`grid-${which}`}>
+}) => <Bleed className={`grid-${which}`}>
 	{which === 'control' && <ComponentSelect onSelect={addComponent} />}
 	<GridLayoutWidth
-		layout={layout.map(({_id, ...item}) => ({i:_id, ...item}))}
+		layout={layout.map(({_id, ...item}) => ({i: _id, ...item}))}
 		onLayoutChange={updateLayout}
 		isDraggable={which === 'control'}
 		isResizable={which === 'control'}
 		rowHeight={60}
 		draggableCancel='input, button, select'
 	>
-		{layout.map(({_id, component}) => <div key={_id}>
+		{layout.map((layout) => <div key={layout._id}>
 			{which === 'control' &&
-				<CloseButton onClick={() => removeComponent(_id)}>×</CloseButton>}
-			{blocks[component]
-				? React.createElement(blocks[component][which], props)
+				<CloseButton onClick={() => removeComponent(layout)}>×</CloseButton>}
+			{blocks[layout.component]
+				? React.createElement(blocks[layout.component][which], props)
 				: 'unknown component'}
 		</div>)}
 	</GridLayoutWidth>
-</div>);
+</Bleed>);

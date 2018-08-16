@@ -4,7 +4,7 @@ import {withCampaignDate} from '../../data/calendar';
 import Ornamented from '../../visual/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
 import {withCampaignSession} from '../../data/campaign';
-import {compose, withReducer, withHandlers, withPropsOnChange} from 'recompose';
+import {compose, withReducer, withHandlers, withPropsOnChange} from 'recompact';
 import preventingDefault from '../../utils/preventing-default';
 
 // For now we just use the first moon in the schema,

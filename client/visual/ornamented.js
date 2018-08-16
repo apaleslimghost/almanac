@@ -57,8 +57,8 @@ const Centered = styled.div`
 text-align: center;
 `;
 
-export default ({ornament, children, large = false}) => <Ornamented>
+export default ({ornament, children, tag: Tag = Ornamented, large = false}) => <Tag>
 	<Ornament large={large}>{ornament}</Ornament>
 	<Centered>{children}</Centered>
 	<Ornament large={large}>{ornament.toUpperCase()}</Ornament>
-</Ornamented>;
+</Tag>;

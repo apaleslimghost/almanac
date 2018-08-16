@@ -3,17 +3,19 @@ import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import {withCampaignSession} from '../data/campaign';
-import {compose, withHandlers} from 'recompose';
+import {compose, withHandlers} from 'recompact';
 import {render} from 'react-dom';
-import generateSlug from '../utils/generate-slug';
+import styled from 'styled-components';
 
 import {Cards} from '../../shared/collections';
+import {Card} from '../../shared/methods';
 import subscribe from '../utils/subscribe';
 import idFirst from '../utils/id-first';
 import {buildGraph, distances} from '../utils/graph';
 
-import Card, {EditCard} from '../document/card';
-import {Grid, Card as CardPrimitive, List, Label, LabelBody} from '../visual/primitives';
+import ShowCard, {EditCard} from '../document/card';
+import {Card as CardPrimitive, List, Label, LabelBody} from '../visual/primitives';
+import {FlexGrid} from '../visual/grid';
 
 const withCardListActions = withTracker(props => {
 	const {campaignSession, campaignId} = props;
@@ -29,10 +31,10 @@ const withCardListActions = withTracker(props => {
 	}
 
 	return {
-		ready: Meteor.subscribe('cards.all').ready(),
+		ready: subscribe('cards.all'),
 		cards: _.orderBy(cards, ['sortedIndex', 'title']),
 		addCard(card) {
-			Cards.insert({...generateSlug(card), campaignId});
+			Card.create({...card, campaignId});
 		}
 	};
 });
@@ -42,12 +44,12 @@ const connectCardList = compose(
 	withCardListActions
 );
 
-const CardList = connectCardList(({cards, addCard}) => <Grid>
-	{cards.map(card => <Card key={card._id} card={card} />)}
+const CardList = connectCardList(({cards, addCard}) => <FlexGrid>
+	{cards.map(card => <ShowCard key={card._id} card={card} />)}
 
 	<CardPrimitive>
 		<EditCard card={{}} saveCard={addCard} />
 	</CardPrimitive>
-</Grid>);
+</FlexGrid>);
 
 export default CardList;

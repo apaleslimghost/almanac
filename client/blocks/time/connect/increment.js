@@ -1,4 +1,4 @@
-import {withHandlers} from 'recompose';
+import {withHandlers} from 'recompact';
 
 export default withHandlers({
 	onIncrement: ({

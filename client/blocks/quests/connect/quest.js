@@ -1,45 +1,34 @@
-import {Cards} from '../../../../shared/collections';
-import {withHandlers} from 'recompose';
+import {withHandlers} from 'recompact';
 import formJson from '@quarterto/form-json';
-import generateSlug from '../../../utils/generate-slug';
+import {deleteCardWithRelated, Card, addRelated} from '../../../../shared/methods';
 
 const questActions = withHandlers({
 	onDeleteQuest: ({quest}) => ev => {
-		Cards.remove(quest._id);
-		Cards.find({
-			type: 'objective',
-			_id: {$in: quest.related || []}
-		}).forEach(({_id}) => {
-			Cards.remove(_id);
-		});
+		deleteCardWithRelated(quest, {ofType: 'objective'});
 	},
 
 	onSelectQuest: ({quest, campaignSession}) => ev => {
 		campaignSession.set('currentQuest', quest._id);
 	},
 
-	onCreateObjective: ({quest, campaignId, campaignSession}) => ev => {
+	onCreateObjective: ({quest, campaignId, campaignSession}) => async ev => {
 		ev.preventDefault();
 		const data = formJson(ev.target);
 		ev.target.reset();
 
-		Cards.insert({
-			...generateSlug(data),
+		const objective = await Card.create({
+			...data,
 			completed: false,
 			type: 'objective',
 			campaignId,
-		}, (err, id) => {
-			if(err) return;
-			Cards.update(
-				quest._id,
-				{$addToSet: {related: id}}
-			);
+		});
 
-			campaignSession.set('splashQuest', {
-				action: 'startObjective',
-				quest,
-				objective: data,
-			});
+		addRelated(quest, objective);
+
+		campaignSession.set('splashQuest', {
+			action: 'startObjective',
+			quest,
+			objective,
 		});
 	},
 });

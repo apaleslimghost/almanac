@@ -1,99 +1,99 @@
 import React from 'react';
-import {injectGlobal} from 'styled-components'
-import {background} from './utils/colors';
-import route from './utils/router';
 import {mount} from 'react-mounter';
-import {steel, sky} from '@quarterto/colours';
-import {rgba} from 'polished';
-import App from './pages/app';
-import Layout from './pages/layout';
-import {setsCampaign} from './data/campaign';
+import Layout, {Basic as BasicLayout} from './pages/layout';
+import App from './app';
+
 import 'formdata-polyfill';
 
-import url from 'url';
+import './visual/global';
 
 import Dashboard from './pages/dashboard';
 import Control from './pages/control';
-import Grail from './pages/grail';
 import Home from './pages/home';
+import Login, {loggedInRedirect} from './pages/login';
+import GetStarted from './pages/get-started';
+import Campaign from './pages/campaign';
+import CampaignSettings from './pages/campaign-settings';
+import CampaignPlayers from './pages/campaign-players';
+import NewCampaign from './pages/new-campaign';
+import Verify from './pages/verify';
 
-//TODO: card search
-//TODO: integrate Menagerie (monsters & spells, with JSON import/export)
-//TODO: sidebar
-//TODO: time and location as a first class concept
-//TODO: reinstate metadata
-//TODO: search by metadata
+import {errorTest} from '../shared/methods';
 
-const buildGoogleFontsUrl = fonts => url.format({
-	protocol: 'https',
-	host: 'fonts.googleapis.com',
-	pathname: 'css',
-	query: {
-		family: Object.keys(fonts).map(font =>
-			`${font}${fonts[font].length ? `:${fonts[font].join(',')}` : ''}`
-		).join('|'),
-	},
-})
+mount(App, {
+	routes: {
+		'/:campaignId/dashboard' ({campaignId}) {
+			return <BasicLayout campaignId={campaignId}>
+				<Dashboard />
+			</BasicLayout>;
+		},
 
-injectGlobal`
-	@import url(${buildGoogleFontsUrl({
-		'Source Sans Pro': ['400', '400i', '700', '700i'],
-		'Libre Baskerville': []
-	})});
+		'/:campaignId/dashboard-control' ({campaignId}) {
+			return <Layout campaignId={campaignId}>
+				<Control />
+			</Layout>;
+		},
 
-	@font-face {
-		font-family: 'PC Ornaments';
-		src: url('/fonts/pc-ornaments.woff2') format('woff2');
+		'/:campaignId/cards/:cardId' ({campaignId, cardId}) {
+			return <Layout campaignId={campaignId}>
+				<Grail selectCard={cardId} />
+			</Layout>;
+		},
+
+		'/:campaignId/settings' ({campaignId}) {
+			return <Layout campaignId={campaignId}>
+				<CampaignSettings />
+			</Layout>;
+		},
+
+		'/:campaignId/players' ({campaignId}) {
+			return <Layout campaignId={campaignId}>
+				<CampaignPlayers />
+			</Layout>;
+		},
+
+		'/:campaignId' ({campaignId}) {
+			if(!campaignId) return false;
+
+			return <Layout campaignId={campaignId}>
+				<Campaign />
+			</Layout>;
+		},
+
+		'/new-campaign' (params) {
+			return <Layout>
+				<NewCampaign />
+			</Layout>;
+		},
+
+		'/get-started' (params, {title}) {
+			return loggedInRedirect() || <Layout>
+				<GetStarted title={title} />
+			</Layout>;
+		},
+
+		'/login' () {
+			return loggedInRedirect() || <Layout>
+				<Login />
+			</Layout>;
+		},
+
+		'/verify/:token' ({token}) {
+			return loggedInRedirect() || <Layout>
+				<Verify token={token} />
+			</Layout>;
+		},
+
+		'/debug' () {
+			return <Layout>
+				<button onClick={() => errorTest()}>throw a meteor.call error</button>
+			</Layout>
+		},
+
+		'/' () {
+			return <Layout>
+				<Home />
+			</Layout>;
+		},
 	}
-
-	body {
-		font-family: 'Source Sans Pro', sans-serif;
-		margin: 0;
-		background: ${background};
-		color: ${steel[0]};
-	}
-
-	* {
-		box-sizing: border-box;
-	}
-
-	:focus {
-		outline: 3px solid ${sky[3]};
-	}
-`;
-
-route({
-	'/:campaignId/dashboard' ({campaignId}) {
-		mount(App, {
-			campaignId,
-			children: <Dashboard />
-		});
-	},
-
-	'/:campaignId/dashboard-control' ({campaignId}) {
-		mount(Layout, {
-			campaignId,
-			children: <Control />
-		});
-	},
-
-	'/:campaignId/:cardId' ({campaignId, cardId}) {
-		mount(Layout, {
-			campaignId,
-			children: <Grail selectCard={cardId} />
-		});
-	},
-
-	'/:campaignId' ({campaignId}) {
-		mount(Layout, {
-			campaignId,
-			children: <Grail />
-		});
-	},
-
-	'/' () {
-		mount(Layout, {
-			children: <Home />
-		});
-	},
 });

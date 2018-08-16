@@ -1,7 +1,5 @@
-import React, {Component} from 'react';
+import React, {Component, Children} from 'react';
 import PropTypes from 'prop-types';
-
-// TODO: split into module
 
 export const getInputValue = el =>
 	el[
@@ -15,7 +13,9 @@ export const getInputValue = el =>
 
 export const getSelectValue = el => el.options[el.selectedIndex].value;
 
-export const Field = (
+export const FormFieldData = ({render}, context) => render(context.fields);
+
+export const Input = (
 	{name, fieldRef, tag: Tag = 'input', ...props},
 	context
 ) =>
@@ -24,24 +24,45 @@ export const Field = (
 		name={name}
 		type="text"
 		{...props}
-		value={name in context.fields ? context.fields[name] : ''}
+		value={
+			context.fields
+				? (name in context.fields ? context.fields[name] : props.value) || ''
+				: 'value' in props ? props.value : undefined /* uncontrolled component if there's no context */}
 		onChange={ev => {
-			if (props.onChange) {
+			if(props.onChange) {
 				props.onChange(ev);
 			}
 
-			context.setFields({
-				[name]: getInputValue(ev.target),
-			});
+			if(context.setFields) {
+				if(props.type === 'radio') {
+					if(ev.target.checked) {
+						context.setFields({
+							[name]: props.value,
+						});
+					}
+				} else {
+					context.setFields({
+						[name]: getInputValue(ev.target),
+					});
+				}
+			}
 		}}
 	/>;
 
 export const Select = ({tag: Tag = 'select', ...props}, context) => {
 	return <Tag
 		{...props}
-		value={context.fields[props.name] || ''}
+		value={
+			context.fields
+				? (props.name in context.fields ? context.fields[props.name] : props.value) || ''
+				: 'value' in props ? props.value : undefined
+		}
 		onChange={ev => {
-			context.setFields({
+			if(props.onChange) {
+				props.onChange(ev);
+			}
+
+			context.setFields && context.setFields({
 				[props.name]: getSelectValue(ev.target),
 			});
 		}}
@@ -59,13 +80,13 @@ export class Form extends Component {
 		this.setState({
 			fields: Object.assign(this.fields, f),
 		}, () => {
-			if (this.context.setFields && this.props.name) {
+			if(this.context.setFields && this.props.name) {
 				this.context.setFields({
 					[this.props.name]: this.fields,
 				});
 			}
 
-			if (this.props.onChange) {
+			if(this.props.onChange) {
 				this.props.onChange(this.fields);
 			}
 		});
@@ -85,8 +106,7 @@ export class Form extends Component {
 	static get defaultProps() {
 		return {
 			initialData: {},
-			onSubmit() {},
-			tagName: 'form',
+			tag: 'form',
 		};
 	}
 
@@ -125,9 +145,14 @@ export class Form extends Component {
 
 	render() {
 		return (
-			<this.props.tagName onSubmit={this.onSubmit}>
+			<this.props.tag
+				{...(this.props.onSubmit
+					? {onSubmit: this.onSubmit}
+					: {}
+				)}
+			>
 				{this.props.children}
-			</this.props.tagName>
+			</this.props.tag>
 		);
 	}
 }
@@ -137,4 +162,8 @@ export const fieldLike = {
 	setFields: PropTypes.func,
 };
 
-Field.contextTypes = Select.contextTypes = Form.contextTypes = fieldLike;
+Input.contextTypes =
+Select.contextTypes =
+Form.contextTypes =
+FormFieldData.contextTypes =
+	fieldLike;

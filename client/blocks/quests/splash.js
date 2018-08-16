@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {compose} from 'recompose';
+import {compose} from 'recompact';
 import Portal from 'react-portal';
 import {withTracker} from 'meteor/react-meteor-data';
 import Modal from '../../visual/modal';

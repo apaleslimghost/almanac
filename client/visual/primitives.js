@@ -14,14 +14,14 @@ export const background = ({colour = 'sky', shade = 3}) => {
 	`;
 };
 
-export const shadow = (level = 1, {colour = 'steel', shade = 5} = {}) => [
+export const shadow = (level = 1) => [
 	0,
 	5,
 	4 * level - 3.5,
 	2 * level - 5,
 ]
 	.map(a => `${a}px`)
-	.concat(darken(0.2 * (level - 1), colours[colour][shade]))
+	.concat(`rgba(0, 0, 0, 0.2)`)
 	.join(' ');
 
 export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = false}) => css`
@@ -49,12 +49,6 @@ export const List = styled.div.attrs({
 
 export const Padded = styled.div`
 	margin: 1rem;
-`;
-
-export const Grid = Padded.extend`
-	display: grid;
-	grid-gap: 1rem;
-	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
 `;
 
 export const Card = styled.div`
@@ -123,39 +117,6 @@ export const Emoji = styled.span`
 	line-height: 1;
 `;
 
-const Input_ = Label.withComponent('input').extend`
-	padding-left: .3em;
-	padding-right: .3em;
-	font: inherit;
-	${({fullWidth}) => fullWidth && css`width: 100%;`}
-	${({flex}) => flex && css`flex: 1;`}
-	${({right}) => right && css`text-align: right;`}
-`;
-
-const Textarea_ = Input_.withComponent('textarea').extend`
-	resize: vertical;
-	min-height: 10em;
-`;
-
-const Select_ = Input_.withComponent('select').extend`
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='10' height='5'%3E%3Cpath d='M 5,5 0,0 10,0 Z'/%3E%3C/svg%3E");
-	background-repeat: no-repeat;
-	background-size: 0.5em 0.25em;
-	background-position: right 0.5em center;
-	appearance: none;
-	padding-right: 1.5em;
-
-	&:invalid {
-		color: rgba(0, 0, 0, 0.6);
-	}
-`;
-
-const fieldIsh = (Tag, extra) => props => <Tag colour='steel' shade={4} sunken large {...extra} {...props} />
-
-export const Input = fieldIsh(Input_);
-export const Textarea = fieldIsh(Textarea_);
-export const Select = fieldIsh(Select_, {required: true});
-
 export const FormGroup = styled.label`
 	display: block;
 	margin-bottom: .5em;
@@ -172,19 +133,29 @@ const Button_ = Label.withComponent('button').extend`
 	&:hover {
 		${({colour = 'sky', shade = 3}) => background({colour, shade: Math.min(6, shade + 1)})}
 		box-shadow: ${shadow(1.5)};
-		transform: translateY(-1px);
+		${'' /* transform: translateY(-1px); */}
 	}
 
 	&:active {
 		transition-property: box-shadow, background;
 		box-shadow: ${shadow(0)};
-		transform: translateY(2px);
+		${'' /* transform: translateY(2px); */}
 	}
 `;
 
-export const Button = props => <Button_ large {...props}>
-	<LabelBody>{props.children}</LabelBody>
-</Button_>;
+const makeButton = ({Button, Body}) => props => <Button large {...props}>
+	<Body>{props.children}</Body>
+</Button>;
+
+export const Button = makeButton({
+	Button: Button_,
+	Body: LabelBody,
+});
+
+Button.extend = (...args) => makeButton({
+	Button: Button_.extend(...args),
+	Body: LabelBody,
+});
 
 export const Group = List.extend`
 	${List} > & {
@@ -216,12 +187,6 @@ export const Group = List.extend`
 			border-bottom-right-radius: .15em;
 		}
 	}
-`;
-
-export const Icon = styled(Ionicon)`
-	fill: currentColor;
-	height: 1rem;
-	margin-bottom: -2px;
 `;
 
 export const LabelledInput = List.withComponent('label').extend`

@@ -4,38 +4,36 @@ import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import Markdown from 'react-markdown';
 import {withCampaignSession} from '../data/campaign';
-import {compose, withHandlers} from 'recompose';
+import {compose, withHandlers} from 'recompact';
 import TypeSelect from '../collection/type-select';
 import {Cards} from '../../shared/collections';
 import schema from '../../shared/schema';
 import preventingDefault from '../utils/preventing-default';
 import Link from '../control/link';
+import {Card, addRelated, removeRelated} from '../../shared/methods';
 
 import Toggler from '../control/toggler';
 import {
 	Card as CardPrimitive,
 	Label,
 	List,
-	Input,
-	Textarea,
 	FormGroup,
 	Button,
-	Icon,
 	LabelTitle,
 	LabelBody,
 	LabelledInput,
-	Select as SelectPrimitive,
 } from '../visual/primitives';
-import {Field, Form, Select, fieldLike} from '../control/form';
+import {Form, fieldLike} from '../control/form';
+import {Input, Textarea} from '../visual/form';
 import CardSelect from '../collection/card-select';
-import LabelInput from '../control/label-input';
+import Icon from '../visual/icon';
 
 const SchemaFields = (props, context) => context.fields.type ? <FormGroup>
 	{_.map(
 		schema[context.fields.type].fields,
 		({label, ...field}, key) => <LabelledInput key={key}>
 			<div>{label}</div>
-			<Field {...field} tag={Input} name={key} key={key} />
+			<Input {...field} name={key} key={key} />
 		</LabelledInput>
 	)}
 </FormGroup> : null;
@@ -50,43 +48,44 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 	>
 		<FormGroup>
 			<List>
-				<Field name="title" placeholder="Title" tag={Input} flex />
-				<TypeSelect tag={SelectPrimitive} name="type" placeholder="Type..." />
+				<Input name="title" placeholder="Title" flex />
+				<TypeSelect name="type" placeholder="Type..." />
 			</List>
 		</FormGroup>
 
 		<FormGroup>
-			<Field name="text" tag={Textarea} fullWidth />
+			<Textarea name="text" fullWidth />
 		</FormGroup>
 
 		<SchemaFields />
 
 		<List>
 			<Button colour={card._id ? 'sky' : 'apple'}>
-				{card._id ? <Icon icon="ion-checkmark" /> : <Icon icon="ion-plus" />}
+				{card._id ? <Icon icon="check" /> : <Icon icon="plus" />}
 				{card._id ? 'Save' : 'Add'} card
 			</Button>
 			{toggle &&
 				<Button onClick={preventingDefault(toggle)} colour="steel">
-					<Icon icon="ion-close" /> Cancel
+					<Icon icon="times" /> Cancel
 				</Button>}
 			{deleteCard &&
 				<Button
 					onClick={deleteCard}
 					colour="scarlet"
 				>
-					<Icon icon="ion-trash-a" /> Delete
+					<Icon icon="trash" /> Delete
 				</Button>}
 		</List>
 	</Form>;
 
 const connectEditCard = withHandlers({
-	saveCard: () => card => {
-		Cards.update(card._id, {$set: _.omit(card, '_id')});
+	saveCard: ({card}) => data => {
+		Card.update(card, data);
 	},
 
 	deleteCard: ({card}) => ev => {
-		Cards.remove(card._id);
+		ev.preventDefault();
+		Card.delete(card);
 	},
 });
 
@@ -108,7 +107,7 @@ const ShowCard = ({
 
 		<List>
 			{toggle && <Button onClick={toggle}>
-				<Icon icon='ion-edit' />
+				<Icon icon='edit' />
 			</Button>}
 		</List>
 
@@ -143,7 +142,6 @@ const ShowCard = ({
 			<div>
 				<CardSelect
 					onSelect={addRelated}
-					tag={SelectPrimitive}
 					skip={[card._id].concat(card.related || [])}
 					placeholder='Link card...'
 				/>
@@ -155,15 +153,11 @@ const withCardData = withTracker(({card, campaignId, campaignSession}) => ({
 	// TODO: use withCard
 	relatedCards: Cards.find({_id: {$in: card.related || []}, campaignId}).fetch(),
 	addRelated(related) {
-		Cards.update(card._id, {
-			$addToSet: {related: related._id},
-		});
+		addRelated(card, related);
 	},
 
 	removeRelated(related) {
-		Cards.update(card._id, {
-			$pull: {related: related._id},
-		});
+		removeRelated(card, related);
 	},
 }));
 
@@ -171,7 +165,7 @@ const connectCard = compose(withCampaignSession, withCardData);
 
 const ShowCardContainer = connectCard(ShowCard);
 
-const Card = props =>
+const CardWrapper = props =>
 	<CardPrimitive large={props.large}>
 		<Toggler
 			active={EditCardContainer}
@@ -180,4 +174,4 @@ const Card = props =>
 		/>
 	</CardPrimitive>;
 
-export default Card;
+export default CardWrapper;
