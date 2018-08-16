@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import shortId from '@quarterto/short-id';
+import {Random} from 'meteor/random';
 
-const bleed = `__bleed_${shortId()}`;
+const bleed = `__bleed_${Random.id(8)}`;
 
 export const Bleed = styled.div.attrs({className: bleed})`
 	grid-column: bleed;
