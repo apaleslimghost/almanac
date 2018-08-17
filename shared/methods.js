@@ -67,10 +67,10 @@ export const createAccount = method('createAccount', function(user, campaign) {
 		const userId = Accounts.createUser(user);
 
 		// use Campaigns.insert not Campaign.create to bypass validation lol
-		const defaultCampaign = Campaigns.insert(generateSlug({
+		const defaultCampaign = Campaigns.insert(generateSlug(Object.assign({
 			owner: userId,
 			member: [],
-		}, campaign));
+		}, campaign)));
 
 		Meteor.users.update(userId, {$set: {'profile.defaultCampaign': defaultCampaign}});
 		Accounts.sendEnrollmentEmail(userId, user.email);
