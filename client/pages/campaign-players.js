@@ -40,25 +40,12 @@ const Players = connectPlayers(({players, campaign, removeUser}) => <ul>
 	</li>)}
 </ul>);
 
-const connectPlayerSearch = compose(
-	withCampaignData,
-	withState('search', 'setSearch', ''),
-	withPropsOnChange(['search'], ({search}) => ({
-		isEmail: emailRegex({exact: true}).test(search),
-	})),
-	withTracker(({search, isEmail, campaign}) => ({
-		ready: subscribe('users.search', search),
-		results: Meteor.users.find({
-			_id: {$nin: [campaign.owner].concat(campaign.member)}
-		}).fetch(),
-		isExistingUser: isEmail && Meteor.users.findOne({
-			emails: {$elemMatch: {address: search}}
-		}),
-	}))
-);
-
 const connectInviteUser = compose(
 	withCampaignData,
+	withState('email', 'setEmail', ''),
+	withPropsOnChange(['email'], ({email}) => ({
+		isEmail: emailRegex({exact: true}).test(email),
+	})),
 	withHandlers({
 		inviteUser: ({campaign, email}) => async ev => {
 			await createAccountAndInvite({email}, campaign);
@@ -67,47 +54,15 @@ const connectInviteUser = compose(
 	})
 );
 
-const InviteUser = connectInviteUser(({email, inviteUser}) => <Button onClick={inviteUser}>
-	Invite {email} to Almanac
-</Button>);
+const InviteUser = connectInviteUser(({email, setEmail, isEmail, inviteUser}) => <div>
+	<Input type='email' onChange={ev => setEmail(ev.target.value)} value={email} placeholder='Invite a user...' />
 
-const connectSelectUser = compose(
-	withCampaignData,
-	withHandlers({
-		addUser: ({campaign, user}) => ev => {
-			ev.preventDefault();
-			addMember(campaign, user);
-		}
-	})
-);
-
-const SelectUser = connectSelectUser(({children, addUser}) =>
-	<a href='#' onClick={addUser}>
-		{children}
-	</a>
-);
-
-const PlayerSearch = connectPlayerSearch(({search, setSearch, results, isEmail, isExistingUser}) => <div>
-	<Input type='search' onChange={ev => setSearch(ev.target.value)} value={search} placeholder='Search for a user...' />
-
-	{isEmail && !isExistingUser &&
-		<InviteUser email={search} />
-	}
-
-	{!!search && (
-		results.length
-		? <ul>
-			{results.map(
-				user => <li key={user._id}>
-					<User user={user} component={SelectUser} />
-				</li>
-			)}
-		</ul>
-		: 'No users found'
-	)}
+	<Button onClick={inviteUser} disabled={!isEmail}>
+		Invite
+	</Button>
 </div>);
 
 export default () => <div>
 	<Players />
-	<PlayerSearch />
+	<InviteUser />
 </div>;

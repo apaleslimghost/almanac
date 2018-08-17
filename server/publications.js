@@ -3,11 +3,6 @@ import search from './utils/search';
 import {Cards, Campaigns, Session, Layouts} from '../shared/collections';
 import {Meteor} from 'meteor/meteor';
 
-Meteor.users._ensureIndex({
-	username: 'text',
-	'emails.address': 'text',
-});
-
 //TODO: public/private
 
 const _visibleDocs = (collection, {userId, campaignIds = []}) => collection.find({
@@ -29,12 +24,6 @@ const visible = collection => ({userId}) => {
 publish({
 	users: {
 		all: () => Meteor.users.find({}, {fields: {username: 1}}),
-
-		search({args}) {
-			return Meteor.users.find({
-				$text: {$search: args[0]},
-			});
-		}
 	},
 
 	campaigns: {
