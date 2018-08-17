@@ -53,7 +53,8 @@ export const setsCampaign = compose(
 	setsCampaignContext
 );
 
-const setCampaignSession = withProps(({campaignId}) => ({
+const setCampaignSession = withTracker(({campaignId}) => ({
+	ready: subscribe('session.all'),
 	campaignSession: getCampaignSession(campaignId),
 }));
 

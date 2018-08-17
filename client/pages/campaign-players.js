@@ -47,7 +47,7 @@ const connectPlayerSearch = compose(
 		isEmail: emailRegex({exact: true}).test(search),
 	})),
 	withTracker(({search, isEmail, campaign}) => ({
-		ready: Meteor.subscribe('users.search', search),
+		ready: subscribe('users.search', search),
 		results: Meteor.users.find({
 			_id: {$nin: [campaign.owner].concat(campaign.member)}
 		}).fetch(),
