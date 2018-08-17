@@ -5,11 +5,9 @@ import styled from 'styled-components';
 import {CampaignSplash} from '../visual/splash';
 import Title from '../utils/title';
 import CardList from '../collection/card-list';
-import { withOwnerData } from '../data/owner';
 
 const connectCampaign = compose(
 	withCampaignData,
-	withOwnerData('campaign')
 );
 
 const selectCard = withPropsOnChange(
@@ -25,7 +23,7 @@ const connectGrail = compose(
 
 const Grail = connectGrail(CardList);
 
-export default connectCampaign(({campaign, ownerUser}) => <>
+export default withCampaignData(({campaign}) => <>
 	<Title>{campaign.title}</Title>
 
 	<CampaignSplash />

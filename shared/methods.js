@@ -84,7 +84,7 @@ export const createAccountAndJoin = method('createAccountAndJoin', function(user
 	if(!this.isSimulation) { // Accounts.createUser only works on the server
 		const userId = Accounts.createUser(user);
 
-		addMember(user, campaign);
+		addMember(campaign, {_id: userId});
 		Meteor.users.update(userId, {$set: {'profile.defaultCampaign': campaign._id}});
 
 		Accounts.sendEnrollmentEmail(userId, user.email);

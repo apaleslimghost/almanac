@@ -1,12 +1,14 @@
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import {withCampaignData} from '../data/campaign';
-import {compose, withProps} from 'recompact';
+import {compose, withProps, withHandlers} from 'recompact';
 import {Forbidden} from 'http-errors';
 import {go} from '../utils/router';
 import {toast} from 'react-toastify';
-import {addMember} from '../../shared/methods';
+import {createAccountAndJoin, addMember} from '../../shared/methods';
 import {CampaignSplash, HeroSubtitle} from '../visual/splash';
+import Login from './login';
+import {SignupForm} from './get-started';
 
 const checkCampaignSecret = withProps(({campaign, ready, campaignId, secret}) => {
 	if(campaignId && ready && secret !== campaign.inviteSecret) {
@@ -17,10 +19,8 @@ const checkCampaignSecret = withProps(({campaign, ready, campaignId, secret}) =>
 const connectEnrol = compose(
 	withCampaignData,
 	checkCampaignSecret,
-	withTracker(({campaign}) => {
-		const user = Meteor.user();
-
-		if(user) {
+	withHandlers({
+		addLoggedInUser: ({campaign}) => user => {
 			const yours = campaign.owner === user._id;
 			const member = campaign.member.includes(user._id);
 
@@ -42,7 +42,13 @@ const connectEnrol = compose(
 
 				addMember(campaign, user);
 			}
+		}
+	}),
+	withTracker(({addLoggedInUser}) => {
+		const user = Meteor.user();
 
+		if(user) {
+			addLoggedInUser(user);
 			return {enrolling: false};
 		}
 
@@ -50,8 +56,12 @@ const connectEnrol = compose(
 	}),
 );
 
-export default connectEnrol(({campaign, enrolling}) => enrolling ? <>
+export default connectEnrol(({campaign, enrolling, addLoggedInUser}) => enrolling ? <>
 	<CampaignSplash small noBlurb>
 		<HeroSubtitle>Sign up or log in to join</HeroSubtitle>
 	</CampaignSplash>
+
+	<SignupForm createAccountMethod={user => createAccountAndJoin(user, campaign)} />
+
+	<Login onLogin={() => {/* logging in will rerender this page and do the usual redirect */}} />
 </> : 'Redirecting...');

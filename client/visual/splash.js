@@ -5,6 +5,7 @@ import {Bleed} from './grid';
 import {compose} from 'recompact';
 import connectSplashImage from '../data/splash';
 import {withCampaignData} from '../data/campaign';
+import { withOwnerData } from '../data/owner';
 import select from '../utils/select';
 
 const splashBackground = css`
@@ -129,9 +130,10 @@ export const HeroBlurb = styled.p`
 const connectCampaignSplash = compose(
 	withCampaignData,
 	connectSplashImage,
+	withOwnerData('campaign'),
 );
 
-export const CampaignSplash = connectCampaignSplash(({campaign, noBlurb, children, ...props}) => <SplashBleed {...props}>
+export const CampaignSplash = connectCampaignSplash(({campaign, noBlurb, ownerUser, children, ...props}) => <SplashBleed {...props}>
 	<Hero>
 		{children}
 		<HeroTitle>{campaign.title}</HeroTitle>
