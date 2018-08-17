@@ -9,15 +9,24 @@ export const Campaign = collectionMethods(Campaigns);
 export const Card = collectionMethods(Cards);
 export const Layout = collectionMethods(Layouts);
 
-export const addMember = method('addMember', function(campaign, user) {
-	//TODO ensure logged-in user is owner, or has secret
-	Campaigns.update(campaign._id, {
-		$pull: {removedMember: user._id},
-		$addToSet: {member: user._id},
-	});
+export const addMember = method('addMember', function(campaign, user, secret) {
+	const originalCampaign = Campaigns.findOne(campaign._id);
+
+	const amUser = this.userId === user._id;
+	const amOwner = this.userId === originalCampaign.owner;
+	const hasSecret = secret === originalCampaign.inviteSecret;
+
+	// owner can add anyone, anyone can add themself but only if they have the secret
+	if(amOwner || (amUser && hasSecret)) {
+		Campaigns.update(campaign._id, {
+			$pull: {removedMember: user._id},
+			$addToSet: {member: user._id},
+		});
+	} else throw new Meteor.Error('doc-access-denied', `Can't add a member to that campaign`);
 });
 
 export const removeMember = method('removeMember', function(campaign, user) {
+	// TODO: verify can do stuff
 	Campaigns.update(campaign._id, {
 		$pull: {member: user._id},
 		$addToSet: {removedMember: user._id},

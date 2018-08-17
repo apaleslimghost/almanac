@@ -13,6 +13,7 @@ import {assertAmOwner} from '../data/owner';
 import {toast} from 'react-toastify';
 import withLoading from '../control/loading';
 import {Random} from 'meteor/random';
+import {H2} from '../visual/heading';
 
 const withPlayerData = withTracker(({campaign, getPlayerIds}) => ({
 	ready: subscribe('campaigns.members'),
@@ -85,7 +86,12 @@ const InviteLink = connectInviteLink(({campaign, toggleInvitesEnabled}) => <div>
 </div>);
 
 export default connectPlayersPage(() => <div>
+	<H2>Current players</H2>
 	<Players action={RemoveUser} getPlayerIds={campaign => [campaign.owner].concat(campaign.member)} />
+
+	<H2>Removed players</H2>
 	<Players action={ReinstateUser} getPlayerIds={campaign => campaign.removedMember || []} />
+
+	<H2>Invitations</H2>
 	<InviteLink />
 </div>);
