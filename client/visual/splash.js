@@ -1,6 +1,11 @@
+import React from 'react';
 import styled, {css} from 'styled-components';
 import {aqua} from '@quarterto/colours';
-import {Bleed} from '../visual/grid';
+import {Bleed} from './grid';
+import {compose} from 'recompact';
+import connectSplashImage from '../data/splash';
+import {withCampaignData} from '../data/campaign';
+import select from '../utils/select';
 
 const splashBackground = css`
 	display: flex;
@@ -30,8 +35,17 @@ export const SplashBleed = Bleed.extend`
 	${splashBackground}
 
 	width: 100vw;
-	height: ${({large}) => large ? '60vw' : '40vw'};
-	max-height: ${({large}) => large ? '60vh' : '40vh'};
+	height: ${select({
+		large: '60vw',
+		small: '30vw',
+		default: '40vw',
+	})};
+
+	max-height: ${select({
+		large: '60vh',
+		small: '30vh',
+		default: '40vh',
+	})};
 `;
 
 export const Hero = styled.div`
@@ -58,7 +72,7 @@ export const HeroTitle = styled.h2`
 	text-align: center;
 
 	font-size: 1.4em;
-	margin-bottom: 0.5rem;
+	margin: 0 0 0.5rem;
 
 	${SplashBleed} & {
 		@media (min-width: 25em) {
@@ -72,6 +86,26 @@ export const HeroTitle = styled.h2`
 		}
 	}
 `;
+
+export const HeroSubtitle = styled.h3`
+	font-family: 'Libre Baskerville', serif;
+	font-weight: normal;
+	text-align: center;
+	font-variant: small-caps;
+	margin: 0 0 0.5rem;
+
+	${SplashBleed} & {
+		@media (min-width: 25em) {
+			font-size: 1.2em;
+		}
+
+		@media (min-width: 40em) {
+			font-size: 1.4em;
+		}
+	}
+`;
+
+
 
 export const HeroBlurb = styled.p`
 	line-height: 1.6;
@@ -91,3 +125,18 @@ export const HeroBlurb = styled.p`
 		}
 	}
 `;
+
+const connectCampaignSplash = compose(
+	withCampaignData,
+	connectSplashImage,
+);
+
+export const CampaignSplash = connectCampaignSplash(({campaign, noBlurb, children, ...props}) => <SplashBleed {...props}>
+	<Hero>
+		{children}
+		<HeroTitle>{campaign.title}</HeroTitle>
+		{!noBlurb && (campaign.tagline || ownerUser) &&
+			<HeroBlurb>{campaign.tagline || `A campaign by ${ownerUser.username}`}</HeroBlurb>
+		}
+	</Hero>
+</SplashBleed>);

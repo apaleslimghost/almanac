@@ -200,8 +200,8 @@ export const Basic = setsCampaign(({children}) => <>
 	{children}
 </>);
 
-const Layout = connectLayout(({campaignId, state, children}) =>
-	<Basic campaignId={campaignId}>
+const Layout = connectLayout(({campaignId, secret, state, children}) =>
+	<Basic campaignId={campaignId} secret={secret}>
 		{state.navShown &&
 			<Nav extraItems={state.extraItems} />
 		}

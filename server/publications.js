@@ -28,17 +28,28 @@ publish({
 
 	campaigns: {
 		all: visibleDocs(Campaigns),
+
+		join({args: [{campaignId, secret}]}) {
+			return Campaigns.find({
+				_id: campaignId,
+				inviteSecret: secret,
+			});
+		},
+
 		members({userId}) {
 			const visibleCampaigns = _visibleDocs(Campaigns, {userId}).fetch();
 			const allCampaignUsers = visibleCampaigns.reduce(
-				(users, campaign) => users.concat(campaign.owner).concat(campaign.member),
+				(users, campaign) => users
+					.concat(campaign.owner)
+					.concat(campaign.member)
+					.concat(campaign.removedMember || []),
 				[]
 			);
 
 			return Meteor.users.find({
 				_id: {$in: allCampaignUsers}
 			});
-		}
+		},
 	},
 
 	cards: {

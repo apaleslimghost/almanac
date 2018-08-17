@@ -1,4 +1,5 @@
 import React from 'react';
+import {Meteor} from 'meteor/meteor';
 import getCampaignSession from '../../shared/session';
 import PropTypes from 'prop-types';
 import {withTracker} from 'meteor/react-meteor-data';
@@ -13,8 +14,10 @@ import {
 	getContext
 } from 'recompact';
 
-export const getCampaign = withTracker(({campaignId}) => ({
-	ready: subscribe('campaigns.all'),
+export const getCampaign = withTracker(({campaignId, secret}) => ({
+	ready: subscribe('campaigns.all') && (
+		!secret || Meteor.subscribe('campaigns.join', {campaignId, secret}).ready()
+	),
 	campaign: Campaigns.findOne(campaignId),
 }));
 

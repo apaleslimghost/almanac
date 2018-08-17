@@ -10,7 +10,9 @@ export const Card = collectionMethods(Cards);
 export const Layout = collectionMethods(Layouts);
 
 export const addMember = method('addMember', function(campaign, user) {
+	//TODO ensure logged-in user is owner, or has secret
 	Campaigns.update(campaign._id, {
+		$pull: {removedMember: user._id},
 		$addToSet: {member: user._id},
 	});
 });
@@ -18,6 +20,7 @@ export const addMember = method('addMember', function(campaign, user) {
 export const removeMember = method('removeMember', function(campaign, user) {
 	Campaigns.update(campaign._id, {
 		$pull: {member: user._id},
+		$addToSet: {removedMember: user._id},
 	});
 });
 
@@ -77,11 +80,11 @@ export const createAccount = method('createAccount', function(user, campaign) {
 	}
 });
 
-export const createAccountAndInvite = method('createAccountAndInvite', function(user, campaign) {
+export const createAccountAndJoin = method('createAccountAndJoin', function(user, campaign) {
 	if(!this.isSimulation) { // Accounts.createUser only works on the server
 		const userId = Accounts.createUser(user);
 
-		addMember(campaign, {_id: userId});
+		addMember(user, campaign);
 		Meteor.users.update(userId, {$set: {'profile.defaultCampaign': campaign._id}});
 
 		Accounts.sendEnrollmentEmail(userId, user.email);
