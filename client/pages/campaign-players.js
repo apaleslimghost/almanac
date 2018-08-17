@@ -6,108 +6,92 @@ import {compose, withState, withPropsOnChange, withHandlers} from 'recompact';
 import User from '../document/user';
 import {Input} from '../visual/form';
 import emailRegex from 'email-regex';
-import {Campaign, createAccountAndInvite, addMember, removeMember} from '../../shared/methods';
+import {Campaign, removeMember, addMember} from '../../shared/methods';
 import {Button} from '../visual/primitives';
 import subscribe from '../utils/subscribe';
 import {assertAmOwner} from '../data/owner';
 import {toast} from 'react-toastify';
 import withLoading from '../control/loading';
+import {Random} from 'meteor/random';
+import {H2} from '../visual/heading';
 
-const withPlayerData = withTracker(({campaign}) => ({
+const withPlayerData = withTracker(({campaign, getPlayerIds}) => ({
 	ready: subscribe('campaigns.members'),
 	players: Meteor.users.find({
-		_id: {$in: [campaign.owner].concat(campaign.member)},
+		_id: {$in: getPlayerIds(campaign)},
 	}).fetch(),
-
-	removeUser(user) {
-		confirm(`Remove ${user.username || user.emails[0].address} from ${campaign.title}?`) && removeMember(campaign, user);
-	},
 }));
+
+const connectRemoveUser = compose(
+	withCampaignData,
+	withHandlers({
+		removeUser: ({campaign}) => user => {
+			confirm(`Remove ${user.username || user.emails[0].address} from ${campaign.title}?`) && removeMember(campaign, user);
+		},
+	}),
+);
+
+const RemoveUser = connectRemoveUser(({user, removeUser}) =>
+	<Button onClick={() => removeUser(user)}>×</Button>
+);
+
+const connectReinstateUser = compose(
+	withCampaignData,
+	withHandlers({
+		reinstateUser: ({campaign}) => user => {
+			addMember(campaign, user);
+		},
+	}),
+);
+
+const ReinstateUser = connectReinstateUser(({user, reinstateUser}) =>
+	<Button onClick={() => reinstateUser(user)}>↑</Button>
+);
 
 const connectPlayers = compose(
 	withCampaignData,
-	assertAmOwner('campaign'),
 	withPlayerData,
 	withLoading,
 );
 
-const Players = connectPlayers(({players, campaign, removeUser}) => <ul>
+const Players = connectPlayers(({players, campaign, action: Action}) => <ul>
 	{players.map(user => <li key={user._id}>
 		<User user={user} />
-		{user._id !== campaign.owner &&
-			<Button onClick={() => removeUser(user)}>×</Button>
-		}
+		{user._id !== campaign.owner && <Action user={user} />}
 	</li>)}
 </ul>);
 
-const connectPlayerSearch = compose(
+const connectPlayersPage = compose(
 	withCampaignData,
-	withState('search', 'setSearch', ''),
-	withPropsOnChange(['search'], ({search}) => ({
-		isEmail: emailRegex({exact: true}).test(search),
-	})),
-	withTracker(({search, isEmail, campaign}) => ({
-		ready: Meteor.subscribe('users.search', search),
-		results: Meteor.users.find({
-			_id: {$nin: [campaign.owner].concat(campaign.member)}
-		}).fetch(),
-		isExistingUser: isEmail && Meteor.users.findOne({
-			emails: {$elemMatch: {address: search}}
-		}),
-	}))
+	assertAmOwner('campaign'),
 );
 
-const connectInviteUser = compose(
+const connectInviteLink = compose(
 	withCampaignData,
 	withHandlers({
-		inviteUser: ({campaign, email}) => async ev => {
-			await createAccountAndInvite({email}, campaign);
-			toast.success(`${email} invited to ${campaign.name}`);
+		toggleInvitesEnabled: ({campaign}) => () => {
+			Campaign.update(campaign, {
+				inviteSecret: campaign.inviteSecret ? null : Random.secret(),
+			});
 		}
 	})
 );
 
-const InviteUser = connectInviteUser(({email, inviteUser}) => <Button onClick={inviteUser}>
-	Invite {email} to Almanac
-</Button>);
+const InviteLink = connectInviteLink(({campaign, toggleInvitesEnabled}) => <div>
+	{campaign.inviteSecret && <a href={`/${campaign._id}/join/${campaign.inviteSecret}`}>
+		{location.protocol}//{location.host}/{campaign._id}/join/{campaign.inviteSecret}
+	</a>}
 
-const connectSelectUser = compose(
-	withCampaignData,
-	withHandlers({
-		addUser: ({campaign, user}) => ev => {
-			ev.preventDefault();
-			addMember(campaign, user);
-		}
-	})
-);
-
-const SelectUser = connectSelectUser(({children, addUser}) =>
-	<a href='#' onClick={addUser}>
-		{children}
-	</a>
-);
-
-const PlayerSearch = connectPlayerSearch(({search, setSearch, results, isEmail, isExistingUser}) => <div>
-	<Input type='search' onChange={ev => setSearch(ev.target.value)} value={search} placeholder='Search for a user...' />
-
-	{isEmail && !isExistingUser &&
-		<InviteUser email={search} />
-	}
-
-	{!!search && (
-		results.length
-		? <ul>
-			{results.map(
-				user => <li key={user._id}>
-					<User user={user} component={SelectUser} />
-				</li>
-			)}
-		</ul>
-		: 'No users found'
-	)}
+	<Button onClick={toggleInvitesEnabled}>{campaign.inviteSecret ? 'nope' : 'yep'}</Button>
 </div>);
 
-export default () => <div>
-	<Players />
-	<PlayerSearch />
-</div>;
+export default connectPlayersPage(() => <div>
+	<H2>Current players</H2>
+	<Players action={RemoveUser} getPlayerIds={campaign => [campaign.owner].concat(campaign.member)} />
+
+	<H2>Removed players</H2>
+	<Players action={ReinstateUser} getPlayerIds={campaign => campaign.removedMember || []} />
+
+	<H2>Invitations</H2>
+	<InviteLink />
+</div>);

@@ -6,10 +6,9 @@ import {LabelledInput, Button} from '../visual/primitives';
 import {Form} from '../control/form';
 import {Input} from '../visual/form';
 import {toast} from 'react-toastify';
+import {withHandlers} from 'recompact';
 
-export const loggedInRedirect = () => {
-	const user = Meteor.user();
-
+export const loggedInRedirect = user => {
 	if(user) {
 		go(`/${user.profile.defaultCampaign}`);
 	} else {
@@ -17,17 +16,19 @@ export const loggedInRedirect = () => {
 	}
 }
 
-const doLogin = ({userOrEmail, password}) => {
-	Meteor.loginWithPassword(userOrEmail, password, err => {
-		if(err) {
-			toast.error(err.reason);
-		} else {
-			loggedInRedirect();
-		}
-	});
-};
+const withLoginActions = withHandlers({
+	login: ({onLogin = loggedInRedirect}) => ({userOrEmail, password}) => {
+		Meteor.loginWithPassword(userOrEmail, password, err => {
+			if(err) {
+				toast.error(err.reason);
+			} else {
+				onLogin(Meteor.user());
+			}
+		});
+	}
+});
 
-export default () => <Form onSubmit={doLogin}>
+export default withLoginActions(({onLogin, login}) => <Form onSubmit={login}>
 	<LabelledInput>
 		Username or email
 		<Input name='userOrEmail' inputmode='email' placeholder='user@example.com' />
@@ -37,4 +38,4 @@ export default () => <Form onSubmit={doLogin}>
 		<Input name='password' placeholder='secret' type='password' />
 	</LabelledInput>
 	<Button>Log in</Button>
-</Form>;
+</Form>);

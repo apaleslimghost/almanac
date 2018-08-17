@@ -17,6 +17,7 @@ import CampaignSettings from './pages/campaign-settings';
 import CampaignPlayers from './pages/campaign-players';
 import NewCampaign from './pages/new-campaign';
 import Verify from './pages/verify';
+import Enrol from './pages/enrol';
 
 import {errorTest} from '../shared/methods';
 
@@ -37,6 +38,12 @@ mount(App, {
 		'/:campaignId/cards/:cardId' ({campaignId, cardId}) {
 			return <Layout campaignId={campaignId}>
 				<Grail selectCard={cardId} />
+			</Layout>;
+		},
+
+		'/:campaignId/join/:secret' ({campaignId, secret}) {
+			return <Layout campaignId={campaignId} secret={secret}>
+				<Enrol secret={secret} />
 			</Layout>;
 		},
 

@@ -8,6 +8,7 @@ import {Cards} from '../../shared/collections';
 import {getSelectValue} from '../control/form';
 import {Select} from '../visual/form';
 import {withCampaign} from '../data/campaign';
+import subscribe from '../utils/subscribe';
 
 //TODO: typeahead?
 
@@ -25,7 +26,7 @@ const CardSelect = ({cardsById, onSelect, placeholder}) =>
 const withCardData = withTracker({
 	pure: false,
 	getMeteorData: ({skip = [], campaignId}) => ({
-		ready: Meteor.subscribe('cards.all').ready(),
+		ready: subscribe('cards.all'),
 		//TODO: use withCard
 		cardsById: _.keyBy(Cards.find({_id: {$nin: skip}, campaignId}).fetch(), '_id'),
 	}),

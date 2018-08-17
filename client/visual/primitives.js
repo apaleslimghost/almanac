@@ -124,7 +124,7 @@ export const FormGroup = styled.label`
 
 const Button_ = Label.withComponent('button').extend`
 	font: inherit;
-	transition-property: box-shadow, transform, background;
+	transition-property: box-shadow, transform, background, opacity;
 	transition-duration: 100ms;
 	transition-timing-function: linear;
 	box-shadow: ${shadow(1)};
@@ -140,6 +140,11 @@ const Button_ = Label.withComponent('button').extend`
 		transition-property: box-shadow, background;
 		box-shadow: ${shadow(0)};
 		${'' /* transform: translateY(2px); */}
+	}
+
+	&[disabled] {
+		pointer-events: none;
+		opacity: 0.6;
 	}
 `;
 
