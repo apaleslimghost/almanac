@@ -1,4 +1,5 @@
 import {Meteor} from 'meteor/meteor';
+import {Random} from 'meteor/random';
 import {Campaigns, Cards, Session, Layouts} from './collections';
 import method from './utils/method';
 import collectionMethods from './utils/collection-methods';
@@ -9,21 +10,27 @@ export const Campaign = collectionMethods(Campaigns);
 export const Card = collectionMethods(Cards);
 export const Layout = collectionMethods(Layouts);
 
-export const addMember = method('addMember', function(campaign, user, secret) {
+const serverToken = Random.secret();
+
+function _addMember(campaign, user, secret, token) {
 	const originalCampaign = Campaigns.findOne(campaign._id);
 
 	const amUser = this.userId === user._id;
 	const amOwner = this.userId === originalCampaign.owner;
 	const hasSecret = secret === originalCampaign.inviteSecret;
+	const hasToken = token === serverToken;
 
-	// owner can add anyone, anyone can add themself but only if they have the secret
-	if(amOwner || (amUser && hasSecret)) {
+	// owner can add anyone, anyone can add themself but only if
+	// they have the secret, server can do anything it likes lol
+	if(amOwner || ((amUser || hasToken) && hasSecret)) {
 		Campaigns.update(campaign._id, {
 			$pull: {removedMember: user._id},
 			$addToSet: {member: user._id},
 		});
 	} else throw new Meteor.Error('doc-access-denied', `Can't add a member to that campaign`);
-});
+}
+
+export const addMember = method('addMember', _addMember);
 
 export const removeMember = method('removeMember', function(campaign, user) {
 	// TODO: verify can do stuff
@@ -89,11 +96,15 @@ export const createAccount = method('createAccount', function(user, campaign) {
 	}
 });
 
-export const createAccountAndJoin = method('createAccountAndJoin', function(user, campaign) {
+export const createAccountAndJoin = method('createAccountAndJoin', function(user, campaign, secret) {
+	if(!secret) {
+		throw new Meteor.Error('no-secret', 'tell createAccountAndJoin a secret ;)');
+	}
+
 	if(!this.isSimulation) { // Accounts.createUser only works on the server
 		const userId = Accounts.createUser(user);
 
-		addMember(campaign, {_id: userId});
+		_addMember(campaign, {_id: userId}, secret, serverToken);
 		Meteor.users.update(userId, {$set: {'profile.defaultCampaign': campaign._id}});
 
 		Accounts.sendEnrollmentEmail(userId, user.email);

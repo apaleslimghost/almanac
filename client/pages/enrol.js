@@ -20,7 +20,7 @@ const connectEnrol = compose(
 	withCampaignData,
 	checkCampaignSecret,
 	withHandlers({
-		addLoggedInUser: ({campaign}) => user => {
+		addLoggedInUser: ({campaign, secret}) => user => {
 			const yours = campaign.owner === user._id;
 			const member = campaign.member.includes(user._id);
 
@@ -40,7 +40,7 @@ const connectEnrol = compose(
 					`Welcome to ${campaign.title}!`
 				);
 
-				addMember(campaign, user);
+				addMember(campaign, user, secret);
 			}
 		}
 	}),
@@ -56,12 +56,12 @@ const connectEnrol = compose(
 	}),
 );
 
-export default connectEnrol(({campaign, enrolling, addLoggedInUser}) => enrolling ? <>
+export default connectEnrol(({campaign, enrolling, addLoggedInUser, secret}) => enrolling ? <>
 	<CampaignSplash small noBlurb>
 		<HeroSubtitle>Sign up or log in to join</HeroSubtitle>
 	</CampaignSplash>
 
-	<SignupForm createAccountMethod={user => createAccountAndJoin(user, campaign)} />
+	<SignupForm createAccountMethod={user => createAccountAndJoin(user, campaign, secret)} />
 
 	<Login onLogin={() => {/* logging in will rerender this page and do the usual redirect */}} />
 </> : 'Redirecting...');
