@@ -18,7 +18,7 @@ Then `npm install` and `npm start` and you're away on [localhost:3000](http://lo
 
 ## development
 
-the `meteor` server compiles everything in [`client`](/client), [`shared`](/shared) and [`server`](/server). main client entry point is [`client/pages/index.js`](/client/pages/index.js), which sets up routes.
+the `meteor` server compiles everything in [`client`](/client), [`shared`](/shared) and [`server`](/server). main client entry point is [`client/pages/main.js`](/client/pages/main.js), which sets up routes.
 
 ### structure
 
@@ -38,13 +38,12 @@ the `meteor` server compiles everything in [`client`](/client), [`shared`](/shar
  - open a Pull Request with `closes #ISSUE` in the title (e.g. `Search (closes #19)`) and request a review
    - this creates a Review App on Heroku for others to test the change
  - once it's been approved, merge it
-   - commits to `master` automatically deploy to [staging.almanac.wiki](http://staging.almanac.wiki)
- - we manually promote to [almanac.wiki](http://almanac.wiki) via the Heroku dashboard, or Chatops in the Broken Crown slack.
+   - commits to `master` automatically deploy to [almanac.wiki](https://almanac.wiki)
 
 ## licence
 
 Almanac
-Copyright (C) 2017 Matt Brennan
+Copyright (C) 2018 Matt Brennan
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
