@@ -3,14 +3,14 @@ import {withTracker} from 'meteor/react-meteor-data';
 import formJson from '@quarterto/form-json';
 import {compose, withHandlers, renderComponent} from 'recompact';
 
-import {Campaigns} from '../../shared/collections';
+import {Campaigns} from '../../../shared/imports/collections';
 import Link from '../control/link';
 import {go} from '../utils/router';
 import subscribe from '../utils/subscribe';
 import withLoading from '../control/loading';
 import loggedIn from '../utils/logged-in';
 import Splash from './splash';
-import {Campaign} from '../../shared/methods';
+import {Campaign} from '../../../shared/imports/methods';
 import {SplashBackground, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
 import {FlexGrid} from '../visual/grid';
 import connectSplashImage from '../data/splash';

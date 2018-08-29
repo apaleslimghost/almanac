@@ -1,6 +1,6 @@
 import {withHandlers} from 'recompact';
 import formJson from '@quarterto/form-json';
-import {deleteCardWithRelated, Card, addRelated} from '../../../../shared/methods';
+import {deleteCardWithRelated, Card, addRelated} from '../../../../../shared/imports/methods';
 
 const questActions = withHandlers({
 	onDeleteQuest: ({quest}) => ev => {

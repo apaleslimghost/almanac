@@ -5,7 +5,7 @@ import {compose, withProps, withHandlers} from 'recompact';
 import {Forbidden} from 'http-errors';
 import {go} from '../utils/router';
 import {toast} from 'react-toastify';
-import {createAccountAndJoin, addMember} from '../../shared/methods';
+import {createAccountAndJoin, addMember} from '../../../shared/imports/methods';
 import {CampaignSplash, HeroSubtitle} from '../visual/splash';
 import Login from './login';
 import {SignupForm} from './get-started';

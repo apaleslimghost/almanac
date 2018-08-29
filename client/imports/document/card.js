@@ -6,11 +6,11 @@ import Markdown from 'react-markdown';
 import {withCampaignSession} from '../data/campaign';
 import {compose, withHandlers} from 'recompact';
 import TypeSelect from '../collection/type-select';
-import {Cards} from '../../shared/collections';
-import schema from '../../shared/schema';
+import {Cards} from '../../../shared/imports/collections';
+import schema from '../../../shared/imports/schema';
 import preventingDefault from '../utils/preventing-default';
 import Link from '../control/link';
-import {Card, addRelated, removeRelated} from '../../shared/methods';
+import {Card, addRelated, removeRelated} from '../../../shared/imports/methods';
 
 import Toggler from '../control/toggler';
 import {

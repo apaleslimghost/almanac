@@ -4,7 +4,7 @@ import {withTracker} from 'meteor/react-meteor-data';
 import _ from 'lodash';
 import {compose} from 'recompact';
 
-import {Cards} from '../../shared/collections';
+import {Cards} from '../../../shared/imports/collections';
 import {getSelectValue} from '../control/form';
 import {Select} from '../visual/form';
 import {withCampaign} from '../data/campaign';

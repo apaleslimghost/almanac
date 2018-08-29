@@ -1,7 +1,7 @@
 import React from 'react';
 import {withTracker} from 'meteor/react-meteor-data';
 import formJson from '@quarterto/form-json';
-import {Cards} from '../../shared/collections';
+import {Cards} from '../../../shared/imports/collections';
 import Ornamented from '../visual/ornamented';
 import Icon from '../visual/icon';
 import styled from 'styled-components';
@@ -9,7 +9,7 @@ import {withCampaign} from '../data/campaign';
 import {compose, withHandlers, withProps} from 'recompact';
 import {Button} from '../visual/primitives';
 import withCards from '../data/card';
-import {Card} from '../../shared/methods';
+import {Card} from '../../../shared/imports/methods';
 
 const relationshipLabel = {
 	'-2': 'Hostile',

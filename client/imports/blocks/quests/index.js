@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {H1, H2} from '../../visual/heading';
 import Ornamented from '../../visual/ornamented';
 import {withTracker} from 'meteor/react-meteor-data';
-import {Cards} from '../../../shared/collections';
+import {Cards} from '../../../../shared/imports/collections';
 import idFirst from '../../utils/id-first';
 import {withCampaignDate} from '../../data/calendar';
 import styled, {keyframes} from 'styled-components';

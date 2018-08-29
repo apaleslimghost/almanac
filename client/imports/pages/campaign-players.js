@@ -6,7 +6,7 @@ import {compose, withState, withPropsOnChange, withHandlers} from 'recompact';
 import User from '../document/user';
 import {Input} from '../visual/form';
 import emailRegex from 'email-regex';
-import {Campaign, removeMember, addMember} from '../../shared/methods';
+import {Campaign, removeMember, addMember} from '../../../shared/imports/methods';
 import {Button} from '../visual/primitives';
 import subscribe from '../utils/subscribe';
 import {assertAmOwner} from '../data/owner';

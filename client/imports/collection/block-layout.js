@@ -3,12 +3,12 @@ import styled, {css, injectGlobal} from 'styled-components';
 import * as blocks from '../blocks';
 import {withTracker} from 'meteor/react-meteor-data';
 import {default as GridLayout, WidthProvider} from 'react-grid-layout';
-import {Layouts} from '../../shared/collections';
+import {Layouts} from '../../../shared/imports/collections';
 import {withState, withHandlers} from 'recompact';
 import {withCampaign} from '../data/campaign';
 import {compose} from 'recompact';
 import subscribe from '../utils/subscribe';
-import {Layout} from '../../shared/methods';
+import {Layout} from '../../../shared/imports/methods';
 import {Bleed} from '../visual/grid';
 
 import 'react-grid-layout/css/styles.css';

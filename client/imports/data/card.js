@@ -1,5 +1,5 @@
 import {withTracker} from 'meteor/react-meteor-data';
-import {Cards} from '../../shared/collections';
+import {Cards} from '../../../shared/imports/collections';
 import subscribe from '../utils/subscribe';
 
 export default (key, query = {}) => withTracker(({campaignId, ...props}) => ({

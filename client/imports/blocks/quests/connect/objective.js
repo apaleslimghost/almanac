@@ -1,5 +1,5 @@
 import {withHandlers} from 'recompact';
-import {Card} from '../../../../shared/methods';
+import {Card} from '../../../../../shared/imports/methods';
 
 const objectiveActions = withHandlers({
 	onCompleteObjective: ({objective, quest, campaignSession}) => ev => {

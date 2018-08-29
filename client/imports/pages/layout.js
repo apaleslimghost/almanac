@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Link from '../control/link';
 import {withTracker} from 'meteor/react-meteor-data';
 import {H3} from '../visual/heading';
-import {Campaigns} from '../../shared/collections';
+import {Campaigns} from '../../../shared/imports/collections';
 import {compose, withContext, withState, lifecycle, getContext} from 'recompact';
 import {withUserData, logout} from '../utils/logged-in';
 import Logo from '../visual/logo';

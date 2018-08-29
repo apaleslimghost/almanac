@@ -7,8 +7,8 @@ import {compose, withHandlers} from 'recompact';
 import {render} from 'react-dom';
 import styled from 'styled-components';
 
-import {Cards} from '../../shared/collections';
-import {Card} from '../../shared/methods';
+import {Cards} from '../../../shared/imports/collections';
+import {Card} from '../../../shared/imports/methods';
 import subscribe from '../utils/subscribe';
 import idFirst from '../utils/id-first';
 import {buildGraph, distances} from '../utils/graph';

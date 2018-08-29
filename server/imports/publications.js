@@ -1,6 +1,6 @@
 import publish from './utils/publish';
 import search from './utils/search';
-import {Cards, Campaigns, Session, Layouts} from '../shared/collections';
+import {Cards, Campaigns, Session, Layouts} from '../../shared/imports/collections';
 import {Meteor} from 'meteor/meteor';
 
 //TODO: public/private
