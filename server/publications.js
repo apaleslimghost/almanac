@@ -2,23 +2,51 @@ import publish from './utils/publish';
 import search from './utils/search';
 import {Cards, Campaigns, Session, Layouts} from '../shared/collections';
 import {Meteor} from 'meteor/meteor';
+import access from '../shared/access';
 
-//TODO: public/private
-
-const _visibleDocs = (collection, {userId, campaignIds = []}) => collection.find({
-	$or: [
-		userId && {owner: userId},
-		userId && {member: userId},
-		{campaignId: {$in: campaignIds}}
-	].filter(a => a)
+const ownedCampaigns = ({userId}) => Campaigns.find({
+	owner: userId,
 });
 
-const visibleDocs = collection => ({userId}) => _visibleDocs(collection, {userId});
+const memberCampaigns = ({userId}) => Campaigns.find({
+	$or: [
+		{owner: userId},
+		{member: userId},
+	]
+});
 
-const visible = collection => ({userId}) => {
-	const visibleCampaigns = _visibleDocs(Campaigns, {userId}).fetch();
+const visibleDocs = collection => ({userId}) => {
+	const campaignIds = memberCampaigns({userId}).map(c => c._id);
 
-	return _visibleDocs(collection, {userId, campaignIds: visibleCampaigns.map(c => c._id)});
+	return collection.find({
+		$or: [
+			{owner: userId},
+			{campaignId: {$in: campaignIds}},
+		]
+	});
+};
+
+/*
+i can see a card if:
+
+- i'm the owner
+- it's visible to the GM, and it's in a campaign i own
+- it's visible to the campaign, it's in a campaign i'm a member of
+- it's public
+ */
+
+const visibleCards = ({userId}) => {
+	const ownedCampaignIds = ownedCampaigns({userId}).map(c => c._id);
+	const memberCampaignIds = memberCampaigns({userId}).map(c => c._id);
+
+	return Cards.find({
+		$or: [
+			{owner: userId},
+			{campaignId: {$in: ownedCampaignIds}, access: {view: access.AND_GM}},
+			{campaignId: {$in: memberCampaignIds}, access: {view: access.CAMPAIGN}},
+			{access: {view: access.PUBLIC}},
+		]
+	});
 };
 
 publish({
@@ -27,7 +55,7 @@ publish({
 	},
 
 	campaigns: {
-		all: visibleDocs(Campaigns),
+		all: memberCampaigns,
 
 		join({args: [{campaignId, secret}]}) {
 			return Campaigns.find({
@@ -37,8 +65,9 @@ publish({
 		},
 
 		members({userId}) {
-			const visibleCampaigns = _visibleDocs(Campaigns, {userId}).fetch();
-			const allCampaignUsers = visibleCampaigns.reduce(
+			const campaigns = memberCampaigns({userId}).fetch();
+
+			const allCampaignUsers = campaigns.reduce(
 				(users, campaign) => users
 					.concat(campaign.owner)
 					.concat(campaign.member)
@@ -53,14 +82,14 @@ publish({
 	},
 
 	cards: {
-		all: visible(Cards),
+		all: visibleCards,
 	},
 
 	session: {
-		all: visible(Session),
+		all: visibleDocs(Session),
 	},
 
 	layout: {
-		all: visible(Layouts),
+		all: visibleDocs(Layouts),
 	},
 });
