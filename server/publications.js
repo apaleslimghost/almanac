@@ -42,9 +42,9 @@ const visibleCards = ({userId}) => {
 	return Cards.find({
 		$or: [
 			{owner: userId},
-			{campaignId: {$in: ownedCampaignIds}, access: {view: access.AND_GM}},
-			{campaignId: {$in: memberCampaignIds}, access: {view: access.CAMPAIGN}},
-			{access: {view: access.PUBLIC}},
+			{campaignId: {$in: ownedCampaignIds}, 'access.view': access.AND_GM},
+			{campaignId: {$in: memberCampaignIds}, 'access.view': access.CAMPAIGN},
+			{'access.view': access.PUBLIC},
 		]
 	});
 };

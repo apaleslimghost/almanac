@@ -1,4 +1,4 @@
-import {Campaigns} from '../../collections';
+import {Campaigns, Cards} from '../../collections';
 import access from '../../access';
 
 // create validation is the same as any doc that belongs to a campaign
@@ -12,7 +12,7 @@ i can edit a card if:
 - it's editable by the campaign, and i'm a member of the campaign it's in
 - it's editable by the public (???)
  */
-export const edit = (data, userId) => {
+export const canEdit = (data, userId, edit) => {
 	const campaign = Campaigns.findOne(data.campaignId);
 
 	if(!data.access) {
@@ -21,6 +21,17 @@ export const edit = (data, userId) => {
 			return true;
 		}
 	} else {
+		if(
+			edit
+			&& (
+				data.access.view !== edit.access.view
+				|| data.access.edit !== edit.access.edit
+			)
+			&& userId !== data.owner
+		) {
+			throw new Meteor.Error('card-access-denied', `Only the owner can change the access of a card`);
+		}
+
 		if(data.access.edit >= access.PRIVATE) {
 			if(data.owner === userId) {
 				return true;
@@ -42,6 +53,14 @@ export const edit = (data, userId) => {
 		if(data.access.edit === access.PUBLIC) {
 			return true;
 		}
+	}
+
+	return false;
+};
+
+export const edit = (data, userId) => {
+	if(canEdit(data, userId)) {
+		return true;
 	}
 
 	throw new Meteor.Error('card-access-denied', `Can't edit that card`);

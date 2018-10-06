@@ -21,7 +21,7 @@ export default (collection, validate) => {
 
 		update: method(`${collection._name}.update`, function({_id}, $set) {
 			const data = collection.findOne(_id);
-			validate.edit(data, this.userId);
+			validate.edit(data, this.userId, $set);
 
 			collection.update(_id, { $set });
 		}),
