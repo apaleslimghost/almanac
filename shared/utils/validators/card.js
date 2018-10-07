@@ -58,8 +58,8 @@ export const canEdit = (data, userId, edit) => {
 	return false;
 };
 
-export const edit = (data, userId) => {
-	if(canEdit(data, userId)) {
+export const edit = (data, userId, edit) => {
+	if(canEdit(data, userId, edit)) {
 		return true;
 	}
 

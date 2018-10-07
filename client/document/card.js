@@ -29,6 +29,7 @@ import {Input, Textarea} from '../visual/form';
 import CardSelect from '../collection/card-select';
 import Icon from '../visual/icon';
 import AccessForm, {PrivacyIcons} from '../control/privacy';
+import {iAmOwner} from '../data/owner';
 
 const SchemaFields = (props, context) => context.fields.type ? <FormGroup>
 	{_.map(
@@ -42,7 +43,7 @@ const SchemaFields = (props, context) => context.fields.type ? <FormGroup>
 
 SchemaFields.contextTypes = fieldLike;
 
-export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
+export const EditCard = ({card, saveCard, toggle, deleteCard, isOwner}) =>
 	<Form
 		onSubmit={saveCard}
 		onDidSubmit={toggle}
@@ -55,7 +56,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 			</List>
 		</FormGroup>
 
-		<AccessForm {...card} />
+		{isOwner && <AccessForm {...card} />}
 
 		<FormGroup>
 			<Textarea name="text" fullWidth />
@@ -82,7 +83,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 		</List>
 	</Form>;
 
-const connectEditCard = withHandlers({
+const editCardActions = withHandlers({
 	saveCard: ({card}) => data => {
 		Card.update(card, data);
 	},
@@ -93,6 +94,11 @@ const connectEditCard = withHandlers({
 	},
 });
 
+const connectEditCard = compose(
+	editCardActions,
+	iAmOwner('card')
+);
+
 const EditCardContainer = connectEditCard(EditCard);
 
 const ShowCard = ({
@@ -101,7 +107,7 @@ const ShowCard = ({
 	relatedCards,
 	removeRelated,
 	addRelated,
-	userId,
+	userId
 }) =>
 	<div>
 		{card.type && <Label colour='sky'>
