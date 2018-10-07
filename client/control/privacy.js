@@ -9,14 +9,12 @@ const match = matches => value => value in matches ? matches[value] : matches.de
 
 const getPrivacyIcon = match({
 	[accessLevels.PRIVATE]:  'lock',
-	[accessLevels.AND_GM]:   'handshake-o',
 	[accessLevels.CAMPAIGN]: 'double-team',
 	[accessLevels.PUBLIC]:   'globe',
 });
 
 const getPrivacyLabel = match({
 	[accessLevels.PRIVATE]:  'Only You',
-	[accessLevels.AND_GM]:   'You and the GM',
 	[accessLevels.CAMPAIGN]: 'Campaign',
 	[accessLevels.PUBLIC]:   'Public',
 });

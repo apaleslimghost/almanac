@@ -29,8 +29,7 @@ const visibleDocs = collection => ({userId}) => {
 /*
 i can see a card if:
 
-- i'm the owner
-- it's visible to the GM, and it's in a campaign i own
+- i'm the owner or the GM
 - it's visible to the campaign, it's in a campaign i'm a member of
 - it's public
  */
@@ -42,7 +41,7 @@ const visibleCards = ({userId}) => {
 	return Cards.find({
 		$or: [
 			{owner: userId},
-			{campaignId: {$in: ownedCampaignIds}, 'access.view': access.AND_GM},
+			{campaignId: {$in: ownedCampaignIds}},
 			{campaignId: {$in: memberCampaignIds}, 'access.view': access.CAMPAIGN},
 			{'access.view': access.PUBLIC},
 		]

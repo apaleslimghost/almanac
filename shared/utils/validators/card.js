@@ -7,8 +7,7 @@ export {create} from './campaign-doc';
 /*
 i can edit a card if:
 
-- i'm the owner
-- it's editable by the GM, and i own the campaign it's in
+- i'm the owner or the GM of the campaign
 - it's editable by the campaign, and i'm a member of the campaign it's in
 - it's editable by the public (???)
  */
@@ -36,9 +35,7 @@ export const canEdit = (data, userId, edit) => {
 			if(data.owner === userId) {
 				return true;
 			}
-		}
 
-		if(data.access.edit >= access.AND_GM) {
 			if(campaign && campaign.owner === userId) {
 				return true;
 			}
