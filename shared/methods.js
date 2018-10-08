@@ -5,10 +5,11 @@ import method from './utils/method';
 import collectionMethods from './utils/collection-methods';
 import {Accounts} from 'meteor/accounts-base';
 import generateSlug from './utils/generate-slug';
+import * as validators from './utils/validators';
 
-export const Campaign = collectionMethods(Campaigns);
-export const Card = collectionMethods(Cards);
-export const Layout = collectionMethods(Layouts);
+export const Campaign = collectionMethods(Campaigns, validators.doc);
+export const Card = collectionMethods(Cards, validators.card);
+export const Layout = collectionMethods(Layouts, validators.campaignDoc);
 
 const serverToken = Random.secret();
 

@@ -11,6 +11,7 @@ import schema from '../../shared/schema';
 import preventingDefault from '../utils/preventing-default';
 import Link from '../control/link';
 import {Card, addRelated, removeRelated} from '../../shared/methods';
+import {canEdit as canEditCard} from '../../shared/utils/validators/card';
 
 import Toggler from '../control/toggler';
 import {
@@ -27,11 +28,13 @@ import {Form, fieldLike} from '../control/form';
 import {Input, Textarea} from '../visual/form';
 import CardSelect from '../collection/card-select';
 import Icon from '../visual/icon';
+import AccessForm, {PrivacyIcons} from '../control/privacy';
+import {iAmOwner} from '../data/owner';
 
 const SchemaFields = (props, context) => context.fields.type ? <FormGroup>
 	{_.map(
 		schema[context.fields.type].fields,
-		({label, ...field}, key) => <LabelledInput key={key}>
+		({label, format, ...field}, key) => <LabelledInput key={key}>
 			<div>{label}</div>
 			<Input {...field} name={key} key={key} />
 		</LabelledInput>
@@ -40,7 +43,7 @@ const SchemaFields = (props, context) => context.fields.type ? <FormGroup>
 
 SchemaFields.contextTypes = fieldLike;
 
-export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
+export const EditCard = ({card, saveCard, toggle, deleteCard, isOwner}) =>
 	<Form
 		onSubmit={saveCard}
 		onDidSubmit={toggle}
@@ -52,6 +55,8 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 				<TypeSelect name="type" placeholder="Type..." />
 			</List>
 		</FormGroup>
+
+		{isOwner && <AccessForm {...card} />}
 
 		<FormGroup>
 			<Textarea name="text" fullWidth />
@@ -78,7 +83,7 @@ export const EditCard = ({card, saveCard, toggle, deleteCard}) =>
 		</List>
 	</Form>;
 
-const connectEditCard = withHandlers({
+const editCardActions = withHandlers({
 	saveCard: ({card}) => data => {
 		Card.update(card, data);
 	},
@@ -89,6 +94,11 @@ const connectEditCard = withHandlers({
 	},
 });
 
+const connectEditCard = compose(
+	editCardActions,
+	iAmOwner('card')
+);
+
 const EditCardContainer = connectEditCard(EditCard);
 
 const ShowCard = ({
@@ -97,6 +107,7 @@ const ShowCard = ({
 	relatedCards,
 	removeRelated,
 	addRelated,
+	userId
 }) =>
 	<div>
 		{card.type && <Label colour='sky'>
@@ -106,10 +117,12 @@ const ShowCard = ({
 		</Label>}
 
 		<List>
-			{toggle && <Button onClick={toggle}>
+			{toggle && canEditCard(card, userId) && <Button onClick={toggle}>
 				<Icon icon='edit' />
 			</Button>}
 		</List>
+
+		<PrivacyIcons access={card.access} />
 
 		<article>
 			<h1>
@@ -159,6 +172,8 @@ const withCardData = withTracker(({card, campaignId, campaignSession}) => ({
 	removeRelated(related) {
 		removeRelated(card, related);
 	},
+
+	userId: Meteor.userId(),
 }));
 
 const connectCard = compose(withCampaignSession, withCardData);

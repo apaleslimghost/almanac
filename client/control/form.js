@@ -8,12 +8,15 @@ export const getInputValue = el =>
 			range: 'valueAsNumber',
 			date: 'valueAsDate',
 			checkbox: 'checked',
+			radio: 'value',
 		}[el.type] || 'value'
 	];
 
 export const getSelectValue = el => el.options[el.selectedIndex].value;
 
-export const FormFieldData = ({render}, context) => render(context.fields);
+export const FormFieldData = ({render}, context) => render(context.fields, context.setFields);
+
+const qq = (a, b) => a === undefined ? b : a;
 
 export const Input = (
 	{name, fieldRef, tag: Tag = 'input', ...props},
@@ -26,25 +29,19 @@ export const Input = (
 		{...props}
 		value={
 			context.fields
-				? (name in context.fields ? context.fields[name] : props.value) || ''
+				? qq(name in context.fields ? context.fields[name] : props.value, '')
 				: 'value' in props ? props.value : undefined /* uncontrolled component if there's no context */}
 		onChange={ev => {
-			if(props.onChange) {
-				props.onChange(ev);
-			}
-
 			if(context.setFields) {
-				if(props.type === 'radio') {
-					if(ev.target.checked) {
-						context.setFields({
-							[name]: props.value,
-						});
-					}
-				} else {
+				if(props.type !== 'radio' || ev.target.checked) {
 					context.setFields({
 						[name]: getInputValue(ev.target),
 					});
 				}
+			}
+
+			if(props.onChange) {
+				props.onChange(ev);
 			}
 		}}
 	/>;
