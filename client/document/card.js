@@ -126,7 +126,7 @@ const ShowCard = ({
 
 		<article>
 			<h1>
-				<Link href={`/${card.campaignId}/${card._id}`}>
+				<Link href={`/${card.campaignId}/cards/${card._id}`}>
 					{card.title}
 				</Link>
 			</h1>

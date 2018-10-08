@@ -23,9 +23,9 @@ const connectGrail = compose(
 
 const Grail = connectGrail(CardList);
 
-export default withCampaignData(({campaign}) => <>
+export default withCampaignData(({campaign, selectCard}) => <>
 	<Title>{campaign.title}</Title>
 
 	<CampaignSplash />
-	<Grail />
+	<Grail selectCard={selectCard} />
 </>);

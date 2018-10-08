@@ -30,6 +30,8 @@ const withCardListActions = withTracker(props => {
 		cards.forEach(card => (card.sortedIndex = d[card._id]));
 	}
 
+	console.log(selectedCard);
+
 	return {
 		ready: subscribe('cards.all'),
 		cards: _.orderBy(cards, ['sortedIndex', 'title']),

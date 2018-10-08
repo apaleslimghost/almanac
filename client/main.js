@@ -37,7 +37,7 @@ mount(App, {
 
 		'/:campaignId/cards/:cardId' ({campaignId, cardId}) {
 			return <Layout campaignId={campaignId}>
-				<Grail selectCard={cardId} />
+				<Campaign selectCard={cardId} />
 			</Layout>;
 		},
 
