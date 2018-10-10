@@ -12,6 +12,7 @@ import questActions from './connect/quest';
 import questsActions from './connect/quests';
 import objectiveActions from './connect/objective';
 import withCards from '../../data/card';
+import access from '../../../shared/access';
 
 import QuestSplash from './splash';
 
@@ -55,9 +56,10 @@ const Objective = connectObjective(({
 
 const withQuestObjectives = withCards(
 	'objectives',
-	({quest}) => ({
+	({quest, control}) => ({
 		type: 'objective',
 		_id: {$in: quest.related || []},
+		'access.view': {$gte: control ? access.PRIVATE : access.CAMPAIGN},
 	})
 );
 
@@ -108,7 +110,10 @@ const Quest = connectQuest(({
 	</div> : null
 );
 
-const withQuestsData = withCards('quests', {type: 'quest'});
+const withQuestsData = withCards('quests', ({control}) => ({
+	type: 'quest',
+	'access.view': {$gte: control ? access.PRIVATE : access.CAMPAIGN},
+}));
 
 const withCurrentQuest = withTracker(({quests, campaignSession}) => {
 	const currentQuest = campaignSession.get('currentQuest');

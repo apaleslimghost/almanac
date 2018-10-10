@@ -1,6 +1,7 @@
 import {withHandlers} from 'recompact';
 import formJson from '@quarterto/form-json';
 import {deleteCardWithRelated, Card, addRelated} from '../../../../shared/methods';
+import access from '../../../../shared/access';
 
 const questActions = withHandlers({
 	onDeleteQuest: ({quest}) => ev => {
@@ -21,6 +22,7 @@ const questActions = withHandlers({
 			completed: false,
 			type: 'objective',
 			campaignId,
+			access: {edit: access.PRIVATE, view: access.PRIVATE},
 		});
 
 		addRelated(quest, objective);
