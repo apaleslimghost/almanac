@@ -26,12 +26,6 @@ const questActions = withHandlers({
 		});
 
 		addRelated(quest, objective);
-
-		campaignSession.set('splashQuest', {
-			action: 'startObjective',
-			quest,
-			objective,
-		});
 	},
 });
 

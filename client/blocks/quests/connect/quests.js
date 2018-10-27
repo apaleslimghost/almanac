@@ -15,11 +15,6 @@ const questsActions = withHandlers({
 			campaignId,
 			access: {edit: access.PRIVATE, view: access.PRIVATE},
 		});
-
-		campaignSession.set('splashQuest', {
-			action: 'startQuest',
-			quest: data,
-		});
 	},
 });
 
