@@ -85,12 +85,15 @@ const withQuestChanges = withComputation(({setSplash, setAnimationState}) => {
 	return computation;
 });
 
+const quest = new Audio('/sound/quest.mp3');
+
 const connectQuestSplash = compose(
 	withState('splash', 'setSplash', null),
 	withState('animationState', 'setAnimationState', 'closed'),
 	withPropsOnChange(['animationState'], ({animationState, setAnimationState, setSplash}) => {
 		switch(animationState) {
 			case 'opening':
+				quest.play();
 				setTimeout(setAnimationState, 5000, 'closing');
 				break;
 
