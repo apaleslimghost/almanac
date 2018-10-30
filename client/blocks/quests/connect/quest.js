@@ -9,7 +9,6 @@ const questActions = withHandlers({
 	},
 
 	onCompleteQuest: ({quest, campaignSession}) => ev => {
-		console.log(quest);
 		Card.update(quest, {
 			completed: true,
 			completedDate: campaignSession.get('date') || 0,

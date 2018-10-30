@@ -11,7 +11,6 @@ const objectiveActions = withHandlers({
 	},
 
 	onStartObjective: ({objective}) => ev => {
-		console.log(objective);
 		Card.update(objective, {
 			'access.view': access.CAMPAIGN,
 		});
