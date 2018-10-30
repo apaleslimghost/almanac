@@ -3,6 +3,22 @@ import {Campaigns} from '../collections';
 import generateSlug from './generate-slug';
 import {Meteor} from 'meteor/meteor';
 
+const nestedToDotted = (obj, top = {}, path = []) => Object.keys(obj).reduce(
+	(out, key) => {
+		const value = obj[key];
+		const currentPath = path.concat(key);
+
+		if(typeof value === 'object') {
+			nestedToDotted(value, out, currentPath);
+		} else {
+			out[currentPath.join('.')] = value;
+		}
+
+		return out;
+	},
+	top
+);
+
 export default (collection, validate) => {
 	const baseCreate = method(`${collection._name}.create`, function(data) {
 		validate.create(data, this.userId);
@@ -19,10 +35,11 @@ export default (collection, validate) => {
 			generateSlug(data)
 		),
 
-		update: method(`${collection._name}.update`, function({_id}, $set) {
+		update: method(`${collection._name}.update`, function({_id}, edit) {
 			const data = collection.findOne(_id);
-			validate.edit(data, this.userId, $set);
+			const $set = nestedToDotted(edit);
 
+			validate.edit(data, this.userId, $set);
 			collection.update(_id, { $set });
 		}),
 

@@ -12,6 +12,12 @@ const questActions = withHandlers({
 		campaignSession.set('currentQuest', quest._id);
 	},
 
+	onStartQuest: ({quest}) => ev => {
+		Card.update(quest, {
+			'access.view': access.CAMPAIGN,
+		});
+	},
+
 	onCreateObjective: ({quest, campaignId, campaignSession}) => async ev => {
 		ev.preventDefault();
 		const data = formJson(ev.target);

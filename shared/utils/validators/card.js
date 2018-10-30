@@ -23,8 +23,8 @@ export const canEdit = (data, userId, edit) => {
 		if(
 			edit
 			&& (
-				data.access.view !== edit.access.view
-				|| data.access.edit !== edit.access.edit
+				data.access.view !== edit['access.view']
+				|| data.access.edit !== edit['access.edit']
 			)
 			&& userId !== data.owner
 		) {
