@@ -5,7 +5,15 @@ import access from '../../../../shared/access';
 
 const questActions = withHandlers({
 	onDeleteQuest: ({quest}) => ev => {
-		deleteCardWithRelated(quest, {ofType: 'objective'});
+		confirm(`Delete ${quest.title} and all objectives?`) && deleteCardWithRelated(quest, {ofType: 'objective'});
+	},
+
+	onCompleteQuest: ({quest, campaignSession}) => ev => {
+		console.log(quest);
+		Card.update(quest, {
+			completed: true,
+			completedDate: campaignSession.get('date') || 0,
+		});
 	},
 
 	onSelectQuest: ({quest, campaignSession}) => ev => {

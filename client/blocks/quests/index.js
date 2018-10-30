@@ -30,19 +30,23 @@ const connectObjective = compose(
 );
 
 const Objective = connectObjective(({
-	objective, quest, onCompleteObjective, onDeleteObjective, control, CampaignDate
+	objective, quest, onCompleteObjective, onStartObjective, onDeleteObjective, control, CampaignDate
 }) => <div>
-	{control && !objective.completed &&
-		<button onClick={onCompleteObjective}>
-			☑️
-		</button>
-	}
+	{control && <>
+		{!objective.completed && objective.access.view > access.PRIVATE &&
+			<button onClick={onCompleteObjective}>
+				☑️
+			</button>
+		}
 
-	{control &&
-		<button onClick={onDeleteObjective}>
-			❌
-		</button>
-	}
+		{objective.access.view === access.PRIVATE &&
+			<button onClick={onStartObjective}>
+				👁
+			</button>
+		}
+
+		<button onClick={onDeleteObjective}>❌</button>
+	</>}
 
 	{objective.completed
 		? <s>{objective.title}</s>
@@ -78,17 +82,38 @@ const Quest = connectQuest(({
 	quest,
 	objectives,
 	onCreateObjective,
+	onStartQuest,
+	onCompleteQuest,
 	onDeleteQuest,
 	onSelectQuest,
 	currentQuest,
 	control,
 }) =>
-	objectives.length > 0 || control ? <div>
+	<div>
 		<Ornamented ornament='u'>
-			{quest.title}
-			{control && currentQuest !== quest._id &&
-				<button onClick={() => onSelectQuest(quest)}>🔝</button>}
-			{control && <button onClick={onDeleteQuest}>❌</button>}
+			{quest.completed
+				? <s>{quest.title}</s>
+				: quest.title
+			}
+
+			{control && <>
+				{currentQuest !== quest._id &&
+					<button onClick={() => onSelectQuest(quest)}>🔝</button>}
+
+				{!quest.completed && quest.access.view > access.PRIVATE &&
+					<button onClick={onCompleteQuest}>
+						☑️
+					</button>
+				}
+
+				{quest.access.view === access.PRIVATE &&
+					<button onClick={onStartQuest}>
+						👁
+					</button>
+				}
+
+				{<button onClick={onDeleteQuest}>❌</button>}
+			</>}
 		</Ornamented>
 
 		<ul>
@@ -100,14 +125,14 @@ const Quest = connectQuest(({
 				<Objective quest={quest} objective={objective} control={control} />
 			</li>)}
 
-			{control && <li>
+			{control && !quest.completed && <li>
 				<form onSubmit={onCreateObjective}>
 					<input placeholder='Objective' name='title' />
 					<button>➕</button>
 				</form>
 			</li>}
 		</ul>
-	</div> : null
+	</div>
 );
 
 const withQuestsData = withCards('quests', ({control}) => ({
