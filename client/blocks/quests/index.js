@@ -138,11 +138,13 @@ const Quest = connectQuest(({
 			</>}
 		</Ornamented>
 
+		<large>
 		{first && m(
 			objectives.find(({completed}) => !completed),
 			objective => objective.text,
 			quest.text
 		)}
+		</large>
 
 		<ObjectiveList>
 			{objectives.filter(({completed}) => !completed).map((objective, index) => <ObjectiveListItem first={index === 0} key={objective._id}>
