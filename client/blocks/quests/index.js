@@ -78,7 +78,7 @@ const connectQuest = compose(
 	withQuestActions
 );
 
-const m = (a, b, c) => a ? b(a) : c;
+const m = (a, b, c) => a ? (b(a) || c) : c;
 
 
 const ObjectiveList = styled.ul`
