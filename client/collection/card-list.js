@@ -30,8 +30,6 @@ const withCardListActions = withTracker(props => {
 		cards.forEach(card => (card.sortedIndex = d[card._id]));
 	}
 
-	console.log(selectedCard);
-
 	return {
 		ready: subscribe('cards.all'),
 		cards: _.orderBy(cards, ['sortedIndex', 'title']),
@@ -50,7 +48,7 @@ const CardList = connectCardList(({cards, addCard}) => <FlexGrid>
 	{cards.map(card => <ShowCard key={card._id} card={card} />)}
 
 	<CardPrimitive>
-		<EditCard card={{}} saveCard={addCard} />
+		<EditCard card={{}} saveCard={addCard} isOwner />
 	</CardPrimitive>
 </FlexGrid>);
 

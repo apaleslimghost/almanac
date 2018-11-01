@@ -1,14 +1,28 @@
 import {withHandlers} from 'recompact';
 import formJson from '@quarterto/form-json';
 import {deleteCardWithRelated, Card, addRelated} from '../../../../shared/methods';
+import access from '../../../../shared/access';
 
 const questActions = withHandlers({
 	onDeleteQuest: ({quest}) => ev => {
-		deleteCardWithRelated(quest, {ofType: 'objective'});
+		confirm(`Delete ${quest.title} and all objectives?`) && deleteCardWithRelated(quest, {ofType: 'objective'});
+	},
+
+	onCompleteQuest: ({quest, campaignSession}) => ev => {
+		Card.update(quest, {
+			completed: true,
+			completedDate: campaignSession.get('date') || 0,
+		});
 	},
 
 	onSelectQuest: ({quest, campaignSession}) => ev => {
 		campaignSession.set('currentQuest', quest._id);
+	},
+
+	onStartQuest: ({quest}) => ev => {
+		Card.update(quest, {
+			'access.view': access.CAMPAIGN,
+		});
 	},
 
 	onCreateObjective: ({quest, campaignId, campaignSession}) => async ev => {
@@ -21,15 +35,10 @@ const questActions = withHandlers({
 			completed: false,
 			type: 'objective',
 			campaignId,
+			access: {edit: access.PRIVATE, view: access.PRIVATE},
 		});
 
 		addRelated(quest, objective);
-
-		campaignSession.set('splashQuest', {
-			action: 'startObjective',
-			quest,
-			objective,
-		});
 	},
 });
 

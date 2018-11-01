@@ -36,7 +36,7 @@ const Modal = styled.div`
 			closing: fadeOut,
 		})[animationState] || 'none'
 	};
-	animation-duration: ${({animationState}) => animationState === 'opening' ? '200ms' : '5s'};
+	animation-duration: ${({animationState}) => animationState === 'opening' ? '300ms' : '5s'};
 	animation-fill-mode: forwards;
 	animation-timing-function: linear;
 	animation-iteration-count: 1;

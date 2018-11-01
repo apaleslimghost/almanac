@@ -1,6 +1,7 @@
 import {withHandlers} from 'recompact';
 import formJson from '@quarterto/form-json';
 import {Card} from '../../../../shared/methods';
+import access from '../../../../shared/access';
 
 const questsActions = withHandlers({
 	onCreateQuest: ({campaignId, campaignSession}) => ev => {
@@ -12,11 +13,7 @@ const questsActions = withHandlers({
 			...data,
 			type: 'quest',
 			campaignId,
-		});
-
-		campaignSession.set('splashQuest', {
-			action: 'startQuest',
-			quest: data,
+			access: {edit: access.PRIVATE, view: access.PRIVATE},
 		});
 	},
 });

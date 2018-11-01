@@ -1,6 +1,5 @@
 import React from 'react';
 import {Meteor} from 'meteor/meteor';
-import {Accounts} from 'meteor/accounts-base'
 import {go} from '../utils/router';
 import {LabelledInput, Button} from '../visual/primitives';
 import {Form} from '../control/form';
