@@ -22,8 +22,15 @@ const QuestHeader = styled(Ornamented)`
 const ObjectiveHeader = styled.h2`
 	font-family: "Source Sans Pro", sans-serif;
 	font-weight: 300;
-	font-size: 5em;
+	font-size: 4em;
 	margin: 0;
+	line-height: 1;
+`;
+
+const Description = styled.h3`
+	font-family: "Source Sans Pro", sans-serif;
+	font-weight: 300;
+	font-size: 2.4em;
 	line-height: 1;
 `;
 
@@ -44,6 +51,10 @@ const Splash = ({action, quest, objective, animationState}) => <Modal
 			: 'Started: '}
 		{objective.title}
 	</ObjectiveHeader>}
+
+	<Description>
+		{(objective || quest).text}
+	</Description>
 </Modal>;
 
 const withQuestChanges = withComputation(({setSplash, setAnimationState}) => {

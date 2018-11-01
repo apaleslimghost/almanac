@@ -31,7 +31,7 @@ const connectObjective = compose(
 
 const Objective = connectObjective(({
 	objective, quest, onCompleteObjective, onStartObjective, onDeleteObjective, control, CampaignDate
-}) => <div>
+}) => <>
 	{control && <>
 		{!objective.completed && objective.access.view > access.PRIVATE &&
 			<button onClick={onCompleteObjective}>
@@ -56,7 +56,7 @@ const Objective = connectObjective(({
 	{objective.completed && <Completed>
 		{new CampaignDate(objective.completedDate).format`${'h'}:${'mm'}${'a'}, ${'dddd'}, ${'Do'} of ${'MM'}, ${'YY'}`}
 	</Completed>}
-</div>);
+</>);
 
 const withQuestObjectives = withCards(
 	'objectives',
@@ -78,6 +78,27 @@ const connectQuest = compose(
 	withQuestActions
 );
 
+const m = (a, b, c) => a ? b(a) : c;
+
+
+const ObjectiveList = styled.ul`
+	margin: 1em 0;
+	padding: 0;
+	list-style: none;
+`;
+
+const ObjectiveListItem = styled.li`
+	&::before {
+		content: '${({completed, first}) =>
+			completed
+				? '✕'
+				: first
+					? '❖'
+					: '◆'}';
+		margin-right: 0.25em;
+	}
+`
+
 const Quest = connectQuest(({
 	quest,
 	objectives,
@@ -88,6 +109,7 @@ const Quest = connectQuest(({
 	onSelectQuest,
 	currentQuest,
 	control,
+	first,
 }) =>
 	<div>
 		<Ornamented ornament='u'>
@@ -116,22 +138,29 @@ const Quest = connectQuest(({
 			</>}
 		</Ornamented>
 
-		<ul>
-			{objectives.filter(({completed}) => !completed).map(objective => <li key={objective._id}>
-				<Objective quest={quest} objective={objective} control={control} />
-			</li>)}
+		{first && m(
+			objectives.find(({completed}) => !completed),
+			objective => objective.text,
+			quest.text
+		)}
 
-			{objectives.filter(({completed}) => completed).map(objective => <li key={objective._id}>
+		<ObjectiveList>
+			{objectives.filter(({completed}) => !completed).map((objective, index) => <ObjectiveListItem first={index === 0} key={objective._id}>
 				<Objective quest={quest} objective={objective} control={control} />
-			</li>)}
+			</ObjectiveListItem>)}
+
+			{objectives.filter(({completed}) => completed).map(objective => <ObjectiveListItem completed key={objective._id}>
+				<Objective quest={quest} objective={objective} control={control} />
+			</ObjectiveListItem>)}
 
 			{control && !quest.completed && <li>
 				<form onSubmit={onCreateObjective}>
 					<input placeholder='Objective' name='title' />
+					<input name='text' />
 					<button>➕</button>
 				</form>
 			</li>}
-		</ul>
+		</ObjectiveList>
 	</div>
 );
 
@@ -156,9 +185,17 @@ const connectQuestsList = compose(
 );
 
 const QuestsList = connectQuestsList(({onCreateQuest, control, quests, ...props}) => <div>
-	{quests.map(quest => <Quest key={quest._id} quest={quest} control={control} {...props} />)}
+	{quests.map((quest, index) => (
+		<Quest
+			key={quest._id}
+			quest={quest}
+			control={control}
+			first={index === 0}
+			{...props} />
+	))}
 	{control && <form onSubmit={onCreateQuest}>
 		<input placeholder='Quest' name='title' />
+		<input name='text' />
 		<button>➕</button>
 	</form>}
 	{!control && <QuestSplash />}
