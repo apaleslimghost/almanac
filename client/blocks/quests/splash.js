@@ -4,7 +4,7 @@ import {compose, withState, withPropsOnChange} from 'recompact';
 import Portal from 'react-portal';
 import {withTracker} from 'meteor/react-meteor-data';
 import Modal from '../../visual/modal';
-import {withCampaignSession} from '../../data/campaign';
+import {withCampaignId} from '../../data/campaign';
 import Ornamented from '../../visual/ornamented';
 import {Cards} from '../../../shared/collections';
 import withComputation from '../../data/with-computation';
@@ -57,7 +57,7 @@ const Splash = ({action, quest, objective, animationState}) => <Modal
 	</Description>
 </Modal>;
 
-const withQuestChanges = withComputation(({setSplash, setAnimationState}) => {
+const withQuestChanges = withComputation(({setSplash, setAnimationState, campaignId}) => {
 	subscribe('cards.all');
 
 	const notify = (id, action) => {
@@ -78,6 +78,7 @@ const withQuestChanges = withComputation(({setSplash, setAnimationState}) => {
 	const computation = Cards.find({
 		type: {$in: ['quest', 'objective']},
 		'access.view': {$gte: access.CAMPAIGN},
+		campaignId,
 	}).observeChanges({
 		added(id) {
 			if(!initial) {
@@ -99,6 +100,7 @@ const withQuestChanges = withComputation(({setSplash, setAnimationState}) => {
 const quest = new Audio('/sound/quest.mp3');
 
 const connectQuestSplash = compose(
+	withCampaignId,
 	withState('splash', 'setSplash', null),
 	withState('animationState', 'setAnimationState', 'closed'),
 	withState('timer', 'setTimer', null),
