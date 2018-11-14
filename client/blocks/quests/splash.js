@@ -87,7 +87,7 @@ const withQuestChanges = withComputation(({setSplash, setAnimationState, campaig
 		},
 
 		changed(id, {completed}) {
-			if(completed) {
+			if(!initial && completed) {
 				notify(id, 'complete');
 			}
 		},
