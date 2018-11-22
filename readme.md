@@ -5,7 +5,7 @@
       <img alt="Waffle.io - Columns and their card count" src="https://badge.waffle.io/quarterto/almanac.svg?columns=In%20progress">
    </a>
 
-   <a href="https://travis-ci.com/quarterto/almanac">
+   <a href="https://travis-ci.org/quarterto/almanac">
       <img alt="Build status" src="https://travis-ci.org/quarterto/almanac.svg?branch=master">
    </a>
 </h1>
