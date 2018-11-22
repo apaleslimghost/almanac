@@ -1,14 +1,14 @@
-import {isLoggedIn} from './common';
+import {isLoggedIn} from './common'
 
-export const create = (data, userId) => isLoggedIn(data, userId, 'create');
+export const create = (data, userId) => isLoggedIn(data, userId, 'create')
 
 export const edit = (data, userId) => {
-	isLoggedIn(data, userId, 'edit');
+	isLoggedIn(data, userId, 'edit')
 
-	if(data.owner === userId) {
-		return true;
+	if (data.owner === userId) {
+		return true
 	}
 
-	// shrink and transform into a corn cob
-	throw new Meteor.Error('doc-access-denied', `Can't edit that document`);
-};
+	// Shrink and transform into a corn cob
+	throw new Meteor.Error('doc-access-denied', `Can't edit that document`)
+}

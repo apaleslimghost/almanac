@@ -1,97 +1,109 @@
-import React from 'react';
-import styled, {css} from 'styled-components';
-import colours from '@quarterto/colours';
-import contrast from 'contrast';
-import {darken} from 'polished';
-import Ionicon from 'react-ionicons';
+import React from 'react'
+import styled, {css} from 'styled-components'
+import colours from '@quarterto/colours'
+import contrast from 'contrast'
 
 export const background = ({colour = 'sky', shade = 3}) => {
-	const bg = colours[colour][shade];
+	const bg = colours[colour][shade]
 
 	return css`
 		background: ${bg};
 		color: ${contrast(bg) === 'dark' ? 'white' : colours.steel[0]};
-	`;
-};
+	`
+}
 
-export const shadow = (level = 1) => [
-	0,
-	5,
-	4 * level - 3.5,
-	2 * level - 5,
-]
-	.map(a => `${a}px`)
-	.concat(`rgba(0, 0, 0, 0.2)`)
-	.join(' ');
+export const shadow = (level = 1) =>
+	[0, 5, 4 * level - 3.5, 2 * level - 5]
+		.map(a => `${a}px`)
+		.concat('rgba(0, 0, 0, 0.2)')
+		.join(' ')
 
-export const etched = ({colour = 'sky', shade = 3, sunken = false, focused = false}) => css`
-	${sunken ? css`background-color: white;` : background({colour, shade})}
-	border: solid 1px ${({colour = 'sky', shade = 3}) => colours[colour][shade - 1]};
+export const etched = ({
+	colour = 'sky',
+	shade = 3,
+	sunken = false,
+	focused = false
+}) => css`
+	${
+		sunken
+			? css`
+					background-color: white;
+			  `
+			: background({colour, shade})
+	}
+	border: solid 1px ${colours[colour][shade - 1]};
 	box-shadow: ${[
 		sunken && `inset ${shadow()}`,
-		focused && `0 0 3px 2px ${colours.sky[4]}`,
-	].filter(i => i).join() || 'unset'};
-`;
+		focused && `0 0 3px 2px ${colours.sky[4]}`
+	]
+		.filter(i => i)
+		.join() || 'unset'};
+`
 
 export const List = styled.div.attrs({
-	'data-spacing': ({spaced}) => spaced ? '0.5em' : '2px',
+	'data-spacing': ({spaced}) => (spaced ? '0.5em' : '2px')
 })`
 	display: flex;
-	align-items: ${({vertical}) => vertical ? 'stretch' : 'flex-start'};
+	align-items: ${({vertical}) => (vertical ? 'stretch' : 'flex-start')};
 	flex-wrap: wrap;
-	flex-direction: ${({vertical}) => vertical ? 'column' : 'row'};
+	flex-direction: ${({vertical}) => (vertical ? 'column' : 'row')};
 	margin: -${({'data-spacing': spacing}) => spacing};
 
 	& > * {
 		margin: ${({'data-spacing': spacing}) => spacing};
 	}
-`;
+`
 
 export const Padded = styled.div`
 	margin: 1rem;
-`;
+`
 
 export const Card = styled.div`
-	grid-column-end: span ${({large}) => large ? 2 : 1};
+	grid-column-end: span ${({large}) => (large ? 2 : 1)};
 	border: 1px solid ${colours.steel[3]};
 	padding: 1rem;
 	border-radius: 2px;
 	box-shadow: ${shadow()};
 	column-width: 18em;
 	column-gap: 1rem;
-`;
+`
 
 // TODO: use theme for label colour
 
 export const Label = styled.span`
 	display: inline-block;
 	${etched}
-	${({large}) => !large && css`font-size: 0.8em;`}
+	${({large}) =>
+		!large &&
+		css`
+			font-size: 0.8em;
+		`}
 	padding: .25em 0;
-	border-radius: .15em;
-`;
+	border-radius: 0.15em;
+`
 
 export const LabelBody = styled.span`
-	padding: 0 .6em;
-`;
+	padding: 0 0.6em;
+`
 
 export const LabelTitle = styled.span`
 	display: inline-block;
-	${({colour = 'sky', shade = 3}) => background({colour, shade: Math.max(0, shade - 1)})}
+	${({colour = 'sky', shade = 3}) =>
+		background({colour, shade: Math.max(0, shade - 1)})}
 	padding: .25em .6em;
-	margin: -.25em 0;
+	margin: -0.25em 0;
 	border: 0 solid ${({colour = 'sky', shade = 3}) => colours[colour][shade]};
 
 	border-right-width: 1px;
 
 	&:first-child {
-		border-radius: .15em;
+		border-radius: 0.15em;
 		border-top-right-radius: 0;
 		border-bottom-right-radius: 0;
 	}
 
 	&:last-child {
-		border-radius: .15em;
+		border-radius: 0.15em;
 		border-top-left-radius: 0;
 		border-bottom-left-radius: 0;
 	}
@@ -101,7 +113,7 @@ export const LabelTitle = styled.span`
 		border-left-width: 1px;
 		margin-right: -1px; /* but why? */
 	}
-`;
+`
 
 export const LabelButton = LabelTitle.withComponent('button').extend`
 	appearance: none;
@@ -109,18 +121,19 @@ export const LabelButton = LabelTitle.withComponent('button').extend`
 	cursor: pointer;
 
 	&:hover {
-		${({colour = 'sky', shade = 3}) => background({colour, shade: Math.min(6, shade + 1)})}
+		${({colour = 'sky', shade = 3}) =>
+			background({colour, shade: Math.min(6, shade + 1)})}
 	}
-`;
+`
 
 export const Emoji = styled.span`
 	line-height: 1;
-`;
+`
 
 export const FormGroup = styled.label`
 	display: block;
-	margin-bottom: .5em;
-`;
+	margin-bottom: 0.5em;
+`
 
 const Button_ = Label.withComponent('button').extend`
 	font: inherit;
@@ -131,36 +144,40 @@ const Button_ = Label.withComponent('button').extend`
 	cursor: pointer;
 
 	&:hover {
-		${({colour = 'sky', shade = 3}) => background({colour, shade: Math.min(6, shade + 1)})}
+		${({colour = 'sky', shade = 3}) =>
+			background({colour, shade: Math.min(6, shade + 1)})}
 		box-shadow: ${shadow(1.5)};
-		${'' /* transform: translateY(-1px); */}
+		${''}
 	}
 
 	&:active {
 		transition-property: box-shadow, background;
 		box-shadow: ${shadow(0)};
-		${'' /* transform: translateY(2px); */}
+		${''}
 	}
 
 	&[disabled] {
 		pointer-events: none;
 		opacity: 0.6;
 	}
-`;
+`
 
-const makeButton = ({Button, Body}) => props => <Button large {...props}>
-	<Body>{props.children}</Body>
-</Button>;
+const makeButton = ({Button, Body}) => props => (
+	<Button large {...props}>
+		<Body>{props.children}</Body>
+	</Button>
+)
 
 export const Button = makeButton({
 	Button: Button_,
-	Body: LabelBody,
-});
+	Body: LabelBody
+})
 
-Button.extend = (...args) => makeButton({
-	Button: Button_.extend(...args),
-	Body: LabelBody,
-});
+Button.extend = (...args) =>
+	makeButton({
+		Button: Button_.extend(...args),
+		Body: LabelBody
+	})
 
 export const Group = List.extend`
 	${List} > & {
@@ -183,17 +200,17 @@ export const Group = List.extend`
 		}
 
 		&:first-child {
-			border-top-left-radius: .15em;
-			border-bottom-left-radius: .15em;
+			border-top-left-radius: 0.15em;
+			border-bottom-left-radius: 0.15em;
 		}
 
 		&:last-child {
-			border-top-right-radius: .15em;
-			border-bottom-right-radius: .15em;
+			border-top-right-radius: 0.15em;
+			border-bottom-right-radius: 0.15em;
 		}
 	}
-`;
+`
 
 export const LabelledInput = List.withComponent('label').extend`
 	align-items: center;
-`;
+`

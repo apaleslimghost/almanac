@@ -1,12 +1,12 @@
-import React from 'react';
-import styled, {css} from 'styled-components';
-import {aqua} from '@quarterto/colours';
-import {Bleed} from './grid';
-import {compose} from 'recompact';
-import connectSplashImage from '../data/splash';
-import {withCampaignData} from '../data/campaign';
-import { withOwnerData } from '../data/owner';
-import select from '../utils/select';
+import React from 'react'
+import styled, {css} from 'styled-components'
+import {aqua} from '@quarterto/colours'
+import {compose} from 'recompact'
+import connectSplashImage from '../data/splash'
+import {withCampaignData} from '../data/campaign'
+import {withOwnerData} from '../data/owner'
+import select from '../utils/select'
+import {Bleed} from './grid'
 
 const splashBackground = css`
 	display: flex;
@@ -14,23 +14,33 @@ const splashBackground = css`
 	justify-content: space-between;
 	align-items: stretch;
 
-	background-image:
-		linear-gradient(rgba(0, 20, 40, 0) 30%, rgba(0, 20, 40, 0.9)),
+	background-image: linear-gradient(
+			rgba(0, 20, 40, 0) 30%,
+			rgba(0, 20, 40, 0.9)
+		),
 		url(${({url}) => url});
 
 	background-color: ${({color}) => color};
 
-	${({url2x}) => url2x && css`@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-		background-image:
-			linear-gradient(rgba(0, 20, 40, 0) 30%, rgba(0, 20, 40, 0.9)),
-			url(${url2x});
-	}`}
+	${({url2x}) =>
+		url2x &&
+		css`
+			@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+				background-image: linear-gradient(
+						rgba(0, 20, 40, 0) 30%,
+						rgba(0, 20, 40, 0.9)
+					),
+					url(${url2x});
+			}
+		`}
 
 	background-size: cover;
 	background-position: center;
-`;
+`
 
-export const SplashBackground = styled.div`${splashBackground}`;
+export const SplashBackground = styled.div`
+	${splashBackground}
+`
 
 export const SplashBleed = Bleed.extend`
 	${splashBackground}
@@ -39,21 +49,22 @@ export const SplashBleed = Bleed.extend`
 	height: ${select({
 		large: '60vw',
 		small: '30vw',
-		default: '40vw',
+		default: '40vw'
 	})};
 
 	max-height: ${select({
 		large: '60vh',
 		small: '30vh',
-		default: '40vh',
+		default: '40vh'
 	})};
-`;
+`
 
 export const Hero = styled.div`
 	margin-top: auto;
 	color: white;
 
-	a:link, a:visited {
+	a:link,
+	a:visited {
 		color: inherit;
 		font-weight: bold;
 	}
@@ -65,7 +76,7 @@ export const Hero = styled.div`
 	a:active {
 		color: ${aqua[4]};
 	}
-`;
+`
 
 export const HeroTitle = styled.h2`
 	font-family: 'Libre Baskerville', serif;
@@ -86,7 +97,7 @@ export const HeroTitle = styled.h2`
 			margin-bottom: 2rem;
 		}
 	}
-`;
+`
 
 export const HeroSubtitle = styled.h3`
 	font-family: 'Libre Baskerville', serif;
@@ -104,9 +115,7 @@ export const HeroSubtitle = styled.h3`
 			font-size: 1.4em;
 		}
 	}
-`;
-
-
+`
 
 export const HeroBlurb = styled.p`
 	line-height: 1.6;
@@ -114,7 +123,7 @@ export const HeroBlurb = styled.p`
 	text-align: center;
 	padding: 0 1em;
 	margin: 0 0 1em;
-	font-size: .8em;
+	font-size: 0.8em;
 
 	${SplashBleed} & {
 		@media (min-width: 25em) {
@@ -125,20 +134,26 @@ export const HeroBlurb = styled.p`
 			font-size: 1.2em;
 		}
 	}
-`;
+`
 
 const connectCampaignSplash = compose(
 	withCampaignData,
 	connectSplashImage,
-	withOwnerData('campaign'),
-);
+	withOwnerData('campaign')
+)
 
-export const CampaignSplash = connectCampaignSplash(({campaign, noBlurb, ownerUser, children, ...props}) => <SplashBleed {...props}>
-	<Hero>
-		{children}
-		<HeroTitle>{campaign.title}</HeroTitle>
-		{!noBlurb && (campaign.tagline || ownerUser) &&
-			<HeroBlurb>{campaign.tagline || `A campaign by ${ownerUser.username}`}</HeroBlurb>
-		}
-	</Hero>
-</SplashBleed>);
+export const CampaignSplash = connectCampaignSplash(
+	({campaign, noBlurb, ownerUser, children, ...props}) => (
+		<SplashBleed {...props}>
+			<Hero>
+				{children}
+				<HeroTitle>{campaign.title}</HeroTitle>
+				{!noBlurb && (campaign.tagline || ownerUser) && (
+					<HeroBlurb>
+						{campaign.tagline || `A campaign by ${ownerUser.username}`}
+					</HeroBlurb>
+				)}
+			</Hero>
+		</SplashBleed>
+	)
+)

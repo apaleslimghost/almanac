@@ -1,53 +1,49 @@
-import React from 'react';
-import {route_} from 'boulevard';
-import * as reactiveHistory from 'meteor/quarterto:reactive-history';
-import {withTracker} from 'meteor/react-meteor-data';
-import {compose, lifecycle, withProps} from 'recompact';
+import * as reactiveHistory from 'meteor/quarterto:reactive-history'
+import {withTracker} from 'meteor/react-meteor-data'
+import React from 'react'
+import {route_} from 'boulevard'
+import {compose, lifecycle, withProps} from 'recompact'
 
-export const link = reactiveHistory.link;
-export const setUrl = reactiveHistory.setUrl;
-export const go = reactiveHistory.navigate;
+export const {link, setUrl, navigate: go} = reactiveHistory
 
-const router = route_({
+const route = route_({
 	getUrl({url}) {
-		return url;
+		return url
 	},
 
 	addParams(params, [{state, url}]) {
-		return [params, state, url];
+		return [params, state, url]
 	},
 
 	fourOhFour(params, state, url) {
-		return <h1>
-			{url} not found
-		</h1>;
-	},
-});
+		return <h1>{url} not found</h1>
+	}
+})
 
 const withHistoryLifecycle = lifecycle({
 	componentDidMount() {
-		reactiveHistory.start();
+		reactiveHistory.start()
 	},
 
 	componentWillUnmount() {
-		reactiveHistory.stop();
+		reactiveHistory.stop()
 	}
-});
+})
 
 const withRouter = withProps(({routes}) => ({
-	router: router(routes)
-}));
+	router: route(routes)
+}))
 
 const withHistory = withTracker(({router}) => ({
 	currentRoute: reactiveHistory.history.get(),
 	children: router({
 		url: reactiveHistory.history.get(),
-		state: reactiveHistory.state.get(),
-	}),
-}));
+		state: reactiveHistory.state.get()
+	})
+}))
 
 export default compose(
 	withHistoryLifecycle,
 	withRouter,
-	withHistory,
-);
+	withHistory
+)

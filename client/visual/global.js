@@ -1,19 +1,24 @@
+import url from 'url'
 import {injectGlobal} from 'styled-components'
-import url from 'url';
-import {steel, sky} from '@quarterto/colours';
-import {background} from '../utils/colors';
+import {steel, sky} from '@quarterto/colours'
+import {background} from '../utils/colors'
 
-
-const buildGoogleFontsUrl = fonts => url.format({
-	protocol: 'https',
-	host: 'fonts.googleapis.com',
-	pathname: 'css',
-	query: {
-		family: Object.keys(fonts).map(font =>
-			`${font}${fonts[font].length ? `:${fonts[font].join(',')}` : ''}`
-		).join('|'),
-	},
-})
+const buildGoogleFontsUrl = fonts =>
+	url.format({
+		protocol: 'https',
+		host: 'fonts.googleapis.com',
+		pathname: 'css',
+		query: {
+			family: Object.keys(fonts)
+				.map(
+					font =>
+						`${font}${
+							fonts[font].length > 0 ? `:${fonts[font].join(',')}` : ''
+						}`
+				)
+				.join('|')
+		}
+	})
 
 injectGlobal`
 	@import url(${buildGoogleFontsUrl({
@@ -40,4 +45,4 @@ injectGlobal`
 	:focus {
 		outline: 3px solid ${sky[3]};
 	}
-`;
+`

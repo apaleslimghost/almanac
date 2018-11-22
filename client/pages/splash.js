@@ -1,18 +1,18 @@
-import React from 'react';
-import styled from 'styled-components';
-import Link from '../control/link';
-import {go} from '../utils/router';
-import {hidesNav} from './layout';
-import Logo from '../visual/logo';
-import {Button} from '../visual/primitives';
-import generateCampaign from '@quarterto/campaign-name-generator';
-import {H3} from '../visual/heading';
-import {SplashBleed, Hero, HeroTitle, HeroBlurb} from '../visual/splash';
-import formJson from '@quarterto/form-json';
-import url from 'url';
-import {Input} from '../visual/form';
+import url from 'url'
+import React from 'react'
+import styled from 'styled-components'
+import generateCampaign from '@quarterto/campaign-name-generator'
+import formJson from '@quarterto/form-json'
+import Link from '../control/link'
+import {go} from '../utils/router'
+import Logo from '../visual/logo'
+import {Button} from '../visual/primitives'
+import {H3} from '../visual/heading'
+import {SplashBleed, Hero, HeroTitle, HeroBlurb} from '../visual/splash'
+import {Input} from '../visual/form'
+import {hidesNav} from './layout'
 
-const formHeight = '160px';
+const formHeight = '160px'
 
 const SplashWithForm = SplashBleed.extend`
 	margin-bottom: ${formHeight};
@@ -20,7 +20,7 @@ const SplashWithForm = SplashBleed.extend`
 	@media (min-width: 40em) {
 		margin-bottom: 0;
 	}
-`;
+`
 
 const SplashLogo = styled(Logo)`
 	height: 1.4em;
@@ -32,7 +32,7 @@ const SplashLogo = styled(Logo)`
 	@media (min-width: 40em) {
 		height: 3em;
 	}
-`;
+`
 
 const Split = styled.div`
 	display: flex;
@@ -47,7 +47,7 @@ const Split = styled.div`
 		margin-top: 0;
 		flex-direction: row;
 	}
-`;
+`
 
 const SplitBlurb = HeroBlurb.extend`
 	@media (min-width: 40em) {
@@ -57,7 +57,7 @@ const SplitBlurb = HeroBlurb.extend`
 		padding-right: 1em;
 		border-right: 1px solid white;
 	}
-`;
+`
 
 const SplashForm = styled.form`
 	background: #102535;
@@ -76,39 +76,55 @@ const SplashForm = styled.form`
 		align-items: flex-start;
 		background: none;
 	}
-`;
+`
 
-const CTA = Button.extend`
+const CallToAction = Button.extend`
 	padding: 0.4em;
 	margin-top: 0.4em;
 	margin-right: 0.4em;
 	font-size: 1.1em;
-`;
+`
 
 const startCreateFlow = ev => {
-	ev.preventDefault();
-	const {title} = formJson(ev.target);
-	const {pathname} = url.parse(ev.target.action);
+	ev.preventDefault()
+	const {title} = formJson(ev.target)
+	const {pathname} = url.parse(ev.target.action)
 
-	go(pathname, {title});
-};
+	go(pathname, {title})
+}
 
-const Splash = hidesNav(() => <SplashWithForm large url='/images/splash.jpg' url2x='/images/splash@2x.jpg' color='#BEBDA0'>
-	<SplashLogo />
-	<Hero>
-		<HeroTitle>The sandbox RPG app.</HeroTitle>
+const Splash = hidesNav(() => (
+	<SplashWithForm
+		large
+		url='/images/splash.jpg'
+		url2x='/images/splash@2x.jpg'
+		color='#BEBDA0'
+	>
+		<SplashLogo />
+		<Hero>
+			<HeroTitle>The sandbox RPG app.</HeroTitle>
 
-		<Split>
-			<SplitBlurb>Everything you need to run a sandbox tabletop RPG & get your players involved in your world.</SplitBlurb>
-			<SplashForm action='/get-started' onSubmit={startCreateFlow}>
-				<H3>Start your campaign</H3>
-				<Input name='title' size={30} placeholder={generateCampaign()} required />
-				<div>
-					<CTA>Get started</CTA> or, <Link href='/login'>log in</Link>.
-				</div>
-			</SplashForm>
-		</Split>
-	</Hero>
-</SplashWithForm>);
+			<Split>
+				<SplitBlurb>
+					Everything you need to run a sandbox tabletop RPG & get your players
+					involved in your world.
+				</SplitBlurb>
+				<SplashForm action='/get-started' onSubmit={startCreateFlow}>
+					<H3>Start your campaign</H3>
+					<Input
+						required
+						name='title'
+						size={30}
+						placeholder={generateCampaign()}
+					/>
+					<div>
+						<CallToAction>Get started</CallToAction> or,{' '}
+						<Link href='/login'>log in</Link>.
+					</div>
+				</SplashForm>
+			</Split>
+		</Hero>
+	</SplashWithForm>
+))
 
-export default Splash;
+export default Splash

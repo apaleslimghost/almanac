@@ -1,21 +1,21 @@
-import {withHandlers} from 'recompact';
-import formJson from '@quarterto/form-json';
-import {Card} from '../../../../shared/methods';
-import access from '../../../../shared/access';
+import {withHandlers} from 'recompact'
+import formJson from '@quarterto/form-json'
+import {Card} from '../../../../shared/methods'
+import access from '../../../../shared/access'
 
 const questsActions = withHandlers({
 	onCreateQuest: ({campaignId, campaignSession}) => ev => {
-		ev.preventDefault();
-		const data = formJson(ev.target);
-		ev.target.reset();
+		ev.preventDefault()
+		const data = formJson(ev.target)
+		ev.target.reset()
 
 		Card.create({
 			...data,
 			type: 'quest',
 			campaignId,
-			access: {edit: access.PRIVATE, view: access.PRIVATE},
-		});
-	},
-});
+			access: {edit: access.PRIVATE, view: access.PRIVATE}
+		})
+	}
+})
 
-export default questsActions;
+export default questsActions

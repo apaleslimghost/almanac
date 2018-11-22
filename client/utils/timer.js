@@ -1,11 +1,12 @@
-import {lifecycle} from 'recompact';
+import {lifecycle} from 'recompact'
 
-export default (interval, onFire) => lifecycle({
-	componentDidMount() {
-		this.timer = setInterval(() => onFire(this.props), interval);
-	},
+export default (interval, onFire) =>
+	lifecycle({
+		componentDidMount() {
+			this.timer = setInterval(() => onFire(this.props), interval)
+		},
 
-	componentWillUnmount() {
-		clearInterval(this.timer);
-	}
-});
+		componentWillUnmount() {
+			clearInterval(this.timer)
+		}
+	})
