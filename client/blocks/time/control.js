@@ -1,9 +1,9 @@
 import React from 'react'
-import {compose, withState, withHandlers, withPropsOnChange} from 'recompact'
-import {withCampaignSession} from '../../data/campaign'
-import {Button, List, Group} from '../../visual/primitives'
-import {Input} from '../../visual/form'
-import {withCampaignDate} from '../../data/calendar'
+import { compose, withState, withHandlers, withPropsOnChange } from 'recompact'
+import { withCampaignSession } from '../../data/campaign'
+import { Button, List, Group } from '../../visual/primitives'
+import { Input } from '../../visual/form'
+import { withCampaignDate } from '../../data/calendar'
 import preventingDefault from '../../utils/preventing-default'
 import connectTime from './connect/time'
 import Time from './display'
@@ -16,7 +16,7 @@ const connectIncrement = compose(
 	withIncrement
 )
 
-const Inc = connectIncrement(({onIncrement, multiplier = 1, period}) => (
+const Inc = connectIncrement(({ onIncrement, multiplier = 1, period }) => (
 	<Button large={false} colour='steel' onClick={onIncrement}>
 		{multiplier > 0 && '+'}
 		{multiplier}
@@ -25,12 +25,12 @@ const Inc = connectIncrement(({onIncrement, multiplier = 1, period}) => (
 ))
 
 const withDateActions = withHandlers({
-	onSubmit: ({CampaignDate, campaignSession, _date}) => ev => {
+	onSubmit: ({ CampaignDate, campaignSession, _date }) => ev => {
 		campaignSession.set('date', new CampaignDate(_date).timestamp)
 	}
 })
 
-const withDateState = withState('_date', 'setDate', ({date}) => date.P)
+const withDateState = withState('_date', 'setDate', ({ date }) => date.P)
 
 const connectDateForm = compose(
 	withCampaignSession,
@@ -38,12 +38,12 @@ const connectDateForm = compose(
 	connectTime,
 	withDateState,
 	withDateActions,
-	withPropsOnChange(['date'], ({date, setDate}) => {
+	withPropsOnChange(['date'], ({ date, setDate }) => {
 		setDate(date.P)
 	})
 )
 
-const DateForm = connectDateForm(({_date, setDate, onSubmit}) => (
+const DateForm = connectDateForm(({ _date, setDate, onSubmit }) => (
 	<form onSubmit={preventingDefault(onSubmit)}>
 		<Input value={_date} size={35} onChange={ev => setDate(ev.target.value)} />
 		<Button>Set</Button>

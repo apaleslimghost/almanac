@@ -1,23 +1,23 @@
-import {Accounts} from 'meteor/accounts-base'
+import { Accounts } from 'meteor/accounts-base'
 import React from 'react'
-import {toast} from 'react-toastify'
-import {LabelledInput, Button} from '../visual/primitives'
-import {Form} from '../control/form'
-import {Input} from '../visual/form'
-import {go} from '../utils/router'
+import { toast } from 'react-toastify'
+import { LabelledInput, Button } from '../visual/primitives'
+import { Form } from '../control/form'
+import { Input } from '../visual/form'
+import { go } from '../utils/router'
 
-const resetPassword = token => ({password}) =>
+const resetPassword = token => ({ password }) =>
 	Accounts.resetPassword(token, password, (err, ...r) => {
 		if (err) {
 			toast.error(err.reason)
 		} else {
 			Accounts._enableAutoLogin()
-			const {profile} = Meteor.user()
+			const { profile } = Meteor.user()
 			go(`/${profile.defaultCampaign}`)
 		}
 	})
 
-export default ({token}) => (
+export default ({ token }) => (
 	<Form onSubmit={resetPassword(token)}>
 		<LabelledInput>
 			Password

@@ -1,13 +1,13 @@
 import React from 'react'
 import formJson from '@quarterto/form-json'
 import styled from 'styled-components'
-import {compose, withHandlers, withProps} from 'recompact'
+import { compose, withHandlers, withProps } from 'recompact'
 import Ornamented from '../visual/ornamented'
 import Icon from '../visual/icon'
-import {withCampaign} from '../data/campaign'
-import {Button} from '../visual/primitives'
+import { withCampaign } from '../data/campaign'
+import { Button } from '../visual/primitives'
 import withCards from '../data/card'
-import {Card} from '../../shared/methods'
+import { Card } from '../../shared/methods'
 
 const relationshipLabel = {
 	'-2': 'Hostile',
@@ -30,20 +30,20 @@ const Right = styled.span`
 `
 
 const connectModRelationship = withHandlers({
-	modRelationship: ({amount, faction}) => ev => {
+	modRelationship: ({ amount, faction }) => ev => {
 		const relationship = (faction.relationship || 0) + amount
 
 		if (
 			amount + faction.relationship < 3 &&
 			amount + faction.relationship > -3
 		) {
-			Card.update(faction, {relationship})
+			Card.update(faction, { relationship })
 		}
 	}
 })
 
 const ModRelationship = connectModRelationship(
-	({amount, faction, modRelationship}) => (
+	({ amount, faction, modRelationship }) => (
 		<Button
 			disabled={amount * faction.relationship >= 2}
 			onClick={modRelationship}
@@ -53,7 +53,7 @@ const ModRelationship = connectModRelationship(
 	)
 )
 
-const Relationship = ({control, modRelationship, faction}) => (
+const Relationship = ({ control, modRelationship, faction }) => (
 	<Right>
 		{relationshipLabel[faction.relationship || 0]}{' '}
 		<Icon icon={relationshipIcon[faction.relationship || 0]} />
@@ -67,7 +67,7 @@ const Relationship = ({control, modRelationship, faction}) => (
 )
 
 const withFactionActions = withHandlers({
-	onCreate: ({campaignId}) => ev => {
+	onCreate: ({ campaignId }) => ev => {
 		ev.preventDefault()
 		const data = formJson(ev.target)
 		ev.target.reset()
@@ -82,16 +82,16 @@ const withFactionActions = withHandlers({
 })
 
 const connectRemoveButton = withHandlers({
-	remove: ({faction}) => ev => {
+	remove: ({ faction }) => ev => {
 		Card.delete(faction)
 	}
 })
 
-const Remove = connectRemoveButton(({remove}) => (
+const Remove = connectRemoveButton(({ remove }) => (
 	<Button onClick={remove}>×</Button>
 ))
 
-const withFactionData = withCards('factions', {type: 'faction'})
+const withFactionData = withCards('factions', { type: 'faction' })
 
 const connectFactions = compose(
 	withCampaign,
@@ -100,7 +100,7 @@ const connectFactions = compose(
 )
 
 const ShowFactions = connectFactions(
-	({factions, onCreate, remove, control = false}) => (
+	({ factions, onCreate, remove, control = false }) => (
 		<div>
 			<Ornamented ornament='x'>Factions</Ornamented>
 
@@ -124,6 +124,6 @@ const ShowFactions = connectFactions(
 	)
 )
 
-const FactionsControl = withProps({control: true})(ShowFactions)
+const FactionsControl = withProps({ control: true })(ShowFactions)
 
-export {ShowFactions as display, FactionsControl as control}
+export { ShowFactions as display, FactionsControl as control }

@@ -1,48 +1,29 @@
-import {withTracker} from 'meteor/react-meteor-data'
 import React from 'react'
 import _ from 'lodash'
-import {compose} from 'recompact'
-import {withCampaignSession} from '../data/campaign'
+import { compose, withHandlers } from 'recompact'
+import { withCampaignSession } from '../data/campaign'
+import withCards from '../data/card'
+import { Card } from '../../shared/methods'
 
-import {Cards} from '../../shared/collections'
-import {Card} from '../../shared/methods'
-import subscribe from '../utils/subscribe'
-import {buildGraph, distances} from '../utils/graph'
+import ShowCard, { EditCard } from '../document/card'
+import { Card as CardPrimitive } from '../visual/primitives'
+import { FlexGrid } from '../visual/grid'
 
-import ShowCard, {EditCard} from '../document/card'
-import {Card as CardPrimitive} from '../visual/primitives'
-import {FlexGrid} from '../visual/grid'
+const withAllCards = withCards('cards')
 
-const withCardListActions = withTracker(props => {
-	const {campaignSession, campaignId} = props
-	const selectedCard = campaignSession.get('selectedCard')
-	// TODO: use withCard
-	const cards = Cards.find({campaignId}).fetch()
-
-	if (selectedCard) {
-		const graph = buildGraph(cards)
-		const d = distances(graph, selectedCard)
-
-		cards.forEach(card => {
-			card.sortedIndex = d[card._id]
-		})
-	}
-
-	return {
-		ready: subscribe('cards.all'),
-		cards: _.orderBy(cards, ['sortedIndex', 'title']),
-		addCard(card) {
-			Card.create({...card, campaignId})
-		}
+const withCardListActions = withHandlers({
+	addCard: ({ campaignId }) => card => {
+		Card.create({ ...card, campaignId })
 	}
 })
 
 const connectCardList = compose(
 	withCampaignSession,
-	withCardListActions
+	withCardListActions,
+	withAllCards
 )
 
-const CardList = connectCardList(({cards, addCard}) => (
+const CardList = connectCardList(({ cards, addCard }) => (
 	<FlexGrid>
 		{cards.map(card => (
 			<ShowCard key={card._id} card={card} />

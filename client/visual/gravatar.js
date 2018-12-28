@@ -27,6 +27,6 @@ const formatGravatarUrl = email =>
 		}
 	})
 
-export default ({email, ...props}) => (
+export default ({ email, ...props }) => (
 	<Gravatar src={formatGravatarUrl(email)} alt={email} {...props} />
 )

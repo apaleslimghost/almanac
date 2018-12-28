@@ -1,4 +1,4 @@
-import {lifecycle} from 'recompact'
+import { lifecycle } from 'recompact'
 
 export default (interval, onFire) =>
 	lifecycle({

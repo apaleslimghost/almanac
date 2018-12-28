@@ -1,9 +1,9 @@
 import React from 'react'
-import styled, {css} from 'styled-components'
+import styled, { css } from 'styled-components'
 import colours from '@quarterto/colours'
 import contrast from 'contrast'
 
-export const background = ({colour = 'sky', shade = 3}) => {
+export const background = ({ colour = 'sky', shade = 3 }) => {
 	const bg = colours[colour][shade]
 
 	return css`
@@ -29,7 +29,7 @@ export const etched = ({
 			? css`
 					background-color: white;
 			  `
-			: background({colour, shade})
+			: background({ colour, shade })
 	}
 	border: solid 1px ${colours[colour][shade - 1]};
 	box-shadow: ${[
@@ -41,16 +41,16 @@ export const etched = ({
 `
 
 export const List = styled.div.attrs({
-	'data-spacing': ({spaced}) => (spaced ? '0.5em' : '2px')
+	'data-spacing': ({ spaced }) => (spaced ? '0.5em' : '2px')
 })`
 	display: flex;
-	align-items: ${({vertical}) => (vertical ? 'stretch' : 'flex-start')};
+	align-items: ${({ vertical }) => (vertical ? 'stretch' : 'flex-start')};
 	flex-wrap: wrap;
-	flex-direction: ${({vertical}) => (vertical ? 'column' : 'row')};
-	margin: -${({'data-spacing': spacing}) => spacing};
+	flex-direction: ${({ vertical }) => (vertical ? 'column' : 'row')};
+	margin: -${({ 'data-spacing': spacing }) => spacing};
 
 	& > * {
-		margin: ${({'data-spacing': spacing}) => spacing};
+		margin: ${({ 'data-spacing': spacing }) => spacing};
 	}
 `
 
@@ -59,7 +59,7 @@ export const Padded = styled.div`
 `
 
 export const Card = styled.div`
-	grid-column-end: span ${({large}) => (large ? 2 : 1)};
+	grid-column-end: span ${({ large }) => (large ? 2 : 1)};
 	border: 1px solid ${colours.steel[3]};
 	padding: 1rem;
 	border-radius: 2px;
@@ -73,7 +73,7 @@ export const Card = styled.div`
 export const Label = styled.span`
 	display: inline-block;
 	${etched}
-	${({large}) =>
+	${({ large }) =>
 		!large &&
 		css`
 			font-size: 0.8em;
@@ -88,11 +88,11 @@ export const LabelBody = styled.span`
 
 export const LabelTitle = styled.span`
 	display: inline-block;
-	${({colour = 'sky', shade = 3}) =>
-		background({colour, shade: Math.max(0, shade - 1)})}
+	${({ colour = 'sky', shade = 3 }) =>
+		background({ colour, shade: Math.max(0, shade - 1) })}
 	padding: .25em .6em;
 	margin: -0.25em 0;
-	border: 0 solid ${({colour = 'sky', shade = 3}) => colours[colour][shade]};
+	border: 0 solid ${({ colour = 'sky', shade = 3 }) => colours[colour][shade]};
 
 	border-right-width: 1px;
 
@@ -121,8 +121,8 @@ export const LabelButton = LabelTitle.withComponent('button').extend`
 	cursor: pointer;
 
 	&:hover {
-		${({colour = 'sky', shade = 3}) =>
-			background({colour, shade: Math.min(6, shade + 1)})}
+		${({ colour = 'sky', shade = 3 }) =>
+			background({ colour, shade: Math.min(6, shade + 1) })}
 	}
 `
 
@@ -144,8 +144,8 @@ const Button_ = Label.withComponent('button').extend`
 	cursor: pointer;
 
 	&:hover {
-		${({colour = 'sky', shade = 3}) =>
-			background({colour, shade: Math.min(6, shade + 1)})}
+		${({ colour = 'sky', shade = 3 }) =>
+			background({ colour, shade: Math.min(6, shade + 1) })}
 		box-shadow: ${shadow(1.5)};
 		${''}
 	}
@@ -162,7 +162,7 @@ const Button_ = Label.withComponent('button').extend`
 	}
 `
 
-const makeButton = ({Button, Body}) => props => (
+const makeButton = ({ Button, Body }) => props => (
 	<Button large {...props}>
 		<Body>{props.children}</Body>
 	</Button>

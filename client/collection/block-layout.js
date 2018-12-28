@@ -1,17 +1,17 @@
-import {withTracker} from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import styled, {injectGlobal} from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
 import {
 	default as GridLayout,
 	WidthProvider as widthProvider
 } from 'react-grid-layout'
-import {withState, withHandlers, compose} from 'recompact'
-import {Layouts} from '../../shared/collections'
-import {withCampaign} from '../data/campaign'
+import { withState, withHandlers, compose } from 'recompact'
+import { Layouts } from '../../shared/collections'
+import { withCampaign } from '../data/campaign'
 import * as blocks from '../blocks'
 import subscribe from '../utils/subscribe'
-import {Layout} from '../../shared/methods'
-import {Bleed} from '../visual/grid'
+import { Layout } from '../../shared/methods'
+import { Bleed } from '../visual/grid'
 
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -39,7 +39,7 @@ const GridLayoutWidth = widthProvider(GridLayout)
 
 const connectSelect = withState('selected', 'select', '')
 
-const ComponentSelect = connectSelect(({onSelect, select, selected}) => (
+const ComponentSelect = connectSelect(({ onSelect, select, selected }) => (
 	<div>
 		<select
 			value={selected}
@@ -74,20 +74,20 @@ const CloseButton = styled.button`
 	z-index: 1000;
 `
 
-const withLayoutData = withTracker(({campaignId}) => ({
+const withLayoutData = withTracker(({ campaignId }) => ({
 	ready: subscribe('layout.all'),
-	layout: Layouts.find({campaignId}).fetch()
+	layout: Layouts.find({ campaignId }).fetch()
 }))
 
 const withLayoutActions = withHandlers({
 	updateLayout: () => layout => {
-		layout.forEach(({i, ...item}) => {
-			Layout.update({_id: i}, item)
+		layout.forEach(({ i, ...item }) => {
+			Layout.update({ _id: i }, item)
 		})
 	},
 
-	addComponent: ({campaignId}) => component => {
-		Layout.create({component, x: 0, y: 0, w: 2, h: 1, campaignId})
+	addComponent: ({ campaignId }) => component => {
+		Layout.create({ component, x: 0, y: 0, w: 2, h: 1, campaignId })
 	},
 
 	removeComponent: () => layout => {
@@ -102,11 +102,18 @@ const connectLayout = compose(
 )
 
 export default connectLayout(
-	({which, layout, updateLayout, addComponent, removeComponent, ...props}) => (
+	({
+		which,
+		layout,
+		updateLayout,
+		addComponent,
+		removeComponent,
+		...props
+	}) => (
 		<Bleed className={`grid-${which}`}>
 			{which === 'control' && <ComponentSelect onSelect={addComponent} />}
 			<GridLayoutWidth
-				layout={layout.map(({_id, ...item}) => ({i: _id, ...item}))}
+				layout={layout.map(({ _id, ...item }) => ({ i: _id, ...item }))}
 				isDraggable={which === 'control'}
 				isResizable={which === 'control'}
 				rowHeight={60}

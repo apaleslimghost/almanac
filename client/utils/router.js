@@ -1,17 +1,17 @@
 import * as reactiveHistory from 'meteor/quarterto:reactive-history'
-import {withTracker} from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import {route_} from 'boulevard'
-import {compose, lifecycle, withProps} from 'recompact'
+import { route_ } from 'boulevard'
+import { compose, lifecycle, withProps } from 'recompact'
 
-export const {link, setUrl, navigate: go} = reactiveHistory
+export const { link, setUrl, navigate: go } = reactiveHistory
 
 const route = route_({
-	getUrl({url}) {
+	getUrl({ url }) {
 		return url
 	},
 
-	addParams(params, [{state, url}]) {
+	addParams(params, [{ state, url }]) {
 		return [params, state, url]
 	},
 
@@ -30,11 +30,11 @@ const withHistoryLifecycle = lifecycle({
 	}
 })
 
-const withRouter = withProps(({routes}) => ({
+const withRouter = withProps(({ routes }) => ({
 	router: route(routes)
 }))
 
-const withHistory = withTracker(({router}) => ({
+const withHistory = withTracker(({ router }) => ({
 	currentRoute: reactiveHistory.history.get(),
 	children: router({
 		url: reactiveHistory.history.get(),

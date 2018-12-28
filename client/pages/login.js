@@ -1,11 +1,11 @@
-import {Meteor} from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor'
 import React from 'react'
-import {toast} from 'react-toastify'
-import {withHandlers} from 'recompact'
-import {go} from '../utils/router'
-import {LabelledInput, Button} from '../visual/primitives'
-import {Form} from '../control/form'
-import {Input} from '../visual/form'
+import { toast } from 'react-toastify'
+import { withHandlers } from 'recompact'
+import { go } from '../utils/router'
+import { LabelledInput, Button } from '../visual/primitives'
+import { Form } from '../control/form'
+import { Input } from '../visual/form'
 
 export const loggedInRedirect = user => {
 	if (user) {
@@ -17,7 +17,7 @@ export const loggedInRedirect = user => {
 }
 
 const withLoginActions = withHandlers({
-	login: ({onLogin = loggedInRedirect}) => ({userOrEmail, password}) => {
+	login: ({ onLogin = loggedInRedirect }) => ({ userOrEmail, password }) => {
 		Meteor.loginWithPassword(userOrEmail, password, err => {
 			if (err) {
 				toast.error(err.reason)
@@ -28,7 +28,7 @@ const withLoginActions = withHandlers({
 	}
 })
 
-export default withLoginActions(({onLogin, login}) => (
+export default withLoginActions(({ onLogin, login }) => (
 	<Form onSubmit={login}>
 		<LabelledInput>
 			Username or email

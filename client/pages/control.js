@@ -1,13 +1,13 @@
 import React from 'react'
-import {compose, withHandlers, withProps} from 'recompact'
+import { compose, withHandlers, withProps } from 'recompact'
 import BlockLayout from '../collection/block-layout'
 import Icon from '../visual/icon'
-import {withCampaignData} from '../data/campaign'
-import {assertAmOwner} from '../data/owner'
-import {MenuLink, withExtraNavItems} from './layout'
+import { withCampaignData } from '../data/campaign'
+import { assertAmOwner } from '../data/owner'
+import { MenuLink, withExtraNavItems } from './layout'
 
 const withDashboardActions = withHandlers({
-	launchDashboard: ({campaign}) => ev => {
+	launchDashboard: ({ campaign }) => ev => {
 		ev.preventDefault()
 
 		window.open(
@@ -18,7 +18,7 @@ const withDashboardActions = withHandlers({
 	}
 })
 
-const LaunchLink = ({campaign, launchDashboard}) => (
+const LaunchLink = ({ campaign, launchDashboard }) => (
 	<MenuLink href={`/${campaign._id}/dashboard`} onClick={launchDashboard}>
 		<Icon icon='scroll-unfurled' />
 		Launch Dashboard
@@ -30,7 +30,7 @@ const connectDashboardControl = compose(
 	assertAmOwner('campaign'),
 	withDashboardActions,
 	withExtraNavItems(LaunchLink),
-	withProps({which: 'control'})
+	withProps({ which: 'control' })
 )
 
 export default connectDashboardControl(BlockLayout)

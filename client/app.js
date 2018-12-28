@@ -1,4 +1,4 @@
-import {compose, withState, withPropsOnChange} from 'recompact'
+import { compose, withState, withPropsOnChange } from 'recompact'
 import withRouter from './utils/router'
 import withCatch from './utils/catch'
 import displayError from './utils/error'
@@ -14,11 +14,11 @@ const connectApp = compose(
 	errorState,
 	mainCatch,
 	displayError,
-	withPropsOnChange('currentRoute', ({setError}) => {
+	withPropsOnChange('currentRoute', ({ setError }) => {
 		setError(null)
 	})
 )
 
-const App = connectApp(({children}) => children)
+const App = connectApp(({ children }) => children)
 
 export default App

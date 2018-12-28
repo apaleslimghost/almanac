@@ -1,4 +1,9 @@
-export const distances = (graph, start, visited = {[start]: 0}, depth = 1) => {
+export const distances = (
+	graph,
+	start,
+	visited = { [start]: 0 },
+	depth = 1
+) => {
 	const next = graph[start]
 	const nextDepth = depth + 1
 
@@ -19,6 +24,6 @@ export const distances = (graph, start, visited = {[start]: 0}, depth = 1) => {
 
 export const buildGraph = cards =>
 	cards.reduce(
-		(graph, card) => Object.assign(graph, {[card._id]: card.related}),
+		(graph, card) => Object.assign(graph, { [card._id]: card.related }),
 		{}
 	)

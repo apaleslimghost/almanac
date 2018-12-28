@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import accessLevels from '../../shared/access'
 import Icon from '../visual/icon'
-import {LabelledInput as Label, FormGroup} from '../visual/primitives'
-import {Form, FormFieldData, Input, getInputValue} from './form'
+import { LabelledInput as Label, FormGroup } from '../visual/primitives'
+import { Form, FormFieldData, Input, getInputValue } from './form'
 
 const match = matches => value =>
 	value in matches ? matches[value] : matches.default
@@ -20,11 +20,11 @@ const getPrivacyLabel = match({
 	[accessLevels.PUBLIC]: 'Public'
 })
 
-const defaultAccess = {view: accessLevels.PRIVATE, edit: accessLevels.PRIVATE}
+const defaultAccess = { view: accessLevels.PRIVATE, edit: accessLevels.PRIVATE }
 
-const PrivacyIcon = ({level}) => <Icon icon={getPrivacyIcon(level)} />
+const PrivacyIcon = ({ level }) => <Icon icon={getPrivacyIcon(level)} />
 
-export const PrivacyIcons = ({access = defaultAccess}) => (
+export const PrivacyIcons = ({ access = defaultAccess }) => (
 	<>
 		<span>
 			view <PrivacyIcon level={access.view} />
@@ -36,10 +36,10 @@ export const PrivacyIcons = ({access = defaultAccess}) => (
 )
 
 const Range = styled(Input)`
-	width: ${({max}) => (100 * max) / accessLevels.PUBLIC}px;
+	width: ${({ max }) => (100 * max) / accessLevels.PUBLIC}px;
 `
 
-const AccessSelect = ({maxLevel = accessLevels.PUBLIC, ...props}) => (
+const AccessSelect = ({ maxLevel = accessLevels.PUBLIC, ...props }) => (
 	<Range
 		{...props}
 		type='range'
@@ -50,10 +50,10 @@ const AccessSelect = ({maxLevel = accessLevels.PUBLIC, ...props}) => (
 	/>
 )
 
-const AccessForm = ({access = defaultAccess}) => (
+const AccessForm = ({ access = defaultAccess }) => (
 	<Form tag={FormGroup} initialData={access} name='access'>
 		<FormFieldData
-			render={({view, edit}, setFields) => (
+			render={({ view, edit }, setFields) => (
 				<>
 					<Label>
 						Visible to

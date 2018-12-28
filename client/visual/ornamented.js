@@ -1,7 +1,7 @@
 import React from 'react'
-import styled, {css} from 'styled-components'
-import {background} from '../utils/colors'
-import {H2} from './heading'
+import styled, { css } from 'styled-components'
+import { background } from '../utils/colors'
+import { H2 } from './heading'
 
 export const bordered = css`
 	position: relative;
@@ -28,7 +28,7 @@ export const bordered = css`
 const Ornament = styled.span`
 	font-family: 'PC Ornaments';
 	font-variant: normal;
-	font-size: ${({large}) => (large ? '2em' : '1.2em')};
+	font-size: ${({ large }) => (large ? '2em' : '1.2em')};
 
 	&:first-child {
 		padding-left: 0.05em;

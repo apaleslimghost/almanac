@@ -1,5 +1,5 @@
-import {Mongo} from 'meteor/mongo'
-import {Meteor} from 'meteor/meteor'
+import { Mongo } from 'meteor/mongo'
+import { Meteor } from 'meteor/meteor'
 
 export const Cards = new Mongo.Collection('cards')
 export const Campaigns = new Mongo.Collection('campaigns')

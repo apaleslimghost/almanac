@@ -1,10 +1,15 @@
-import {withTracker} from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import styled from 'styled-components'
-import {compose, withReducer, withHandlers, withPropsOnChange} from 'recompact'
-import {withCampaignDate} from '../../data/calendar'
+import {
+	compose,
+	withReducer,
+	withHandlers,
+	withPropsOnChange
+} from 'recompact'
+import { withCampaignDate } from '../../data/calendar'
 import Ornamented from '../../visual/ornamented'
-import {withCampaignSession} from '../../data/campaign'
+import { withCampaignSession } from '../../data/campaign'
 import preventingDefault from '../../utils/preventing-default'
 
 // For now we just use the first moon in the schema,
@@ -38,7 +43,7 @@ const compassDir = heading =>
 		'NNW'
 	][Math.round((heading * 16) / 360) % 16]
 
-const weatherCondition = ({temperature, humidity}) =>
+const weatherCondition = ({ temperature, humidity }) =>
 	[
 		['winter', 'sun-cloud', 'day', 'sun', 'dry', 'fire'],
 		['sun-snow', 'cloud-wind', 'sun-cloud', 'sun-fog', 'sun-fog', 'tornado'],
@@ -77,11 +82,11 @@ const youreSoVane = 'cubic-bezier(.52, 1.65, .29, .9)'
 const WindArrow = styled.span`
 	display: inline-block;
 	will-change: transform;
-	transform: rotate(${({heading}) => heading}deg);
+	transform: rotate(${({ heading }) => heading}deg);
 	transition: transform 2s ${youreSoVane};
 `
 
-const WindDirection = ({heading}) => (
+const WindDirection = ({ heading }) => (
 	<span>
 		<WindArrow heading={heading - 90}>➳</WindArrow>
 		<small>{compassDir((heading + 180) % 360)}</small>
@@ -118,14 +123,14 @@ const WeatherWrapper = styled.div`
 	margin-top: 1rem;
 `
 
-const WeatherCondition = ({temperature, humidity}) => {
-	const condition = weatherCondition({temperature, humidity})
+const WeatherCondition = ({ temperature, humidity }) => {
+	const condition = weatherCondition({ temperature, humidity })
 	return <img src={`/weather/${condition}.png`} alt={condition} />
 }
 
 // TODO: seasons, sunset time
 
-const withWeatherData = withTracker(({campaignSession, CampaignDate}) => {
+const withWeatherData = withTracker(({ campaignSession, CampaignDate }) => {
 	const date = new CampaignDate(campaignSession.get('date'))
 	return {
 		weather: campaignSession.get('weather') || defaultWeather,
@@ -140,7 +145,7 @@ const connectWeather = compose(
 )
 
 const Weather = connectWeather(
-	({weather: {temperature, humidity, windHeading, windSpeed}, date}) => (
+	({ weather: { temperature, humidity, windHeading, windSpeed }, date }) => (
 		<WeatherWrapper>
 			<WeatherThings>
 				<WeatherThing large>{temperature}°C</WeatherThing>
@@ -153,7 +158,7 @@ const Weather = connectWeather(
 					{date.isNight ? (
 						moonPhaseIcon(date)
 					) : (
-						<WeatherCondition {...{temperature, humidity}} />
+						<WeatherCondition {...{ temperature, humidity }} />
 					)}
 				</WeatherIcon>
 			</Ornamented>
@@ -163,18 +168,18 @@ const Weather = connectWeather(
 
 const FixedWidthLabel = styled.label`
 	display: inline-block;
-	width: ${({size = 3.5}) => size}em;
+	width: ${({ size = 3.5 }) => size}em;
 `
 
 const withWeatherState = withReducer(
 	'_weather',
 	'setWeather',
 	Object.assign,
-	({weather}) => weather
+	({ weather }) => weather
 )
 
 const weatherFormActions = withHandlers({
-	onSubmit: ({campaignSession, _weather}) => ev => {
+	onSubmit: ({ campaignSession, _weather }) => ev => {
 		campaignSession.set('weather', _weather)
 	}
 })
@@ -185,12 +190,12 @@ const connectWeatherForm = compose(
 	withWeatherData,
 	withWeatherState,
 	weatherFormActions,
-	withPropsOnChange(['weather'], ({weather, setWeather}) => {
+	withPropsOnChange(['weather'], ({ weather, setWeather }) => {
 		setWeather(weather)
 	})
 )
 
-const WeatherForm = connectWeatherForm(({_weather, setWeather, onSubmit}) => (
+const WeatherForm = connectWeatherForm(({ _weather, setWeather, onSubmit }) => (
 	<form onSubmit={preventingDefault(onSubmit)}>
 		<div>
 			<FixedWidthLabel>{_weather.temperature}°C</FixedWidthLabel>
@@ -200,7 +205,7 @@ const WeatherForm = connectWeatherForm(({_weather, setWeather, onSubmit}) => (
 				max={60}
 				placeholder='temperature'
 				value={_weather.temperature}
-				onChange={ev => setWeather({temperature: ev.target.valueAsNumber})}
+				onChange={ev => setWeather({ temperature: ev.target.valueAsNumber })}
 			/>
 		</div>
 		<div>
@@ -212,7 +217,7 @@ const WeatherForm = connectWeatherForm(({_weather, setWeather, onSubmit}) => (
 				step={5}
 				placeholder='humidity'
 				value={_weather.humidity}
-				onChange={ev => setWeather({humidity: ev.target.valueAsNumber})}
+				onChange={ev => setWeather({ humidity: ev.target.valueAsNumber })}
 			/>
 		</div>
 		<div>
@@ -226,7 +231,7 @@ const WeatherForm = connectWeatherForm(({_weather, setWeather, onSubmit}) => (
 				step={5}
 				placeholder='windHeading'
 				value={_weather.windHeading}
-				onChange={ev => setWeather({windHeading: ev.target.valueAsNumber})}
+				onChange={ev => setWeather({ windHeading: ev.target.valueAsNumber })}
 			/>
 		</div>
 		<div>
@@ -241,7 +246,7 @@ const WeatherForm = connectWeatherForm(({_weather, setWeather, onSubmit}) => (
 				step={5}
 				placeholder='windSpeed'
 				value={_weather.windSpeed}
-				onChange={ev => setWeather({windSpeed: ev.target.valueAsNumber})}
+				onChange={ev => setWeather({ windSpeed: ev.target.valueAsNumber })}
 			/>
 		</div>
 		<button type='submit'>Set</button>
@@ -255,4 +260,4 @@ const WeatherControl = () => (
 	</div>
 )
 
-export {WeatherControl as control, Weather as display}
+export { WeatherControl as control, Weather as display }

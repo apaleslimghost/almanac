@@ -1,5 +1,5 @@
-import {Meteor} from 'meteor/meteor'
-import {toast} from 'react-toastify'
+import { Meteor } from 'meteor/meteor'
+import { toast } from 'react-toastify'
 
 export default function method(name, fn) {
 	Meteor.methods({

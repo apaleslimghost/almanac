@@ -1,18 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import {compose, withContext, withState, lifecycle, getContext} from 'recompact'
-import {ToastContainer} from 'react-toastify'
-import {setsCampaign, withCampaignData} from '../data/campaign'
+import {
+	compose,
+	withContext,
+	withState,
+	lifecycle,
+	getContext
+} from 'recompact'
+import { ToastContainer } from 'react-toastify'
+import { setsCampaign, withCampaignData } from '../data/campaign'
 import Icon from '../visual/icon'
 import Link from '../control/link'
-import {H3} from '../visual/heading'
-import {withUserData, logout} from '../utils/logged-in'
+import { H3 } from '../visual/heading'
+import { withUserData, logout } from '../utils/logged-in'
 import Logo from '../visual/logo'
 import Grid from '../visual/grid'
 import Title from '../utils/title'
 import User from '../document/user'
-import {iAmOwner} from '../data/owner'
+import { iAmOwner } from '../data/owner'
 
 import 'react-toastify/dist/ReactToastify.min.css'
 
@@ -45,7 +51,7 @@ export const MenuLink = styled(Link)`
 	}
 `
 
-const LogoutButton = withUserData(({user}) =>
+const LogoutButton = withUserData(({ user }) =>
 	user ? (
 		<User user={user} component={MenuLink} href='/logout' onClick={logout} />
 	) : null
@@ -79,7 +85,7 @@ const MenuTitle = styled(H3)`
 	white-space: nowrap;
 `
 
-const CampaignTitle = ({campaign}) => (
+const CampaignTitle = ({ campaign }) => (
 	<MenuLink href={`/${campaign._id}`}>
 		<MenuTitle>{campaign.title}</MenuTitle>
 	</MenuLink>
@@ -91,47 +97,49 @@ const connectNav = compose(
 	withUserData
 )
 
-const Nav = connectNav(({user, campaignId, campaign, isOwner, extraItems}) => (
-	<Toolbar>
-		<NavArea>
-			<MenuLink href='/'>
-				<Logo />
-			</MenuLink>
+const Nav = connectNav(
+	({ user, campaignId, campaign, isOwner, extraItems }) => (
+		<Toolbar>
+			<NavArea>
+				<MenuLink href='/'>
+					<Logo />
+				</MenuLink>
 
-			{campaignId && (
-				<>
-					<Divider />
-					<CampaignTitle campaign={campaign} />
+				{campaignId && (
+					<>
+						<Divider />
+						<CampaignTitle campaign={campaign} />
 
-					{isOwner && (
-						<>
-							<MenuLink href={`/${campaignId}/dashboard-control`}>
-								<Icon icon='wooden-sign' />
-								Dashboard
-							</MenuLink>
+						{isOwner && (
+							<>
+								<MenuLink href={`/${campaignId}/dashboard-control`}>
+									<Icon icon='wooden-sign' />
+									Dashboard
+								</MenuLink>
 
-							<MenuLink href={`/${campaignId}/players`}>
-								<Icon icon='double-team' />
-								Players
-							</MenuLink>
+								<MenuLink href={`/${campaignId}/players`}>
+									<Icon icon='double-team' />
+									Players
+								</MenuLink>
 
-							<MenuLink href={`/${campaignId}/settings`}>
-								<Icon icon='gears' />
-								Settings
-							</MenuLink>
-						</>
-					)}
-				</>
-			)}
-		</NavArea>
+								<MenuLink href={`/${campaignId}/settings`}>
+									<Icon icon='gears' />
+									Settings
+								</MenuLink>
+							</>
+						)}
+					</>
+				)}
+			</NavArea>
 
-		<NavArea>
-			<Space />
-			{extraItems}
-			<LogoutButton />
-		</NavArea>
-	</Toolbar>
-))
+			<NavArea>
+				<Space />
+				{extraItems}
+				<LogoutButton />
+			</NavArea>
+		</Toolbar>
+	)
+)
 
 const navContext = {
 	setExtraNavItems: PropTypes.func,
@@ -145,7 +153,7 @@ const navState = withState('state', 'setState', {
 	navShown: true
 })
 
-const setNavContext = withContext(navContext, ({setState, state}) => ({
+const setNavContext = withContext(navContext, ({ setState, state }) => ({
 	setExtraNavItems(...extraItems) {
 		setState({
 			...state,
@@ -197,7 +205,7 @@ const connectLayout = compose(
 	setNavContext
 )
 
-export const Basic = setsCampaign(({children}) => (
+export const Basic = setsCampaign(({ children }) => (
 	<>
 		<Title />
 		<ToastContainer autoClose={10000} />
@@ -205,7 +213,7 @@ export const Basic = setsCampaign(({children}) => (
 	</>
 ))
 
-const Layout = connectLayout(({campaignId, secret, state, children}) => (
+const Layout = connectLayout(({ campaignId, secret, state, children }) => (
 	<Basic campaignId={campaignId} secret={secret}>
 		{state.navShown && <Nav extraItems={state.extraItems} />}
 

@@ -1,6 +1,6 @@
-import {Campaigns} from '../../collections'
-import {isLoggedIn} from './common'
-import {edit as canEditDoc} from './doc'
+import { Campaigns } from '../../collections'
+import { isLoggedIn } from './common'
+import { edit as canEditDoc } from './doc'
 
 const canAccessCampaignDoc = (data, userId, verb) => {
 	const campaign = Campaigns.findOne(data.campaignId)

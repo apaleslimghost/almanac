@@ -1,23 +1,23 @@
-import {Meteor} from 'meteor/meteor'
-import {Cards, Campaigns, Session, Layouts} from '../shared/collections'
+import { Meteor } from 'meteor/meteor'
+import { Cards, Campaigns, Session, Layouts } from '../shared/collections'
 import access from '../shared/access'
 import publish from './utils/publish'
 
-const ownedCampaigns = ({userId}) =>
+const ownedCampaigns = ({ userId }) =>
 	Campaigns.find({
 		owner: userId
 	})
 
-const memberCampaigns = ({userId}) =>
+const memberCampaigns = ({ userId }) =>
 	Campaigns.find({
-		$or: [{owner: userId}, {member: userId}]
+		$or: [{ owner: userId }, { member: userId }]
 	})
 
-const visibleDocs = collection => ({userId}) => {
-	const campaignIds = memberCampaigns({userId}).map(c => c._id)
+const visibleDocs = collection => ({ userId }) => {
+	const campaignIds = memberCampaigns({ userId }).map(c => c._id)
 
 	return collection.find({
-		$or: [{owner: userId}, {campaignId: {$in: campaignIds}}]
+		$or: [{ owner: userId }, { campaignId: { $in: campaignIds } }]
 	})
 }
 
@@ -29,37 +29,40 @@ I can see a card if:
 - it's public
  */
 
-const visibleCards = ({userId}) => {
-	const ownedCampaignIds = ownedCampaigns({userId}).map(c => c._id)
-	const memberCampaignIds = memberCampaigns({userId}).map(c => c._id)
+const visibleCards = ({ userId }) => {
+	const ownedCampaignIds = ownedCampaigns({ userId }).map(c => c._id)
+	const memberCampaignIds = memberCampaigns({ userId }).map(c => c._id)
 
 	return Cards.find({
 		$or: [
-			{owner: userId},
-			{campaignId: {$in: ownedCampaignIds}},
-			{campaignId: {$in: memberCampaignIds}, 'access.view': access.CAMPAIGN},
-			{'access.view': access.PUBLIC}
+			{ owner: userId },
+			{ campaignId: { $in: ownedCampaignIds } },
+			{
+				campaignId: { $in: memberCampaignIds },
+				'access.view': access.CAMPAIGN
+			},
+			{ 'access.view': access.PUBLIC }
 		]
 	})
 }
 
 publish({
 	users: {
-		all: () => Meteor.users.find({}, {fields: {username: 1}})
+		all: () => Meteor.users.find({}, { fields: { username: 1 } })
 	},
 
 	campaigns: {
 		all: memberCampaigns,
 
-		join({args: [{campaignId, secret}]}) {
+		join({ args: [{ campaignId, secret }] }) {
 			return Campaigns.find({
 				_id: campaignId,
 				inviteSecret: secret
 			})
 		},
 
-		members({userId}) {
-			const campaigns = memberCampaigns({userId}).fetch()
+		members({ userId }) {
+			const campaigns = memberCampaigns({ userId }).fetch()
 
 			const allCampaignUsers = campaigns.reduce(
 				(users, campaign) =>
@@ -71,7 +74,7 @@ publish({
 			)
 
 			return Meteor.users.find({
-				_id: {$in: allCampaignUsers}
+				_id: { $in: allCampaignUsers }
 			})
 		}
 	},

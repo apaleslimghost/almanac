@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import {H1, H3} from '../../visual/heading'
-import Ornamented, {bordered} from '../../visual/ornamented'
+import { H1, H3 } from '../../visual/heading'
+import Ornamented, { bordered } from '../../visual/ornamented'
 import connectTime from './connect/time'
 
 const TimeOfDay = styled(H1)`
@@ -29,7 +29,7 @@ const Compact = styled.div`
 
 const ornaments = ['h', 'f', 'a', 't', 'n', 'c', 'o', 'p', 'e', 'r', 'k', 'l']
 
-const OrnamentedMonth = ({date}) => (
+const OrnamentedMonth = ({ date }) => (
 	<Ornamented large ornament={ornaments[Math.min(date.monthIndex, 11)]}>
 		<Compact>
 			<div>{date.format`${'dddd'} ${'Do'}`}</div>
@@ -38,7 +38,7 @@ const OrnamentedMonth = ({date}) => (
 	</Ornamented>
 )
 
-const Time = connectTime(({date}) => (
+const Time = connectTime(({ date }) => (
 	<DateGroup>
 		<OrnamentedMonth date={date} />
 		<TimeOfDay>

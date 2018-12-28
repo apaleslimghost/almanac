@@ -1,7 +1,7 @@
-import {compose, withProps} from 'recompact'
-import {css} from 'styled-components'
+import { compose, withProps } from 'recompact'
+import { css } from 'styled-components'
 import * as FormControls from '../control/form'
-import {Label} from './primitives'
+import { Label } from './primitives'
 
 const withInputProps = withProps({
 	colour: 'steel',
@@ -12,10 +12,10 @@ const withInputProps = withProps({
 
 const withSelectProps = compose(
 	withInputProps,
-	withProps({required: true})
+	withProps({ required: true })
 )
 
-const asTag = component => tag => withProps({tag})(component)
+const asTag = component => tag => withProps({ tag })(component)
 const asInput = asTag(FormControls.Input)
 const asSelect = asTag(FormControls.Select)
 
@@ -32,17 +32,17 @@ const BaseInput = Label.withComponent('input').extend`
 	padding-left: .3em;
 	padding-right: .3em;
 	font: inherit;
-	${({fullWidth}) =>
+	${({ fullWidth }) =>
 		fullWidth &&
 		css`
 			width: 100%;
 		`}
-	${({flex}) =>
+	${({ flex }) =>
 		flex &&
 		css`
 			flex: 1;
 		`}
-	${({right}) =>
+	${({ right }) =>
 		right &&
 		css`
 			text-align: right;

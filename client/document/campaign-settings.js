@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Form, Input as InputField, FormFieldData} from '../control/form'
-import {Input, Select} from '../visual/form'
-import {Button, LabelledInput as Label} from '../visual/primitives'
+import { Form, Input as InputField, FormFieldData } from '../control/form'
+import { Input, Select } from '../visual/form'
+import { Button, LabelledInput as Label } from '../visual/primitives'
 import unsplashImages from '../visual/unsplash.json'
-import {calendarList} from '../data/calendar'
+import { calendarList } from '../data/calendar'
 
 const ThemeSelector = styled.fieldset`
 	overflow-x: auto;
@@ -18,7 +18,7 @@ const Themes = styled.div`
 	}
 `
 
-export default ({campaign, ...props}) => (
+export default ({ campaign, ...props }) => (
 	<Form initialData={campaign} {...props}>
 		<Label>
 			Name
@@ -29,7 +29,7 @@ export default ({campaign, ...props}) => (
 		<Label>
 			Tagline
 			<FormFieldData
-				render={({username = 'user'}) => (
+				render={({ username = 'user' }) => (
 					<Input name='tagline' placeholder={`A campaign by ${username}`} />
 				)}
 			/>

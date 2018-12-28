@@ -1,8 +1,8 @@
-import {Campaigns} from '../../collections'
+import { Campaigns } from '../../collections'
 import access from '../../access'
 
 // Create validation is the same as any doc that belongs to a campaign
-export {create} from './campaign-doc'
+export { create } from './campaign-doc'
 
 /*
 I can edit a card if:

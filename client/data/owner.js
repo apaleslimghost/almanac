@@ -1,7 +1,7 @@
-import {Meteor} from 'meteor/meteor'
-import {withTracker} from 'meteor/react-meteor-data'
-import {Forbidden} from 'http-errors'
-import {compose, withProps} from 'recompact'
+import { Meteor } from 'meteor/meteor'
+import { withTracker } from 'meteor/react-meteor-data'
+import { Forbidden } from 'http-errors'
+import { compose, withProps } from 'recompact'
 import subscribe from '../utils/subscribe'
 
 export const withOwnerData = key =>
@@ -21,7 +21,7 @@ export const iAmOwner = key =>
 export const assertAmOwner = key =>
 	compose(
 		iAmOwner(key),
-		withProps(({ready, isOwner, ...props}) => {
+		withProps(({ ready, isOwner, ...props }) => {
 			if (ready && isOwner === false) {
 				throw new Forbidden(`You're not allowed to do that`)
 			}

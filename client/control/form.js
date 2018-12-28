@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 export const getInputValue = el =>
@@ -14,13 +14,13 @@ export const getInputValue = el =>
 
 export const getSelectValue = el => el.options[el.selectedIndex].value
 
-export const FormFieldData = ({render}, context) =>
+export const FormFieldData = ({ render }, context) =>
 	render(context.fields, context.setFields)
 
 const qq = (a, b) => (a === undefined ? b : a)
 
 export const Input = (
-	{name, fieldRef, tag: Tag = 'input', ...props},
+	{ name, fieldRef, tag: Tag = 'input', ...props },
 	context
 ) => (
 	<Tag
@@ -51,7 +51,7 @@ export const Input = (
 	/>
 )
 
-export const Select = ({tag: Tag = 'select', ...props}, context) => {
+export const Select = ({ tag: Tag = 'select', ...props }, context) => {
 	return (
 		<Tag
 			{...props}
@@ -159,7 +159,7 @@ export class Form extends Component {
 	render() {
 		return (
 			<this.props.tag
-				{...(this.props.onSubmit ? {onSubmit: this.onSubmit} : {})}
+				{...(this.props.onSubmit ? { onSubmit: this.onSubmit } : {})}
 			>
 				{this.props.children}
 			</this.props.tag>
@@ -170,8 +170,6 @@ export class Form extends Component {
 export const fieldLike = {
 	fields: PropTypes.object,
 	setFields: PropTypes.func
-}
-
-[Input, Select, Form, FormFieldData].forEach(thing => {
+}[(Input, Select, Form, FormFieldData)].forEach(thing => {
 	thing.contextTypes = fieldLike
 })

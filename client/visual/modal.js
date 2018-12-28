@@ -1,5 +1,5 @@
-import styled, {keyframes} from 'styled-components'
-import {background} from '../utils/colors'
+import styled, { keyframes } from 'styled-components'
+import { background } from '../utils/colors'
 
 const fadeIn = keyframes`
 	0% {
@@ -30,12 +30,12 @@ const Modal = styled.div`
 	bottom: 0;
 	background: ${background};
 	transform-origin: center;
-	animation-name: ${({animationState}) =>
+	animation-name: ${({ animationState }) =>
 		({
 			opening: fadeIn,
 			closing: fadeOut
 		}[animationState] || 'none')};
-	animation-duration: ${({animationState}) =>
+	animation-duration: ${({ animationState }) =>
 		animationState === 'opening' ? '300ms' : '5s'};
 	animation-fill-mode: forwards;
 	animation-timing-function: linear;

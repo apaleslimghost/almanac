@@ -1,2 +1,2 @@
-export {default as control} from './control'
-export {default as display} from './display'
+export { default as control } from './control'
+export { default as display } from './display'

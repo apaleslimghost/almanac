@@ -1,12 +1,12 @@
 import React from 'react'
-import styled, {css} from 'styled-components'
-import {aqua} from '@quarterto/colours'
-import {compose} from 'recompact'
+import styled, { css } from 'styled-components'
+import { aqua } from '@quarterto/colours'
+import { compose } from 'recompact'
 import connectSplashImage from '../data/splash'
-import {withCampaignData} from '../data/campaign'
-import {withOwnerData} from '../data/owner'
+import { withCampaignData } from '../data/campaign'
+import { withOwnerData } from '../data/owner'
 import select from '../utils/select'
-import {Bleed} from './grid'
+import { Bleed } from './grid'
 
 const splashBackground = css`
 	display: flex;
@@ -18,11 +18,11 @@ const splashBackground = css`
 			rgba(0, 20, 40, 0) 30%,
 			rgba(0, 20, 40, 0.9)
 		),
-		url(${({url}) => url});
+		url(${({ url }) => url});
 
-	background-color: ${({color}) => color};
+	background-color: ${({ color }) => color};
 
-	${({url2x}) =>
+	${({ url2x }) =>
 		url2x &&
 		css`
 			@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
@@ -143,7 +143,7 @@ const connectCampaignSplash = compose(
 )
 
 export const CampaignSplash = connectCampaignSplash(
-	({campaign, noBlurb, ownerUser, children, ...props}) => (
+	({ campaign, noBlurb, ownerUser, children, ...props }) => (
 		<SplashBleed {...props}>
 			<Hero>
 				{children}

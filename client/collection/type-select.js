@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import schema from '../../shared/schema'
-import {Select} from '../visual/form'
+import { Select } from '../visual/form'
 
 export default props => (
 	<Select value='' {...props}>

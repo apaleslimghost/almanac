@@ -1,7 +1,7 @@
-import {Meteor} from 'meteor/meteor'
-import {Random} from 'meteor/random'
-import {Accounts} from 'meteor/accounts-base'
-import {Campaigns, Cards, Session, Layouts} from './collections'
+import { Meteor } from 'meteor/meteor'
+import { Random } from 'meteor/random'
+import { Accounts } from 'meteor/accounts-base'
+import { Campaigns, Cards, Session, Layouts } from './collections'
 import method from './utils/method'
 import collectionMethods from './utils/collection-methods'
 import generateSlug from './utils/generate-slug'
@@ -25,8 +25,8 @@ function _addMember(campaign, user, secret, token) {
 	// they have the secret, server can do anything it likes lol
 	if (amOwner || ((amUser || hasToken) && hasSecret)) {
 		Campaigns.update(campaign._id, {
-			$pull: {removedMember: user._id},
-			$addToSet: {member: user._id}
+			$pull: { removedMember: user._id },
+			$addToSet: { member: user._id }
 		})
 	} else
 		throw new Meteor.Error(
@@ -40,32 +40,32 @@ export const addMember = method('addMember', _addMember)
 export const removeMember = method('removeMember', (campaign, user) => {
 	// TODO: verify can do stuff
 	Campaigns.update(campaign._id, {
-		$pull: {member: user._id},
-		$addToSet: {removedMember: user._id}
+		$pull: { member: user._id },
+		$addToSet: { removedMember: user._id }
 	})
 })
 
 export const addRelated = method('addRelated', (card, related) => {
 	Cards.update(card._id, {
-		$addToSet: {related: related._id}
+		$addToSet: { related: related._id }
 	})
 })
 
 export const removeRelated = method('removeRelated', (card, related) => {
 	Cards.update(card._id, {
-		$pull: {related: related._id}
+		$pull: { related: related._id }
 	})
 })
 
 export const deleteCardWithRelated = method(
 	'deleteCardWithRelated',
-	(card, {ofType: type}) => {
+	(card, { ofType: type }) => {
 		Cards.remove({
 			$or: [
-				{_id: card._id},
+				{ _id: card._id },
 				{
 					type,
-					_id: {$in: card.related || []}
+					_id: { $in: card.related || [] }
 				}
 			]
 		})
@@ -80,9 +80,9 @@ export const setSession = method('setSession', (campaignId, _key, data) => {
 
 	if (campaignId) {
 		if (existing) {
-			Session.update(existing._id, {$set: {data}})
+			Session.update(existing._id, { $set: { data } })
 		} else {
-			Session.insert({data, campaignId, _key})
+			Session.insert({ data, campaignId, _key })
 		}
 	} else {
 		console.trace('No campaign id')
@@ -108,7 +108,7 @@ export const createAccount = method('createAccount', function(user, campaign) {
 		)
 
 		Meteor.users.update(userId, {
-			$set: {'profile.defaultCampaign': defaultCampaign}
+			$set: { 'profile.defaultCampaign': defaultCampaign }
 		})
 		Accounts.sendEnrollmentEmail(userId, user.email)
 	}
@@ -127,9 +127,9 @@ export const createAccountAndJoin = method('createAccountAndJoin', function(
 		// Accounts.createUser only works on the server
 		const userId = Accounts.createUser(user)
 
-		_addMember(campaign, {_id: userId}, secret, serverToken)
+		_addMember(campaign, { _id: userId }, secret, serverToken)
 		Meteor.users.update(userId, {
-			$set: {'profile.defaultCampaign': campaign._id}
+			$set: { 'profile.defaultCampaign': campaign._id }
 		})
 
 		Accounts.sendEnrollmentEmail(userId, user.email)

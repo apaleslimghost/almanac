@@ -1,6 +1,6 @@
 import React from 'react'
-import styled, {keyframes} from 'styled-components'
-import {compose, lifecycle, withState} from 'recompact'
+import styled, { keyframes } from 'styled-components'
+import { compose, lifecycle, withState } from 'recompact'
 
 const blink = keyframes`
 	0%   { opacity: 0; }
@@ -12,7 +12,7 @@ const blink = keyframes`
 const Time = styled.span`
 	font-size: 2em;
 	line-height: 1;
-	color: ${({late, reallyLate, lateAF}) =>
+	color: ${({ late, reallyLate, lateAF }) =>
 		lateAF ? '#c00' : reallyLate ? '#900' : late ? '#600' : 'black'};
 
 	transition: color linear 60s;
@@ -49,7 +49,7 @@ const connectClock = compose(
 	dateTimer
 )
 
-export const control = connectClock(({date}) => {
+export const control = connectClock(({ date }) => {
 	const h = date.getHours() % 12
 	const m = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
 	const ampm = date.getHours() < 12 ? 'am' : 'pm'
@@ -59,7 +59,7 @@ export const control = connectClock(({date}) => {
 	const lateAF = date.getHours() > 22
 
 	return (
-		<Time {...{late, reallyLate, lateAF}}>
+		<Time {...{ late, reallyLate, lateAF }}>
 			<Hour>{h}</Hour>
 			<Colon>:</Colon>
 			<Minute>{m}</Minute>

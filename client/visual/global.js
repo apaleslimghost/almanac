@@ -1,7 +1,7 @@
 import url from 'url'
-import {injectGlobal} from 'styled-components'
-import {steel, sky} from '@quarterto/colours'
-import {background} from '../utils/colors'
+import { injectGlobal } from 'styled-components'
+import { steel, sky } from '@quarterto/colours'
+import { background } from '../utils/colors'
 
 const buildGoogleFontsUrl = fonts =>
 	url.format({

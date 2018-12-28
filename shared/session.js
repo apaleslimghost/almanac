@@ -1,5 +1,5 @@
-import {Session} from './collections'
-import {setSession} from './methods'
+import { Session } from './collections'
+import { setSession } from './methods'
 
 export default campaignId => ({
 	get(_key) {

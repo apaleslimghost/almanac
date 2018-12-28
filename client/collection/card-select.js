@@ -1,17 +1,17 @@
-import {withTracker} from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import _ from 'lodash'
-import {compose} from 'recompact'
+import { compose } from 'recompact'
 
-import {Cards} from '../../shared/collections'
-import {getSelectValue} from '../control/form'
-import {Select} from '../visual/form'
-import {withCampaign} from '../data/campaign'
+import { Cards } from '../../shared/collections'
+import { getSelectValue } from '../control/form'
+import { Select } from '../visual/form'
+import { withCampaign } from '../data/campaign'
 import subscribe from '../utils/subscribe'
 
 // TODO: typeahead?
 
-const CardSelect = ({cardsById, onSelect, placeholder}) =>
+const CardSelect = ({ cardsById, onSelect, placeholder }) =>
 	_.size(cardsById) ? (
 		<Select
 			value=''
@@ -30,11 +30,11 @@ const CardSelect = ({cardsById, onSelect, placeholder}) =>
 
 const withCardData = withTracker({
 	pure: false,
-	getMeteorData: ({skip = [], campaignId}) => ({
+	getMeteorData: ({ skip = [], campaignId }) => ({
 		ready: subscribe('cards.all'),
 		// TODO: use withCard
 		cardsById: _.keyBy(
-			Cards.find({_id: {$nin: skip}, campaignId}).fetch(),
+			Cards.find({ _id: { $nin: skip }, campaignId }).fetch(),
 			'_id'
 		)
 	})

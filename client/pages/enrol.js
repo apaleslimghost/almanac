@@ -1,17 +1,17 @@
-import {withTracker} from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import {compose, withProps, withHandlers} from 'recompact'
-import {Forbidden} from 'http-errors'
-import {toast} from 'react-toastify'
-import {go} from '../utils/router'
-import {withCampaignData} from '../data/campaign'
-import {createAccountAndJoin, addMember} from '../../shared/methods'
-import {CampaignSplash, HeroSubtitle} from '../visual/splash'
+import { compose, withProps, withHandlers } from 'recompact'
+import { Forbidden } from 'http-errors'
+import { toast } from 'react-toastify'
+import { go } from '../utils/router'
+import { withCampaignData } from '../data/campaign'
+import { createAccountAndJoin, addMember } from '../../shared/methods'
+import { CampaignSplash, HeroSubtitle } from '../visual/splash'
 import Login from './login'
-import {SignupForm} from './get-started'
+import { SignupForm } from './get-started'
 
 const checkCampaignSecret = withProps(
-	({campaign, ready, campaignId, secret}) => {
+	({ campaign, ready, campaignId, secret }) => {
 		if (campaignId && ready && secret !== campaign.inviteSecret) {
 			throw new Forbidden('Incorrect or expired campaign invite link')
 		}
@@ -22,7 +22,7 @@ const connectEnrol = compose(
 	withCampaignData,
 	checkCampaignSecret,
 	withHandlers({
-		addLoggedInUser: ({campaign, secret}) => user => {
+		addLoggedInUser: ({ campaign, secret }) => user => {
 			const yours = campaign.owner === user._id
 			const member = campaign.member.includes(user._id)
 
@@ -44,38 +44,39 @@ const connectEnrol = compose(
 			}
 		}
 	}),
-	withTracker(({addLoggedInUser}) => {
+	withTracker(({ addLoggedInUser }) => {
 		const user = Meteor.user()
 
 		if (user) {
 			addLoggedInUser(user)
-			return {enrolling: false}
+			return { enrolling: false }
 		}
 
-		return {enrolling: true}
+		return { enrolling: true }
 	})
 )
 
-export default connectEnrol(({campaign, enrolling, addLoggedInUser, secret}) =>
-	enrolling ? (
-		<>
-			<CampaignSplash small noBlurb>
-				<HeroSubtitle>Sign up or log in to join</HeroSubtitle>
-			</CampaignSplash>
+export default connectEnrol(
+	({ campaign, enrolling, addLoggedInUser, secret }) =>
+		enrolling ? (
+			<>
+				<CampaignSplash small noBlurb>
+					<HeroSubtitle>Sign up or log in to join</HeroSubtitle>
+				</CampaignSplash>
 
-			<SignupForm
-				createAccountMethod={user =>
-					createAccountAndJoin(user, campaign, secret)
-				}
-			/>
+				<SignupForm
+					createAccountMethod={user =>
+						createAccountAndJoin(user, campaign, secret)
+					}
+				/>
 
-			<Login
-				onLogin={() => {
-					/* Logging in will rerender this page and do the usual redirect */
-				}}
-			/>
-		</>
-	) : (
-		'Redirecting...'
-	)
+				<Login
+					onLogin={() => {
+						/* Logging in will rerender this page and do the usual redirect */
+					}}
+				/>
+			</>
+		) : (
+			'Redirecting...'
+		)
 )

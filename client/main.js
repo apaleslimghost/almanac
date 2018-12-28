@@ -1,7 +1,7 @@
 import React from 'react'
-import {mount} from 'react-mounter'
-import {errorTest} from '../shared/methods'
-import Layout, {Basic as BasicLayout} from './pages/layout'
+import { mount } from 'react-mounter'
+import { errorTest } from '../shared/methods'
+import Layout, { Basic as BasicLayout } from './pages/layout'
 import App from './app'
 
 import 'formdata-polyfill'
@@ -10,7 +10,7 @@ import './visual/global'
 import Dashboard from './pages/dashboard'
 import Control from './pages/control'
 import Home from './pages/home'
-import Login, {loggedInRedirect} from './pages/login'
+import Login, { loggedInRedirect } from './pages/login'
 import GetStarted from './pages/get-started'
 import Campaign from './pages/campaign'
 import CampaignSettings from './pages/campaign-settings'
@@ -21,7 +21,7 @@ import Enrol from './pages/enrol'
 
 mount(App, {
 	routes: {
-		'/:campaignId/dashboard'({campaignId}) {
+		'/:campaignId/dashboard'({ campaignId }) {
 			return (
 				<BasicLayout campaignId={campaignId}>
 					<Dashboard />
@@ -29,7 +29,7 @@ mount(App, {
 			)
 		},
 
-		'/:campaignId/dashboard-control'({campaignId}) {
+		'/:campaignId/dashboard-control'({ campaignId }) {
 			return (
 				<Layout campaignId={campaignId}>
 					<Control />
@@ -37,15 +37,15 @@ mount(App, {
 			)
 		},
 
-		'/:campaignId/cards/:cardId'({campaignId, cardId}) {
+		'/:campaignId/cards/:cardId'({ campaignId, cardId }) {
 			return (
 				<Layout campaignId={campaignId}>
-					<Campaign selectCard={cardId} />
+					<Campaign />
 				</Layout>
 			)
 		},
 
-		'/:campaignId/join/:secret'({campaignId, secret}) {
+		'/:campaignId/join/:secret'({ campaignId, secret }) {
 			return (
 				<Layout campaignId={campaignId} secret={secret}>
 					<Enrol secret={secret} />
@@ -53,7 +53,7 @@ mount(App, {
 			)
 		},
 
-		'/:campaignId/settings'({campaignId}) {
+		'/:campaignId/settings'({ campaignId }) {
 			return (
 				<Layout campaignId={campaignId}>
 					<CampaignSettings />
@@ -61,7 +61,7 @@ mount(App, {
 			)
 		},
 
-		'/:campaignId/players'({campaignId}) {
+		'/:campaignId/players'({ campaignId }) {
 			return (
 				<Layout campaignId={campaignId}>
 					<CampaignPlayers />
@@ -69,7 +69,7 @@ mount(App, {
 			)
 		},
 
-		'/:campaignId'({campaignId}) {
+		'/:campaignId'({ campaignId }) {
 			if (!campaignId) return false
 
 			return (
@@ -87,7 +87,7 @@ mount(App, {
 			)
 		},
 
-		'/get-started'(params, {title}) {
+		'/get-started'(params, { title }) {
 			return (
 				loggedInRedirect() || (
 					<Layout>
@@ -107,7 +107,7 @@ mount(App, {
 			)
 		},
 
-		'/verify/:token'({token}) {
+		'/verify/:token'({ token }) {
 			return (
 				loggedInRedirect() || (
 					<Layout>

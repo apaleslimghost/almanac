@@ -1,13 +1,13 @@
-import {withTracker} from 'meteor/react-meteor-data'
-import {Cards} from '../../shared/collections'
+import { withTracker } from 'meteor/react-meteor-data'
+import { Cards } from '../../shared/collections'
 import subscribe from '../utils/subscribe'
 
 export default (key, query = {}) =>
-	withTracker(({campaignId, ...props}) => ({
+	withTracker(({ campaignId, ...props }) => ({
 		ready: subscribe('cards.all'),
 		[key]: Cards.find(
 			Object.assign(
-				{campaignId},
+				{ campaignId },
 				typeof query === 'function' ? query(props) : query
 			)
 		).fetch()

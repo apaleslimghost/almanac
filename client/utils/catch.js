@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {wrapDisplayName} from 'recompact'
+import React, { Component } from 'react'
+import { wrapDisplayName } from 'recompact'
 
 const withCatch = onCatch => Child =>
 	class Catcher extends Component {

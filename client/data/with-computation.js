@@ -1,5 +1,5 @@
-import {Tracker} from 'meteor/tracker'
-import {lifecycle} from 'recompact'
+import { Tracker } from 'meteor/tracker'
+import { lifecycle } from 'recompact'
 
 export default startComputation =>
 	lifecycle({

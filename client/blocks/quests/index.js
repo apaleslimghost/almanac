@@ -1,11 +1,11 @@
-import {withTracker} from 'meteor/react-meteor-data'
+import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import styled from 'styled-components'
-import {compose, branch, withProps} from 'recompact'
+import { compose, branch, withProps } from 'recompact'
 import Ornamented from '../../visual/ornamented'
 import idFirst from '../../utils/id-first'
-import {withCampaignDate} from '../../data/calendar'
-import {withCampaignSession} from '../../data/campaign'
+import { withCampaignDate } from '../../data/calendar'
+import { withCampaignSession } from '../../data/campaign'
 import withCards from '../../data/card'
 import access from '../../../shared/access'
 import questActions from './connect/quest'
@@ -19,7 +19,7 @@ const Completed = styled.span`
 	font-size: 0.7em;
 `
 
-const isControl = ({control}) => control
+const isControl = ({ control }) => control
 
 const connectObjective = compose(
 	withCampaignSession,
@@ -70,10 +70,10 @@ const Objective = connectObjective(
 	)
 )
 
-const withQuestObjectives = withCards('objectives', ({quest, control}) => ({
+const withQuestObjectives = withCards('objectives', ({ quest, control }) => ({
 	type: 'objective',
-	_id: {$in: quest.related || []},
-	'access.view': {$gte: control ? access.PRIVATE : access.CAMPAIGN}
+	_id: { $in: quest.related || [] },
+	'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN }
 }))
 
 const withQuestActions = branch(isControl, questActions)
@@ -94,7 +94,7 @@ const ObjectiveList = styled.ul`
 
 const ObjectiveListItem = styled.li`
 	&::before {
-		content: '${({completed, first}) => (completed ? '✕' : first ? '❖' : '◆')}';
+		content: '${({ completed, first }) => (completed ? '✕' : first ? '❖' : '◆')}';
 		margin-right: 0.25em;
 	}
 `
@@ -148,7 +148,7 @@ const Quest = connectQuest(
 			<large>
 				{first &&
 					m(
-						objectives.find(({completed}) => !completed),
+						objectives.find(({ completed }) => !completed),
 						objective => objective.text,
 						quest.text
 					)}
@@ -156,7 +156,7 @@ const Quest = connectQuest(
 
 			<ObjectiveList>
 				{objectives
-					.filter(({completed}) => !completed)
+					.filter(({ completed }) => !completed)
 					.map((objective, index) => (
 						<ObjectiveListItem key={objective._id} first={index === 0}>
 							<Objective
@@ -168,7 +168,7 @@ const Quest = connectQuest(
 					))}
 
 				{objectives
-					.filter(({completed}) => completed)
+					.filter(({ completed }) => completed)
 					.map(objective => (
 						<ObjectiveListItem key={objective._id} completed>
 							<Objective
@@ -193,12 +193,12 @@ const Quest = connectQuest(
 	)
 )
 
-const withQuestsData = withCards('quests', ({control}) => ({
+const withQuestsData = withCards('quests', ({ control }) => ({
 	type: 'quest',
-	'access.view': {$gte: control ? access.PRIVATE : access.CAMPAIGN}
+	'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN }
 }))
 
-const withCurrentQuest = withTracker(({quests, campaignSession}) => {
+const withCurrentQuest = withTracker(({ quests, campaignSession }) => {
 	const currentQuest = campaignSession.get('currentQuest')
 
 	return {
@@ -214,7 +214,7 @@ const connectQuestsList = compose(
 )
 
 const QuestsList = connectQuestsList(
-	({onCreateQuest, control, quests, ...props}) => (
+	({ onCreateQuest, control, quests, ...props }) => (
 		<div>
 			{quests.map((quest, index) => (
 				<Quest
@@ -240,9 +240,9 @@ const QuestsList = connectQuestsList(
 const connectQuestControl = compose(
 	withCampaignSession,
 	questsActions,
-	withProps({control: true})
+	withProps({ control: true })
 )
 
 const QuestsControl = connectQuestControl(QuestsList)
 
-export {QuestsList as display, QuestsControl as control}
+export { QuestsList as display, QuestsControl as control }

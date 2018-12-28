@@ -1,22 +1,22 @@
-import {Meteor} from 'meteor/meteor'
-import {withTracker} from 'meteor/react-meteor-data'
-import {Random} from 'meteor/random'
+import { Meteor } from 'meteor/meteor'
+import { withTracker } from 'meteor/react-meteor-data'
+import { Random } from 'meteor/random'
 import React from 'react'
-import {compose, withHandlers} from 'recompact'
-import {withCampaignData} from '../data/campaign'
+import { compose, withHandlers } from 'recompact'
+import { withCampaignData } from '../data/campaign'
 import User from '../document/user'
-import {Campaign, removeMember, addMember} from '../../shared/methods'
-import {Button} from '../visual/primitives'
+import { Campaign, removeMember, addMember } from '../../shared/methods'
+import { Button } from '../visual/primitives'
 import subscribe from '../utils/subscribe'
-import {assertAmOwner} from '../data/owner'
+import { assertAmOwner } from '../data/owner'
 import withLoading from '../control/loading'
-import {H2} from '../visual/heading'
+import { H2 } from '../visual/heading'
 
-const withPlayerData = withTracker(({campaign, getPlayerIds}) => ({
+const withPlayerData = withTracker(({ campaign, getPlayerIds }) => ({
 	ready: subscribe('campaigns.members'),
 	players: Meteor.users
 		.find({
-			_id: {$in: getPlayerIds(campaign)}
+			_id: { $in: getPlayerIds(campaign) }
 		})
 		.fetch()
 }))
@@ -24,7 +24,7 @@ const withPlayerData = withTracker(({campaign, getPlayerIds}) => ({
 const connectRemoveUser = compose(
 	withCampaignData,
 	withHandlers({
-		removeUser: ({campaign}) => user => {
+		removeUser: ({ campaign }) => user => {
 			const reallyRemove = confirm(
 				`Remove ${user.username || user.emails[0].address} from ${
 					campaign.title
@@ -38,20 +38,20 @@ const connectRemoveUser = compose(
 	})
 )
 
-const RemoveUser = connectRemoveUser(({user, removeUser}) => (
+const RemoveUser = connectRemoveUser(({ user, removeUser }) => (
 	<Button onClick={() => removeUser(user)}>×</Button>
 ))
 
 const connectReinstateUser = compose(
 	withCampaignData,
 	withHandlers({
-		reinstateUser: ({campaign}) => user => {
+		reinstateUser: ({ campaign }) => user => {
 			addMember(campaign, user)
 		}
 	})
 )
 
-const ReinstateUser = connectReinstateUser(({user, reinstateUser}) => (
+const ReinstateUser = connectReinstateUser(({ user, reinstateUser }) => (
 	<Button onClick={() => reinstateUser(user)}>↑</Button>
 ))
 
@@ -61,7 +61,7 @@ const connectPlayers = compose(
 	withLoading
 )
 
-const Players = connectPlayers(({players, campaign, action: Action}) => (
+const Players = connectPlayers(({ players, campaign, action: Action }) => (
 	<ul>
 		{players.map(user => (
 			<li key={user._id}>
@@ -80,7 +80,7 @@ const connectPlayersPage = compose(
 const connectInviteLink = compose(
 	withCampaignData,
 	withHandlers({
-		toggleInvitesEnabled: ({campaign}) => () => {
+		toggleInvitesEnabled: ({ campaign }) => () => {
 			Campaign.update(campaign, {
 				inviteSecret: campaign.inviteSecret ? null : Random.secret()
 			})
@@ -88,7 +88,7 @@ const connectInviteLink = compose(
 	})
 )
 
-const InviteLink = connectInviteLink(({campaign, toggleInvitesEnabled}) => (
+const InviteLink = connectInviteLink(({ campaign, toggleInvitesEnabled }) => (
 	<div>
 		{campaign.inviteSecret && (
 			<a href={`/${campaign._id}/join/${campaign.inviteSecret}`}>

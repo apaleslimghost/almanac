@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 class Toggler extends Component {
-	state = {on: false}
+	state = { on: false }
 
 	toggle = () => {
-		this.setState(({on}) => ({on: !on}))
+		this.setState(({ on }) => ({ on: !on }))
 	}
 
 	render() {

@@ -1,4 +1,4 @@
-import {WebApp} from 'meteor/webapp'
+import { WebApp } from 'meteor/webapp'
 
 const THIRTY_DAYS = 30 * 24 * 60 * 60
 

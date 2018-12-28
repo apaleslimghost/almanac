@@ -4,13 +4,13 @@ import styled from 'styled-components'
 import generateCampaign from '@quarterto/campaign-name-generator'
 import formJson from '@quarterto/form-json'
 import Link from '../control/link'
-import {go} from '../utils/router'
+import { go } from '../utils/router'
 import Logo from '../visual/logo'
-import {Button} from '../visual/primitives'
-import {H3} from '../visual/heading'
-import {SplashBleed, Hero, HeroTitle, HeroBlurb} from '../visual/splash'
-import {Input} from '../visual/form'
-import {hidesNav} from './layout'
+import { Button } from '../visual/primitives'
+import { H3 } from '../visual/heading'
+import { SplashBleed, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
+import { Input } from '../visual/form'
+import { hidesNav } from './layout'
 
 const formHeight = '160px'
 
@@ -87,10 +87,10 @@ const CallToAction = Button.extend`
 
 const startCreateFlow = ev => {
 	ev.preventDefault()
-	const {title} = formJson(ev.target)
-	const {pathname} = url.parse(ev.target.action)
+	const { title } = formJson(ev.target)
+	const { pathname } = url.parse(ev.target.action)
 
-	go(pathname, {title})
+	go(pathname, { title })
 }
 
 const Splash = hidesNav(() => (

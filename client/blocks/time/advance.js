@@ -1,18 +1,18 @@
 import React from 'react'
-import {withState, withProps, compose} from 'recompact'
+import { withState, withProps, compose } from 'recompact'
 import withTimer from '../../utils/timer'
-import {withCampaignSession} from '../../data/campaign'
+import { withCampaignSession } from '../../data/campaign'
 import withIncrement from './connect/increment'
 
 const connectAdvanceTime = compose(
 	withState('enabled', 'setEnabled', false),
 	withCampaignSession,
-	withProps({period: 'minute', amount: 1}),
+	withProps({ period: 'minute', amount: 1 }),
 	withIncrement,
-	withTimer(30000, ({enabled, onIncrement}) => enabled && onIncrement())
+	withTimer(30000, ({ enabled, onIncrement }) => enabled && onIncrement())
 )
 
-const AdvanceTime = ({enabled, setEnabled}) => (
+const AdvanceTime = ({ enabled, setEnabled }) => (
 	<label>
 		<input
 			type='checkbox'

@@ -1,9 +1,9 @@
-import {Random} from 'meteor/random'
+import { Random } from 'meteor/random'
 import styled from 'styled-components'
 
 const bleed = `__bleed_${Random.id(8)}`
 
-export const Bleed = styled.div.attrs({className: bleed})`
+export const Bleed = styled.div.attrs({ className: bleed })`
 	grid-column: bleed;
 `
 
