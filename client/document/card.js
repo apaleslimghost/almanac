@@ -104,7 +104,7 @@ const connectEditCard = compose(
 
 const EditCardContainer = connectEditCard(EditCard)
 
-const ShowCard = ({
+export const ShowCard = ({
 	card,
 	toggle,
 	relatedCards,
@@ -146,7 +146,7 @@ const ShowCard = ({
 				))}
 			</List>
 
-			<List>
+			{relatedCards && <List>
 				{relatedCards.map(related => (
 					<Label
 						key={related._id}
@@ -163,7 +163,7 @@ const ShowCard = ({
 						onSelect={addCardRelated}
 					/>
 				</div>
-			</List>
+			</List>}
 		</div>
 	)
 
