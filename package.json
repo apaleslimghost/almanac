@@ -83,10 +83,16 @@
       "react/prop-types": 0,
       "no-alert": 0,
       "import/no-unassigned-import": 0,
-      "jsx-quotes": [2, "prefer-single"],
-      "no-unused-expressions": [2, {
-        "allowTaggedTemplates": true
-      }],
+      "jsx-quotes": [
+        2,
+        "prefer-single"
+      ],
+      "no-unused-expressions": [
+        2,
+        {
+          "allowTaggedTemplates": true
+        }
+      ],
       "default-case": 0
     },
     "settings": {
