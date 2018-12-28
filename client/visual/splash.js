@@ -18,7 +18,7 @@ const splashBackground = css`
 	color: ${({ url, color }) =>
 		(url || contrast(color) === 'dark')
 			? 'white'
-			: steel[0]}
+			: steel[0]
 	};
 
 	${({ url }) => url && css`
