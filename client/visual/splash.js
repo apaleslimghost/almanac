@@ -1,10 +1,11 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { aqua } from '@quarterto/colours'
-import { compose } from 'recompact'
+import { compose, withProps } from 'recompact'
 import connectSplashImage from '../data/splash'
 import { withCampaignData } from '../data/campaign'
 import { withOwnerData } from '../data/owner'
+import { withLoadingComponent } from '../control/loading'
 import select from '../utils/select'
 import { Bleed } from './grid'
 

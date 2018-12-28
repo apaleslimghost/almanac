@@ -19,6 +19,7 @@ import Grid from '../visual/grid'
 import Title from '../utils/title'
 import User from '../document/user'
 import { iAmOwner } from '../data/owner'
+import { withLoadingComponent } from '../control/loading'
 
 import 'react-toastify/dist/ReactToastify.min.css'
 
@@ -98,31 +99,31 @@ const connectNav = compose(
 )
 
 const Nav = connectNav(
-	({ user, campaignId, campaign, isOwner, extraItems }) => (
+	({ campaign, isOwner, extraItems }) => (
 		<Toolbar>
 			<NavArea>
 				<MenuLink href='/'>
 					<Logo />
 				</MenuLink>
 
-				{campaignId && (
+				{campaign && (
 					<>
 						<Divider />
 						<CampaignTitle campaign={campaign} />
 
 						{isOwner && (
 							<>
-								<MenuLink href={`/${campaignId}/dashboard-control`}>
+								<MenuLink href={`/${campaign._id}/dashboard-control`}>
 									<Icon icon='wooden-sign' />
 									Dashboard
 								</MenuLink>
 
-								<MenuLink href={`/${campaignId}/players`}>
+								<MenuLink href={`/${campaign._id}/players`}>
 									<Icon icon='double-team' />
 									Players
 								</MenuLink>
 
-								<MenuLink href={`/${campaignId}/settings`}>
+								<MenuLink href={`/${campaign._id}/settings`}>
 									<Icon icon='gears' />
 									Settings
 								</MenuLink>
@@ -202,23 +203,26 @@ export const withExtraNavItems = (...navItems) =>
 
 const connectLayout = compose(
 	navState,
-	setNavContext
+	setNavContext,
+	setsCampaign,
 )
 
-export const Basic = setsCampaign(({ children }) => (
-	<>
-		<Title />
-		<ToastContainer autoClose={10000} />
-		{children}
-	</>
-))
+const BasicLayout = ({ children }) => <>
+	<Title />
+	<ToastContainer autoClose={10000} />
+	{children}
+</>
 
-const Layout = connectLayout(({ campaignId, secret, state, children }) => (
-	<Basic campaignId={campaignId} secret={secret}>
+export const Basic = setsCampaign(BasicLayout)
+
+const Layout = connectLayout(({ state, children, ready }) => (
+	<BasicLayout>
 		{state.navShown && <Nav extraItems={state.extraItems} />}
 
-		<Grid>{children}</Grid>
-	</Basic>
+		<Grid>
+			{ready ? children : 'loading...'}
+		</Grid>
+	</BasicLayout>
 ))
 
 export default Layout

@@ -27,7 +27,7 @@ const connectRemoveUser = compose(
 		removeUser: ({ campaign }) => user => {
 			const reallyRemove = confirm(
 				`Remove ${user.username || user.emails[0].address} from ${
-					campaign.title
+				campaign.title
 				}?`
 			)
 
@@ -74,6 +74,7 @@ const Players = connectPlayers(({ players, campaign, action: Action }) => (
 
 const connectPlayersPage = compose(
 	withCampaignData,
+	withLoading,
 	assertAmOwner('campaign')
 )
 

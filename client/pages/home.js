@@ -5,7 +5,6 @@ import { compose, renderComponent } from 'recompact'
 import { Campaigns } from '../../shared/collections'
 import Link from '../control/link'
 import subscribe from '../utils/subscribe'
-import withLoading from '../control/loading'
 import loggedIn from '../utils/logged-in'
 import { SplashBackground, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
 import { FlexGrid } from '../visual/grid'
@@ -19,8 +18,7 @@ const withCampaignData = withTracker(() => ({
 
 const connectCampaign = compose(
 	loggedIn(renderComponent(Splash)),
-	withCampaignData,
-	withLoading
+	withCampaignData
 )
 
 const CampaignTile = connectSplashImage(SplashBackground.withComponent(Link)
@@ -36,7 +34,7 @@ const CampaignTile = connectSplashImage(SplashBackground.withComponent(Link)
 	}
 `)
 
-export default connectCampaign(({ campaigns, ownerUser }) => (
+export default connectCampaign(({ campaigns }) => (
 	<FlexGrid>
 		{campaigns.map(campaign => (
 			<CampaignTile

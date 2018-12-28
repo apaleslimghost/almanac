@@ -8,6 +8,7 @@ import { Card } from '../../shared/methods'
 import ShowCard, { EditCard } from '../document/card'
 import { Card as CardPrimitive } from '../visual/primitives'
 import { FlexGrid } from '../visual/grid'
+import withLoading from '../control/loading'
 
 const withAllCards = withCards('cards')
 
@@ -20,7 +21,8 @@ const withCardListActions = withHandlers({
 const connectCardList = compose(
 	withCampaignSession,
 	withCardListActions,
-	withAllCards
+	withAllCards,
+	withLoading
 )
 
 const CardList = connectCardList(({ cards, addCard }) => (
