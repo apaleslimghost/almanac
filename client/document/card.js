@@ -30,7 +30,7 @@ export default ({ card }) => (
 				<Link href={`/${card.campaignId}/${card._id}`}>{card.title}</Link>
 			</h1>
 
-			<Markdown source={card.text || ''} />
+			<Markdown excerpt source={card.text || ''} />
 		</article>
 
 		<List>
