@@ -62,7 +62,7 @@
     "recompact": "^3.3.0",
     "remark-behead": "^2.1.0",
     "string-hash": "^1.1.3",
-    "styled-components": "^4.1.3"
+    "styled-components": "^3.4.10"
   },
   "devDependencies": {
     "@quarterto/open-once-listening": "^1.3.0",

@@ -1,18 +1,25 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { aqua } from '@quarterto/colours'
+import { aqua, steel } from '@quarterto/colours'
 import { compose } from 'recompact'
 import connectSplashImage from '../data/splash'
 import { withCampaignData } from '../data/campaign'
 import { withOwnerData } from '../data/owner'
 import select from '../utils/select'
 import { Bleed } from './grid'
+import contrast from 'contrast'
 
 const splashBackground = css`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: stretch;
+
+	color: ${({ url, color }) =>
+		(url || contrast(color) === 'dark')
+			? 'white'
+			: steel[0]}
+	};
 
 	${({ url }) => url && css`
 		background-image: linear-gradient(
@@ -62,7 +69,6 @@ export const SplashBleed = Bleed.extend`
 
 export const Hero = styled.div`
 	margin-top: auto;
-	color: white;
 
 	a:link,
 	a:visited {
