@@ -1,11 +1,10 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { aqua } from '@quarterto/colours'
-import { compose, withProps } from 'recompact'
+import { compose } from 'recompact'
 import connectSplashImage from '../data/splash'
 import { withCampaignData } from '../data/campaign'
 import { withOwnerData } from '../data/owner'
-import { withLoadingComponent } from '../control/loading'
 import select from '../utils/select'
 import { Bleed } from './grid'
 
@@ -54,12 +53,12 @@ export const SplashBleed = Bleed.extend`
 	default: '40vw'
 })};
 
-	max-height: ${select({
+		max-height: ${select({
 	large: '60vh',
 	small: '30vh',
 	default: '40vh'
 })};
-`
+	`
 
 export const Hero = styled.div`
 	margin-top: auto;

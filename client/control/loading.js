@@ -1,4 +1,3 @@
-import React from 'react'
 import { renderComponent, branch } from 'recompact'
 import styled from 'styled-components'
 

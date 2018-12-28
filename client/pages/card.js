@@ -31,7 +31,7 @@ const withCardData = compose(
 )
 
 const connectCardSplash = compose(
-	withProps({ color: 'rgba(0,0,0,0.1)' })
+	withProps({ color: '#e0d8d2' })
 )
 
 export const CardSplash = connectCardSplash(
