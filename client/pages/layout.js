@@ -19,7 +19,6 @@ import Grid from '../visual/grid'
 import Title from '../utils/title'
 import User from '../document/user'
 import { iAmOwner } from '../data/owner'
-import { withLoadingComponent } from '../control/loading'
 
 import 'react-toastify/dist/ReactToastify.min.css'
 

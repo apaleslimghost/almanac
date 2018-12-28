@@ -19,6 +19,7 @@ import NewCampaign from './pages/new-campaign'
 import Verify from './pages/verify'
 import Enrol from './pages/enrol'
 import Card from './pages/card'
+import EditCard from './pages/edit-card'
 
 mount(App, {
 	routes: {
@@ -68,6 +69,16 @@ mount(App, {
 			return (
 				<Layout campaignId={campaignId}>
 					<Card cardId={cardId} />
+				</Layout>
+			)
+		},
+
+		'/:campaignId/:cardId/edit'({ campaignId, cardId }) {
+			if (!cardId) return false
+
+			return (
+				<Layout campaignId={campaignId}>
+					<EditCard cardId={cardId} />
 				</Layout>
 			)
 		},

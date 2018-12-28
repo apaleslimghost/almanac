@@ -6,9 +6,14 @@ import withCards from '../data/card'
 import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
 import { SplashBleed, Hero, HeroBlurb, HeroTitle } from '../visual/splash'
-import { ShowCard } from '../document/card'
+import ShowCard from '../document/card'
 import { Card as CardPrimitive } from '../visual/primitives'
 import { FlexGrid } from '../visual/grid'
+import ActionBar from '../visual/action-bar'
+import { canEdit as canEditCard } from '../../shared/utils/validators/card'
+import { withUserData } from '../utils/logged-in'
+import Link from '../control/link'
+import Icon from '../visual/icon'
 
 const withPageCard = withCards(
 	'card',
@@ -27,6 +32,7 @@ const withCardData = compose(
 	withCampaignId,
 	withPageCard,
 	withRelatedCards,
+	withUserData,
 	withLoading
 )
 
@@ -49,8 +55,17 @@ export const CardSplash = connectCardSplash(
 	)
 )
 
-export default withCardData(({ card, relatedCards }) => <>
+export default withCardData(({ card, relatedCards, user }) => <>
 	<CardSplash card={card} />
+
+	<ActionBar>
+		{canEditCard(card, user._id) && (
+			<Link href={`/${card.campaignId}/${card._id}/edit`}>
+				<Icon icon='edit' />
+				Edit
+			</Link>
+		)}
+	</ActionBar>
 
 	<article>
 		<Markdown source={card.text || ''} />
