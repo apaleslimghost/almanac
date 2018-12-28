@@ -33,20 +33,19 @@ import { iAmOwner } from '../data/owner'
 
 const SchemaFields = (props, context) =>
 	context.fields.type
-		? (console.log(context),
-		  (
-				<FormGroup>
-					{_.map(
-						schema[context.fields.type].fields,
-						({ label, format, ...field }, key) => (
-							<LabelledInput key={key}>
-								<div>{label}</div>
-								<Input {...field} key={key} name={key} />
-							</LabelledInput>
-						)
-					)}
-				</FormGroup>
-		  ))
+		? (
+			<FormGroup>
+				{_.map(
+					schema[context.fields.type].fields,
+					({ label, format, ...field }, key) => (
+						<LabelledInput key={key}>
+							<div>{label}</div>
+							<Input {...field} key={key} name={key} />
+						</LabelledInput>
+					)
+				)}
+			</FormGroup>
+		)
 		: null
 
 SchemaFields.contextTypes = fieldLike
@@ -113,60 +112,60 @@ const ShowCard = ({
 	addCardRelated,
 	userId
 }) => (
-	<div>
-		{card.type && (
-			<Label colour='sky'>
-				<LabelBody>{card.type}</LabelBody>
-			</Label>
-		)}
-
-		<List>
-			{toggle && canEditCard(card, userId) && (
-				<Button onClick={toggle}>
-					<Icon icon='edit' />
-				</Button>
+		<div>
+			{card.type && (
+				<Label colour='sky'>
+					<LabelBody>{card.type}</LabelBody>
+				</Label>
 			)}
-		</List>
 
-		<PrivacyIcons access={card.access} />
+			<List>
+				{toggle && canEditCard(card, userId) && (
+					<Button onClick={toggle}>
+						<Icon icon='edit' />
+					</Button>
+				)}
+			</List>
 
-		<article>
-			<h1>
-				<Link href={`/${card.campaignId}/cards/${card._id}`}>{card.title}</Link>
-			</h1>
+			<PrivacyIcons access={card.access} />
 
-			<Markdown source={card.text || ''} />
-		</article>
+			<article>
+				<h1>
+					<Link href={`/${card.campaignId}/${card._id}`}>{card.title}</Link>
+				</h1>
 
-		<List>
-			{_.map(schema[card.type].fields, ({ label, format = a => a }, key) => (
-				<Label key={key} sunken>
-					<LabelTitle>{label}</LabelTitle>
-					<LabelBody>{format(card[key])}</LabelBody>
-				</Label>
-			))}
-		</List>
+				<Markdown source={card.text || ''} />
+			</article>
 
-		<List>
-			{relatedCards.map(related => (
-				<Label
-					key={related._id}
-					colour='aqua'
-					onClick={() => removeCardRelated(related)}
-				>
-					<LabelBody>{related.title}</LabelBody>
-				</Label>
-			))}
-			<div>
-				<CardSelect
-					skip={[card._id].concat(card.related || [])}
-					placeholder='Link card...'
-					onSelect={addCardRelated}
-				/>
-			</div>
-		</List>
-	</div>
-)
+			<List>
+				{_.map(schema[card.type].fields, ({ label, format = a => a }, key) => (
+					<Label key={key} sunken>
+						<LabelTitle>{label}</LabelTitle>
+						<LabelBody>{format(card[key])}</LabelBody>
+					</Label>
+				))}
+			</List>
+
+			<List>
+				{relatedCards.map(related => (
+					<Label
+						key={related._id}
+						colour='aqua'
+						onClick={() => removeCardRelated(related)}
+					>
+						<LabelBody>{related.title}</LabelBody>
+					</Label>
+				))}
+				<div>
+					<CardSelect
+						skip={[card._id].concat(card.related || [])}
+						placeholder='Link card...'
+						onSelect={addCardRelated}
+					/>
+				</div>
+			</List>
+		</div>
+	)
 
 const withCardData = withTracker(({ card, campaignId, campaignSession }) => ({
 	// TODO: use withCard

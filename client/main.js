@@ -18,6 +18,7 @@ import CampaignPlayers from './pages/campaign-players'
 import NewCampaign from './pages/new-campaign'
 import Verify from './pages/verify'
 import Enrol from './pages/enrol'
+import Card from './pages/card'
 
 mount(App, {
 	routes: {
@@ -33,14 +34,6 @@ mount(App, {
 			return (
 				<Layout campaignId={campaignId}>
 					<Control />
-				</Layout>
-			)
-		},
-
-		'/:campaignId/cards/:cardId'({ campaignId, cardId }) {
-			return (
-				<Layout campaignId={campaignId}>
-					<Campaign />
 				</Layout>
 			)
 		},
@@ -65,6 +58,16 @@ mount(App, {
 			return (
 				<Layout campaignId={campaignId}>
 					<CampaignPlayers />
+				</Layout>
+			)
+		},
+
+		'/:campaignId/:cardId'({ campaignId, cardId }) {
+			if (!cardId) return false
+
+			return (
+				<Layout campaignId={campaignId}>
+					<Card cardId={cardId} />
 				</Layout>
 			)
 		},
