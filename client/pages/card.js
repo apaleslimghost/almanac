@@ -14,6 +14,7 @@ import { canEdit as canEditCard } from '../../shared/utils/validators/card'
 import { withUserData } from '../utils/logged-in'
 import Link from '../control/link'
 import Icon from '../visual/icon'
+import Title from '../utils/title'
 
 const withPageCard = withCards(
 	'card',
@@ -57,6 +58,7 @@ export const CardSplash = connectCardSplash(
 
 export default withCardData(({ card, relatedCards, user }) => <>
 	<CardSplash card={card} />
+	<Title>{card.title}</Title>
 
 	<ActionBar>
 		{canEditCard(card, user._id) && (
