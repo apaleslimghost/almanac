@@ -19,6 +19,10 @@ const Completed = styled.span`
 	font-size: 0.7em;
 `
 
+const Large = styled.span`
+	font-size: 1.2em;
+`
+
 const isControl = ({ control }) => control
 
 const connectObjective = compose(
@@ -145,14 +149,14 @@ const Quest = connectQuest(
 				)}
 			</Ornamented>
 
-			<large>
+			<Large>
 				{first &&
 					m(
 						objectives.find(({ completed }) => !completed),
 						objective => objective.text,
 						quest.text
 					)}
-			</large>
+			</Large>
 
 			<ObjectiveList>
 				{objectives
