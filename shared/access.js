@@ -1,5 +1,5 @@
 export default {
-	PRIVATE:  0,
+	PRIVATE: 0,
 	CAMPAIGN: 1,
-	PUBLIC:   2,
-};
+	PUBLIC: 2
+}

@@ -1,5 +1,5 @@
-import styled, {keyframes} from 'styled-components';
-import {background} from '../utils/colors';
+import styled, {keyframes} from 'styled-components'
+import {background} from '../utils/colors'
 
 const fadeIn = keyframes`
 	0% {
@@ -15,12 +15,12 @@ const fadeIn = keyframes`
 	100% {
 		opacity: 1;
 	}
-`;
+`
 
 const fadeOut = keyframes`
 	0%   { opacity: 1; }
 	100% { opacity: 0; }
-`;
+`
 
 const Modal = styled.div`
 	position: fixed;
@@ -30,13 +30,13 @@ const Modal = styled.div`
 	bottom: 0;
 	background: ${background};
 	transform-origin: center;
-	animation-name: ${
-		({animationState}) => ({
+	animation-name: ${({animationState}) =>
+		({
 			opening: fadeIn,
-			closing: fadeOut,
-		})[animationState] || 'none'
-	};
-	animation-duration: ${({animationState}) => animationState === 'opening' ? '300ms' : '5s'};
+			closing: fadeOut
+		}[animationState] || 'none')};
+	animation-duration: ${({animationState}) =>
+		animationState === 'opening' ? '300ms' : '5s'};
 	animation-fill-mode: forwards;
 	animation-timing-function: linear;
 	animation-iteration-count: 1;
@@ -45,6 +45,6 @@ const Modal = styled.div`
 	justify-content: center;
 	align-items: stretch;
 	text-align: center;
-`;
+`
 
-export default Modal;
+export default Modal

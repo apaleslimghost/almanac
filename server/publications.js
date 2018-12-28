@@ -1,33 +1,28 @@
-import publish from './utils/publish';
-import search from './utils/search';
-import {Cards, Campaigns, Session, Layouts} from '../shared/collections';
-import {Meteor} from 'meteor/meteor';
-import access from '../shared/access';
+import {Meteor} from 'meteor/meteor'
+import {Cards, Campaigns, Session, Layouts} from '../shared/collections'
+import access from '../shared/access'
+import publish from './utils/publish'
 
-const ownedCampaigns = ({userId}) => Campaigns.find({
-	owner: userId,
-});
+const ownedCampaigns = ({userId}) =>
+	Campaigns.find({
+		owner: userId
+	})
 
-const memberCampaigns = ({userId}) => Campaigns.find({
-	$or: [
-		{owner: userId},
-		{member: userId},
-	]
-});
+const memberCampaigns = ({userId}) =>
+	Campaigns.find({
+		$or: [{owner: userId}, {member: userId}]
+	})
 
 const visibleDocs = collection => ({userId}) => {
-	const campaignIds = memberCampaigns({userId}).map(c => c._id);
+	const campaignIds = memberCampaigns({userId}).map(c => c._id)
 
 	return collection.find({
-		$or: [
-			{owner: userId},
-			{campaignId: {$in: campaignIds}},
-		]
-	});
-};
+		$or: [{owner: userId}, {campaignId: {$in: campaignIds}}]
+	})
+}
 
 /*
-i can see a card if:
+I can see a card if:
 
 - i'm the owner or the GM
 - it's visible to the campaign, it's in a campaign i'm a member of
@@ -35,22 +30,22 @@ i can see a card if:
  */
 
 const visibleCards = ({userId}) => {
-	const ownedCampaignIds = ownedCampaigns({userId}).map(c => c._id);
-	const memberCampaignIds = memberCampaigns({userId}).map(c => c._id);
+	const ownedCampaignIds = ownedCampaigns({userId}).map(c => c._id)
+	const memberCampaignIds = memberCampaigns({userId}).map(c => c._id)
 
 	return Cards.find({
 		$or: [
 			{owner: userId},
 			{campaignId: {$in: ownedCampaignIds}},
 			{campaignId: {$in: memberCampaignIds}, 'access.view': access.CAMPAIGN},
-			{'access.view': access.PUBLIC},
+			{'access.view': access.PUBLIC}
 		]
-	});
-};
+	})
+}
 
 publish({
 	users: {
-		all: () => Meteor.users.find({}, {fields: {username: 1}}),
+		all: () => Meteor.users.find({}, {fields: {username: 1}})
 	},
 
 	campaigns: {
@@ -59,36 +54,37 @@ publish({
 		join({args: [{campaignId, secret}]}) {
 			return Campaigns.find({
 				_id: campaignId,
-				inviteSecret: secret,
-			});
+				inviteSecret: secret
+			})
 		},
 
 		members({userId}) {
-			const campaigns = memberCampaigns({userId}).fetch();
+			const campaigns = memberCampaigns({userId}).fetch()
 
 			const allCampaignUsers = campaigns.reduce(
-				(users, campaign) => users
-					.concat(campaign.owner)
-					.concat(campaign.member)
-					.concat(campaign.removedMember || []),
+				(users, campaign) =>
+					users
+						.concat(campaign.owner)
+						.concat(campaign.member)
+						.concat(campaign.removedMember || []),
 				[]
-			);
+			)
 
 			return Meteor.users.find({
 				_id: {$in: allCampaignUsers}
-			});
-		},
+			})
+		}
 	},
 
 	cards: {
-		all: visibleCards,
+		all: visibleCards
 	},
 
 	session: {
-		all: visibleDocs(Session),
+		all: visibleDocs(Session)
 	},
 
 	layout: {
-		all: visibleDocs(Layouts),
-	},
-});
+		all: visibleDocs(Layouts)
+	}
+})

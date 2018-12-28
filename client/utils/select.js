@@ -1,5 +1,2 @@
-export default matches => props => matches[
-	Object.keys(matches).find(
-		match => props[match]
-	) || 'default'
-];
+export default matches => props =>
+	matches[Object.keys(matches).find(match => props[match]) || 'default']

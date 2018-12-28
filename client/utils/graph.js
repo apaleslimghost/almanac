@@ -1,23 +1,24 @@
 export const distances = (graph, start, visited = {[start]: 0}, depth = 1) => {
-	const next = graph[start];
-	const nextDepth = depth + 1;
+	const next = graph[start]
+	const nextDepth = depth + 1
 
-	next &&
+	if (next) {
 		next
 			.filter(node => {
-				if (node in visited) return false;
-				visited[node] = depth;
-				return true;
+				if (node in visited) return false
+				visited[node] = depth
+				return true
 			})
 			.forEach(node => {
-				distances(graph, node, visited, nextDepth);
-			});
+				distances(graph, node, visited, nextDepth)
+			})
+	}
 
-	return visited;
-};
+	return visited
+}
 
 export const buildGraph = cards =>
 	cards.reduce(
 		(graph, card) => Object.assign(graph, {[card._id]: card.related}),
 		{}
-	);
+	)

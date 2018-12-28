@@ -5,7 +5,7 @@ export default {
 			completed: {
 				label: 'Completed',
 				type: 'checkbox',
-				format: val => val ? '✔︎' : '✘',
+				format: val => (val ? '✔︎' : '✘')
 			}
 		}
 	},
@@ -16,7 +16,7 @@ export default {
 			completed: {
 				label: 'Completed',
 				type: 'checkbox',
-				format: val => val ? '✔︎' : '✘',
+				format: val => (val ? '✔︎' : '✘')
 			}
 		}
 	},
@@ -28,8 +28,8 @@ export default {
 				label: 'Relationship',
 				type: 'number',
 				min: -2,
-				max: +2,
+				max: +2
 			}
 		}
-	},
-};
+	}
+}

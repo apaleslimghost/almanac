@@ -1,11 +1,11 @@
-import {Campaigns} from '../../shared/collections';
-import {withCampaign} from '../data/campaign';
-import {withTracker} from 'meteor/react-meteor-data';
-import HarptosDate from 'dream-date/calendar/harptos';
-import HarptosCommonDate from 'dream-date/calendar/harptos-common';
-import OdreianDate from 'dream-date/calendar/odreian';
-import TideDate from 'dream-date/calendar/tide';
-import {compose} from 'recompact';
+import {withTracker} from 'meteor/react-meteor-data'
+import HarptosDate from 'dream-date/calendar/harptos'
+import HarptosCommonDate from 'dream-date/calendar/harptos-common'
+import OdreianDate from 'dream-date/calendar/odreian'
+import TideDate from 'dream-date/calendar/tide'
+import {compose} from 'recompact'
+import {Campaigns} from '../../shared/collections'
+import {withCampaign} from './campaign'
 
 export const calendars = {
 	harptosV1: {
@@ -24,24 +24,26 @@ export const calendars = {
 		name: 'Tide',
 		dateConstructor: TideDate
 	}
-};
+}
 
-const defaultCalendarId = 'odreianV1';
+const defaultCalendarId = 'odreianV1'
 
-export const calendarList = Object.entries(calendars)
-	.map(([id, detail]) => Object.assign({id}, detail));
+export const calendarList = Object.entries(calendars).map(([id, detail]) =>
+	Object.assign({id}, detail)
+)
 
 const withCampaignDateConstructor = withTracker(({campaignCalendarId}) => ({
-	CampaignDate: (calendars[campaignCalendarId] || calendars[defaultCalendarId]).dateConstructor
-}));
+	CampaignDate: (calendars[campaignCalendarId] || calendars[defaultCalendarId])
+		.dateConstructor
+}))
 
 const withCampaignCalendarId = withTracker(({campaignId}) => {
-	const campaign = Campaigns.findOne(campaignId) || {};
-	return {campaignCalendarId: campaign.calendar};
-});
+	const campaign = Campaigns.findOne(campaignId) || {}
+	return {campaignCalendarId: campaign.calendar}
+})
 
 export const withCampaignDate = compose(
 	withCampaign,
 	withCampaignCalendarId,
 	withCampaignDateConstructor
-);
+)

@@ -1,4 +1,4 @@
-import {withHandlers} from 'recompact';
+import {withHandlers} from 'recompact'
 
 export default withHandlers({
 	onIncrement: ({
@@ -12,6 +12,6 @@ export default withHandlers({
 			new CampaignDate(campaignSession.get('date') || 0).add({
 				[period]: multiplier
 			}).timestamp
-		);
-	},
-});
+		)
+	}
+})
