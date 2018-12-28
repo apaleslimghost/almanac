@@ -1,12 +1,11 @@
 import React from 'react'
-import { compose } from 'recompact'
-import Markdown from 'react-markdown'
+import { compose, withProps } from 'recompact'
 
+import Markdown from '../document/markdown'
 import withCards from '../data/card'
-import { withCampaignId, withCampaignData } from '../data/campaign'
+import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
 import { SplashBleed, Hero, HeroBlurb, HeroTitle } from '../visual/splash'
-import connectSplashImage from '../data/splash'
 import { ShowCard } from '../document/card'
 import { Card as CardPrimitive } from '../visual/primitives'
 import { FlexGrid } from '../visual/grid'
@@ -32,9 +31,7 @@ const withCardData = compose(
 )
 
 const connectCardSplash = compose(
-	withCampaignData,
-	connectSplashImage
-	// TODO card attachment
+	withProps({ color: 'rgba(0,0,0,0.1)' })
 )
 
 export const CardSplash = connectCardSplash(

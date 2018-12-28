@@ -14,11 +14,12 @@ const splashBackground = css`
 	justify-content: space-between;
 	align-items: stretch;
 
-	background-image: linear-gradient(
+	${({ url }) => url && css`
+		background-image: linear-gradient(
 			rgba(0, 20, 40, 0) 30%,
 			rgba(0, 20, 40, 0.9)
-		),
-		url(${({ url }) => url});
+		), url(${url});
+	`}
 
 	background-color: ${({ color }) => color};
 
@@ -47,16 +48,16 @@ export const SplashBleed = Bleed.extend`
 
 	width: 100vw;
 	height: ${select({
-		large: '60vw',
-		small: '30vw',
-		default: '40vw'
-	})};
+	large: '60vw',
+	small: '30vw',
+	default: '40vw'
+})};
 
 	max-height: ${select({
-		large: '60vh',
-		small: '30vh',
-		default: '40vh'
-	})};
+	large: '60vh',
+	small: '30vh',
+	default: '40vh'
+})};
 `
 
 export const Hero = styled.div`
