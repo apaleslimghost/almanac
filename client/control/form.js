@@ -170,6 +170,8 @@ export class Form extends Component {
 export const fieldLike = {
 	fields: PropTypes.object,
 	setFields: PropTypes.func
-}[(Input, Select, Form, FormFieldData)].forEach(thing => {
+}
+
+;[Input, Select, Form, FormFieldData].forEach(thing => {
 	thing.contextTypes = fieldLike
 })
