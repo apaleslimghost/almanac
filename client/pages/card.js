@@ -2,7 +2,7 @@ import React from 'react'
 import { compose, withProps } from 'recompact'
 
 import Markdown from '../document/markdown'
-import withCards from '../data/card'
+import withCards, { withCard } from '../data/card'
 import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
 import { SplashBleed, Hero, HeroBlurb, HeroTitle } from '../visual/splash'
@@ -16,12 +16,6 @@ import Link from '../control/link'
 import Icon from '../visual/icon'
 import Title from '../utils/title'
 
-const withPageCard = withCards(
-	'card',
-	({ cardId }) => ({ _id: cardId }),
-	{ single: true }
-)
-
 const withRelatedCards = withCards(
 	'relatedCards',
 	({ card }) => ({
@@ -31,7 +25,7 @@ const withRelatedCards = withCards(
 
 const withCardData = compose(
 	withCampaignId,
-	withPageCard,
+	withCard,
 	withRelatedCards,
 	withUserData,
 	withLoading

@@ -5,7 +5,7 @@ import subscribe from '../utils/subscribe'
 const find = (collection, query, single) =>
 	single ? collection.findOne(query) : collection.find(query).fetch()
 
-export default (key, query = {}, { single = false } = {}) =>
+const withCards = (key, query = {}, { single = false } = {}) =>
 	withTracker(({ campaignId, ...props }) => ({
 		ready: subscribe('cards.all'),
 		[key]: find(
@@ -17,3 +17,11 @@ export default (key, query = {}, { single = false } = {}) =>
 			single
 		)
 	}))
+
+export const withCard = withCards(
+	'card',
+	({ cardId }) => ({ _id: cardId }),
+	{ single: true }
+)
+
+export default withCards

@@ -1,10 +1,9 @@
 import React from 'react'
 import { compose, withProps, withHandlers } from 'recompact'
 
-import withCards from '../data/card'
+import { withCard } from '../data/card'
 import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
-import { SplashBleed, Hero, HeroBlurb, HeroTitle } from '../visual/splash'
 import { Form, fieldLike } from '../control/form'
 import { iAmOwner } from '../data/owner'
 import TypeSelect from '../collection/type-select'
@@ -84,6 +83,7 @@ const editCardActions = withHandlers({
 
 	deleteCard: ({ card }) => ev => {
 		ev.preventDefault()
+		go(`/${card.campaignId}`)
 		Card.delete(card)
 	},
 
@@ -92,54 +92,12 @@ const editCardActions = withHandlers({
 	}
 })
 
-const connectEditCard = compose(
+const withCardData = compose(
+	withCampaignId,
+	withCard,
+	withLoading,
 	editCardActions,
 	iAmOwner('card')
 )
 
-const EditCardContainer = connectEditCard(EditCard)
-
-const withPageCard = withCards(
-	'card',
-	({ cardId }) => ({ _id: cardId }),
-	{ single: true }
-)
-
-const withRelatedCards = withCards(
-	'relatedCards',
-	({ card }) => ({
-		_id: { $in: (card && card.related) || [] },
-	})
-)
-
-const withCardData = compose(
-	withCampaignId,
-	withPageCard,
-	withRelatedCards,
-	withLoading
-)
-
-const connectCardSplash = compose(
-	withProps({ color: '#e0d8d2' })
-)
-
-export const CardSplash = connectCardSplash(
-	({ card, ...props }) => (
-		<SplashBleed small {...props}>
-			<Hero>
-				<HeroTitle>{card.title}</HeroTitle>
-				{card.subtitle && (
-					<HeroBlurb>
-						{card.subtitle}
-					</HeroBlurb>
-				)}
-			</Hero>
-		</SplashBleed>
-	)
-)
-
-export default withCardData(({ card, relatedCards }) => <>
-	<CardSplash card={card} />
-
-	<EditCardContainer card={card} />
-</>)
+export default withCardData(EditCard)
