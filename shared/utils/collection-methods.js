@@ -16,7 +16,7 @@ const nestedToDotted = (obj, top = {}, path = []) =>
 	}, top)
 
 export default (collection, validate) => {
-	const baseCreate = method(`${collection._name}.create`, function (data) {
+	const baseCreate = method(`${collection._name}.create`, function(data) {
 		validate.create(data, this.userId)
 
 		data.owner = this.userId
@@ -29,7 +29,7 @@ export default (collection, validate) => {
 		// HACK: generate slug before passing to method so it's consistent on client and server
 		create: data => baseCreate(generateSlug(data)),
 
-		update: method(`${collection._name}.update`, function ({ _id }, edit) {
+		update: method(`${collection._name}.update`, function({ _id }, edit) {
 			const data = collection.findOne(_id)
 			const $set = nestedToDotted(edit)
 
@@ -37,7 +37,7 @@ export default (collection, validate) => {
 			collection.update(_id, { $set })
 		}),
 
-		delete: method(`${collection._name}.delete`, function ({ _id }) {
+		delete: method(`${collection._name}.delete`, function({ _id }) {
 			const data = collection.findOne(_id)
 			validate.edit(data, this.userId)
 			collection.remove(_id)

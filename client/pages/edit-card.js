@@ -9,12 +9,7 @@ import { iAmOwner } from '../data/owner'
 import TypeSelect from '../collection/type-select'
 import preventingDefault from '../utils/preventing-default'
 import { Card } from '../../shared/methods'
-import {
-	Button,
-	List,
-	FormGroup,
-	LabelledInput
-} from '../visual/primitives'
+import { Button, List, FormGroup, LabelledInput } from '../visual/primitives'
 import { Input, Textarea } from '../visual/form'
 import AccessForm from '../control/privacy'
 import Icon from '../visual/icon'
@@ -22,25 +17,23 @@ import schema from '../../shared/schema'
 import { go } from '../utils/router'
 
 const SchemaFields = (props, context) =>
-	context.fields.type
-		? (
-			<FormGroup>
-				{_.map(
-					schema[context.fields.type].fields,
-					({ label, format, ...field }, key) => (
-						<LabelledInput key={key}>
-							<div>{label}</div>
-							<Input {...field} key={key} name={key} />
-						</LabelledInput>
-					)
-				)}
-			</FormGroup>
-		)
-		: null
+	context.fields.type ? (
+		<FormGroup>
+			{_.map(
+				schema[context.fields.type].fields,
+				({ label, format, ...field }, key) => (
+					<LabelledInput key={key}>
+						<div>{label}</div>
+						<Input {...field} key={key} name={key} />
+					</LabelledInput>
+				)
+			)}
+		</FormGroup>
+	) : null
 
 SchemaFields.contextTypes = fieldLike
 
-export const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
+const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 	<Form initialData={card} onSubmit={saveCard}>
 		<FormGroup>
 			<List>
@@ -81,10 +74,10 @@ const editCardActions = withHandlers({
 		let _id
 
 		if (card) {
-			({ _id } = card)
+			; ({ _id } = card)
 			Card.update(card, data)
 		} else {
-			({ _id } = await Card.create({
+			; ({ _id } = await Card.create({
 				...data,
 				campaignId
 			}))

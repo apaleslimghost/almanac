@@ -171,7 +171,6 @@ export const fieldLike = {
 	fields: PropTypes.object,
 	setFields: PropTypes.func
 }
-
 ;[Input, Select, Form, FormFieldData].forEach(thing => {
 	thing.contextTypes = fieldLike
 })

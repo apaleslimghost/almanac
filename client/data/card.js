@@ -18,10 +18,8 @@ const withCards = (key, query = {}, { single = false } = {}) =>
 		)
 	}))
 
-export const withCard = withCards(
-	'card',
-	({ cardId }) => ({ _id: cardId }),
-	{ single: true }
-)
+export const withCard = withCards('card', ({ cardId }) => ({ _id: cardId }), {
+	single: true
+})
 
 export default withCards

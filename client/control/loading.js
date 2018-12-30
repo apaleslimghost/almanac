@@ -15,9 +15,7 @@ export const Loading = styled.div`
 	}
 `
 
-export const withLoadingComponent = loading => branch(
-	({ ready }) => ready === false,
-	renderComponent(loading)
-)
+export const withLoadingComponent = loading =>
+	branch(({ ready }) => ready === false, renderComponent(loading))
 
 export default withLoadingComponent(Loading)

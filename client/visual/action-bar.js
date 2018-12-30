@@ -1,7 +1,6 @@
 import React from 'react'
-import { Bleed } from '../visual/grid'
-import Grid from '../visual/grid'
-import { List } from '../visual/primitives'
+import Grid, { Bleed } from './grid'
+import { List } from './primitives'
 
 const Bar = Bleed.extend`
 	background: #e0d8d2;
@@ -10,10 +9,10 @@ const Bar = Bleed.extend`
 	margin-top: -1rem;
 `
 
-export default ({ children }) => <Bar>
-	<Grid>
-		<List>
-			{children}
-		</List>
-	</Grid>
-</Bar>
+export default ({ children }) => (
+	<Bar>
+		<Grid>
+			<List>{children}</List>
+		</Grid>
+	</Bar>
+)

@@ -27,7 +27,7 @@ const connectRemoveUser = compose(
 		removeUser: ({ campaign }) => user => {
 			const reallyRemove = confirm(
 				`Remove ${user.username || user.emails[0].address} from ${
-				campaign.title
+					campaign.title
 				}?`
 			)
 

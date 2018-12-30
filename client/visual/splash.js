@@ -2,12 +2,12 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 import { aqua, steel } from '@quarterto/colours'
 import { compose } from 'recompact'
+import contrast from 'contrast'
 import connectSplashImage from '../data/splash'
 import { withCampaignData } from '../data/campaign'
 import { withOwnerData } from '../data/owner'
 import select from '../utils/select'
 import { Bleed } from './grid'
-import contrast from 'contrast'
 
 const splashBackground = css`
 	display: flex;
@@ -16,17 +16,17 @@ const splashBackground = css`
 	align-items: stretch;
 
 	color: ${({ url, color }) =>
-		(url || contrast(color) === 'dark')
-			? 'white'
-			: steel[0]
-	};
+		url || contrast(color) === 'dark' ? 'white' : steel[0]};
 
-	${({ url }) => url && css`
-		background-image: linear-gradient(
-			rgba(0, 20, 40, 0) 30%,
-			rgba(0, 20, 40, 0.9)
-		), url(${url});
-	`}
+	${({ url }) =>
+		url &&
+		css`
+			background-image: linear-gradient(
+					rgba(0, 20, 40, 0) 30%,
+					rgba(0, 20, 40, 0.9)
+				),
+				url(${url});
+		`}
 
 	background-color: ${({ color }) => color};
 
@@ -55,17 +55,17 @@ export const SplashBleed = Bleed.extend`
 
 	width: 100vw;
 	height: ${select({
-	large: '60vw',
-	small: '30vw',
-	default: '40vw'
-})};
+		large: '60vw',
+		small: '30vw',
+		default: '40vw'
+	})};
 
-		max-height: ${select({
-	large: '60vh',
-	small: '30vh',
-	default: '40vh'
-})};
-	`
+	max-height: ${select({
+		large: '60vh',
+		small: '30vh',
+		default: '40vh'
+	})};
+`
 
 export const Hero = styled.div`
 	margin-top: auto;

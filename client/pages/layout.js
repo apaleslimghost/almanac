@@ -97,49 +97,47 @@ const connectNav = compose(
 	withUserData
 )
 
-const Nav = connectNav(
-	({ campaign, isOwner, extraItems }) => (
-		<Toolbar>
-			<NavArea>
-				<MenuLink href='/'>
-					<Logo />
-				</MenuLink>
+const Nav = connectNav(({ campaign, isOwner, extraItems }) => (
+	<Toolbar>
+		<NavArea>
+			<MenuLink href='/'>
+				<Logo />
+			</MenuLink>
 
-				{campaign && (
-					<>
-						<Divider />
-						<CampaignTitle campaign={campaign} />
+			{campaign && (
+				<>
+					<Divider />
+					<CampaignTitle campaign={campaign} />
 
-						{isOwner && (
-							<>
-								<MenuLink href={`/${campaign._id}/dashboard-control`}>
-									<Icon icon='wooden-sign' />
-									Dashboard
-								</MenuLink>
+					{isOwner && (
+						<>
+							<MenuLink href={`/${campaign._id}/dashboard-control`}>
+								<Icon icon='wooden-sign' />
+								Dashboard
+							</MenuLink>
 
-								<MenuLink href={`/${campaign._id}/players`}>
-									<Icon icon='double-team' />
-									Players
-								</MenuLink>
+							<MenuLink href={`/${campaign._id}/players`}>
+								<Icon icon='double-team' />
+								Players
+							</MenuLink>
 
-								<MenuLink href={`/${campaign._id}/settings`}>
-									<Icon icon='gears' />
-									Settings
-								</MenuLink>
-							</>
-						)}
-					</>
-				)}
-			</NavArea>
+							<MenuLink href={`/${campaign._id}/settings`}>
+								<Icon icon='gears' />
+								Settings
+							</MenuLink>
+						</>
+					)}
+				</>
+			)}
+		</NavArea>
 
-			<NavArea>
-				<Space />
-				{extraItems}
-				<LogoutButton />
-			</NavArea>
-		</Toolbar>
-	)
-)
+		<NavArea>
+			<Space />
+			{extraItems}
+			<LogoutButton />
+		</NavArea>
+	</Toolbar>
+))
 
 const navContext = {
 	setExtraNavItems: PropTypes.func,
@@ -203,14 +201,16 @@ export const withExtraNavItems = (...navItems) =>
 const connectLayout = compose(
 	navState,
 	setNavContext,
-	setsCampaign,
+	setsCampaign
 )
 
-const BasicLayout = ({ children }) => <>
-	<Title />
-	<ToastContainer autoClose={10000} />
-	{children}
-</>
+const BasicLayout = ({ children }) => (
+	<>
+		<Title />
+		<ToastContainer autoClose={10000} />
+		{children}
+	</>
+)
 
 export const Basic = setsCampaign(BasicLayout)
 
@@ -218,9 +218,7 @@ const Layout = connectLayout(({ state, children, ready }) => (
 	<BasicLayout>
 		{state.navShown && <Nav extraItems={state.extraItems} />}
 
-		<Grid>
-			{ready ? children : 'loading...'}
-		</Grid>
+		<Grid>{ready ? children : 'loading...'}</Grid>
 	</BasicLayout>
 ))
 
