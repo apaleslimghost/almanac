@@ -7,7 +7,7 @@ import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
 import { SplashBleed, Hero, HeroBlurb, HeroTitle } from '../visual/splash'
 import ShowCard from '../document/card'
-import { Card as CardPrimitive } from '../visual/primitives'
+import { LabelTitle, Label, LabelBody } from '../visual/primitives'
 import { FlexGrid } from '../visual/grid'
 import ActionBar from '../visual/action-bar'
 import { canEdit as canEditCard } from '../../shared/utils/validators/card'
@@ -15,6 +15,8 @@ import { withUserData } from '../utils/logged-in'
 import Link from '../control/link'
 import Icon from '../visual/icon'
 import Title from '../utils/title'
+import { PrivacyIcons } from '../control/privacy'
+import schema from '../../shared/schema'
 
 const withRelatedCards = withCards(
 	'relatedCards',
@@ -55,12 +57,24 @@ export default withCardData(({ card, relatedCards, user }) => <>
 	<Title>{card.title}</Title>
 
 	<ActionBar>
+		<Label colour='sky'>
+			<LabelBody>{card.type}</LabelBody>
+		</Label>
+
 		{canEditCard(card, user._id) && (
 			<Link href={`/${card.campaignId}/${card._id}/edit`}>
 				<Icon icon='edit' />
 				Edit
 			</Link>
 		)}
+		<PrivacyIcons access={card.access} />
+
+		{_.map(schema[card.type].fields, ({ label, format = a => a }, key) => (
+			<Label key={key} sunken>
+				<LabelTitle>{label}</LabelTitle>
+				<LabelBody>{format(card[key])}</LabelBody>
+			</Label>
+		))}
 	</ActionBar>
 
 	<article>
@@ -70,9 +84,9 @@ export default withCardData(({ card, relatedCards, user }) => <>
 	{relatedCards.length > 0 && <>
 		<hr />
 		<FlexGrid>
-			{relatedCards.map(related => <CardPrimitive key={related._id}>
-				<ShowCard card={related} />
-			</CardPrimitive>)}
+			{relatedCards.map(related =>
+				<ShowCard card={related} key={related._id} />
+			)}
 		</FlexGrid>
 	</>}
 </>)
