@@ -63,6 +63,14 @@ mount(App, {
 			)
 		},
 
+		'/:campaignId/new'({ campaignId }) {
+			return (
+				<Layout campaignId={campaignId}>
+					<EditCard />
+				</Layout>
+			)
+		},
+
 		'/:campaignId/:cardId'({ campaignId, cardId }) {
 			if (!cardId) return false
 

@@ -40,8 +40,8 @@ const SchemaFields = (props, context) =>
 
 SchemaFields.contextTypes = fieldLike
 
-export const EditCard = ({ card, saveCard, back, deleteCard, isOwner }) => (
-	<Form initialData={card} onDidSubmit={back} onSubmit={saveCard}>
+export const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
+	<Form initialData={card} onSubmit={saveCard}>
 		<FormGroup>
 			<List>
 				<Input flex name='title' placeholder='Title' />
@@ -49,7 +49,7 @@ export const EditCard = ({ card, saveCard, back, deleteCard, isOwner }) => (
 			</List>
 		</FormGroup>
 
-		{isOwner && <AccessForm {...card} />}
+		{(isOwner || !card._id) && <AccessForm {...card} />}
 
 		<FormGroup>
 			<Textarea fullWidth name='text' />
@@ -67,7 +67,7 @@ export const EditCard = ({ card, saveCard, back, deleteCard, isOwner }) => (
 					<Icon icon='times' /> Cancel
 				</Button>
 			)}
-			{deleteCard && (
+			{deleteCard && card._id && (
 				<Button colour='scarlet' onClick={deleteCard}>
 					<Icon icon='trash' /> Delete
 				</Button>
@@ -77,8 +77,20 @@ export const EditCard = ({ card, saveCard, back, deleteCard, isOwner }) => (
 )
 
 const editCardActions = withHandlers({
-	saveCard: ({ card }) => data => {
-		Card.update(card, data)
+	saveCard: ({ card, campaignId }) => async data => {
+		let _id
+
+		if (card) {
+			({ _id } = card)
+			Card.update(card, data)
+		} else {
+			({ _id } = await Card.create({
+				...data,
+				campaignId
+			}))
+		}
+
+		go(`/${campaignId}/${_id}`)
 	},
 
 	deleteCard: ({ card }) => ev => {
