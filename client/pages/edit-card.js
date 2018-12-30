@@ -74,13 +74,13 @@ const editCardActions = withHandlers({
 		let _id
 
 		if (card) {
-			; ({ _id } = card)
+			_id = card._id
 			Card.update(card, data)
 		} else {
-			; ({ _id } = await Card.create({
+			_id = await Card.create({
 				...data,
 				campaignId
-			}))
+			})._id
 		}
 
 		go(`/${campaignId}/${_id}`)
