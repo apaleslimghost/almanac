@@ -27,7 +27,7 @@ const connectRemoveUser = compose(
 		removeUser: ({ campaign }) => user => {
 			const reallyRemove = confirm(
 				`Remove ${user.username || user.emails[0].address} from ${
-					campaign.title
+				campaign.title
 				}?`
 			)
 
@@ -61,7 +61,7 @@ const connectPlayers = compose(
 	withLoading
 )
 
-const Players = connectPlayers(({ players, campaign, action: Action }) => (
+const Players = connectPlayers(({ players, campaign, actionComponent: Action }) => (
 	<ul>
 		{players.map(user => (
 			<li key={user._id}>
@@ -108,13 +108,13 @@ export default connectPlayersPage(() => (
 	<div>
 		<H2>Current players</H2>
 		<Players
-			action={RemoveUser}
+			actionComponent={RemoveUser}
 			getPlayerIds={campaign => [campaign.owner].concat(campaign.member)}
 		/>
 
 		<H2>Removed players</H2>
 		<Players
-			action={ReinstateUser}
+			actionComponent={ReinstateUser}
 			getPlayerIds={campaign => campaign.removedMember || []}
 		/>
 
