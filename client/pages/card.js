@@ -7,17 +7,14 @@ import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
 import { SplashBleed, Hero, HeroBlurb, HeroTitle } from '../visual/splash'
 import ShowCard from '../document/card'
-import { LabelTitle, Label, LabelBody } from '../visual/primitives'
-import { FlexGrid } from '../visual/grid'
-import ActionBar from '../visual/action-bar'
+import { FlexGrid, bleed } from '../visual/grid'
 import { canEdit as canEditCard } from '../../shared/utils/validators/card'
 import { withUserData } from '../utils/logged-in'
-import Link from '../control/link'
 import Icon from '../visual/icon'
 import Title from '../utils/title'
-import { PrivacyIcons } from '../control/privacy'
 import schema from '../../shared/schema'
 import { Owner } from '../document/user'
+import { Toolbar, MenuItem, MenuLink, NavArea, Space, Divider } from '../visual/menu'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
 	_id: { $in: (card && card.related) || [] }
@@ -33,6 +30,11 @@ const withCardData = compose(
 
 const connectCardSplash = compose(withProps({ color: '#e0d8d2' }))
 
+const SplashToolbar = Toolbar.extend.attrs({ className: bleed })`
+	margin-top: -1rem;
+	grid-area: bleed;
+`
+
 export const CardSplash = connectCardSplash(({ card, ...props }) => (
 	<SplashBleed small {...props}>
 		<Hero>
@@ -47,28 +49,38 @@ export default withCardData(({ card, relatedCards, user }) => (
 		<CardSplash card={card} />
 		<Title>{card.title}</Title>
 
-		<ActionBar>
-			<Label colour='sky'>
-				<LabelBody>{card.type}</LabelBody>
-			</Label>
+		<SplashToolbar>
+			<NavArea>
+				<MenuItem>
+					{schema[card.type].name}
+				</MenuItem>
 
-			{canEditCard(card, user._id) && (
-				<Link href={`/${card.campaignId}/${card._id}/edit`}>
-					<Icon icon='edit' />
-					Edit
-				</Link>
-			)}
-			<PrivacyIcons access={card.access} />
+				<Divider />
 
-			{_.map(schema[card.type].fields, ({ label, format = a => a }, key) => (
-				<Label key={key} sunken>
-					<LabelTitle>{label}</LabelTitle>
-					<LabelBody>{format(card[key])}</LabelBody>
-				</Label>
-			))}
+				{_.map(schema[card.type].fields, ({ label, format = a => a }, key) => (
+					<MenuItem key={key}>
+						<b>{label} </b>
+						{format(card[key])}
+					</MenuItem>
+				))}
 
-			<Owner of={card} />
-		</ActionBar>
+				<Divider />
+
+				<MenuItem>
+					<Owner of={card} />
+				</MenuItem>
+			</NavArea>
+
+			<NavArea>
+				<Space />
+				{canEditCard(card, user._id) && (
+					<MenuLink href={`/${card.campaignId}/${card._id}/edit`}>
+						<Icon icon='edit' />
+						Edit
+				</MenuLink>
+				)}
+			</NavArea>
+		</SplashToolbar>
 
 		<article>
 			<Markdown source={card.text || ''} />

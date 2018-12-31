@@ -22,18 +22,7 @@ const getPrivacyLabel = match({
 
 const defaultAccess = { view: accessLevels.PRIVATE, edit: accessLevels.PRIVATE }
 
-const PrivacyIcon = ({ level }) => <Icon icon={getPrivacyIcon(level)} />
-
-export const PrivacyIcons = ({ access = defaultAccess }) => (
-	<>
-		<span>
-			view <PrivacyIcon level={access.view} />
-		</span>
-		<span>
-			edit <PrivacyIcon level={access.edit} />
-		</span>
-	</>
-)
+export const PrivacyIcon = ({ level }) => <Icon icon={getPrivacyIcon(level)} />
 
 const Range = styled(Input)`
 	width: ${({ max }) => (100 * max) / accessLevels.PUBLIC}px;
