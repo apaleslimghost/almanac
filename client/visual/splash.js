@@ -55,16 +55,16 @@ export const SplashBleed = Bleed.extend`
 
 	width: 100vw;
 	height: ${select({
-		large: '60vw',
-		small: '30vw',
-		default: '40vw'
-	})};
+	large: '60vw',
+	small: '30vw',
+	default: '40vw'
+})};
 
 	max-height: ${select({
-		large: '60vh',
-		small: '30vh',
-		default: '40vh'
-	})};
+	large: '60vh',
+	small: '30vh',
+	default: '40vh'
+})};
 `
 
 export const Hero = styled.div`
@@ -150,14 +150,14 @@ const connectCampaignSplash = compose(
 )
 
 export const CampaignSplash = connectCampaignSplash(
-	({ campaign, noBlurb, ownerUser, children, ...props }) => (
+	({ campaign, noBlurb, user, children, ...props }) => (
 		<SplashBleed {...props}>
 			<Hero>
 				{children}
 				<HeroTitle>{campaign.title}</HeroTitle>
-				{!noBlurb && (campaign.tagline || ownerUser) && (
+				{!noBlurb && (campaign.tagline || user) && (
 					<HeroBlurb>
-						{campaign.tagline || `A campaign by ${ownerUser.username}`}
+						{campaign.tagline || `A campaign by ${user.username}`}
 					</HeroBlurb>
 				)}
 			</Hero>

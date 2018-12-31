@@ -17,6 +17,7 @@ import Icon from '../visual/icon'
 import Title from '../utils/title'
 import { PrivacyIcons } from '../control/privacy'
 import schema from '../../shared/schema'
+import { Owner } from '../document/user'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
 	_id: { $in: (card && card.related) || [] }
@@ -65,6 +66,8 @@ export default withCardData(({ card, relatedCards, user }) => (
 					<LabelBody>{format(card[key])}</LabelBody>
 				</Label>
 			))}
+
+			<Owner of={card} />
 		</ActionBar>
 
 		<article>
