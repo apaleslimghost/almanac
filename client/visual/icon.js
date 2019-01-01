@@ -494,7 +494,7 @@ const rpgIcons = new Set([
 	'zigzag-leaf'
 ])
 
-const Icon = ({ icon, className }) => {
+const Icon = ({ icon, className = '' }) => {
 	const prefix = rpgIcons.has(icon) ? 'ra' : 'fa'
 
 	return <i className={`${prefix} ${prefix}-${icon} ${className}`} />

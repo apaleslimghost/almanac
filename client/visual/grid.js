@@ -1,7 +1,7 @@
 import { Random } from 'meteor/random'
 import styled from 'styled-components'
 
-const bleed = `__bleed_${Random.id(8)}`
+export const bleed = `__bleed_${Random.id(8)}`
 
 export const Bleed = styled.div.attrs({ className: bleed })`
 	grid-column: bleed;
@@ -10,7 +10,10 @@ export const Bleed = styled.div.attrs({ className: bleed })`
 export const FlexGrid = styled.div`
 	display: grid;
 	grid-gap: 1rem;
-	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+	grid-template-columns: repeat(
+		auto-fill,
+		minmax(${({ small }) => (small ? '10em' : '20em')}, 1fr)
+	);
 `
 
 export default styled.div`
@@ -19,8 +22,8 @@ export default styled.div`
 
 	/* |---|         main          |---| */
 	/* |---| left | center | right |---| */
-	/* |---|   left-main   |       |---| */
-	/* |---|      |   right-main   |---| */
+	/* |---|   main-left   |       |---| */
+	/* |---|      |   main-right   |---| */
 	/* |            bleed              | */
 
 	grid-template-columns:

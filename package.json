@@ -42,7 +42,6 @@
     "http-errors": "^1.6.3",
     "lodash": "^4.17.4",
     "meteor-node-stubs": "~0.2.4",
-    "node-fetch": "^2.1.2",
     "param-case": "^2.1.1",
     "pluralize": "^3.1.0",
     "polished": "^1.2.1",
@@ -52,16 +51,17 @@
     "react-grid-layout": "^0.15.0",
     "react-helmet": "^5.2.0",
     "react-ionicons": "^1.5.7",
-    "react-markdown": "^2.5.0",
-    "react-mounter": "^1.2.0",
+    "react-markdown": "^4.0.4",
+    "react-modal": "^3.8.1",
     "react-popover": "^0.5.3",
     "react-portal": "^3.2.0",
     "react-resizable": "^1.7.5",
     "react-toastify": "^4.2.0",
     "react-typeahead": "^2.0.0-alpha.5",
     "recompact": "^3.3.0",
+    "remark-behead": "^2.1.0",
     "string-hash": "^1.1.3",
-    "styled-components": "^2.1.0"
+    "styled-components": "^3.4.10"
   },
   "devDependencies": {
     "@quarterto/open-once-listening": "^1.3.0",
@@ -80,8 +80,15 @@
       "meteor"
     ],
     "rules": {
+      "camelcase": [
+        "error",
+        {
+          "properties": "never"
+        }
+      ],
       "react/prop-types": 0,
       "no-alert": 0,
+      "capitalized-comments": 0,
       "import/no-unassigned-import": 0,
       "jsx-quotes": [
         2,

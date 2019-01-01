@@ -57,7 +57,7 @@ export const Textarea = withInput(BaseInput.withComponent('textarea').extend`
 `)
 
 export const Select = withSelect(BaseInput.withComponent('select').extend`
-	background-image: url('data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='10' height='5'%3E%3Cpath d='M 5,5 0,0 10,0 Z'/%3E%3C/svg%3E');
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='10' height='5'%3E%3Cpath d='M 5,5 0,0 10,0 Z'/%3E%3C/svg%3E");
 	background-repeat: no-repeat;
 	background-size: 0.5em 0.25em;
 	background-position: right 0.5em center;

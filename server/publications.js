@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Cards, Campaigns, Session, Layouts } from '../shared/collections'
 import access from '../shared/access'
+import * as unsplash from '../shared/utils/unsplash'
 import publish from './utils/publish'
 
 const ownedCampaigns = ({ userId }) =>
@@ -89,5 +90,35 @@ publish({
 
 	layout: {
 		all: visibleDocs(Layouts)
+	},
+
+	unsplash: {
+		search({ args: [query], added, ready }) {
+			const photos = unsplash.search(query)
+
+			photos.forEach(photo => {
+				photo.fromSearch = query
+				added('unsplash-photos', photo.id, photo)
+			})
+
+			ready()
+		},
+
+		getCollectionPhotos({ args: [collectionId], added, ready }) {
+			const photos = unsplash.getCollectionPhotos(collectionId)
+
+			photos.forEach(photo => {
+				photo.fromCollection = collectionId
+				added('unsplash-photos', photo.id, photo)
+			})
+
+			ready()
+		},
+
+		getPhoto({ args: [photoId], added, ready }) {
+			const photo = unsplash.getPhoto(photoId)
+			added('unsplash-photos', photo.id, photo)
+			ready()
+		}
 	}
 })

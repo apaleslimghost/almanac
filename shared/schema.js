@@ -1,4 +1,14 @@
 export default {
+	log: {
+		name: 'Log',
+		fields: {
+			completed: {
+				label: 'Date',
+				type: 'text'
+			}
+		}
+	},
+
 	quest: {
 		name: 'Quest',
 		fields: {

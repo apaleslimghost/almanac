@@ -6,6 +6,7 @@ import method from './utils/method'
 import collectionMethods from './utils/collection-methods'
 import generateSlug from './utils/generate-slug'
 import * as validators from './utils/validators'
+import * as unsplash from './utils/unsplash'
 
 export const Campaign = collectionMethods(Campaigns, validators.doc)
 export const Card = collectionMethods(Cards, validators.card)
@@ -138,4 +139,10 @@ export const createAccountAndJoin = method('createAccountAndJoin', function(
 
 export const errorTest = method('errorTest', () => {
 	throw new Meteor.Error('test-error', 'You done goofed')
+})
+
+export const unsplashDownload = method('unsplashDownload', function(photoId) {
+	if (!this.isSimulation) {
+		unsplash.download(photoId)
+	}
 })

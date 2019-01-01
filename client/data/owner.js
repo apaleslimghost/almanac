@@ -7,14 +7,14 @@ import subscribe from '../utils/subscribe'
 export const withOwnerData = key =>
 	withTracker(props => ({
 		ready: subscribe('users.all'),
-		ownerUser: props[key] ? Meteor.users.findOne(props[key].owner) : null
+		user: props[key] ? Meteor.users.findOne(props[key].owner) : null
 	}))
 
 export const iAmOwner = key =>
 	compose(
 		withOwnerData(key),
 		withTracker(props => ({
-			isOwner: props.ownerUser ? Meteor.userId() === props.ownerUser._id : false
+			isOwner: props.user ? Meteor.userId() === props.user._id : false
 		}))
 	)
 

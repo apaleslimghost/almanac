@@ -4,7 +4,8 @@ import BlockLayout from '../collection/block-layout'
 import Icon from '../visual/icon'
 import { withCampaignData } from '../data/campaign'
 import { assertAmOwner } from '../data/owner'
-import { MenuLink, withExtraNavItems } from './layout'
+import { MenuLink } from '../visual/menu'
+import { withExtraNavItems } from './layout'
 
 const withDashboardActions = withHandlers({
 	launchDashboard: ({ campaign }) => ev => {

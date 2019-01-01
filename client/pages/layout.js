@@ -11,7 +11,6 @@ import {
 import { ToastContainer } from 'react-toastify'
 import { setsCampaign, withCampaignData } from '../data/campaign'
 import Icon from '../visual/icon'
-import Link from '../control/link'
 import { H3 } from '../visual/heading'
 import { withUserData, logout } from '../utils/logged-in'
 import Logo from '../visual/logo'
@@ -19,37 +18,9 @@ import Grid from '../visual/grid'
 import Title from '../utils/title'
 import User from '../document/user'
 import { iAmOwner } from '../data/owner'
+import { Toolbar, MenuLink, Divider, NavArea, Space } from '../visual/menu'
 
 import 'react-toastify/dist/ReactToastify.min.css'
-
-const Toolbar = styled.nav`
-	display: flex;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-`
-
-export const MenuLink = styled(Link)`
-	display: block;
-	padding: 1rem;
-	color: black;
-	text-decoration: none;
-
-	.ra {
-		margin-right: 0.25em;
-		vertical-align: -1px;
-	}
-
-	&:hover {
-		background: rgba(0, 0, 0, 0.05);
-	}
-
-	&:active {
-		background: rgba(0, 0, 0, 0.1);
-	}
-
-	${Logo} {
-		margin: -0.3rem 0;
-	}
-`
 
 const LogoutButton = withUserData(({ user }) =>
 	user ? (
@@ -57,32 +28,15 @@ const LogoutButton = withUserData(({ user }) =>
 	) : null
 )
 
-const Divider = styled.div`
-	padding: 0.5em 0;
-
-	&::after {
-		display: block;
-		content: '';
-		width: 1px;
-		height: 100%;
-		background: rgba(0, 0, 0, 0.1);
-	}
-`
-
-const Space = styled.div`
-	flex: 1;
-`
-
-const NavArea = styled.div`
-	flex: 1;
-	display: flex;
-`
-
 const MenuTitle = styled(H3)`
 	display: inline-block;
 	margin: 0;
 	vertical-align: -1px;
 	white-space: nowrap;
+`
+
+const MenuLogo = styled(Logo)`
+	margin: -0.3rem 0;
 `
 
 const CampaignTitle = ({ campaign }) => (
@@ -97,49 +51,47 @@ const connectNav = compose(
 	withUserData
 )
 
-const Nav = connectNav(
-	({ user, campaignId, campaign, isOwner, extraItems }) => (
-		<Toolbar>
-			<NavArea>
-				<MenuLink href='/'>
-					<Logo />
-				</MenuLink>
+const Nav = connectNav(({ campaign, isOwner, extraItems }) => (
+	<Toolbar>
+		<NavArea>
+			<MenuLink href='/'>
+				<MenuLogo />
+			</MenuLink>
 
-				{campaignId && (
-					<>
-						<Divider />
-						<CampaignTitle campaign={campaign} />
+			{campaign && (
+				<>
+					<Divider />
+					<CampaignTitle campaign={campaign} />
 
-						{isOwner && (
-							<>
-								<MenuLink href={`/${campaignId}/dashboard-control`}>
-									<Icon icon='wooden-sign' />
-									Dashboard
-								</MenuLink>
+					{isOwner && (
+						<>
+							<MenuLink href={`/${campaign._id}/dashboard-control`}>
+								<Icon icon='wooden-sign' />
+								Dashboard
+							</MenuLink>
 
-								<MenuLink href={`/${campaignId}/players`}>
-									<Icon icon='double-team' />
-									Players
-								</MenuLink>
+							<MenuLink href={`/${campaign._id}/players`}>
+								<Icon icon='double-team' />
+								Players
+							</MenuLink>
 
-								<MenuLink href={`/${campaignId}/settings`}>
-									<Icon icon='gears' />
-									Settings
-								</MenuLink>
-							</>
-						)}
-					</>
-				)}
-			</NavArea>
+							<MenuLink href={`/${campaign._id}/settings`}>
+								<Icon icon='gears' />
+								Settings
+							</MenuLink>
+						</>
+					)}
+				</>
+			)}
+		</NavArea>
 
-			<NavArea>
-				<Space />
-				{extraItems}
-				<LogoutButton />
-			</NavArea>
-		</Toolbar>
-	)
-)
+		<NavArea>
+			<Space />
+			{extraItems}
+			<LogoutButton />
+		</NavArea>
+	</Toolbar>
+))
 
 const navContext = {
 	setExtraNavItems: PropTypes.func,
@@ -202,23 +154,26 @@ export const withExtraNavItems = (...navItems) =>
 
 const connectLayout = compose(
 	navState,
-	setNavContext
+	setNavContext,
+	setsCampaign
 )
 
-export const Basic = setsCampaign(({ children }) => (
+const BasicLayout = ({ children }) => (
 	<>
 		<Title />
 		<ToastContainer autoClose={10000} />
 		{children}
 	</>
-))
+)
 
-const Layout = connectLayout(({ campaignId, secret, state, children }) => (
-	<Basic campaignId={campaignId} secret={secret}>
+export const Basic = setsCampaign(BasicLayout)
+
+const Layout = connectLayout(({ state, children, ready }) => (
+	<BasicLayout>
 		{state.navShown && <Nav extraItems={state.extraItems} />}
 
-		<Grid>{children}</Grid>
-	</Basic>
+		<Grid>{ready ? children : 'loading...'}</Grid>
+	</BasicLayout>
 ))
 
 export default Layout

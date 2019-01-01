@@ -1,36 +1,69 @@
+import qs from 'querystring'
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { aqua } from '@quarterto/colours'
-import { compose } from 'recompact'
-import connectSplashImage from '../data/splash'
+import { aqua, steel } from '@quarterto/colours'
+import { compose, withProps } from 'recompact'
+import contrast from 'contrast'
+import withImage from '../data/image'
 import { withCampaignData } from '../data/campaign'
 import { withOwnerData } from '../data/owner'
 import select from '../utils/select'
 import { Bleed } from './grid'
 
+const getSplashUrl = ({ urls }, { _2x = false } = {}) =>
+	urls.raw +
+	'&' +
+	qs.stringify(
+		Object.assign(
+			{
+				fit: 'crop',
+				crop: 'entropy'
+			},
+			_2x
+				? {
+						q: 20,
+						w: 1800,
+						h: 600
+				  }
+				: {
+						q: 70,
+						w: 900,
+						h: 300
+				  }
+		)
+	)
+
 const splashBackground = css`
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: stretch;
 
-	background-image: linear-gradient(
-			rgba(0, 20, 40, 0) 30%,
-			rgba(0, 20, 40, 0.9)
-		),
-		url(${({ url }) => url});
+	color: ${({ image, url, color = '#fff' }) =>
+		image || url || contrast(color) === 'dark' ? 'white' : steel[0]};
 
-	background-color: ${({ color }) => color};
+	${({ image, url }) =>
+		(image || url) &&
+		css`
+			background-image: linear-gradient(
+					rgba(0, 20, 40, 0) 30%,
+					rgba(0, 20, 40, 0.9)
+				),
+				url(${image ? getSplashUrl(image) : url});
+		`}
 
-	${({ url2x }) =>
-		url2x &&
+	background-color: ${({ image, color }) => (image ? image.color : color)};
+
+	${({ image, url2x }) =>
+		(image || url2x) &&
 		css`
 			@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
 				background-image: linear-gradient(
 						rgba(0, 20, 40, 0) 30%,
 						rgba(0, 20, 40, 0.9)
 					),
-					url(${url2x});
+					url(${image ? getSplashUrl(image, { _2x: true }) : url2x});
 			}
 		`}
 
@@ -61,7 +94,6 @@ export const SplashBleed = Bleed.extend`
 
 export const Hero = styled.div`
 	margin-top: auto;
-	color: white;
 
 	a:link,
 	a:visited {
@@ -138,19 +170,20 @@ export const HeroBlurb = styled.p`
 
 const connectCampaignSplash = compose(
 	withCampaignData,
-	connectSplashImage,
+	withProps(),
+	withImage(({ campaign }) => campaign.theme),
 	withOwnerData('campaign')
 )
 
 export const CampaignSplash = connectCampaignSplash(
-	({ campaign, noBlurb, ownerUser, children, ...props }) => (
-		<SplashBleed {...props}>
+	({ campaign, noBlurb, user, children, image }) => (
+		<SplashBleed image={image}>
 			<Hero>
 				{children}
 				<HeroTitle>{campaign.title}</HeroTitle>
-				{!noBlurb && (campaign.tagline || ownerUser) && (
+				{!noBlurb && (campaign.tagline || user) && (
 					<HeroBlurb>
-						{campaign.tagline || `A campaign by ${ownerUser.username}`}
+						{campaign.tagline || `A campaign by ${user.username}`}
 					</HeroBlurb>
 				)}
 			</Hero>

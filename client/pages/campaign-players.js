@@ -61,19 +61,22 @@ const connectPlayers = compose(
 	withLoading
 )
 
-const Players = connectPlayers(({ players, campaign, action: Action }) => (
-	<ul>
-		{players.map(user => (
-			<li key={user._id}>
-				<User user={user} />
-				{user._id !== campaign.owner && <Action user={user} />}
-			</li>
-		))}
-	</ul>
-))
+const Players = connectPlayers(
+	({ players, campaign, actionComponent: Action }) => (
+		<ul>
+			{players.map(user => (
+				<li key={user._id}>
+					<User user={user} />
+					{user._id !== campaign.owner && <Action user={user} />}
+				</li>
+			))}
+		</ul>
+	)
+)
 
 const connectPlayersPage = compose(
 	withCampaignData,
+	withLoading,
 	assertAmOwner('campaign')
 )
 
@@ -107,13 +110,13 @@ export default connectPlayersPage(() => (
 	<div>
 		<H2>Current players</H2>
 		<Players
-			action={RemoveUser}
+			actionComponent={RemoveUser}
 			getPlayerIds={campaign => [campaign.owner].concat(campaign.member)}
 		/>
 
 		<H2>Removed players</H2>
 		<Players
-			action={ReinstateUser}
+			actionComponent={ReinstateUser}
 			getPlayerIds={campaign => campaign.removedMember || []}
 		/>
 
