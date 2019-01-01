@@ -42,7 +42,6 @@
     "http-errors": "^1.6.3",
     "lodash": "^4.17.4",
     "meteor-node-stubs": "~0.2.4",
-    "node-fetch": "^2.1.2",
     "param-case": "^2.1.1",
     "pluralize": "^3.1.0",
     "polished": "^1.2.1",

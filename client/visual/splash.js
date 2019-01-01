@@ -8,6 +8,26 @@ import { withCampaignData } from '../data/campaign'
 import { withOwnerData } from '../data/owner'
 import select from '../utils/select'
 import { Bleed } from './grid'
+import qs from 'querystring'
+
+const getSplashUrl = ({ urls }, { _2x = false } = {}) => urls.raw + '&' + qs.stringify(Object.assign(
+	{
+		fit: 'crop',
+		crop: 'edges',
+	},
+	_2x
+		? {
+			dpi: 2,
+			q: 20,
+			w: 1800,
+			h: 600,
+		}
+		: {
+			q: 70,
+			w: 900,
+			h: 300,
+		}
+))
 
 const splashBackground = css`
 	display: flex;
@@ -15,30 +35,31 @@ const splashBackground = css`
 	justify-content: space-between;
 	align-items: stretch;
 
-	color: ${({ url, color }) =>
-		url || contrast(color) === 'dark' ? 'white' : steel[0]};
+	color: ${({ splash, color = '#fff' }) =>
+		(splash || contrast(color) === 'dark') ? 'white' : steel[0]};
 
-	${({ url }) =>
-		url &&
+	${({ splash, url }) =>
+		(splash || url) &&
 		css`
 			background-image: linear-gradient(
-					rgba(0, 20, 40, 0) 30%,
-					rgba(0, 20, 40, 0.9)
-				),
-				url(${url});
-		`}
+				rgba(0, 20, 40, 0) 30%,
+				rgba(0, 20, 40, 0.9)
+			),
+			url(${splash ? getSplashUrl(splash) : url});
+		`
+	}
 
-	background-color: ${({ color }) => color};
+	background-color: ${({ splash, color }) => splash ? splash.color : color};
 
-	${({ url2x }) =>
-		url2x &&
+	${({ splash, url2x }) =>
+		(splash || url2x) &&
 		css`
 			@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
 				background-image: linear-gradient(
-						rgba(0, 20, 40, 0) 30%,
-						rgba(0, 20, 40, 0.9)
-					),
-					url(${url2x});
+					rgba(0, 20, 40, 0) 30%,
+					rgba(0, 20, 40, 0.9)
+				),
+				url(${splash ? getSplashUrl(splash, { _2x: true }) : url2x});
 			}
 		`}
 
@@ -150,8 +171,8 @@ const connectCampaignSplash = compose(
 )
 
 export const CampaignSplash = connectCampaignSplash(
-	({ campaign, noBlurb, user, children, ...props }) => (
-		<SplashBleed {...props}>
+	({ campaign, noBlurb, user, children, splash }) => (
+		<SplashBleed splash={splash}>
 			<Hero>
 				{children}
 				<HeroTitle>{campaign.title}</HeroTitle>

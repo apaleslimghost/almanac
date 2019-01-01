@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import PropTypes from 'prop-types'
 import { NotFound } from 'http-errors'
@@ -11,7 +10,7 @@ export const getCampaign = withTracker(({ campaignId, secret }) => ({
 	ready:
 		subscribe('campaigns.all') &&
 		(!secret ||
-			Meteor.subscribe('campaigns.join', { campaignId, secret }).ready()),
+			subscribe(['campaigns.join', { campaignId, secret }]).ready()),
 	campaign: Campaigns.findOne(campaignId)
 }))
 

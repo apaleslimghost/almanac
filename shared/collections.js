@@ -5,6 +5,7 @@ export const Cards = new Mongo.Collection('cards')
 export const Campaigns = new Mongo.Collection('campaigns')
 export const Session = new Mongo.Collection('session')
 export const Layouts = new Mongo.Collection('layout')
+export const UnsplashPhotos = new Mongo.Collection('unsplash-photos')
 
 if (Meteor.isClient) {
 	window.collections = exports

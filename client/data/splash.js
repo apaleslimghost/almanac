@@ -1,14 +1,10 @@
-import { withProps } from 'recompact'
-import stringHash from 'string-hash'
-import unsplashImages from '../visual/unsplash.json'
+import { withTracker } from 'meteor/react-meteor-data'
+import subscribe from '../utils/subscribe'
+import { UnsplashPhotos } from '../../shared/collections';
 
-export default withProps(({ campaign }) => {
-	const image = campaign.theme
-		? unsplashImages.find(({ id }) => id === campaign.theme)
-		: unsplashImages[stringHash(campaign._id) % (unsplashImages.length - 1)] // Never choose the last one, so i can select it for testing purposes
-
-	return {
-		url: image.urls.regular,
-		color: image.color
-	}
-})
+export default withTracker(({ campaign }) => ({
+	ready: subscribe(
+		['unsplash.getPhoto', campaign.theme]
+	),
+	splash: UnsplashPhotos.findOne(campaign.theme),
+}))
