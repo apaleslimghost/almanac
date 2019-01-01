@@ -1,5 +1,6 @@
 import React from 'react'
 import { compose, withProps } from 'recompact'
+import styled from 'styled-components'
 
 import Markdown from '../document/markdown'
 import withCards, { withCard } from '../data/card'
@@ -7,14 +8,14 @@ import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
 import { SplashBleed, Hero, HeroBlurb, HeroTitle } from '../visual/splash'
 import ShowCard from '../document/card'
-import { FlexGrid, bleed } from '../visual/grid'
+import Grid, { FlexGrid, bleed } from '../visual/grid'
 import { canEdit as canEditCard } from '../../shared/utils/validators/card'
 import { withUserData } from '../utils/logged-in'
 import Icon from '../visual/icon'
 import Title from '../utils/title'
 import schema from '../../shared/schema'
 import { Owner } from '../document/user'
-import { Toolbar, MenuItem, MenuLink, NavArea, Space, Divider } from '../visual/menu'
+import { Toolbar, MenuItem, MenuLink, NavArea, Space, Divider, Center } from '../visual/menu'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
 	_id: { $in: (card && card.related) || [] }
@@ -50,7 +51,7 @@ export default withCardData(({ card, relatedCards, user }) => (
 		<Title>{card.title}</Title>
 
 		<SplashToolbar>
-			<NavArea>
+			<Center>
 				<MenuItem>
 					{schema[card.type].name}
 				</MenuItem>
@@ -69,17 +70,15 @@ export default withCardData(({ card, relatedCards, user }) => (
 				<MenuItem>
 					<Owner of={card} />
 				</MenuItem>
-			</NavArea>
 
-			<NavArea>
 				<Space />
 				{canEditCard(card, user._id) && (
 					<MenuLink href={`/${card.campaignId}/${card._id}/edit`}>
 						<Icon icon='edit' />
 						Edit
-				</MenuLink>
+					</MenuLink>
 				)}
-			</NavArea>
+			</Center>
 		</SplashToolbar>
 
 		<article>

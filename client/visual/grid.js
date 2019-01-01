@@ -11,7 +11,6 @@ export const FlexGrid = styled.div`
 	display: grid;
 	grid-gap: 1rem;
 	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
-	grid-auto-rows: minmax(1rem, auto);
 `
 
 export default styled.div`
@@ -20,8 +19,8 @@ export default styled.div`
 
 	/* |---|         main          |---| */
 	/* |---| left | center | right |---| */
-	/* |---|   left-main   |       |---| */
-	/* |---|      |   right-main   |---| */
+	/* |---|   main-left   |       |---| */
+	/* |---|      |   main-right   |---| */
 	/* |            bleed              | */
 
 	grid-template-columns:

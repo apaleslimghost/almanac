@@ -51,3 +51,10 @@ export const NavArea = styled.div`
 	flex: 1;
 	display: flex;
 `
+
+export const Center = styled.div`
+	display: flex;
+	max-width: 64rem;
+	width: 100%;
+	margin: 0 auto;
+`
