@@ -2,9 +2,9 @@ import { withTracker } from 'meteor/react-meteor-data'
 import subscribe from '../utils/subscribe'
 import { UnsplashPhotos } from '../../shared/collections';
 
-export default withTracker(({ campaign }) => ({
+export default getImageId => withTracker(props => ({
 	ready: subscribe(
-		['unsplash.getPhoto', campaign.theme]
+		['unsplash.getPhoto', getImageId(props)]
 	),
-	splash: UnsplashPhotos.findOne(campaign.theme),
+	image: UnsplashPhotos.findOne(getImageId(props)),
 }))

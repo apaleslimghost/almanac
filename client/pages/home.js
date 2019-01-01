@@ -8,7 +8,7 @@ import subscribe from '../utils/subscribe'
 import loggedIn from '../utils/logged-in'
 import { SplashBackground, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
 import { FlexGrid } from '../visual/grid'
-import connectSplashImage from '../data/splash'
+import withImage from '../data/image'
 import Splash from './splash'
 
 const withCampaignData = withTracker(() => ({
@@ -21,7 +21,7 @@ const connectCampaign = compose(
 	withCampaignData
 )
 
-const CampaignTile = connectSplashImage(SplashBackground.withComponent(Link)
+const CampaignTile = withImage(({ campaign }) => campaign.theme)(SplashBackground.withComponent(Link)
 	.extend`
 	height: 25vmin;
 	border-radius: 3px;

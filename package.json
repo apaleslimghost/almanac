@@ -52,7 +52,7 @@
     "react-helmet": "^5.2.0",
     "react-ionicons": "^1.5.7",
     "react-markdown": "^4.0.4",
-    "react-mounter": "^1.2.0",
+    "react-modal": "^3.8.1",
     "react-popover": "^0.5.3",
     "react-portal": "^3.2.0",
     "react-resizable": "^1.7.5",

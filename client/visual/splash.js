@@ -3,12 +3,13 @@ import styled, { css } from 'styled-components'
 import { aqua, steel } from '@quarterto/colours'
 import { compose } from 'recompact'
 import contrast from 'contrast'
-import connectSplashImage from '../data/splash'
+import withImage from '../data/image'
 import { withCampaignData } from '../data/campaign'
 import { withOwnerData } from '../data/owner'
 import select from '../utils/select'
 import { Bleed } from './grid'
 import qs from 'querystring'
+import { withProps } from 'recompact';
 
 const getSplashUrl = ({ urls }, { _2x = false } = {}) => urls.raw + '&' + qs.stringify(Object.assign(
 	{
@@ -35,31 +36,31 @@ const splashBackground = css`
 	justify-content: space-between;
 	align-items: stretch;
 
-	color: ${({ splash, color = '#fff' }) =>
-		(splash || contrast(color) === 'dark') ? 'white' : steel[0]};
+	color: ${({ image, color = '#fff' }) =>
+		(image || contrast(color) === 'dark') ? 'white' : steel[0]};
 
-	${({ splash, url }) =>
-		(splash || url) &&
+	${({ image, url }) =>
+		(image || url) &&
 		css`
 			background-image: linear-gradient(
 				rgba(0, 20, 40, 0) 30%,
 				rgba(0, 20, 40, 0.9)
 			),
-			url(${splash ? getSplashUrl(splash) : url});
+			url(${image ? getSplashUrl(image) : url});
 		`
 	}
 
-	background-color: ${({ splash, color }) => splash ? splash.color : color};
+	background-color: ${({ image, color }) => image ? image.color : color};
 
-	${({ splash, url2x }) =>
-		(splash || url2x) &&
+	${({ image, url2x }) =>
+		(image || url2x) &&
 		css`
 			@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
 				background-image: linear-gradient(
 					rgba(0, 20, 40, 0) 30%,
 					rgba(0, 20, 40, 0.9)
 				),
-				url(${splash ? getSplashUrl(splash, { _2x: true }) : url2x});
+				url(${image ? getSplashUrl(image, { _2x: true }) : url2x});
 			}
 		`}
 
@@ -166,13 +167,14 @@ export const HeroBlurb = styled.p`
 
 const connectCampaignSplash = compose(
 	withCampaignData,
-	connectSplashImage,
+	withProps(),
+	withImage(({ campaign }) => campaign.theme),
 	withOwnerData('campaign')
 )
 
 export const CampaignSplash = connectCampaignSplash(
-	({ campaign, noBlurb, user, children, splash }) => (
-		<SplashBleed splash={splash}>
+	({ campaign, noBlurb, user, children, image }) => (
+		<SplashBleed image={image}>
 			<Hero>
 				{children}
 				<HeroTitle>{campaign.title}</HeroTitle>

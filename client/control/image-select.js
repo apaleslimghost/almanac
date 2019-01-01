@@ -12,6 +12,8 @@ import { fieldLike } from './form';
 import preventingDefault from '../utils/preventing-default';
 import Tabs from '../control/tabs'
 import { unsplashDownload } from '../../shared/methods'
+import Modal from '../control/modal';
+import withImage from '../data/image'
 
 const withSearch = withState('query', 'setQuery', '')
 
@@ -58,7 +60,7 @@ const FlexImg = styled.img`
 	display: block;
 `;
 
-const ImgSelect = styled.button`
+const ImgSelect = styled.button.attrs({ type: 'button' })`
 	border: 0 none;
 	background: none;
 	padding: 0;
@@ -94,7 +96,27 @@ const SearchImage = connectSearch(({ query, setQuery, ready, ...props }) => <>
 
 const CollectionImage = connectCollection(ImageSelectSection)
 
-export default connectImageSelect(({ setImage, fields, name }) => <Tabs>{{
-	'Suggested': <CollectionImage {...{ setImage, fields, name }} />,
-	'Search': <SearchImage {...{ setImage, fields, name }} />,
-}}</Tabs>)
+const ImageSelectTabs = props => <Tabs>{{
+	'Suggested': <CollectionImage {...props} />,
+	'Search': <SearchImage {...props} />,
+}}</Tabs>
+
+export default connectImageSelect(ImageSelectTabs)
+
+const SelectedImage = withImage(({ id }) => id)(({ ready, image, ...props }) => <ImgSelect {...props}>
+	{ready && <FlexImg width={450} height={150} src={getThumb(image)} alt={image.description} />}
+</ImgSelect>)
+
+export const ImageSelectModal = connectImageSelect(({ setImage, fields, name }) =>
+	<Modal
+		control={props =>
+			fields[name]
+				? <SelectedImage {...props} id={fields[name]} />
+				: <button type='button' {...props}>Set cover image...</button>
+		}
+		render={({ close }) => <ImageSelectTabs {...{ fields, name }} setImage={img => {
+			setImage(img)
+			close()
+		}} />}
+	/>
+)

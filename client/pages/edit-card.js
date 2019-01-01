@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose, withProps, withHandlers } from 'recompact'
+import { compose, withHandlers } from 'recompact'
 
 import { withCard } from '../data/card'
 import { withCampaignId } from '../data/campaign'
@@ -15,6 +15,7 @@ import AccessForm from '../control/privacy'
 import Icon from '../visual/icon'
 import schema from '../../shared/schema'
 import { go } from '../utils/router'
+import { ImageSelectModal } from '../control/image-select';
 
 const SchemaFields = (props, context) =>
 	context.fields.type ? (
@@ -39,16 +40,17 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 			<List>
 				<Input flex name='title' placeholder='Title' />
 				<TypeSelect name='type' placeholder='Type...' />
+				<ImageSelectModal name='cover' />
 			</List>
 		</FormGroup>
+
+		<SchemaFields />
 
 		{(isOwner || !card._id) && <AccessForm {...card} />}
 
 		<FormGroup>
 			<Textarea fullWidth name='text' />
 		</FormGroup>
-
-		<SchemaFields />
 
 		<List>
 			<Button colour={card._id ? 'sky' : 'apple'}>
