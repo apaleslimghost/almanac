@@ -29,4 +29,15 @@ export const getPhoto = photoId => unsplash(
 	`photos/${photoId}`
 )
 
+export const search = query => unsplash(
+	`photos/search`,
+	{
+		params: {
+			per_page: 100,
+			order_by: 'popular',
+			query
+		}
+	}
+)
+
 export default unsplash

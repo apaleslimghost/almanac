@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose, getContext, withHandlers } from 'recompact';
+import { compose, getContext, withHandlers, withState } from 'recompact';
 import { withTracker } from 'meteor/react-meteor-data'
 import styled, { css } from 'styled-components'
 import qs from 'querystring'
@@ -11,6 +11,12 @@ import { FlexGrid } from '../visual/grid';
 import { fieldLike } from './form';
 import preventingDefault from '../utils/preventing-default';
 
+const withSearch = withState('query', 'setQuery', '')
+
+const withUnsplashSearch = withTracker(({ query }) => ({
+	ready: query ? subscribe(['unsplash.search', query]) : false,
+	photos: UnsplashPhotos.find({ fromSearch: query }).fetch(),
+}))
 
 const withAlmanacCollection = withTracker(() => ({
 	ready: subscribe(['unsplash.getCollectionPhotos', '2021417']),
@@ -27,11 +33,19 @@ const withImageSelectActions = withHandlers({
 	}
 })
 
-const connectCollection = compose(
-	withAlmanacCollection,
-	withLoading,
+const connectImageSelect = compose(
 	withFieldContext,
 	withImageSelectActions
+)
+
+const connectSearch = compose(
+	withSearch,
+	withUnsplashSearch
+)
+
+const connectCollection = compose(
+	withAlmanacCollection,
+	withLoading
 )
 
 const FlexImg = styled.img`
@@ -57,7 +71,7 @@ const getThumb = ({ urls }) => urls.raw + '&' + qs.stringify({
 	h: 150,
 })
 
-export default connectCollection(({ photos, setImage, fields, name }) => <FlexGrid small>
+const ImageSelectSection = ({ photos, setImage, fields, name }) => <FlexGrid small>
 	{photos.map(
 		photo => <ImgSelect
 			selected={fields[name] === photo.id}
@@ -67,4 +81,17 @@ export default connectCollection(({ photos, setImage, fields, name }) => <FlexGr
 			<FlexImg width={450} height={150} src={getThumb(photo)} alt={photo.description} />
 		</ImgSelect>
 	)}
-</FlexGrid>)
+</FlexGrid>;
+
+const SearchImage = connectSearch(({ query, setQuery, ready, ...props }) => <>
+	<input onChange={(ev) => setQuery(ev.target.value)} type='search' value={query} />
+	{query && (ready ? <ImageSelectSection {...props} /> : 'loading...')}
+</>)
+
+const CollectionImage = connectCollection(ImageSelectSection)
+
+export default connectImageSelect(({ setImage, fields, name }) => <>
+	<SearchImage {...{ setImage, fields, name }} />
+	<hr />
+	<CollectionImage {...{ setImage, fields, name }} />
+</>)

@@ -93,6 +93,17 @@ publish({
 	},
 
 	unsplash: {
+		search({ args: [query], added, ready }) {
+			const photos = unsplash.search(query)
+
+			photos.forEach(photo => {
+				photo.fromSearch = query
+				added('unsplash-photos', photo.id, photo)
+			})
+
+			ready()
+		},
+
 		getCollectionPhotos({ args: [collectionId], added, ready }) {
 			const photos = unsplash.getCollectionPhotos(collectionId)
 
