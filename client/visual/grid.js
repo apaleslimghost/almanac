@@ -10,7 +10,7 @@ export const Bleed = styled.div.attrs({ className: bleed })`
 export const FlexGrid = styled.div`
 	display: grid;
 	grid-gap: 1rem;
-	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(${({ small }) => small ? '10em' : '20em'}, 1fr));
 `
 
 export default styled.div`

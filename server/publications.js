@@ -96,9 +96,10 @@ publish({
 		getCollectionPhotos({ args: [collectionId], added, ready }) {
 			const photos = unsplash.getCollectionPhotos(collectionId)
 
-			photos.forEach(
-				photo => added('unsplash-photos', photo.id, photo)
-			)
+			photos.forEach(photo => {
+				photo.fromCollection = collectionId
+				added('unsplash-photos', photo.id, photo)
+			})
 
 			ready()
 		},

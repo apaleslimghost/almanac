@@ -13,11 +13,10 @@ import qs from 'querystring'
 const getSplashUrl = ({ urls }, { _2x = false } = {}) => urls.raw + '&' + qs.stringify(Object.assign(
 	{
 		fit: 'crop',
-		crop: 'edges',
+		crop: 'entropy',
 	},
 	_2x
 		? {
-			dpi: 2,
 			q: 20,
 			w: 1800,
 			h: 600,
@@ -30,6 +29,7 @@ const getSplashUrl = ({ urls }, { _2x = false } = {}) => urls.raw + '&' + qs.str
 ))
 
 const splashBackground = css`
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
