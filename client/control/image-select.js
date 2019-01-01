@@ -10,6 +10,7 @@ import withLoading from './loading';
 import { FlexGrid } from '../visual/grid';
 import { fieldLike } from './form';
 import preventingDefault from '../utils/preventing-default';
+import Tabs from '../control/tabs'
 
 const withSearch = withState('query', 'setQuery', '')
 
@@ -90,8 +91,7 @@ const SearchImage = connectSearch(({ query, setQuery, ready, ...props }) => <>
 
 const CollectionImage = connectCollection(ImageSelectSection)
 
-export default connectImageSelect(({ setImage, fields, name }) => <>
-	<SearchImage {...{ setImage, fields, name }} />
-	<hr />
-	<CollectionImage {...{ setImage, fields, name }} />
-</>)
+export default connectImageSelect(({ setImage, fields, name }) => <Tabs>{{
+	'Defaults': <CollectionImage {...{ setImage, fields, name }} />,
+	'Search': <SearchImage {...{ setImage, fields, name }} />,
+}}</Tabs>)
