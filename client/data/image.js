@@ -3,11 +3,19 @@ import subscribe from '../utils/subscribe'
 import { UnsplashPhotos } from '../../shared/collections';
 
 export default getImageId => withTracker(props => {
-	const imageId = getImageId(props)
-	return imageId ? {
-		ready: subscribe(
-			['unsplash.getPhoto', imageId]
-		),
-		image: UnsplashPhotos.findOne(imageId),
-	} : {}
+	let image = getImageId(props)
+
+	if (image) {
+		switch (image.from) {
+			case 'unsplash':
+				return {
+					ready: subscribe(
+						['unsplash.getPhoto', image.id]
+					),
+					image: UnsplashPhotos.findOne(image.id),
+				}
+		}
+	}
+
+	return {}
 })

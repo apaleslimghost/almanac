@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose, withProps } from 'recompact'
+import { compose } from 'recompact'
 
 import Markdown from '../document/markdown'
 import withCards, { withCard } from '../data/card'

@@ -81,7 +81,7 @@ const ImageSelectSection = ({ photos, setImage, fields, name }) => <FlexGrid sma
 	{photos.map(
 		photo => <ImgSelect
 			selected={fields[name] === photo.id}
-			onClick={preventingDefault(() => setImage(photo.id))}
+			onClick={preventingDefault(() => setImage({ from: 'unsplash', id: photo.id }))}
 			key={photo.id}
 		>
 			<FlexImg width={450} height={150} src={getThumb(photo)} alt={photo.description} />
