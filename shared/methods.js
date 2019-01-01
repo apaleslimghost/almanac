@@ -6,6 +6,7 @@ import method from './utils/method'
 import collectionMethods from './utils/collection-methods'
 import generateSlug from './utils/generate-slug'
 import * as validators from './utils/validators'
+import * as unsplash from './utils/unsplash'
 
 export const Campaign = collectionMethods(Campaigns, validators.doc)
 export const Card = collectionMethods(Cards, validators.card)
@@ -89,7 +90,7 @@ export const setSession = method('setSession', (campaignId, _key, data) => {
 	}
 })
 
-export const createAccount = method('createAccount', function(user, campaign) {
+export const createAccount = method('createAccount', function (user, campaign) {
 	if (!this.isSimulation) {
 		// Accounts.createUser only works on the server
 		const userId = Accounts.createUser(user)
@@ -114,7 +115,7 @@ export const createAccount = method('createAccount', function(user, campaign) {
 	}
 })
 
-export const createAccountAndJoin = method('createAccountAndJoin', function(
+export const createAccountAndJoin = method('createAccountAndJoin', function (
 	user,
 	campaign,
 	secret
@@ -138,4 +139,10 @@ export const createAccountAndJoin = method('createAccountAndJoin', function(
 
 export const errorTest = method('errorTest', () => {
 	throw new Meteor.Error('test-error', 'You done goofed')
+})
+
+export const unsplashDownload = method('unsplashDownload', function (photoId) {
+	if (!this.isSimulation) {
+		unsplash.download(photoId)
+	}
 })

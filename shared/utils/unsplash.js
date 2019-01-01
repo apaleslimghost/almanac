@@ -52,4 +52,8 @@ export const search = query => unsplash(
 	}
 )
 
+export const download = photoId => unsplash(
+	`photos/${photoId}/download`
+)
+
 export default unsplash

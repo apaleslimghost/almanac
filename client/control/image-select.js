@@ -11,6 +11,7 @@ import { FlexGrid } from '../visual/grid';
 import { fieldLike } from './form';
 import preventingDefault from '../utils/preventing-default';
 import Tabs from '../control/tabs'
+import { unsplashDownload } from '../../shared/methods'
 
 const withSearch = withState('query', 'setQuery', '')
 
@@ -31,6 +32,8 @@ const withImageSelectActions = withHandlers({
 		setFields({
 			[name]: image
 		})
+
+		unsplashDownload(image)
 	}
 })
 
