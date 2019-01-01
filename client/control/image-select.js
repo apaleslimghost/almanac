@@ -92,6 +92,6 @@ const SearchImage = connectSearch(({ query, setQuery, ready, ...props }) => <>
 const CollectionImage = connectCollection(ImageSelectSection)
 
 export default connectImageSelect(({ setImage, fields, name }) => <Tabs>{{
-	'Defaults': <CollectionImage {...{ setImage, fields, name }} />,
+	'Suggested': <CollectionImage {...{ setImage, fields, name }} />,
 	'Search': <SearchImage {...{ setImage, fields, name }} />,
 }}</Tabs>)
