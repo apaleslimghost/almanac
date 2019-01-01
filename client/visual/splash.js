@@ -40,8 +40,8 @@ const splashBackground = css`
 	justify-content: space-between;
 	align-items: stretch;
 
-	color: ${({ image, color = '#fff' }) =>
-		image || contrast(color) === 'dark' ? 'white' : steel[0]};
+	color: ${({ image, url, color = '#fff' }) =>
+		image || url || contrast(color) === 'dark' ? 'white' : steel[0]};
 
 	${({ image, url }) =>
 		(image || url) &&
