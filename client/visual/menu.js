@@ -1,5 +1,5 @@
-import Link from '../control/link'
 import styled from 'styled-components'
+import Link from '../control/link'
 
 export const Toolbar = styled.nav`
 	display: flex;
@@ -12,7 +12,8 @@ export const MenuItem = styled.div`
 	color: black;
 	text-decoration: none;
 
-	.ra, .fa {
+	.ra,
+	.fa {
 		margin-right: 0.25em;
 		vertical-align: -1px;
 	}

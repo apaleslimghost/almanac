@@ -1,7 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { compose, withContext, withState, lifecycle, getContext } from 'recompact'
+import {
+	compose,
+	withContext,
+	withState,
+	lifecycle,
+	getContext
+} from 'recompact'
 import { ToastContainer } from 'react-toastify'
 import { setsCampaign, withCampaignData } from '../data/campaign'
 import Icon from '../visual/icon'

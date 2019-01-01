@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import Modal from 'react-modal';
+import Modal from 'react-modal'
 
 import { errorTest } from '../shared/methods'
 import Layout, { Basic as BasicLayout } from './pages/layout'
@@ -29,138 +29,143 @@ document.body.appendChild(root)
 
 Modal.setAppElement('#' + root.id)
 
-render(<App routes={{
-	'/:campaignId/dashboard'({ campaignId }) {
-		return (
-			<BasicLayout campaignId={campaignId}>
-				<Dashboard />
-			</BasicLayout>
-		)
-	},
+render(
+	<App
+		routes={{
+			'/:campaignId/dashboard'({ campaignId }) {
+				return (
+					<BasicLayout campaignId={campaignId}>
+						<Dashboard />
+					</BasicLayout>
+				)
+			},
 
-	'/:campaignId/dashboard-control'({ campaignId }) {
-		return (
-			<Layout campaignId={campaignId}>
-				<Control />
-			</Layout>
-		)
-	},
+			'/:campaignId/dashboard-control'({ campaignId }) {
+				return (
+					<Layout campaignId={campaignId}>
+						<Control />
+					</Layout>
+				)
+			},
 
-	'/:campaignId/join/:secret'({ campaignId, secret }) {
-		return (
-			<Layout campaignId={campaignId} secret={secret}>
-				<Enrol secret={secret} />
-			</Layout>
-		)
-	},
+			'/:campaignId/join/:secret'({ campaignId, secret }) {
+				return (
+					<Layout campaignId={campaignId} secret={secret}>
+						<Enrol secret={secret} />
+					</Layout>
+				)
+			},
 
-	'/:campaignId/settings'({ campaignId }) {
-		return (
-			<Layout campaignId={campaignId}>
-				<CampaignSettings />
-			</Layout>
-		)
-	},
+			'/:campaignId/settings'({ campaignId }) {
+				return (
+					<Layout campaignId={campaignId}>
+						<CampaignSettings />
+					</Layout>
+				)
+			},
 
-	'/:campaignId/players'({ campaignId }) {
-		return (
-			<Layout campaignId={campaignId}>
-				<CampaignPlayers />
-			</Layout>
-		)
-	},
+			'/:campaignId/players'({ campaignId }) {
+				return (
+					<Layout campaignId={campaignId}>
+						<CampaignPlayers />
+					</Layout>
+				)
+			},
 
-	'/:campaignId/new'({ campaignId }) {
-		return (
-			<Layout campaignId={campaignId}>
-				<EditCard />
-			</Layout>
-		)
-	},
+			'/:campaignId/new'({ campaignId }) {
+				return (
+					<Layout campaignId={campaignId}>
+						<EditCard />
+					</Layout>
+				)
+			},
 
-	'/:campaignId/:cardId'({ campaignId, cardId }) {
-		if (!cardId) return false
+			'/:campaignId/:cardId'({ campaignId, cardId }) {
+				if (!cardId) return false
 
-		return (
-			<Layout campaignId={campaignId}>
-				<Card cardId={cardId} />
-			</Layout>
-		)
-	},
+				return (
+					<Layout campaignId={campaignId}>
+						<Card cardId={cardId} />
+					</Layout>
+				)
+			},
 
-	'/:campaignId/:cardId/edit'({ campaignId, cardId }) {
-		if (!cardId) return false
+			'/:campaignId/:cardId/edit'({ campaignId, cardId }) {
+				if (!cardId) return false
 
-		return (
-			<Layout campaignId={campaignId}>
-				<EditCard cardId={cardId} />
-			</Layout>
-		)
-	},
+				return (
+					<Layout campaignId={campaignId}>
+						<EditCard cardId={cardId} />
+					</Layout>
+				)
+			},
 
-	'/:campaignId'({ campaignId }) {
-		if (!campaignId) return false
+			'/:campaignId'({ campaignId }) {
+				if (!campaignId) return false
 
-		return (
-			<Layout campaignId={campaignId}>
-				<Campaign />
-			</Layout>
-		)
-	},
+				return (
+					<Layout campaignId={campaignId}>
+						<Campaign />
+					</Layout>
+				)
+			},
 
-	'/new-campaign'(params) {
-		return (
-			<Layout>
-				<NewCampaign />
-			</Layout>
-		)
-	},
+			'/new-campaign'(params) {
+				return (
+					<Layout>
+						<NewCampaign />
+					</Layout>
+				)
+			},
 
-	'/get-started'(params, { title }) {
-		return (
-			loggedInRedirect() || (
-				<Layout>
-					<GetStarted title={title} />
-				</Layout>
-			)
-		)
-	},
+			'/get-started'(params, { title }) {
+				return (
+					loggedInRedirect() || (
+						<Layout>
+							<GetStarted title={title} />
+						</Layout>
+					)
+				)
+			},
 
-	'/login'() {
-		return (
-			loggedInRedirect() || (
-				<Layout>
-					<Login />
-				</Layout>
-			)
-		)
-	},
+			'/login'() {
+				return (
+					loggedInRedirect() || (
+						<Layout>
+							<Login />
+						</Layout>
+					)
+				)
+			},
 
-	'/verify/:token'({ token }) {
-		return (
-			loggedInRedirect() || (
-				<Layout>
-					<Verify token={token} />
-				</Layout>
-			)
-		)
-	},
+			'/verify/:token'({ token }) {
+				return (
+					loggedInRedirect() || (
+						<Layout>
+							<Verify token={token} />
+						</Layout>
+					)
+				)
+			},
 
-	'/debug'() {
-		return (
-			<Layout>
-				<button type='button' onClick={() => errorTest()}>
-					throw a meteor.call error
-					</button>
-			</Layout>
-		)
-	},
+			'/debug'() {
+				return (
+					<Layout>
+						<button type='button' onClick={() => errorTest()}>
+							throw a meteor.call error
+						</button>
+					</Layout>
+				)
+			},
 
-	'/'() {
-		return (
-			<Layout>
-				<Home />
-			</Layout>
-		)
-	}
-}} />, root);
+			'/'() {
+				return (
+					<Layout>
+						<Home />
+					</Layout>
+				)
+			}
+		}}
+	/>,
+	root
+)

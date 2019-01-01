@@ -9,8 +9,7 @@ import subscribe from '../utils/subscribe'
 export const getCampaign = withTracker(({ campaignId, secret }) => ({
 	ready:
 		subscribe('campaigns.all') &&
-		(!secret ||
-			subscribe(['campaigns.join', { campaignId, secret }]).ready()),
+		(!secret || subscribe(['campaigns.join', { campaignId, secret }]).ready()),
 	campaign: Campaigns.findOne(campaignId)
 }))
 

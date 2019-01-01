@@ -1,21 +1,20 @@
 import { withTracker } from 'meteor/react-meteor-data'
 import subscribe from '../utils/subscribe'
-import { UnsplashPhotos } from '../../shared/collections';
+import { UnsplashPhotos } from '../../shared/collections'
 
-export default getImageId => withTracker(props => {
-	let image = getImageId(props)
+export default getImageId =>
+	withTracker(props => {
+		const image = getImageId(props)
 
-	if (image) {
-		switch (image.from) {
-			case 'unsplash':
-				return {
-					ready: subscribe(
-						['unsplash.getPhoto', image.id]
-					),
-					image: UnsplashPhotos.findOne(image.id),
-				}
+		if (image) {
+			switch (image.from) {
+				case 'unsplash':
+					return {
+						ready: subscribe(['unsplash.getPhoto', image.id]),
+						image: UnsplashPhotos.findOne(image.id)
+					}
+			}
 		}
-	}
 
-	return {}
-})
+		return {}
+	})

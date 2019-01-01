@@ -1,33 +1,37 @@
+import qs from 'querystring'
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { aqua, steel } from '@quarterto/colours'
-import { compose } from 'recompact'
+import { compose, withProps } from 'recompact'
 import contrast from 'contrast'
 import withImage from '../data/image'
 import { withCampaignData } from '../data/campaign'
 import { withOwnerData } from '../data/owner'
 import select from '../utils/select'
 import { Bleed } from './grid'
-import qs from 'querystring'
-import { withProps } from 'recompact';
 
-const getSplashUrl = ({ urls }, { _2x = false } = {}) => urls.raw + '&' + qs.stringify(Object.assign(
-	{
-		fit: 'crop',
-		crop: 'entropy',
-	},
-	_2x
-		? {
-			q: 20,
-			w: 1800,
-			h: 600,
-		}
-		: {
-			q: 70,
-			w: 900,
-			h: 300,
-		}
-))
+const getSplashUrl = ({ urls }, { _2x = false } = {}) =>
+	urls.raw +
+	'&' +
+	qs.stringify(
+		Object.assign(
+			{
+				fit: 'crop',
+				crop: 'entropy'
+			},
+			_2x
+				? {
+						q: 20,
+						w: 1800,
+						h: 600
+				  }
+				: {
+						q: 70,
+						w: 900,
+						h: 300
+				  }
+		)
+	)
 
 const splashBackground = css`
 	position: relative;
@@ -37,30 +41,29 @@ const splashBackground = css`
 	align-items: stretch;
 
 	color: ${({ image, color = '#fff' }) =>
-		(image || contrast(color) === 'dark') ? 'white' : steel[0]};
+		image || contrast(color) === 'dark' ? 'white' : steel[0]};
 
 	${({ image, url }) =>
 		(image || url) &&
 		css`
 			background-image: linear-gradient(
-				rgba(0, 20, 40, 0) 30%,
-				rgba(0, 20, 40, 0.9)
-			),
-			url(${image ? getSplashUrl(image) : url});
-		`
-	}
+					rgba(0, 20, 40, 0) 30%,
+					rgba(0, 20, 40, 0.9)
+				),
+				url(${image ? getSplashUrl(image) : url});
+		`}
 
-	background-color: ${({ image, color }) => image ? image.color : color};
+	background-color: ${({ image, color }) => (image ? image.color : color)};
 
 	${({ image, url2x }) =>
 		(image || url2x) &&
 		css`
 			@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
 				background-image: linear-gradient(
-					rgba(0, 20, 40, 0) 30%,
-					rgba(0, 20, 40, 0.9)
-				),
-				url(${image ? getSplashUrl(image, { _2x: true }) : url2x});
+						rgba(0, 20, 40, 0) 30%,
+						rgba(0, 20, 40, 0.9)
+					),
+					url(${image ? getSplashUrl(image, { _2x: true }) : url2x});
 			}
 		`}
 
@@ -77,16 +80,16 @@ export const SplashBleed = Bleed.extend`
 
 	width: 100vw;
 	height: ${select({
-	large: '60vw',
-	small: '30vw',
-	default: '40vw'
-})};
+		large: '60vw',
+		small: '30vw',
+		default: '40vw'
+	})};
 
 	max-height: ${select({
-	large: '60vh',
-	small: '30vh',
-	default: '40vh'
-})};
+		large: '60vh',
+		small: '30vh',
+		default: '40vh'
+	})};
 `
 
 export const Hero = styled.div`

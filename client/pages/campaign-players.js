@@ -27,7 +27,7 @@ const connectRemoveUser = compose(
 		removeUser: ({ campaign }) => user => {
 			const reallyRemove = confirm(
 				`Remove ${user.username || user.emails[0].address} from ${
-				campaign.title
+					campaign.title
 				}?`
 			)
 
@@ -61,16 +61,18 @@ const connectPlayers = compose(
 	withLoading
 )
 
-const Players = connectPlayers(({ players, campaign, actionComponent: Action }) => (
-	<ul>
-		{players.map(user => (
-			<li key={user._id}>
-				<User user={user} />
-				{user._id !== campaign.owner && <Action user={user} />}
-			</li>
-		))}
-	</ul>
-))
+const Players = connectPlayers(
+	({ players, campaign, actionComponent: Action }) => (
+		<ul>
+			{players.map(user => (
+				<li key={user._id}>
+					<User user={user} />
+					{user._id !== campaign.owner && <Action user={user} />}
+				</li>
+			))}
+		</ul>
+	)
+)
 
 const connectPlayersPage = compose(
 	withCampaignData,

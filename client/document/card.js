@@ -16,9 +16,11 @@ const CardHeader = withImage(({ card }) => card.cover)(SplashBackground.extend`
 	border-top-left-radius: 2px;
 	border-top-right-radius: 2px;
 
-	${({ image }) => image && css`
-		height: 6rem;
-	`}
+	${({ image }) =>
+		image &&
+		css`
+			height: 6rem;
+		`}
 
 	a:hover & {
 		filter: contrast(120%) brightness(95%) saturate(110%);

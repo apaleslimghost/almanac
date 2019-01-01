@@ -21,8 +21,9 @@ const connectCampaign = compose(
 	withCampaignData
 )
 
-const CampaignTile = withImage(({ campaign }) => campaign.theme)(SplashBackground.withComponent(Link)
-	.extend`
+const CampaignTile = withImage(
+	({ campaign }) => campaign.theme
+)(SplashBackground.withComponent(Link).extend`
 	height: 25vmin;
 	border-radius: 3px;
 	text-decoration: none;

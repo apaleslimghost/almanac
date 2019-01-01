@@ -14,7 +14,14 @@ import Icon from '../visual/icon'
 import Title from '../utils/title'
 import schema from '../../shared/schema'
 import { Owner } from '../document/user'
-import { Toolbar, MenuItem, MenuLink, NavArea, Space, Divider, Center } from '../visual/menu'
+import {
+	Toolbar,
+	MenuItem,
+	MenuLink,
+	Space,
+	Divider,
+	Center
+} from '../visual/menu'
 import withImage from '../data/image'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
@@ -52,9 +59,7 @@ export default withCardData(({ card, relatedCards, user, image }) => (
 
 		<SplashToolbar>
 			<Center>
-				<MenuItem>
-					{schema[card.type].name}
-				</MenuItem>
+				<MenuItem>{schema[card.type].name}</MenuItem>
 
 				<Divider />
 

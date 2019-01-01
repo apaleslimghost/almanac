@@ -80,6 +80,12 @@
       "meteor"
     ],
     "rules": {
+      "camelcase": [
+        "error",
+        {
+          "properties": "never"
+        }
+      ],
       "react/prop-types": 0,
       "no-alert": 0,
       "import/no-unassigned-import": 0,

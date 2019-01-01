@@ -15,7 +15,7 @@ import AccessForm from '../control/privacy'
 import Icon from '../visual/icon'
 import schema from '../../shared/schema'
 import { go } from '../utils/router'
-import { ImageSelectModal } from '../control/image-select';
+import { ImageSelectModal } from '../control/image-select'
 
 const SchemaFields = (props, context) =>
 	context.fields.type ? (

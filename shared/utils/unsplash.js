@@ -1,6 +1,6 @@
+import url from 'url'
 import { Meteor } from 'meteor/meteor'
 import { HTTP } from 'meteor/http'
-import url from 'url'
 
 const unsplash = (pathname, options) => {
 	try {
@@ -12,9 +12,9 @@ const unsplash = (pathname, options) => {
 			}),
 			{
 				headers: {
-					'Authorization': `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`
+					Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`
 				},
-				...options,
+				...options
 			}
 		).data
 	} catch (error) {
@@ -24,36 +24,30 @@ const unsplash = (pathname, options) => {
 				'Image search is currently unavailable. Try again in a few minutes'
 			)
 		}
+
+		throw error
 	}
 }
 
-export const getCollectionPhotos = collectionId => unsplash(
-	`collections/${collectionId}/photos`,
-	{
+export const getCollectionPhotos = collectionId =>
+	unsplash(`collections/${collectionId}/photos`, {
 		params: {
 			per_page: 100,
-			order_by: 'popular',
+			order_by: 'popular'
 		}
-	}
-)
+	})
 
-export const getPhoto = photoId => unsplash(
-	`photos/${photoId}`
-)
+export const getPhoto = photoId => unsplash(`photos/${photoId}`)
 
-export const search = query => unsplash(
-	`photos/search`,
-	{
+export const search = query =>
+	unsplash(`photos/search`, {
 		params: {
 			per_page: 100,
 			order_by: 'popular',
 			query
 		}
-	}
-)
+	})
 
-export const download = photoId => unsplash(
-	`photos/${photoId}/download`
-)
+export const download = photoId => unsplash(`photos/${photoId}/download`)
 
 export default unsplash
