@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose, getContext, withHandlers } from 'recompact';
 import { withTracker } from 'meteor/react-meteor-data'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import qs from 'querystring'
 
 import subscribe from '../utils/subscribe'
@@ -37,7 +37,18 @@ const connectCollection = compose(
 const FlexImg = styled.img`
 	width: 100%;
 	height: auto;
+	display: block;
 `;
+
+const ImgSelect = styled.button`
+	border: 0 none;
+	background: none;
+	padding: 0;
+
+	${({ selected }) => selected && css`
+		outline: 5px solid blue;
+	`};
+`
 
 const getThumb = ({ urls }) => urls.raw + '&' + qs.stringify({
 	fit: 'crop',
@@ -46,10 +57,14 @@ const getThumb = ({ urls }) => urls.raw + '&' + qs.stringify({
 	h: 150,
 })
 
-export default connectCollection(({ photos, setImage }) => <FlexGrid small>
+export default connectCollection(({ photos, setImage, fields, name }) => <FlexGrid small>
 	{photos.map(
-		photo => <a href='#' onClick={preventingDefault(() => setImage(photo.id))} key={photo.id}>
+		photo => <ImgSelect
+			selected={fields[name] === photo.id}
+			onClick={preventingDefault(() => setImage(photo.id))}
+			key={photo.id}
+		>
 			<FlexImg width={450} height={150} src={getThumb(photo)} alt={photo.description} />
-		</a>
+		</ImgSelect>
 	)}
 </FlexGrid>)
