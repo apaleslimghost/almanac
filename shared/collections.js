@@ -7,6 +7,13 @@ export const Session = new Mongo.Collection('session')
 export const Layouts = new Mongo.Collection('layout')
 export const UnsplashPhotos = new Mongo.Collection('unsplash-photos')
 
+if (Meteor.isServer) {
+	Cards._ensureIndex({
+		title: 'text',
+		text: 'text'
+	})
+}
+
 if (Meteor.isClient) {
 	window.collections = exports
 	window.showCollection = (collection, ...args) =>

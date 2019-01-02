@@ -1,5 +1,4 @@
 import React from 'react'
-import _ from 'lodash'
 import styled, { css } from 'styled-components'
 
 import Link from '../control/link'

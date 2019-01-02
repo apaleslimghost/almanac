@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import Link from '../control/link'
+import { bleed } from './grid'
 
 export const Toolbar = styled.nav`
 	display: flex;
@@ -8,7 +9,7 @@ export const Toolbar = styled.nav`
 
 export const MenuItem = styled.div`
 	display: block;
-	padding: 1rem;
+	padding: ${({ flush }) => (flush ? '.75rem 1rem' : '1rem')};
 	color: black;
 	text-decoration: none;
 
@@ -55,7 +56,12 @@ export const NavArea = styled.div`
 
 export const Center = styled.div`
 	display: flex;
-	max-width: 64rem;
+	max-width: 84rem; /* TODO derive this from grid */
 	width: 100%;
 	margin: 0 auto;
+`
+
+export const SplashToolbar = Toolbar.extend.attrs({ className: bleed })`
+	margin-top: -1rem;
+	grid-area: bleed;
 `

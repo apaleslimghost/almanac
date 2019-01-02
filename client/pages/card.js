@@ -7,7 +7,7 @@ import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
 import { SplashBleed, Hero, HeroBlurb, HeroTitle } from '../visual/splash'
 import ShowCard from '../document/card'
-import { FlexGrid, bleed } from '../visual/grid'
+import { FlexGrid } from '../visual/grid'
 import { canEdit as canEditCard } from '../../shared/utils/validators/card'
 import { withUserData } from '../utils/logged-in'
 import Icon from '../visual/icon'
@@ -15,7 +15,7 @@ import Title from '../utils/title'
 import schema from '../../shared/schema'
 import { Owner } from '../document/user'
 import {
-	Toolbar,
+	SplashToolbar,
 	MenuItem,
 	MenuLink,
 	Space,
@@ -37,11 +37,6 @@ const withCardData = compose(
 )
 
 const connectCardSplash = withImage(({ card }) => card.cover)
-
-const SplashToolbar = Toolbar.extend.attrs({ className: bleed })`
-	margin-top: -1rem;
-	grid-area: bleed;
-`
 
 export const CardSplash = connectCardSplash(({ card, ...props }) => (
 	<SplashBleed small {...props}>
