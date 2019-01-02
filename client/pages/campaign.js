@@ -1,14 +1,73 @@
 import React from 'react'
+import { withTracker } from 'meteor/react-meteor-data'
+import { compose } from 'recompact'
+import { ReactiveVar } from 'meteor/reactive-var'
+import _ from 'lodash'
+
+import { withState } from 'recompact'
 import { withCampaignData } from '../data/campaign'
 import { CampaignSplash } from '../visual/splash'
 import Title from '../utils/title'
 import CardList from '../collection/card-list'
 
-export default withCampaignData(({ campaign }) => (
-	<>
-		<Title>{campaign.title}</Title>
+import {
+	SplashToolbar,
+	MenuItem,
+	MenuLink,
+	Space,
+	Center
+} from '../visual/menu'
+import Icon from '../visual/icon'
+import { Input } from '../visual/form'
 
-		<CampaignSplash />
-		<CardList />
-	</>
-))
+const searchVar = new ReactiveVar('')
+const searchState = withState('_search', '_setSearch', '')
+
+const debouncedSetSearch = _.debounce(searchVar.set.bind(searchVar), 300)
+
+const withSearch = compose(
+	searchState,
+	withTracker(({ _setSearch }) => ({
+		search: searchVar.get(),
+		setSearch(s) {
+			debouncedSetSearch(s)
+			_setSearch(s)
+		}
+	}))
+)
+
+const connectCampaignPage = compose(
+	withCampaignData,
+	withSearch
+)
+
+export default connectCampaignPage(
+	({ campaign, _search, search, setSearch }) => (
+		<>
+			<Title>{campaign.title}</Title>
+
+			<CampaignSplash />
+
+			<SplashToolbar>
+				<Center>
+					<MenuItem flush>
+						<Input
+							type='search'
+							placeholder='Search&hellip;'
+							value={_search}
+							onChange={ev => setSearch(ev.target.value)}
+						/>
+					</MenuItem>
+
+					<Space />
+
+					<MenuLink href={`/${campaign._id}/new`}>
+						<Icon icon='file-text-o' /> New
+					</MenuLink>
+				</Center>
+			</SplashToolbar>
+
+			<CardList search={search} />
+		</>
+	)
+)

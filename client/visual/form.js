@@ -29,8 +29,7 @@ const withSelect = compose(
 )
 
 const BaseInput = Label.withComponent('input').extend`
-	padding-left: .3em;
-	padding-right: .3em;
+	padding: .25em .3em;
 	font: inherit;
 	${({ fullWidth }) =>
 		fullWidth &&
@@ -46,6 +45,12 @@ const BaseInput = Label.withComponent('input').extend`
 		right &&
 		css`
 			text-align: right;
+		`}
+	${({ type }) =>
+		type === 'search' &&
+		css`
+			padding: 0.25em 0.5em;
+			border-radius: 1em;
 		`}
 `
 

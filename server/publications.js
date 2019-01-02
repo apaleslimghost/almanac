@@ -22,31 +22,6 @@ const visibleDocs = collection => ({ userId }) => {
 	})
 }
 
-/*
-I can see a card if:
-
-- i'm the owner or the GM
-- it's visible to the campaign, it's in a campaign i'm a member of
-- it's public
- */
-
-const visibleCards = ({ userId }) => {
-	const ownedCampaignIds = ownedCampaigns({ userId }).map(c => c._id)
-	const memberCampaignIds = memberCampaigns({ userId }).map(c => c._id)
-
-	return Cards.find({
-		$or: [
-			{ owner: userId },
-			{ campaignId: { $in: ownedCampaignIds } },
-			{
-				campaignId: { $in: memberCampaignIds },
-				'access.view': access.CAMPAIGN
-			},
-			{ 'access.view': access.PUBLIC }
-		]
-	})
-}
-
 publish({
 	users: {
 		all: () => Meteor.users.find({}, { fields: { username: 1 } })
@@ -81,7 +56,46 @@ publish({
 	},
 
 	cards: {
-		all: visibleCards
+		/*
+		I can see a card if:
+
+		- i'm the owner or the GM
+		- it's visible to the campaign, it's in a campaign i'm a member of
+		- it's public
+		*/
+		all({ userId, args: [query] }) {
+			const ownedCampaignIds = ownedCampaigns({ userId }).map(c => c._id)
+			const memberCampaignIds = memberCampaigns({ userId }).map(c => c._id)
+
+			return Cards.find(
+				{
+					$and: [
+						query && { $text: { $search: query } },
+						{
+							$or: [
+								{ owner: userId },
+								{ campaignId: { $in: ownedCampaignIds } },
+								{
+									campaignId: { $in: memberCampaignIds },
+									'access.view': access.CAMPAIGN
+								},
+								{ 'access.view': access.PUBLIC }
+							]
+						}
+					].filter(part => part)
+				},
+				query
+					? {
+							fields: {
+								score: { $meta: 'textScore' }
+							},
+							sort: {
+								score: { $meta: 'textScore' }
+							}
+					  }
+					: {}
+			)
+		}
 	},
 
 	session: {
