@@ -4,7 +4,7 @@ import { compose } from 'recompact'
 import { withCampaignSession } from '../data/campaign'
 
 import ShowCard from '../document/card'
-import { FlexGrid } from '../visual/grid'
+import { MainGrid } from '../visual/grid'
 import withLoading from '../control/loading'
 import subscribe from '../utils/subscribe'
 import { Cards } from '../../shared/collections'
@@ -30,11 +30,11 @@ const connectCardList = compose(
 )
 
 const CardList = connectCardList(({ cards }) => (
-	<FlexGrid>
+	<MainGrid>
 		{cards.map(card => (
 			<ShowCard key={card._id} card={card} />
 		))}
-	</FlexGrid>
+	</MainGrid>
 ))
 
 export default CardList

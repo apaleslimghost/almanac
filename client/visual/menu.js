@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import Link from '../control/link'
-import { bleed } from './grid'
 
 export const Toolbar = styled.nav`
 	display: flex;
@@ -61,7 +60,7 @@ export const Center = styled.div`
 	margin: 0 auto;
 `
 
-export const SplashToolbar = Toolbar.extend.attrs({ className: bleed })`
+export const SplashToolbar = Toolbar.extend`
 	margin-top: -1rem;
-	grid-area: bleed;
+	grid-column: bleed;
 `

@@ -1,5 +1,6 @@
 import React from 'react'
 import { compose } from 'recompact'
+import styled from 'styled-components'
 
 import Markdown from '../document/markdown'
 import withCards, { withCard } from '../data/card'
@@ -47,6 +48,10 @@ export const CardSplash = connectCardSplash(({ card, ...props }) => (
 	</SplashBleed>
 ))
 
+const CardBody = styled.article`
+	grid-column: main-left;
+`
+
 export default withCardData(({ card, relatedCards, user, image }) => (
 	<>
 		<CardSplash card={card} />
@@ -81,9 +86,9 @@ export default withCardData(({ card, relatedCards, user, image }) => (
 			</Center>
 		</SplashToolbar>
 
-		<article>
+		<CardBody>
 			<Markdown source={card.text || ''} />
-		</article>
+		</CardBody>
 
 		{relatedCards.length > 0 && (
 			<>

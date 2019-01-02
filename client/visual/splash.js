@@ -8,7 +8,6 @@ import withImage from '../data/image'
 import { withCampaignData } from '../data/campaign'
 import { withOwnerData } from '../data/owner'
 import select from '../utils/select'
-import { Bleed } from './grid'
 
 const getSplashUrl = ({ urls }, { _2x = false } = {}) =>
 	urls.raw +
@@ -75,8 +74,10 @@ export const SplashBackground = styled.div`
 	${splashBackground}
 `
 
-export const SplashBleed = Bleed.extend`
+export const SplashBleed = styled.div`
 	${splashBackground}
+	grid-column: bleed;
+	margin-top: -1rem;
 
 	width: 100vw;
 	height: ${select({
