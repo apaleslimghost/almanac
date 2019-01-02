@@ -94,8 +94,8 @@ const editCardActions = withHandlers({
 		Card.delete(card)
 	},
 
-	back: ({ card }) => () => {
-		go(`/${card.campaignId}/${card._id}`)
+	back: ({ card, campaignId }) => () => {
+		go(`/${campaignId}/${card ? card._id : ''}`)
 	}
 })
 
