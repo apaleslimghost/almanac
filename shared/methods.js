@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Random } from 'meteor/random'
 import { Accounts } from 'meteor/accounts-base'
-import { Campaigns, Cards, Session, Layouts } from './collections'
+import { Campaigns, Cards, Session, Layouts, CardHistory } from './collections'
 import method from './utils/method'
 import collectionMethods from './utils/collection-methods'
 import generateSlug from './utils/generate-slug'
@@ -9,7 +9,7 @@ import * as validators from './utils/validators'
 import * as unsplash from './utils/unsplash'
 
 export const Campaign = collectionMethods(Campaigns, validators.doc)
-export const Card = collectionMethods(Cards, validators.card)
+export const Card = collectionMethods(Cards, validators.card, CardHistory)
 export const Layout = collectionMethods(Layouts, validators.campaignDoc)
 
 const serverToken = Random.secret()
