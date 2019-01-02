@@ -1,10 +1,9 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
-import { compose } from 'recompact'
+import { compose, withState } from 'recompact'
 import { ReactiveVar } from 'meteor/reactive-var'
 import _ from 'lodash'
 
-import { withState } from 'recompact'
 import { withCampaignData } from '../data/campaign'
 import { CampaignSplash } from '../visual/splash'
 import Title from '../utils/title'
