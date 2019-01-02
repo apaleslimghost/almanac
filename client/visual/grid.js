@@ -12,7 +12,7 @@ export const FlexGrid = styled.div`
 	grid-gap: 1rem;
 	grid-template-columns: repeat(
 		auto-fill,
-		minmax(${({ small }) => (small ? '10em' : '20em')}, 1fr)
+		minmax(${({ small }) => (small ? '9em' : '18em')}, 1fr)
 	);
 `
 
