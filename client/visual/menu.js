@@ -56,7 +56,7 @@ export const NavArea = styled.div`
 
 export const Center = styled.div`
 	display: flex;
-	max-width: 64rem;
+	max-width: 84rem; /* TODO derive this from grid */
 	width: 100%;
 	margin: 0 auto;
 `

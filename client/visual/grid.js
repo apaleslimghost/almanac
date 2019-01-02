@@ -30,11 +30,11 @@ export default styled.div`
 		[ bleed-start ]
 		1fr
 		[ left-start main-left-start main-start ]
-		minmax(auto, 15em)
+		minmax(auto, 20em)
 		[ left-end main-right-start center-start ]
-		minmax(auto, 30em)
+		minmax(auto, 40em)
 		[ right-start main-left-end center-end ]
-		minmax(auto, 15em)
+		minmax(auto, 20em)
 		[ right-end main-right-end main-end ]
 		1fr
 		[ bleed-end ];
