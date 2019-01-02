@@ -1,5 +1,11 @@
 import { Meteor } from 'meteor/meteor'
-import { Cards, Campaigns, Session, Layouts } from '../shared/collections'
+import {
+	Cards,
+	Campaigns,
+	Session,
+	Layouts,
+	CardHistory
+} from '../shared/collections'
 import access from '../shared/access'
 import * as unsplash from '../shared/utils/unsplash'
 import publish from './utils/publish'
@@ -95,7 +101,9 @@ publish({
 					  }
 					: {}
 			)
-		}
+		},
+
+		history: visibleDocs(CardHistory)
 	},
 
 	session: {

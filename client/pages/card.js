@@ -1,7 +1,9 @@
 import React from 'react'
 import { compose } from 'recompact'
 import styled from 'styled-components'
+import { withTracker } from 'meteor/react-meteor-data'
 
+import relativeDate from 'tiny-relative-date'
 import Markdown from '../document/markdown'
 import withCards, { withCard } from '../data/card'
 import { withCampaignId } from '../data/campaign'
@@ -24,6 +26,9 @@ import {
 	Center
 } from '../visual/menu'
 import withImage from '../data/image'
+import { CardHistory } from '../../shared/collections'
+import subscribe from '../utils/subscribe'
+import match from '../utils/match'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
 	_id: { $in: (card && card.related) || [] }
@@ -51,6 +56,38 @@ export const CardSplash = connectCardSplash(({ card, ...props }) => (
 const CardBody = styled.article`
 	grid-column: main-left;
 `
+const withCardHistory = withTracker(({ card }) => ({
+	ready: subscribe('cards.history'),
+	history: CardHistory.find(
+		{ 'data._id': card._id },
+		{ sort: [['date', 'desc']] }
+	).fetch()
+}))
+
+const HistoryList = styled.ul`
+	grid-column: right;
+`
+
+const getHistoryIcon = match({
+	add: 'file-text-o',
+	edit: 'edit'
+})
+
+const CardHistoryList = withCardHistory(({ history }) => (
+	<HistoryList>
+		{history.map(change => (
+			<li key={change._id}>
+				<Icon icon={getHistoryIcon(change.verb)} />
+				{change.verb + 'ed '}
+				{change.data.title}
+				<br />
+				<small>
+					<Owner small of={change} /> {relativeDate(change.date)}
+				</small>
+			</li>
+		))}
+	</HistoryList>
+))
 
 export default withCardData(({ card, relatedCards, user, image }) => (
 	<>
@@ -89,6 +126,8 @@ export default withCardData(({ card, relatedCards, user, image }) => (
 		<CardBody>
 			<Markdown source={card.text || ''} />
 		</CardBody>
+
+		<CardHistoryList card={card} />
 
 		{relatedCards.length > 0 && (
 			<>

@@ -3,10 +3,8 @@ import styled from 'styled-components'
 import accessLevels from '../../shared/access'
 import Icon from '../visual/icon'
 import { LabelledInput as Label, FormGroup } from '../visual/primitives'
+import match from '../utils/match'
 import { Form, FormFieldData, Input, getInputValue } from './form'
-
-const match = matches => value =>
-	value in matches ? matches[value] : matches.default
 
 const getPrivacyIcon = match({
 	[accessLevels.PRIVATE]: 'lock',

@@ -17,9 +17,15 @@ const UserText = styled.span`
 // and i can't be fucked working out how to implement that so
 const Slurp = styled.span``
 
-const User = ({ user, component: Component = Slurp, children, ...props }) => (
+const User = ({
+	user,
+	component: Component = Slurp,
+	small,
+	children,
+	...props
+}) => (
 	<Component user={user} {...props}>
-		<Gravatar email={user.emails[0].address} />
+		<Gravatar email={user.emails[0].address} small={small} />
 		<UserText verified={user.emails[0].verified}>
 			{user.username || user.emails[0].address}
 		</UserText>
@@ -38,7 +44,7 @@ export default User
 const connectOwner = compose(
 	withSubscribe('campaigns.members'),
 	withOwnerData('of'),
-	withLoadingComponent(null)
+	withLoadingComponent(() => null)
 )
 
-export const Owner = withOwnerData('of')(User)
+export const Owner = connectOwner(User)

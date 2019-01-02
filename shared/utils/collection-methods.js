@@ -26,8 +26,9 @@ export default (collection, validate, historyCollection) => {
 			historyCollection.insert({
 				verb: 'add',
 				date: new Date(),
-				user: this.userId,
-				data: collection.findOne(_id)
+				owner: this.userId,
+				campaignId: data.campaignId,
+				data
 			})
 		}
 
@@ -49,7 +50,8 @@ export default (collection, validate, historyCollection) => {
 				historyCollection.insert({
 					verb: 'edit',
 					date: new Date(),
-					user: this.userId,
+					owner: this.userId,
+					campaignId: data.campaignId,
 					data: collection.findOne(_id)
 				})
 			}
@@ -64,7 +66,8 @@ export default (collection, validate, historyCollection) => {
 				historyCollection.insert({
 					verb: 'delete',
 					date: new Date(),
-					user: this.userId
+					owner: this.userId,
+					campaignId: data.campaignId
 				})
 			}
 		})
