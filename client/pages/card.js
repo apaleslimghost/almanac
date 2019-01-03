@@ -7,7 +7,6 @@ import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
 import { SplashBleed, Hero, HeroBlurb, HeroTitle } from '../visual/splash'
 import ShowCard from '../document/card'
-import { FlexGrid } from '../visual/grid'
 import { canEdit as canEditCard } from '../../shared/utils/validators/card'
 import { withUserData } from '../utils/logged-in'
 import Icon from '../visual/icon'
@@ -52,6 +51,10 @@ const CardBody = styled.article`
 	grid-column: main-left;
 `
 
+const Right = styled.aside`
+	grid-column: right;
+`
+
 export default withCardData(({ card, relatedCards, user, image }) => (
 	<>
 		<CardSplash card={card} />
@@ -90,17 +93,13 @@ export default withCardData(({ card, relatedCards, user, image }) => (
 			<Markdown source={card.text || ''} />
 		</CardBody>
 
-		<CardHistoryList card={card} />
+		<Right>
+			{relatedCards.length > 0 &&
+				relatedCards.map(related => (
+					<ShowCard key={related._id} card={related} />
+				))}
 
-		{relatedCards.length > 0 && (
-			<>
-				<hr />
-				<FlexGrid>
-					{relatedCards.map(related => (
-						<ShowCard key={related._id} card={related} />
-					))}
-				</FlexGrid>
-			</>
-		)}
+			<CardHistoryList card={card} />
+		</Right>
 	</>
 ))
