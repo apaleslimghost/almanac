@@ -28,6 +28,22 @@ const visibleDocs = collection => ({ userId }) => {
 	})
 }
 
+const visibleCardQuery = ({ userId }) => {
+	const ownedCampaignIds = ownedCampaigns({ userId }).map(c => c._id)
+	const memberCampaignIds = memberCampaigns({ userId }).map(c => c._id)
+	return {
+		$or: [
+			{ owner: userId },
+			{ campaignId: { $in: ownedCampaignIds } },
+			{
+				campaignId: { $in: memberCampaignIds },
+				'access.view': access.CAMPAIGN
+			},
+			{ 'access.view': access.PUBLIC }
+		]
+	}
+}
+
 publish({
 	users: {
 		all: () => Meteor.users.find({}, { fields: { username: 1 } })
@@ -70,24 +86,11 @@ publish({
 		- it's public
 		*/
 		all({ userId, args: [query] }) {
-			const ownedCampaignIds = ownedCampaigns({ userId }).map(c => c._id)
-			const memberCampaignIds = memberCampaigns({ userId }).map(c => c._id)
-
 			return Cards.find(
 				{
 					$and: [
 						query && { $text: { $search: query } },
-						{
-							$or: [
-								{ owner: userId },
-								{ campaignId: { $in: ownedCampaignIds } },
-								{
-									campaignId: { $in: memberCampaignIds },
-									'access.view': access.CAMPAIGN
-								},
-								{ 'access.view': access.PUBLIC }
-							]
-						}
+						visibleCardQuery({ userId })
 					].filter(part => part)
 				},
 				query
@@ -103,7 +106,13 @@ publish({
 			)
 		},
 
-		history: visibleDocs(CardHistory)
+		history({ userId }) {
+			const visibleCards = Cards.find(visibleCardQuery({ userId })).fetch()
+			const visibleCardIDs = visibleCards.map(card => card._id)
+			return CardHistory.find({
+				'data._id': { $in: visibleCardIDs }
+			})
+		}
 	},
 
 	session: {
