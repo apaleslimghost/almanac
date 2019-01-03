@@ -81,8 +81,8 @@ export const SplashBleed = styled.div`
 
 	width: 100vw;
 
-	${({ image, url }) =>
-		(url || image) &&
+	${({ image, url, ready }) =>
+		(url || image || ready === false) &&
 		css`
 			height: ${select({
 				large: '60vw',
@@ -182,8 +182,8 @@ const connectCampaignSplash = compose(
 )
 
 export const CampaignSplash = connectCampaignSplash(
-	({ campaign, noBlurb, user, children, image }) => (
-		<SplashBleed image={image}>
+	({ campaign, noBlurb, user, children, image, ready }) => (
+		<SplashBleed image={image} ready={ready}>
 			<Hero>
 				{children}
 				<HeroTitle>{campaign.title}</HeroTitle>
