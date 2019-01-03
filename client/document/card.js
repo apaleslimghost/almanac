@@ -35,7 +35,7 @@ const CardHeader = withImage(({ card }) => card.cover)(SplashBackground.extend`
 const CardLink = styled(Link)`
 	text-decoration: none;
 	color: inherit;
-	grid-row: span ${({ card }) => 2 + Boolean(card.cover) + Boolean(card.text)};
+	grid-row: span ${({ card }) => 3 + Boolean(card.cover) + Boolean(card.text)};
 
 	${CardPrimitive} {
 		height: 100%;
