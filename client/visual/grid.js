@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import select from '../utils/select'
 
 export const FlexGrid = styled.div`
 	display: grid;
@@ -9,12 +10,27 @@ export const FlexGrid = styled.div`
 	);
 `
 
-export const MainGrid = FlexGrid.extend`
-	grid-column: main;
+const main = css`
+	grid-column: ${select({
+		left: 'main-left',
+		right: 'main-right',
+		default: 'main'
+	})};
 `
 
 export const Main = styled.div`
-	grid-column: main;
+	${main}
+`
+
+export const Aside = styled.aside`
+	grid-column: ${select({
+		left: 'left',
+		default: 'right'
+	})};
+`
+
+export const MainGrid = FlexGrid.extend`
+	${main}
 `
 
 export default styled.div`

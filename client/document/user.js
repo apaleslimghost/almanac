@@ -10,7 +10,7 @@ import { withSubscribe } from '../utils/subscribe'
 
 const UserText = styled.span`
 	font-style: ${({ verified }) => (verified ? 'normal' : 'italic')};
-	color: ${({ verified }) => (verified ? colours.steel[0] : colours.steel[2])};
+	color: ${({ verified }) => (verified ? 'inherit' : colours.steel[2])};
 `
 
 // Styled-components correctly handles arbitrary props passed to dom nodes

@@ -18,6 +18,8 @@ import {
 } from '../visual/menu'
 import Icon from '../visual/icon'
 import { Input } from '../visual/form'
+import HistoryList from '../collection/card-history'
+import { Main, Aside } from '../visual/grid'
 
 const searchVar = new ReactiveVar('')
 const searchState = withState('_search', '_setSearch', '')
@@ -66,7 +68,12 @@ export default connectCampaignPage(
 				</Center>
 			</SplashToolbar>
 
-			<CardList search={search} />
+			<Main left>
+				<CardList search={search} />
+			</Main>
+			<Aside>
+				<HistoryList />
+			</Aside>
 		</>
 	)
 )
