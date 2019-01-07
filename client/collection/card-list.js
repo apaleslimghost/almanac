@@ -9,10 +9,10 @@ import subscribe from '../utils/subscribe'
 import { Cards } from '../../shared/collections'
 import { FlexGrid } from '../visual/grid'
 
-const withCardSearch = withTracker(({ search }) => ({
+const withCardSearch = withTracker(({ search, campaignId }) => ({
 	ready: subscribe(['cards.all', search]),
 	cards: Cards.find(
-		{},
+		{ campaignId },
 		search
 			? {
 					sort: [['score', 'desc']]
