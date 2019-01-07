@@ -1,11 +1,5 @@
-import { Random } from 'meteor/random'
-import styled from 'styled-components'
-
-export const bleed = `__bleed_${Random.id(8)}`
-
-export const Bleed = styled.div.attrs({ className: bleed })`
-	grid-column: bleed;
-`
+import styled, { css } from 'styled-components'
+import select from '../utils/select'
 
 export const FlexGrid = styled.div`
 	display: grid;
@@ -14,6 +8,29 @@ export const FlexGrid = styled.div`
 		auto-fill,
 		minmax(${({ small }) => (small ? '9em' : '18em')}, 1fr)
 	);
+`
+
+const main = css`
+	grid-column: ${select({
+		left: 'main-left',
+		right: 'main-right',
+		default: 'main'
+	})};
+`
+
+export const Main = styled.div`
+	${main}
+`
+
+export const Aside = styled.aside`
+	grid-column: ${select({
+		left: 'left',
+		default: 'right'
+	})};
+`
+
+export const MainGrid = FlexGrid.extend`
+	${main}
 `
 
 export default styled.div`
@@ -40,12 +57,5 @@ export default styled.div`
 		[ bleed-end ];
 
 	grid-gap: 1rem;
-
-	> :not(.${bleed}) {
-		grid-column: main;
-	}
-
-	> :first-child:not(.${bleed}) {
-		margin-top: 1rem;
-	}
+	padding: 1rem 0;
 `

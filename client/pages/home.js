@@ -7,7 +7,7 @@ import Link from '../control/link'
 import subscribe from '../utils/subscribe'
 import loggedIn from '../utils/logged-in'
 import { SplashBackground, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
-import { FlexGrid } from '../visual/grid'
+import { MainGrid } from '../visual/grid'
 import withImage from '../data/image'
 import Splash from './splash'
 
@@ -36,7 +36,7 @@ const CampaignTile = withImage(
 `)
 
 export default connectCampaign(({ campaigns }) => (
-	<FlexGrid>
+	<MainGrid>
 		{campaigns.map(campaign => (
 			<CampaignTile
 				key={campaign._id}
@@ -51,5 +51,5 @@ export default connectCampaign(({ campaigns }) => (
 		))}
 
 		<Link href='/new-campaign'>Add a campaign</Link>
-	</FlexGrid>
+	</MainGrid>
 ))

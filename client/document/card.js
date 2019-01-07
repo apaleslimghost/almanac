@@ -32,13 +32,18 @@ const CardHeader = withImage(({ card }) => card.cover)(SplashBackground.extend`
 	}
 `)
 
-const PlainLink = styled(Link)`
+const CardLink = styled(Link)`
 	text-decoration: none;
 	color: inherit;
+	grid-row: span ${({ card }) => 3 + Boolean(card.cover) + Boolean(card.text)};
+
+	${CardPrimitive} {
+		height: 100%;
+	}
 `
 
 export default ({ card }) => (
-	<PlainLink href={`/${card.campaignId}/${card._id}`}>
+	<CardLink card={card} href={`/${card.campaignId}/${card._id}`}>
 		<CardPrimitive>
 			<CardHeader card={card}>
 				<Hero>
@@ -48,5 +53,5 @@ export default ({ card }) => (
 
 			<Markdown excerpt source={card.text || ''} />
 		</CardPrimitive>
-	</PlainLink>
+	</CardLink>
 )

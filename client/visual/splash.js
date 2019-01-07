@@ -8,7 +8,6 @@ import withImage from '../data/image'
 import { withCampaignData } from '../data/campaign'
 import { withOwnerData } from '../data/owner'
 import select from '../utils/select'
-import { Bleed } from './grid'
 
 const getSplashUrl = ({ urls }, { _2x = false } = {}) =>
 	urls.raw +
@@ -75,21 +74,28 @@ export const SplashBackground = styled.div`
 	${splashBackground}
 `
 
-export const SplashBleed = Bleed.extend`
+export const SplashBleed = styled.div`
 	${splashBackground}
+	grid-column: bleed;
+	margin-top: -1rem;
 
 	width: 100vw;
-	height: ${select({
-		large: '60vw',
-		small: '30vw',
-		default: '40vw'
-	})};
 
-	max-height: ${select({
-		large: '60vh',
-		small: '30vh',
-		default: '40vh'
-	})};
+	${({ image, url, ready }) =>
+		(url || image || ready === false) &&
+		css`
+			height: ${select({
+				large: '60vw',
+				small: '30vw',
+				default: '40vw'
+			})};
+
+			max-height: ${select({
+				large: '60vh',
+				small: '30vh',
+				default: '40vh'
+			})};
+		`}
 `
 
 export const Hero = styled.div`
@@ -116,17 +122,17 @@ export const HeroTitle = styled.h2`
 	text-align: center;
 
 	font-size: 1.4em;
-	margin: 0 0 0.5rem;
+	margin: 0.5rem 0 0.5rem;
 
 	${SplashBleed} & {
 		@media (min-width: 25em) {
 			font-size: 2em;
-			margin-bottom: 1rem;
+			margin: 1rem 0 1rem;
 		}
 
 		@media (min-width: 40em) {
 			font-size: 2.4em;
-			margin-bottom: 2rem;
+			margin: 2rem 0 2rem;
 		}
 	}
 `
@@ -176,8 +182,8 @@ const connectCampaignSplash = compose(
 )
 
 export const CampaignSplash = connectCampaignSplash(
-	({ campaign, noBlurb, user, children, image }) => (
-		<SplashBleed image={image}>
+	({ campaign, noBlurb, user, children, image, ready }) => (
+		<SplashBleed image={image} ready={ready}>
 			<Hero>
 				{children}
 				<HeroTitle>{campaign.title}</HeroTitle>

@@ -1,14 +1,23 @@
 import crypto from 'crypto'
 import url from 'url'
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Gravatar = styled.img`
 	border-radius: 100%;
 	vertical-align: -0.2em;
-	height: 2em;
-	width: 2em;
-	margin: -0.5em 0.5em -0.5em 0;
+	${({ small }) =>
+		small
+			? css`
+					height: 1em;
+					width: 1em;
+					margin-right: 0.25em;
+			  `
+			: css`
+					height: 2em;
+					width: 2em;
+					margin: -0.5em 0.5em -0.5em 0;
+			  `}
 `
 
 const gravatarHash = email =>

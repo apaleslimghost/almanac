@@ -16,6 +16,7 @@ import Icon from '../visual/icon'
 import schema from '../../shared/schema'
 import { go } from '../utils/router'
 import { ImageSelectModal } from '../control/image-select'
+import { Main } from '../visual/grid'
 
 const SchemaFields = (props, context) =>
 	context.fields.type ? (
@@ -35,40 +36,42 @@ const SchemaFields = (props, context) =>
 SchemaFields.contextTypes = fieldLike
 
 const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
-	<Form initialData={card} onSubmit={saveCard}>
-		<FormGroup>
+	<Main>
+		<Form initialData={card} onSubmit={saveCard}>
+			<FormGroup>
+				<List>
+					<Input flex name='title' placeholder='Title' />
+					<TypeSelect name='type' placeholder='Type...' />
+					<ImageSelectModal name='cover' />
+				</List>
+			</FormGroup>
+
+			<SchemaFields />
+
+			{(isOwner || !card._id) && <AccessForm {...card} />}
+
+			<FormGroup>
+				<Textarea fullWidth name='text' />
+			</FormGroup>
+
 			<List>
-				<Input flex name='title' placeholder='Title' />
-				<TypeSelect name='type' placeholder='Type...' />
-				<ImageSelectModal name='cover' />
+				<Button colour={card._id ? 'sky' : 'apple'}>
+					{card._id ? <Icon icon='check' /> : <Icon icon='plus' />}
+					{card._id ? 'Save' : 'Add'} card
+				</Button>
+				{back && (
+					<Button colour='steel' onClick={preventingDefault(back)}>
+						<Icon icon='times' /> Cancel
+					</Button>
+				)}
+				{deleteCard && card._id && (
+					<Button colour='scarlet' onClick={deleteCard}>
+						<Icon icon='trash' /> Delete
+					</Button>
+				)}
 			</List>
-		</FormGroup>
-
-		<SchemaFields />
-
-		{(isOwner || !card._id) && <AccessForm {...card} />}
-
-		<FormGroup>
-			<Textarea fullWidth name='text' />
-		</FormGroup>
-
-		<List>
-			<Button colour={card._id ? 'sky' : 'apple'}>
-				{card._id ? <Icon icon='check' /> : <Icon icon='plus' />}
-				{card._id ? 'Save' : 'Add'} card
-			</Button>
-			{back && (
-				<Button colour='steel' onClick={preventingDefault(back)}>
-					<Icon icon='times' /> Cancel
-				</Button>
-			)}
-			{deleteCard && card._id && (
-				<Button colour='scarlet' onClick={deleteCard}>
-					<Icon icon='trash' /> Delete
-				</Button>
-			)}
-		</List>
-	</Form>
+		</Form>
+	</Main>
 )
 
 const editCardActions = withHandlers({

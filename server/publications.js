@@ -1,5 +1,11 @@
 import { Meteor } from 'meteor/meteor'
-import { Cards, Campaigns, Session, Layouts } from '../shared/collections'
+import {
+	Cards,
+	Campaigns,
+	Session,
+	Layouts,
+	CardHistory
+} from '../shared/collections'
 import access from '../shared/access'
 import * as unsplash from '../shared/utils/unsplash'
 import publish from './utils/publish'
@@ -20,6 +26,22 @@ const visibleDocs = collection => ({ userId }) => {
 	return collection.find({
 		$or: [{ owner: userId }, { campaignId: { $in: campaignIds } }]
 	})
+}
+
+const visibleCardQuery = ({ userId }) => {
+	const ownedCampaignIds = ownedCampaigns({ userId }).map(c => c._id)
+	const memberCampaignIds = memberCampaigns({ userId }).map(c => c._id)
+	return {
+		$or: [
+			{ owner: userId },
+			{ campaignId: { $in: ownedCampaignIds } },
+			{
+				campaignId: { $in: memberCampaignIds },
+				'access.view': access.CAMPAIGN
+			},
+			{ 'access.view': access.PUBLIC }
+		]
+	}
 }
 
 publish({
@@ -64,24 +86,11 @@ publish({
 		- it's public
 		*/
 		all({ userId, args: [query] }) {
-			const ownedCampaignIds = ownedCampaigns({ userId }).map(c => c._id)
-			const memberCampaignIds = memberCampaigns({ userId }).map(c => c._id)
-
 			return Cards.find(
 				{
 					$and: [
 						query && { $text: { $search: query } },
-						{
-							$or: [
-								{ owner: userId },
-								{ campaignId: { $in: ownedCampaignIds } },
-								{
-									campaignId: { $in: memberCampaignIds },
-									'access.view': access.CAMPAIGN
-								},
-								{ 'access.view': access.PUBLIC }
-							]
-						}
+						visibleCardQuery({ userId })
 					].filter(part => part)
 				},
 				query
@@ -95,6 +104,14 @@ publish({
 					  }
 					: {}
 			)
+		},
+
+		history({ userId }) {
+			const visibleCards = Cards.find(visibleCardQuery({ userId })).fetch()
+			const visibleCardIDs = visibleCards.map(card => card._id)
+			return CardHistory.find({
+				'data._id': { $in: visibleCardIDs }
+			})
 		}
 	},
 

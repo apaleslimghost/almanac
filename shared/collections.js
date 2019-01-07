@@ -2,6 +2,7 @@ import { Mongo } from 'meteor/mongo'
 import { Meteor } from 'meteor/meteor'
 
 export const Cards = new Mongo.Collection('cards')
+export const CardHistory = new Mongo.Collection('card-history')
 export const Campaigns = new Mongo.Collection('campaigns')
 export const Session = new Mongo.Collection('session')
 export const Layouts = new Mongo.Collection('layout')

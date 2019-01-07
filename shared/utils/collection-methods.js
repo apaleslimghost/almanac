@@ -15,12 +15,22 @@ const nestedToDotted = (obj, top = {}, path = []) =>
 		return out
 	}, top)
 
-export default (collection, validate) => {
+export default (collection, validate, historyCollection) => {
 	const baseCreate = method(`${collection._name}.create`, function(data) {
 		validate.create(data, this.userId)
 
 		data.owner = this.userId
 		collection.insert(data)
+
+		if (historyCollection) {
+			historyCollection.insert({
+				verb: 'add',
+				date: new Date(),
+				owner: this.userId,
+				campaignId: data.campaignId,
+				data
+			})
+		}
 
 		return data
 	})
@@ -35,12 +45,31 @@ export default (collection, validate) => {
 
 			validate.edit(data, this.userId, $set)
 			collection.update(_id, { $set })
+
+			if (historyCollection) {
+				historyCollection.insert({
+					verb: 'edit',
+					date: new Date(),
+					owner: this.userId,
+					campaignId: data.campaignId,
+					data: collection.findOne(_id)
+				})
+			}
 		}),
 
 		delete: method(`${collection._name}.delete`, function({ _id }) {
 			const data = collection.findOne(_id)
 			validate.edit(data, this.userId)
 			collection.remove(_id)
+
+			if (historyCollection) {
+				historyCollection.insert({
+					verb: 'delete',
+					date: new Date(),
+					owner: this.userId,
+					campaignId: data.campaignId
+				})
+			}
 		})
 	}
 }

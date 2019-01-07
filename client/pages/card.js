@@ -1,13 +1,12 @@
 import React from 'react'
 import { compose } from 'recompact'
-
+import styled from 'styled-components'
 import Markdown from '../document/markdown'
 import withCards, { withCard } from '../data/card'
 import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
 import { SplashBleed, Hero, HeroBlurb, HeroTitle } from '../visual/splash'
 import ShowCard from '../document/card'
-import { FlexGrid } from '../visual/grid'
 import { canEdit as canEditCard } from '../../shared/utils/validators/card'
 import { withUserData } from '../utils/logged-in'
 import Icon from '../visual/icon'
@@ -23,6 +22,7 @@ import {
 	Center
 } from '../visual/menu'
 import withImage from '../data/image'
+import { CardHistoryList } from '../collection/card-history'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
 	_id: { $in: (card && card.related) || [] }
@@ -46,6 +46,14 @@ export const CardSplash = connectCardSplash(({ card, ...props }) => (
 		</Hero>
 	</SplashBleed>
 ))
+
+const CardBody = styled.article`
+	grid-column: main-left;
+`
+
+const Right = styled.aside`
+	grid-column: right;
+`
 
 export default withCardData(({ card, relatedCards, user, image }) => (
 	<>
@@ -81,19 +89,17 @@ export default withCardData(({ card, relatedCards, user, image }) => (
 			</Center>
 		</SplashToolbar>
 
-		<article>
+		<CardBody>
 			<Markdown source={card.text || ''} />
-		</article>
+		</CardBody>
 
-		{relatedCards.length > 0 && (
-			<>
-				<hr />
-				<FlexGrid>
-					{relatedCards.map(related => (
-						<ShowCard key={related._id} card={related} />
-					))}
-				</FlexGrid>
-			</>
-		)}
+		<Right>
+			{relatedCards.length > 0 &&
+				relatedCards.map(related => (
+					<ShowCard key={related._id} card={related} />
+				))}
+
+			<CardHistoryList card={card} />
+		</Right>
 	</>
 ))

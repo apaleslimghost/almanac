@@ -11,7 +11,6 @@ import { withCampaign } from '../data/campaign'
 import * as blocks from '../blocks'
 import subscribe from '../utils/subscribe'
 import { Layout } from '../../shared/methods'
-import { Bleed } from '../visual/grid'
 
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -100,6 +99,10 @@ const connectLayout = compose(
 	withLayoutData,
 	withLayoutActions
 )
+
+const Bleed = styled.div`
+	grid-column: bleed;
+`
 
 export default connectLayout(
 	({

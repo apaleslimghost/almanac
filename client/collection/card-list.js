@@ -4,10 +4,10 @@ import { compose } from 'recompact'
 import { withCampaignSession } from '../data/campaign'
 
 import ShowCard from '../document/card'
-import { FlexGrid } from '../visual/grid'
 import withLoading from '../control/loading'
 import subscribe from '../utils/subscribe'
 import { Cards } from '../../shared/collections'
+import { FlexGrid } from '../visual/grid'
 
 const withCardSearch = withTracker(({ search }) => ({
 	ready: subscribe(['cards.all', search]),

@@ -1,9 +1,11 @@
+import React from 'react'
 import { compose, withHandlers } from 'recompact'
 import { withCampaignData } from '../data/campaign'
 import CampaignSettings from '../document/campaign-settings'
 import { Campaign } from '../../shared/methods'
 import { go } from '../utils/router'
 import { assertAmOwner } from '../data/owner'
+import { Main } from '../visual/grid'
 
 const withCampaignActions = withHandlers({
 	onSubmit: ({ campaign }) => data => {
@@ -18,4 +20,10 @@ const connectCampaignSettings = compose(
 	withCampaignActions
 )
 
-export default connectCampaignSettings(CampaignSettings)
+const CampaignSettingsPage = connectCampaignSettings(CampaignSettings)
+
+export default () => (
+	<Main>
+		<CampaignSettingsPage />
+	</Main>
+)

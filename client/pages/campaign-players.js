@@ -11,6 +11,7 @@ import subscribe from '../utils/subscribe'
 import { assertAmOwner } from '../data/owner'
 import withLoading from '../control/loading'
 import { H2 } from '../visual/heading'
+import { Main } from '../visual/grid'
 
 const withPlayerData = withTracker(({ campaign, getPlayerIds }) => ({
 	ready: subscribe('campaigns.members'),
@@ -107,7 +108,7 @@ const InviteLink = connectInviteLink(({ campaign, toggleInvitesEnabled }) => (
 ))
 
 export default connectPlayersPage(() => (
-	<div>
+	<Main>
 		<H2>Current players</H2>
 		<Players
 			actionComponent={RemoveUser}
@@ -122,5 +123,5 @@ export default connectPlayersPage(() => (
 
 		<H2>Invitations</H2>
 		<InviteLink />
-	</div>
+	</Main>
 ))

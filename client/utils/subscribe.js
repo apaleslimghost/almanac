@@ -1,6 +1,5 @@
 import { withTracker } from 'meteor/react-meteor-data'
 import { Meteor } from 'meteor/meteor'
-import _ from 'lodash'
 import { toast } from 'react-toastify'
 
 const subscribe = (...subs) =>
@@ -18,6 +17,6 @@ const subscribe = (...subs) =>
 
 export default subscribe
 export const withSubscribe = (...subs) =>
-	withTracker({
+	withTracker(() => ({
 		ready: subscribe(...subs)
-	})
+	}))
