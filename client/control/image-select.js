@@ -35,7 +35,7 @@ const withImageSelectActions = withHandlers({
 			[name]: image
 		})
 
-		unsplashDownload(image)
+		unsplashDownload(image.id)
 	}
 })
 
