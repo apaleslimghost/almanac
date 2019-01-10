@@ -27,7 +27,7 @@ export const withCampaignData = getContext(campaignContext)
 
 export const withCampaign = compose(
 	withCampaignData,
-	withProps(({ campaign }) => ({ campaignId: campaign._id }))
+	withProps(({ campaign }) => ({ campaignId: campaign && campaign._id }))
 )
 
 export const withCampaignId = withCampaign
