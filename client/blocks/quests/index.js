@@ -50,7 +50,7 @@ const Objective = connectObjective(
 						</button>
 					)}
 
-					{objective.access.view === access.PRIVATE && (
+					{objective.access.view === access.PRIVATE && quest.access.view > access.PRIVATE  && (
 						<button type='button' onClick={onStartObjective}>
 							👁
 						</button>
