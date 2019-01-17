@@ -63,6 +63,7 @@ const HistoryList = ({ history, ...props }) => (
 				<br />
 				<ChangeMeta>
 					<Owner small of={change} />
+					{' '}
 					<time dateTime={change.date.toISOString()} title={change.date.toLocaleString()}>
 						{relativeDate(change.date)}
 					</time>
