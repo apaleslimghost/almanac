@@ -62,16 +62,17 @@ export default withCardData(({ card, relatedCards, user, image }) => (
 
 		<SplashToolbar>
 			<Center>
-				<MenuItem>{schema[card.type].name}</MenuItem>
+				{card.type && <MenuItem>{schema[card.type].name}</MenuItem>}
 
 				<Divider />
 
-				{_.map(schema[card.type].fields, ({ label, format = a => a }, key) => (
-					<MenuItem key={key}>
-						<b>{label} </b>
-						{format(card[key])}
-					</MenuItem>
-				))}
+				{card.type &&
+					_.map(schema[card.type].fields, ({ label, format = a => a }, key) => (
+						<MenuItem key={key}>
+							<b>{label} </b>
+							{format(card[key])}
+						</MenuItem>
+					))}
 
 				<Divider />
 

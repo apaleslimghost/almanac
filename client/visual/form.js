@@ -10,11 +10,6 @@ const withInputProps = withProps({
 	large: true
 })
 
-const withSelectProps = compose(
-	withInputProps,
-	withProps({ required: true })
-)
-
 const asTag = component => tag => withProps({ tag })(component)
 const asInput = asTag(FormControls.Input)
 const asSelect = asTag(FormControls.Select)
@@ -24,7 +19,7 @@ const withInput = compose(
 	asInput
 )
 const withSelect = compose(
-	withSelectProps,
+	withInputProps,
 	asSelect
 )
 
