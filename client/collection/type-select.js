@@ -5,9 +5,8 @@ import { Select } from '../visual/form'
 
 export default props => (
 	<Select value='' {...props}>
-		<option disabled value=''>
-			{props.placeholder}
-		</option>
+		<option value=''>{props.placeholder}</option>
+		<option disabled>─────</option>
 		{_.map(schema, (type, id) => (
 			<option key={id} value={id}>
 				{type.name}
