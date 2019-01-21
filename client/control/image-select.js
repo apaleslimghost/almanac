@@ -9,7 +9,9 @@ import { UnsplashPhotos } from '../../shared/collections'
 import { FlexGrid } from '../visual/grid'
 import preventingDefault from '../utils/preventing-default'
 import { unsplashDownload } from '../../shared/methods'
-import withImage from '../data/image'
+
+import { Button } from '../visual/primitives'
+import Icon from '../visual/icon'
 import Tabs from './tabs'
 import Modal from './modal'
 import { fieldLike } from './form'
@@ -35,7 +37,9 @@ const withImageSelectActions = withHandlers({
 			[name]: image
 		})
 
-		unsplashDownload(image.id)
+		if (image) {
+			unsplashDownload(image.id)
+		}
 	}
 })
 
@@ -72,14 +76,14 @@ const ImgSelect = styled.button.attrs({ type: 'button' })`
 		`};
 `
 
-const getThumb = ({ urls }) =>
+const getThumb = ({ urls }, { w = 450, h = 150 } = {}) =>
 	urls.raw +
 	'&' +
 	qs.stringify({
 		fit: 'crop',
 		crop: 'entropy',
-		w: 450,
-		h: 150
+		w,
+		h
 	})
 
 const ImageSelectSection = ({ photos, setImage, fields, name }) => (
@@ -127,31 +131,27 @@ const ImageSelectTabs = props => (
 
 export default connectImageSelect(ImageSelectTabs)
 
-const SelectedImage = withImage(({ id }) => id)(
-	({ ready, image, ...props }) => (
-		<ImgSelect {...props}>
-			{ready && (
-				<FlexImg
-					width={450}
-					height={150}
-					src={getThumb(image)}
-					alt={image.description}
-				/>
-			)}
-		</ImgSelect>
-	)
-)
-
 export const ImageSelectModal = connectImageSelect(
 	({ setImage, fields, name }) => (
 		<Modal
 			control={props =>
 				fields[name] ? (
-					<SelectedImage {...props} id={fields[name]} />
+					<>
+						<Button type='button' {...props}>
+							<Icon icon='edit' /> Edit image
+						</Button>
+						<Button
+							type='button'
+							colour='scarlet'
+							onClick={() => setImage(null)}
+						>
+							<Icon icon='remove' /> Remove image
+						</Button>
+					</>
 				) : (
-					<button type='button' {...props}>
-						Set cover image...
-					</button>
+					<Button type='button' {...props}>
+						<Icon icon='image' /> Set image
+					</Button>
 				)
 			}
 			render={({ close }) => (
