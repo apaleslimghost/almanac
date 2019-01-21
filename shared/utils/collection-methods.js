@@ -78,7 +78,8 @@ export default (collection, validate, historyCollection) => {
 					verb: 'delete',
 					date: new Date(),
 					owner: this.userId,
-					campaignId: data.campaignId
+					campaignId: data.campaignId,
+					data: {}
 				})
 			}
 		})
