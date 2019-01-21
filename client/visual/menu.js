@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import colours from '@quarterto/colours'
 import Link from '../control/link'
 
 export const Toolbar = styled.nav`
@@ -30,7 +31,18 @@ const InteractiveMenuItem = MenuItem.extend`
 `
 
 export const MenuLink = InteractiveMenuItem.withComponent(Link)
-export const MenuButton = InteractiveMenuItem.withComponent('button')
+export const MenuButton = InteractiveMenuItem.withComponent('button').extend`
+	background: none;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+
+	${({ colour }) =>
+		colour &&
+		css`
+			color: ${colours[colour][2]};
+		`}
+`
 
 export const Divider = styled.div`
 	padding: 0.5em 0;

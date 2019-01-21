@@ -61,7 +61,7 @@ export const Padded = styled.div`
 export const Card = styled.div`
 	grid-column-end: span ${({ large }) => (large ? 2 : 1)};
 	border: 1px solid ${colours.steel[3]};
-	padding: 1rem;
+	padding: 1rem 1rem 0;
 	border-radius: 2px;
 	box-shadow: ${shadow()};
 	column-width: 18em;

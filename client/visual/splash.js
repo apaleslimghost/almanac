@@ -98,6 +98,14 @@ export const SplashBleed = styled.div`
 		`}
 `
 
+export const SplashAccessory = styled.div`
+	position: absolute;
+	top: 1em;
+	${css`
+		${({ right }) => (right ? 'right' : 'left')}: 1em;
+	`}
+`
+
 export const Hero = styled.div`
 	margin-top: auto;
 

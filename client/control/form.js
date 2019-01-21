@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { getContext } from 'recompact'
 
 export const getInputValue = el =>
 	el[
@@ -171,6 +172,8 @@ export const fieldLike = {
 	fields: PropTypes.object,
 	setFields: PropTypes.func
 }
+
+export const withFormData = getContext(fieldLike)
 ;[Input, Select, Form, FormFieldData].forEach(thing => {
 	thing.contextTypes = fieldLike
 })
