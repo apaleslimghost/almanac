@@ -23,7 +23,7 @@ const defaultAccess = { view: accessLevels.PRIVATE, edit: accessLevels.PRIVATE }
 export const PrivacyIcon = ({ level }) => <Icon icon={getPrivacyIcon(level)} />
 
 const Range = styled(Input)`
-	width: ${({ max }) => (100 * max) / accessLevels.PUBLIC}px;
+	width: ${({ max }) => (60 * max) / accessLevels.PUBLIC}px;
 `
 
 const AccessSelect = ({ maxLevel = accessLevels.PUBLIC, ...props }) => (
@@ -37,31 +37,49 @@ const AccessSelect = ({ maxLevel = accessLevels.PUBLIC, ...props }) => (
 	/>
 )
 
+const AccessGrid = styled.div`
+	display: grid;
+	grid-template-areas:
+		'label range text'
+		'label range text';
+	grid-column-gap: 0.5em;
+`
+
+const AccessLabel = Label.extend`
+	display: block;
+	text-align: right;
+`
+
 const AccessForm = ({ access = defaultAccess }) => (
 	<Form tag={FormGroup} initialData={access} name='access'>
 		<FormFieldData
 			render={({ view, edit }, setFields) => (
-				<>
-					<Label>
-						Visible to
+				<AccessGrid>
+					<AccessLabel htmlFor='view'>Visible to</AccessLabel>
+					<div>
 						<AccessSelect
 							name='view'
+							id='view'
 							onChange={ev => {
 								setFields({
 									edit: Math.min(getInputValue(ev.target), edit)
 								})
 							}}
 						/>
+					</div>
+					<div>
 						<PrivacyIcon level={view} />
 						{getPrivacyLabel(view)}
-					</Label>
-					<Label>
-						Editable by
-						<AccessSelect name='edit' maxLevel={view} />
+					</div>
+					<AccessLabel htmlFor='edit'>Editable by</AccessLabel>
+					<div>
+						<AccessSelect name='edit' id='edit' maxLevel={view} />
+					</div>
+					<div>
 						<PrivacyIcon level={edit} />
 						{getPrivacyLabel(edit)}
-					</Label>
-				</>
+					</div>
+				</AccessGrid>
 			)}
 		/>
 	</Form>
