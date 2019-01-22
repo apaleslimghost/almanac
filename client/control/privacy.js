@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import accessLevels from '../../shared/access'
 import Icon from '../visual/icon'
-import { LabelledInput as Label, FormGroup } from '../visual/primitives'
+import { LabelledInput as Label } from '../visual/primitives'
 import match from '../utils/match'
 import { Form, FormFieldData, Input, getInputValue } from './form'
 
@@ -50,8 +50,8 @@ const AccessLabel = Label.extend`
 	text-align: right;
 `
 
-const AccessForm = ({ access = defaultAccess }) => (
-	<Form tag={FormGroup} initialData={access} name='access'>
+const AccessForm = ({ access = defaultAccess, ...props }) => (
+	<Form tag='div' initialData={access} name='access' {...props}>
 		<FormFieldData
 			render={({ view, edit }, setFields) => (
 				<AccessGrid>

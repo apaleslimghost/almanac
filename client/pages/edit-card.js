@@ -31,7 +31,8 @@ import {
 	Center,
 	Space,
 	Divider,
-	MenuButton
+	MenuButton,
+	MenuItem
 } from '../visual/menu'
 
 const connectFormSplash = compose(
@@ -89,7 +90,7 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 					<>
 						<Divider />
 						{/* TODO make look nice */}
-						<AccessForm {...card} />
+						<AccessForm {...card} flush tag={MenuItem} />
 					</>
 				)}
 
