@@ -70,13 +70,15 @@ export default withCardData(({ card, relatedCards, user, image }) => (
 
 				{card.type && (
 					<>
-						_.map(schema[card.type].fields, ({(label, (format = a => a))}, key)
-						=> (
-						<MenuItem key={key}>
-							<b>{label} </b>
-							{format(card[key])}
-						</MenuItem>
-						))
+						{_.map(
+							schema[card.type].fields,
+							({ label, format = a => a }, key) => (
+								<MenuItem key={key}>
+									<b>{label} </b>
+									{format(card[key])}
+								</MenuItem>
+							)
+						)}
 						<Divider />
 					</>
 				)}
