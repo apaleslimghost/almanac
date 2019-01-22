@@ -81,7 +81,7 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 
 			<Hero>
 				<HeroTitle>
-					<BonelessInput name='title' placeholder='Title' />
+					<BonelessInput required name='title' placeholder='Title' />
 				</HeroTitle>
 				<HeroBlurb>
 					<BonelessInput name='subtitle' placeholder='Subtitle' />
