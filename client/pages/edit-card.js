@@ -10,8 +10,8 @@ import { iAmOwner } from '../data/owner'
 import TypeSelect from '../collection/type-select'
 import preventingDefault from '../utils/preventing-default'
 import { Card } from '../../shared/methods'
-import { Button, List, FormGroup, LabelledInput } from '../visual/primitives'
-import { Input, Textarea, SeamlessInput } from '../visual/form'
+import { LabelledInput } from '../visual/primitives'
+import { Input, Textarea, BonelessInput } from '../visual/form'
 import AccessForm from '../control/privacy'
 import Icon from '../visual/icon'
 import schema from '../../shared/schema'
@@ -43,17 +43,19 @@ const connectFormSplash = compose(
 
 const FormCardSplash = connectFormSplash(SplashBleed)
 
-// TODO make these look good in the toolbar
 const SchemaFields = withFormData(({ fields }) =>
 	fields.type ? (
-		<FormGroup>
+		<>
 			{_.map(schema[fields.type].fields, ({ label, format, ...field }, key) => (
-				<LabelledInput key={key}>
-					<div>{label}</div>
-					<Input {...field} key={key} name={key} />
-				</LabelledInput>
+				<MenuItem key={key} flush>
+					<LabelledInput>
+						<div>{label}</div>
+						<Input {...field} key={key} name={key} />
+					</LabelledInput>
+				</MenuItem>
 			))}
-		</FormGroup>
+			<Divider />
+		</>
 	) : null
 )
 
@@ -79,11 +81,10 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 
 			<Hero>
 				<HeroTitle>
-					{/* TODO make these look nice */}
-					<SeamlessInput name='title' placeholder='Title' />
+					<BonelessInput name='title' placeholder='Title' />
 				</HeroTitle>
 				<HeroBlurb>
-					<SeamlessInput name='subtitle' placeholder='Subtitle' />
+					<BonelessInput name='subtitle' placeholder='Subtitle' />
 				</HeroBlurb>
 			</Hero>
 		</FormCardSplash>
@@ -91,13 +92,13 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 		<SplashToolbar>
 			<Center>
 				<TypeSelect name='type' placeholder='Type...' />
+				<Divider />
 				<SchemaFields />
 
 				{(isOwner || !card._id) && (
 					<>
-						<Divider />
-						{/* TODO make look nice */}
 						<AccessForm {...card} flush tag={FloatMenuItem} />
+						<Divider />
 					</>
 				)}
 

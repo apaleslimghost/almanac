@@ -8,7 +8,7 @@ export const Toolbar = styled.nav`
 `
 
 export const MenuItem = styled.div`
-	display: block;
+	display: flex;
 	padding: ${({ flush }) => (flush ? '.75rem 1rem' : '1rem')};
 	color: black;
 	text-decoration: none;
@@ -16,7 +16,7 @@ export const MenuItem = styled.div`
 	.ra,
 	.fa {
 		margin-right: 0.25em;
-		vertical-align: -1px;
+		align-self: center;
 	}
 `
 

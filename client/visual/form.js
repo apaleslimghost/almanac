@@ -25,6 +25,7 @@ const withSelect = compose(
 
 const BaseInput = Label.withComponent('input').extend`
 	padding: .25em .3em;
+	margin: 0 .25em;
 	font: inherit;
 	${({ fullWidth }) =>
 		fullWidth &&
@@ -51,7 +52,7 @@ const BaseInput = Label.withComponent('input').extend`
 
 export const Input = withInput(BaseInput)
 
-export const SeamlessInput = withInput(styled.input`
+const BaseBoneless = styled.input`
 	padding: 0 0.25em;
 	font: inherit;
 	color: inherit;
@@ -59,14 +60,16 @@ export const SeamlessInput = withInput(styled.input`
 	border: 0 none;
 	border-bottom-width: 0.05em;
 	border-bottom-style: solid;
-`)
+`
+
+export const BonelessInput = withInput(BaseBoneless)
 
 export const Textarea = withInput(BaseInput.withComponent('textarea').extend`
 	resize: vertical;
 	min-height: 10em;
 `)
 
-export const Select = withSelect(BaseInput.withComponent('select').extend`
+const baseSelect = css`
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='10' height='5'%3E%3Cpath d='M 5,5 0,0 10,0 Z'/%3E%3C/svg%3E");
 	background-repeat: no-repeat;
 	background-size: 0.5em 0.25em;
@@ -77,4 +80,16 @@ export const Select = withSelect(BaseInput.withComponent('select').extend`
 	&:invalid {
 		color: rgba(0, 0, 0, 0.6);
 	}
+`
+
+export const Select = withSelect(BaseInput.withComponent('select').extend`
+${baseSelect}
+`)
+
+export const BonelessSelect = withSelect(BaseBoneless.withComponent('select')
+	.extend`
+${baseSelect}
+border: 0 none;
+padding: 0 1.5em 0 1.25em;
+	background-position: right 1em center;
 `)
