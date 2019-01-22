@@ -19,6 +19,7 @@ import Title from '../utils/title'
 import User from '../document/user'
 import { iAmOwner } from '../data/owner'
 import { Toolbar, MenuLink, Divider, NavArea, Space } from '../visual/menu'
+import Ribbon from '../visual/ribbon'
 
 import 'react-toastify/dist/ReactToastify.min.css'
 
@@ -170,6 +171,12 @@ export const Basic = setsCampaign(BasicLayout)
 
 const Layout = connectLayout(({ state, children, ready }) => (
 	<BasicLayout>
+		<Ribbon
+			href='https://github.com/quarterto/almanac/wiki/Almanac-is-in-beta'
+			target='_blank'
+		>
+			Beta
+		</Ribbon>
 		{state.navShown && <Nav extraItems={state.extraItems} />}
 
 		<Grid>{ready ? children : 'loading...'}</Grid>
