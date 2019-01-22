@@ -10,7 +10,7 @@ import { FlexGrid } from '../visual/grid'
 import preventingDefault from '../utils/preventing-default'
 import { unsplashDownload } from '../../shared/methods'
 
-import { Button } from '../visual/primitives'
+import { Button, List } from '../visual/primitives'
 import Icon from '../visual/icon'
 import Tabs from './tabs'
 import Modal from './modal'
@@ -136,7 +136,7 @@ export const ImageSelectModal = connectImageSelect(
 		<Modal
 			control={props =>
 				fields[name] ? (
-					<>
+					<List>
 						<Button type='button' {...props}>
 							<Icon icon='edit' /> Edit image
 						</Button>
@@ -147,7 +147,7 @@ export const ImageSelectModal = connectImageSelect(
 						>
 							<Icon icon='remove' /> Remove image
 						</Button>
-					</>
+					</List>
 				) : (
 					<Button type='button' {...props}>
 						<Icon icon='image' /> Set image
