@@ -66,7 +66,7 @@ export const BonelessInput = withInput(BaseBoneless)
 
 export const Textarea = withInput(BaseInput.withComponent('textarea').extend`
 	resize: vertical;
-	min-height: 10em;
+	min-height: 20em;
 	margin: 0;
 `)
 
