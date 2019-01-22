@@ -96,10 +96,7 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 				<SchemaFields />
 
 				{(isOwner || !card._id) && (
-					<>
-						<AccessForm {...card} flush tag={FloatMenuItem} />
-						<Divider />
-					</>
+					<AccessForm {...card} flush tag={FloatMenuItem} />
 				)}
 
 				<Space />
