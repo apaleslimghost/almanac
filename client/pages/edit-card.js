@@ -11,7 +11,7 @@ import TypeSelect from '../collection/type-select'
 import preventingDefault from '../utils/preventing-default'
 import { Card } from '../../shared/methods'
 import { Button, List, FormGroup, LabelledInput } from '../visual/primitives'
-import { Input, Textarea } from '../visual/form'
+import { Input, Textarea, SeamlessInput } from '../visual/form'
 import AccessForm from '../control/privacy'
 import Icon from '../visual/icon'
 import schema from '../../shared/schema'
@@ -72,10 +72,10 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 			<Hero>
 				<HeroTitle>
 					{/* TODO make these look nice */}
-					<Input flex name='title' placeholder='Title' />
+					<SeamlessInput name='title' placeholder='Title' />
 				</HeroTitle>
 				<HeroBlurb>
-					<Input flex name='subtitle' placeholder='Subtitle' />
+					<SeamlessInput name='subtitle' placeholder='Subtitle' />
 				</HeroBlurb>
 			</Hero>
 		</FormCardSplash>

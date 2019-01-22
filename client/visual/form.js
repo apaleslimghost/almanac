@@ -1,5 +1,5 @@
 import { compose, withProps } from 'recompact'
-import { css } from 'styled-components'
+import styled, { css } from 'styled-components'
 import * as FormControls from '../control/form'
 import { Label } from './primitives'
 
@@ -50,6 +50,16 @@ const BaseInput = Label.withComponent('input').extend`
 `
 
 export const Input = withInput(BaseInput)
+
+export const SeamlessInput = withInput(styled.input`
+	padding: 0 0.25em;
+	font: inherit;
+	color: inherit;
+	background: transparent;
+	border: 0 none;
+	border-bottom-width: 0.05em;
+	border-bottom-style: solid;
+`)
 
 export const Textarea = withInput(BaseInput.withComponent('textarea').extend`
 	resize: vertical;
