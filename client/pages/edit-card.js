@@ -63,6 +63,13 @@ const ContentsForm = withProps({
 	`
 })(Form)
 
+const FloatMenuItem = styled.div`
+	display: flex;
+	padding: 0 1rem;
+	align-items: center;
+	font-size: 0.9em;
+`
+
 const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 	<ContentsForm initialData={card} onSubmit={saveCard}>
 		<FormCardSplash>
@@ -90,7 +97,7 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 					<>
 						<Divider />
 						{/* TODO make look nice */}
-						<AccessForm {...card} flush tag={MenuItem} />
+						<AccessForm {...card} flush tag={FloatMenuItem} />
 					</>
 				)}
 
