@@ -83,9 +83,6 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 				<HeroTitle>
 					<BonelessInput required name='title' placeholder='Title' />
 				</HeroTitle>
-				<HeroBlurb>
-					<BonelessInput name='subtitle' placeholder='Subtitle' />
-				</HeroBlurb>
 			</Hero>
 		</FormCardSplash>
 

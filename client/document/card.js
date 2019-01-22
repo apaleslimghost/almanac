@@ -48,7 +48,6 @@ export default ({ card }) => (
 			<CardHeader card={card}>
 				<Hero>
 					<HeroTitle>{card.title}</HeroTitle>
-					{card.subtitle && <HeroBlurb>{card.subtitle}</HeroBlurb>}
 				</Hero>
 			</CardHeader>
 

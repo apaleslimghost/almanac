@@ -42,7 +42,6 @@ export const CardSplash = connectCardSplash(({ card, ...props }) => (
 	<SplashBleed small {...props}>
 		<Hero>
 			<HeroTitle>{card.title}</HeroTitle>
-			{card.subtitle && <HeroBlurb>{card.subtitle}</HeroBlurb>}
 		</Hero>
 	</SplashBleed>
 ))
