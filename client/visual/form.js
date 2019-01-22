@@ -1,5 +1,5 @@
 import { compose, withProps } from 'recompact'
-import { css } from 'styled-components'
+import styled, { css } from 'styled-components'
 import * as FormControls from '../control/form'
 import { Label } from './primitives'
 
@@ -10,11 +10,6 @@ const withInputProps = withProps({
 	large: true
 })
 
-const withSelectProps = compose(
-	withInputProps,
-	withProps({ required: true })
-)
-
 const asTag = component => tag => withProps({ tag })(component)
 const asInput = asTag(FormControls.Input)
 const asSelect = asTag(FormControls.Select)
@@ -24,12 +19,13 @@ const withInput = compose(
 	asInput
 )
 const withSelect = compose(
-	withSelectProps,
+	withInputProps,
 	asSelect
 )
 
 const BaseInput = Label.withComponent('input').extend`
 	padding: .25em .3em;
+	margin: 0 .25em;
 	font: inherit;
 	${({ fullWidth }) =>
 		fullWidth &&
@@ -56,12 +52,25 @@ const BaseInput = Label.withComponent('input').extend`
 
 export const Input = withInput(BaseInput)
 
+const BaseBoneless = styled.input`
+	padding: 0 0.25em;
+	font: inherit;
+	color: inherit;
+	background: transparent;
+	border: 0 none;
+	border-bottom-width: 0.05em;
+	border-bottom-style: solid;
+`
+
+export const BonelessInput = withInput(BaseBoneless)
+
 export const Textarea = withInput(BaseInput.withComponent('textarea').extend`
 	resize: vertical;
-	min-height: 10em;
+	min-height: 20em;
+	margin: 0;
 `)
 
-export const Select = withSelect(BaseInput.withComponent('select').extend`
+const baseSelect = css`
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' width='10' height='5'%3E%3Cpath d='M 5,5 0,0 10,0 Z'/%3E%3C/svg%3E");
 	background-repeat: no-repeat;
 	background-size: 0.5em 0.25em;
@@ -72,4 +81,16 @@ export const Select = withSelect(BaseInput.withComponent('select').extend`
 	&:invalid {
 		color: rgba(0, 0, 0, 0.6);
 	}
+`
+
+export const Select = withSelect(BaseInput.withComponent('select').extend`
+${baseSelect}
+`)
+
+export const BonelessSelect = withSelect(BaseBoneless.withComponent('select')
+	.extend`
+${baseSelect}
+border: 0 none;
+padding: 0 1.5em 0 1em;
+	background-position: right 1em center;
 `)

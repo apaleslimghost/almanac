@@ -43,14 +43,19 @@ const splashBackground = css`
 		image || url || contrast(color) === 'dark' ? 'white' : steel[0]};
 
 	${({ image, url }) =>
-		(image || url) &&
-		css`
-			background-image: linear-gradient(
-					rgba(0, 20, 40, 0) 30%,
-					rgba(0, 20, 40, 0.9)
-				),
-				url(${image ? getSplashUrl(image) : url});
-		`}
+		image || url
+			? css`
+					background-image: linear-gradient(
+							rgba(0, 20, 40, 0) 30%,
+							rgba(0, 20, 40, 0.9)
+						),
+						url(${image ? getSplashUrl(image) : url});
+			  `
+			: css`
+					&:not(:last-child) {
+						border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+					}
+			  `}
 
 	background-color: ${({ image, color }) => (image ? image.color : color)};
 
@@ -96,6 +101,14 @@ export const SplashBleed = styled.div`
 				default: '40vh'
 			})};
 		`}
+`
+
+export const SplashAccessory = styled.div`
+	position: absolute;
+	top: 1em;
+	${css`
+		${({ right }) => (right ? 'right' : 'left')}: 1em;
+	`}
 `
 
 export const Hero = styled.div`

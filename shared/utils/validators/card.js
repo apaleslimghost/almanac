@@ -25,8 +25,9 @@ export const canEdit = (data, userId, diff) => {
 
 	if (
 		diff &&
-		(data.access.view !== diff['access.view'] ||
-			data.access.edit !== diff['access.edit']) &&
+		diff.access &&
+		(data.access.view !== diff.access.view ||
+			data.access.edit !== diff.access.edit) &&
 		userId !== data.owner
 	) {
 		throw new Meteor.Error(

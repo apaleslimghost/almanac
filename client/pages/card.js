@@ -5,7 +5,7 @@ import Markdown from '../document/markdown'
 import withCards, { withCard } from '../data/card'
 import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
-import { SplashBleed, Hero, HeroBlurb, HeroTitle } from '../visual/splash'
+import { SplashBleed, Hero, HeroTitle } from '../visual/splash'
 import ShowCard from '../document/card'
 import { canEdit as canEditCard } from '../../shared/utils/validators/card'
 import { withUserData } from '../utils/logged-in'
@@ -42,7 +42,6 @@ export const CardSplash = connectCardSplash(({ card, ...props }) => (
 	<SplashBleed small {...props}>
 		<Hero>
 			<HeroTitle>{card.title}</HeroTitle>
-			{card.subtitle && <HeroBlurb>{card.subtitle}</HeroBlurb>}
 		</Hero>
 	</SplashBleed>
 ))
@@ -62,18 +61,27 @@ export default withCardData(({ card, relatedCards, user, image }) => (
 
 		<SplashToolbar>
 			<Center>
-				<MenuItem>{schema[card.type].name}</MenuItem>
+				{card.type && (
+					<>
+						<MenuItem>{schema[card.type].name}</MenuItem>
+						<Divider />
+					</>
+				)}
 
-				<Divider />
-
-				{_.map(schema[card.type].fields, ({ label, format = a => a }, key) => (
-					<MenuItem key={key}>
-						<b>{label} </b>
-						{format(card[key])}
-					</MenuItem>
-				))}
-
-				<Divider />
+				{card.type && (
+					<>
+						{_.map(
+							schema[card.type].fields,
+							({ label, format = a => a }, key) => (
+								<MenuItem key={key}>
+									<b>{label} </b>
+									{format(card[key])}
+								</MenuItem>
+							)
+						)}
+						<Divider />
+					</>
+				)}
 
 				<MenuItem>
 					<Owner of={card} />

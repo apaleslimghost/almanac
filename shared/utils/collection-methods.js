@@ -1,18 +1,25 @@
 import method from './method'
 import generateSlug from './generate-slug'
 
-const nestedToDotted = (obj, top = {}, path = []) =>
-	Object.keys(obj).reduce((out, key) => {
+const objectToMongoUpdate = (
+	obj,
+	top = { $set: {}, $unset: undefined },
+	path = []
+) =>
+	Object.keys(obj).reduce(({ $set, $unset }, key) => {
 		const value = obj[key]
 		const currentPath = path.concat(key)
 
-		if (typeof value === 'object') {
-			nestedToDotted(value, out, currentPath)
+		if (value === null) {
+			$unset = $unset || {}
+			$unset[currentPath.join('.')] = true
+		} else if (typeof value === 'object') {
+			objectToMongoUpdate(value, { $set, $unset }, currentPath)
 		} else {
-			out[currentPath.join('.')] = value
+			$set[currentPath.join('.')] = value
 		}
 
-		return out
+		return { $set, $unset }
 	}, top)
 
 export default (collection, validate, historyCollection) => {
@@ -41,10 +48,14 @@ export default (collection, validate, historyCollection) => {
 
 		update: method(`${collection._name}.update`, function({ _id }, edit) {
 			const data = collection.findOne(_id)
-			const $set = nestedToDotted(edit)
+			const update = objectToMongoUpdate(edit)
 
-			validate.edit(data, this.userId, $set)
-			collection.update(_id, { $set })
+			if (!update.$unset) {
+				delete update.$unset
+			}
+
+			validate.edit(data, this.userId, edit)
+			collection.update(_id, update)
 
 			if (historyCollection) {
 				historyCollection.insert({
@@ -67,7 +78,8 @@ export default (collection, validate, historyCollection) => {
 					verb: 'delete',
 					date: new Date(),
 					owner: this.userId,
-					campaignId: data.campaignId
+					campaignId: data.campaignId,
+					data: {}
 				})
 			}
 		})

@@ -31,7 +31,7 @@ const LogoutButton = withUserData(({ user }) =>
 const MenuTitle = styled(H3)`
 	display: inline-block;
 	margin: 0;
-	vertical-align: -1px;
+	align-self: center;
 	white-space: nowrap;
 `
 

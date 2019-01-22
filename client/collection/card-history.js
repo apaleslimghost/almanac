@@ -56,7 +56,7 @@ const HistoryList = ({ history, ...props }) => (
 			<li key={change._id}>
 				<Icon icon={getHistoryIcon(change.verb)} />
 				{change.verb + 'ed '}
-				the {change.data.type + ' '}
+				{change.data && change.data.type && `the ${change.data.type} `}
 				<Link href={`/${change.data.campaignId}/${change.data._id}`}>
 					{change.data.title}
 				</Link>

@@ -19,12 +19,15 @@ const getImageSubscription = image => {
 }
 
 export default getImageId =>
-	withTracker(props => {
-		const image = getImageId(props)
+	withTracker({
+		pure: false,
+		getMeteorData(props) {
+			const image = getImageId(props)
 
-		if (image) {
-			return getImageSubscription(image)
+			if (image) {
+				return getImageSubscription(image)
+			}
+
+			return {}
 		}
-
-		return {}
 	})
