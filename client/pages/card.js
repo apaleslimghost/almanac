@@ -61,19 +61,25 @@ export default withCardData(({ card, relatedCards, user, image }) => (
 
 		<SplashToolbar>
 			<Center>
-				{card.type && <MenuItem>{schema[card.type].name}</MenuItem>}
+				{card.type && (
+					<>
+						<MenuItem>{schema[card.type].name}</MenuItem>
+						<Divider />
+					</>
+				)}
 
-				<Divider />
-
-				{card.type &&
-					_.map(schema[card.type].fields, ({ label, format = a => a }, key) => (
+				{card.type && (
+					<>
+						_.map(schema[card.type].fields, ({(label, (format = a => a))}, key)
+						=> (
 						<MenuItem key={key}>
 							<b>{label} </b>
 							{format(card[key])}
 						</MenuItem>
-					))}
-
-				<Divider />
+						))
+						<Divider />
+					</>
+				)}
 
 				<MenuItem>
 					<Owner of={card} />
