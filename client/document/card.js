@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 
 import Link from '../control/link'
 import withImage from '../data/image'
-import { SplashBackground, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
+import { SplashBackground, Hero, HeroTitle } from '../visual/splash'
 import { Card as CardPrimitive } from '../visual/primitives'
 import Markdown from './markdown'
 

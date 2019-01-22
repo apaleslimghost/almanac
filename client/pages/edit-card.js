@@ -18,13 +18,7 @@ import schema from '../../shared/schema'
 import { go } from '../utils/router'
 import { ImageSelectModal } from '../control/image-select'
 import { Main } from '../visual/grid'
-import {
-	SplashBleed,
-	Hero,
-	HeroTitle,
-	SplashAccessory,
-	HeroBlurb
-} from '../visual/splash'
+import { SplashBleed, Hero, HeroTitle, SplashAccessory } from '../visual/splash'
 import withImage from '../data/image'
 import {
 	SplashToolbar,
@@ -97,7 +91,7 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 				)}
 
 				<Space />
-				<MenuButton>
+				<MenuButton colour='apple' shade={3}>
 					{card._id ? <Icon icon='check' /> : <Icon icon='plus' />}
 					{card._id ? 'Save' : 'Create'}
 				</MenuButton>

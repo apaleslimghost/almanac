@@ -37,10 +37,10 @@ export const MenuButton = InteractiveMenuItem.withComponent('button').extend`
 	font: inherit;
 	cursor: pointer;
 
-	${({ colour }) =>
+	${({ colour, shade = 2 }) =>
 		colour &&
 		css`
-			color: ${colours[colour][2]};
+			color: ${colours[colour][shade]};
 		`}
 `
 
