@@ -67,6 +67,7 @@ export const BonelessInput = withInput(BaseBoneless)
 export const Textarea = withInput(BaseInput.withComponent('textarea').extend`
 	resize: vertical;
 	min-height: 10em;
+	margin: 0;
 `)
 
 const baseSelect = css`
@@ -90,6 +91,6 @@ export const BonelessSelect = withSelect(BaseBoneless.withComponent('select')
 	.extend`
 ${baseSelect}
 border: 0 none;
-padding: 0 1.5em 0 1.25em;
+padding: 0 1.5em 0 1em;
 	background-position: right 1em center;
 `)

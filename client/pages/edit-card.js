@@ -105,7 +105,7 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 				<Space />
 				<MenuButton>
 					{card._id ? <Icon icon='check' /> : <Icon icon='plus' />}
-					{card._id ? 'Save' : 'Add'} card
+					{card._id ? 'Save' : 'Create'}
 				</MenuButton>
 				{back && (
 					<MenuButton onClick={preventingDefault(back)}>
