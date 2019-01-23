@@ -15,12 +15,12 @@ import {
 	MenuLink,
 	Space,
 	Center,
+	MenuButton
 } from '../visual/menu'
 import Icon from '../visual/icon'
 import { Input } from '../visual/form'
 import HistoryList from '../collection/card-history'
 import { Main, Aside } from '../visual/grid'
-import { Button } from '../visual/primitives'
 import { Card } from '../../shared/methods'
 import { go } from '../utils/router'
 
@@ -28,7 +28,7 @@ const searchVar = new ReactiveVar('')
 const debouncedSetSearch = _.debounce(searchVar.set.bind(searchVar), 300)
 
 const withCampaignSearch = withTracker(() => ({
-		search: searchVar.get(),
+	search: searchVar.get(),
 	setSearch: debouncedSetSearch
 }))
 
@@ -48,6 +48,7 @@ const connectSearch = compose(
 
 const Search = connectSearch(({ search, setSearch, onChange, createCard }) => (
 	<>
+		<MenuItem flush>
 		<Input
 			type='search'
 			placeholder='Search&hellip;'
@@ -57,11 +58,12 @@ const Search = connectSearch(({ search, setSearch, onChange, createCard }) => (
 				onChange(ev.target.value)
 			}}
 		/>
+		</MenuItem>
 		{search && (
-			<Button onClick={createCard}>
+			<MenuButton onClick={createCard}>
 				<Icon icon='plus' />
 				Quick add&hellip;
-			</Button>
+			</MenuButton>
 		)}
 	</>
 ))
@@ -72,30 +74,28 @@ const connectCampaignPage = compose(
 )
 
 export default connectCampaignPage(({ campaign, search, setSearch }) => (
-		<>
-			<Title>{campaign.title}</Title>
+	<>
+		<Title>{campaign.title}</Title>
 
-			<CampaignSplash />
+		<CampaignSplash />
 
-			<SplashToolbar>
-				<Center>
-					<MenuItem flush>
+		<SplashToolbar>
+			<Center>
 					<Search onChange={setSearch} />
-					</MenuItem>
 
-					<Space />
+				<Space />
 
-					<MenuLink href={`/${campaign._id}/new`}>
-						<Icon icon='file-text-o' /> New
-					</MenuLink>
-				</Center>
-			</SplashToolbar>
+				<MenuLink href={`/${campaign._id}/new`}>
+					<Icon icon='file-text-o' /> New
+				</MenuLink>
+			</Center>
+		</SplashToolbar>
 
-			<Main left>
-				<CardList search={search} />
-			</Main>
-			<Aside>
-				<HistoryList />
-			</Aside>
-		</>
+		<Main left>
+			<CardList search={search} />
+		</Main>
+		<Aside>
+			<HistoryList />
+		</Aside>
+	</>
 ))
