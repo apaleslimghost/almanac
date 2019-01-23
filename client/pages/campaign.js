@@ -1,10 +1,10 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
-import { compose, withState } from 'recompact'
+import { compose, withState, withHandlers } from 'recompact'
 import { ReactiveVar } from 'meteor/reactive-var'
 import _ from 'lodash'
 
-import { withCampaignData } from '../data/campaign'
+import { withCampaignData, withCampaignId } from '../data/campaign'
 import { CampaignSplash } from '../visual/splash'
 import Title from '../utils/title'
 import CardList from '../collection/card-list'
@@ -20,30 +20,58 @@ import Icon from '../visual/icon'
 import { Input } from '../visual/form'
 import HistoryList from '../collection/card-history'
 import { Main, Aside } from '../visual/grid'
+import { Button } from '../visual/primitives'
+import { Card } from '../../shared/methods'
+import { go } from '../utils/router'
 
 const searchVar = new ReactiveVar('')
-const searchState = withState('_search', '_setSearch', '')
-
 const debouncedSetSearch = _.debounce(searchVar.set.bind(searchVar), 300)
 
-const withSearch = compose(
-	searchState,
-	withTracker(({ _setSearch }) => ({
+const withCampaignSearch = withTracker(() => ({
 		search: searchVar.get(),
-		setSearch(s) {
-			debouncedSetSearch(s)
-			_setSearch(s)
-		},
-	})),
+	setSearch: debouncedSetSearch
+}))
+
+const withSearchState = withState('search', 'setSearch', '')
+const withSearchActions = withHandlers({
+	createCard: ({ search, campaignId }) => async ev => {
+		const { _id } = await Card.create({ title: search, campaignId })
+		go(`/${campaignId}/${_id}`)
+	}
+})
+
+const connectSearch = compose(
+	withCampaignId,
+	withSearchState,
+	withSearchActions
 )
+
+const Search = connectSearch(({ search, setSearch, onChange, createCard }) => (
+	<>
+		<Input
+			type='search'
+			placeholder='Search&hellip;'
+			value={search}
+			onChange={ev => {
+				setSearch(ev.target.value)
+				onChange(ev.target.value)
+			}}
+		/>
+		{search && (
+			<Button onClick={createCard}>
+				<Icon icon='plus' />
+				Quick add&hellip;
+			</Button>
+		)}
+	</>
+))
 
 const connectCampaignPage = compose(
 	withCampaignData,
-	withSearch,
+	withCampaignSearch
 )
 
-export default connectCampaignPage(
-	({ campaign, _search, search, setSearch }) => (
+export default connectCampaignPage(({ campaign, search, setSearch }) => (
 		<>
 			<Title>{campaign.title}</Title>
 
@@ -52,12 +80,7 @@ export default connectCampaignPage(
 			<SplashToolbar>
 				<Center>
 					<MenuItem flush>
-						<Input
-							type='search'
-							placeholder='Search&hellip;'
-							value={_search}
-							onChange={ev => setSearch(ev.target.value)}
-						/>
+					<Search onChange={setSearch} />
 					</MenuItem>
 
 					<Space />
@@ -75,5 +98,4 @@ export default connectCampaignPage(
 				<HistoryList />
 			</Aside>
 		</>
-	),
-)
+))
