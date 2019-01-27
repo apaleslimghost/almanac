@@ -70,28 +70,28 @@ const Shortcut = styled.span`
 
 const Search = connectSearch(
 	({ search, setSearch, onChange, createCard, keydown }) => (
-	<>
-		<MenuItem flush>
-			<Input
-				type='search'
-				placeholder='Search&hellip;'
-				value={search}
-				onChange={ev => {
-					setSearch(ev.target.value)
-					onChange(ev.target.value)
-				}}
+		<>
+			<MenuItem flush>
+				<Input
+					type='search'
+					placeholder='Search&hellip;'
+					value={search}
+					onChange={ev => {
+						setSearch(ev.target.value)
+						onChange(ev.target.value)
+					}}
 					onKeyDown={keydown}
-			/>
-		</MenuItem>
-		{search && (
-			<MenuButton onClick={createCard}>
+				/>
+			</MenuItem>
+			{search && (
+				<MenuButton onClick={createCard}>
 					<Shortcut>
 						{navigator.platform === 'MacIntel' ? '⌘↩︎' : 'Ctrl + Enter'}
 					</Shortcut>
-				Quick add&hellip;
-			</MenuButton>
-		)}
-	</>
+					Quick add
+				</MenuButton>
+			)}
+		</>
 	)
 )
 
