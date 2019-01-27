@@ -4,6 +4,7 @@ import { compose, withState, withHandlers } from 'recompact'
 import { ReactiveVar } from 'meteor/reactive-var'
 import _ from 'lodash'
 
+import styled from 'styled-components'
 import { withCampaignData, withCampaignId } from '../data/campaign'
 import { CampaignSplash } from '../visual/splash'
 import Title from '../utils/title'
@@ -33,40 +34,66 @@ const withCampaignSearch = withTracker(() => ({
 }))
 
 const withSearchState = withState('search', 'setSearch', '')
-const withSearchActions = withHandlers({
-	createCard: ({ search, campaignId }) => async ev => {
+const withCreateCardHandler = withHandlers({
+	createCard: ({ search, onChange, campaignId }) => async () => {
 		const { _id } = await Card.create({ title: search, campaignId })
+		onChange('')
 		go(`/${campaignId}/${_id}`)
+	}
+})
+
+const withKeydownHandler = withHandlers({
+	keydown: ({ createCard }) => event => {
+		// ⌘↩︎ or Ctrl+Enter
+		if (event.which === 13 && (event.ctrlKey || event.metaKey)) {
+			createCard()
+		}
 	}
 })
 
 const connectSearch = compose(
 	withCampaignId,
 	withSearchState,
-	withSearchActions
+	withCreateCardHandler,
+	withKeydownHandler
 )
 
-const Search = connectSearch(({ search, setSearch, onChange, createCard }) => (
+const Shortcut = styled.span`
+	font-size: 0.7em;
+	opacity: 0.5;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 2px;
+	padding: 0.25em;
+	margin-right: 0.5em;
+`
+
+const Search = connectSearch(
+	({ search, setSearch, onChange, createCard, keydown }) => (
 	<>
 		<MenuItem flush>
-		<Input
-			type='search'
-			placeholder='Search&hellip;'
-			value={search}
-			onChange={ev => {
-				setSearch(ev.target.value)
-				onChange(ev.target.value)
-			}}
-		/>
+			<Input
+				type='search'
+				placeholder='Search&hellip;'
+				value={search}
+				onChange={ev => {
+					setSearch(ev.target.value)
+					onChange(ev.target.value)
+				}}
+					onKeyDown={keydown}
+			/>
 		</MenuItem>
 		{search && (
 			<MenuButton onClick={createCard}>
-				<Icon icon='plus' />
+					<Shortcut>
+						{navigator.platform === 'MacIntel' ? '⌘↩︎' : 'Ctrl + Enter'}
+					</Shortcut>
 				Quick add&hellip;
 			</MenuButton>
 		)}
 	</>
-))
+	)
+)
 
 const connectCampaignPage = compose(
 	withCampaignData,
@@ -81,7 +108,7 @@ export default connectCampaignPage(({ campaign, search, setSearch }) => (
 
 		<SplashToolbar>
 			<Center>
-					<Search onChange={setSearch} />
+				<Search onChange={setSearch} />
 
 				<Space />
 
