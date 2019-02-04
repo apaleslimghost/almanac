@@ -1,40 +1,21 @@
 import React from 'react'
-import { compose, withState, withHandlers } from 'recompact'
+import { withState } from 'recompact'
 import Shortcut from '../visual/shortcut'
 import { Input } from '../visual/form'
-import { Card } from '../../shared/methods'
-import { go } from '../utils/router'
-import { withCampaignId } from '../data/campaign'
 
 import { MenuItem, MenuButton } from '../visual/menu'
 
 const withSearchState = withState('search', 'setSearch', '')
-const withCreateSearchAction = withHandlers({
-	searchAction: ({ search, onChange, campaignId }) => async () => {
-		const { _id } = await Card.create({ title: search, campaignId })
-		onChange('')
-		go(`/${campaignId}/${_id}`)
+
+const createCtrlEnterHandler = action => event => {
+	// ⌘↩︎ or Ctrl+Enter
+	if (event.which === 13 && (event.ctrlKey || event.metaKey)) {
+		action()
 	}
-})
+}
 
-const withKeydownHandler = withHandlers({
-	keydown: ({ searchAction }) => event => {
-		// ⌘↩︎ or Ctrl+Enter
-		if (event.which === 13 && (event.ctrlKey || event.metaKey)) {
-			searchAction()
-		}
-	}
-})
-
-const connectSearch = compose(
-	withCampaignId,
-	withSearchState,
-	withCreateSearchAction,
-	withKeydownHandler
-)
-
-const Search = connectSearch(
-	({ search, setSearch, onChange, searchAction, keydown }) => (
+const Search = withSearchState(
+	({ search, setSearch, onChange, searchAction, actionLabel }) => (
 		<>
 			<MenuItem flush>
 				<Input
@@ -45,7 +26,7 @@ const Search = connectSearch(
 						setSearch(ev.target.value)
 						onChange(ev.target.value)
 					}}
-					onKeyDown={keydown}
+					onKeyDown={createCtrlEnterHandler(searchAction)}
 				/>
 			</MenuItem>
 			{search && (
