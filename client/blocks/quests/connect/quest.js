@@ -21,8 +21,10 @@ const questActions = withHandlers({
 		})
 	},
 
-	onSelectQuest: ({ quest, campaignSession }) => ev => {
-		campaignSession.set('currentQuest', quest._id)
+	onSelectQuest: ({ quest }) => () => {
+		Card.update(quest, {
+			updated: new Date()
+		})
 	},
 
 	onStartQuest: ({ quest }) => ev => {

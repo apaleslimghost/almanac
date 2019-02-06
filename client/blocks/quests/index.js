@@ -1,9 +1,7 @@
-import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import styled from 'styled-components'
 import { compose, branch, withProps } from 'recompact'
 import Ornamented from '../../visual/ornamented'
-import idFirst from '../../utils/id-first'
 import { withCampaignDate } from '../../data/calendar'
 import { withCampaignSession } from '../../data/campaign'
 import withCards from '../../data/card'
@@ -116,106 +114,110 @@ const Quest = connectQuest(
 		currentQuest,
 		control,
 		first
+	}) =>
 		!control &&
-		<div>
-			<Ornamented ornament='u'>
+		(quest.completed ||
+			objectives.every(
+				objective =>
+					objective.completed || objective.access.view === access.PRIVATE
+			)) ? null : (
+			<div>
+				<Ornamented ornament='u'>
 					{quest.title}
 
-				{control && (
-					<>
-						{currentQuest !== quest._id && (
-							<button type='button' onClick={() => onSelectQuest(quest)}>
-								🔝
-							</button>
-						)}
+					{control && (
+						<>
+							{currentQuest !== quest._id && (
+								<button type='button' onClick={() => onSelectQuest(quest)}>
+									🔝
+								</button>
+							)}
 
-						{!quest.completed && quest.access.view > access.PRIVATE && (
-							<button type='button' onClick={onCompleteQuest}>
-								☑️
-							</button>
-						)}
+							{!quest.completed && quest.access.view > access.PRIVATE && (
+								<button type='button' onClick={onCompleteQuest}>
+									☑️
+								</button>
+							)}
 
-						{quest.access.view === access.PRIVATE && (
-							<button type='button' onClick={onStartQuest}>
-								👁
-							</button>
-						)}
+							{quest.access.view === access.PRIVATE && (
+								<button type='button' onClick={onStartQuest}>
+									👁
+								</button>
+							)}
 
-						{
-							<button type='button' onClick={onDeleteQuest}>
-								❌
-							</button>
-						}
-					</>
-				)}
-			</Ornamented>
-
-			<Large>
-				{first &&
-					m(
-						objectives.find(({ completed }) => !completed),
-						objective => objective.text,
-						quest.text
+							{
+								<button type='button' onClick={onDeleteQuest}>
+									❌
+								</button>
+							}
+						</>
 					)}
-			</Large>
+				</Ornamented>
 
-			<ObjectiveList>
-				{objectives
-					.filter(({ completed }) => !completed)
-					.map((objective, index) => (
-						<ObjectiveListItem key={objective._id} first={index === 0}>
-							<Objective
-								quest={quest}
-								objective={objective}
-								control={control}
-							/>
-						</ObjectiveListItem>
-					))}
+				<Large>
+					{first &&
+						m(
+							objectives.find(({ completed }) => !completed),
+							objective => objective.text,
+							quest.text
+						)}
+				</Large>
 
-				{objectives
-					.filter(({ completed }) => completed)
-					.map(objective => (
-						<ObjectiveListItem key={objective._id} completed>
-							<Objective
-								quest={quest}
-								objective={objective}
-								control={control}
-							/>
-						</ObjectiveListItem>
-					))}
+				<ObjectiveList>
+					{objectives
+						.filter(({ completed }) => !completed)
+						.map((objective, index) => (
+							<ObjectiveListItem key={objective._id} first={index === 0}>
+								<Objective
+									quest={quest}
+									objective={objective}
+									control={control}
+								/>
+							</ObjectiveListItem>
+						))}
 
-				{control && !quest.completed && (
-					<li>
-						<form onSubmit={onCreateObjective}>
-							<input placeholder='Objective' name='title' />
-							<input name='text' />
-							<button type='submit'>➕</button>
-						</form>
-					</li>
-				)}
-			</ObjectiveList>
-		</div>
-	)
+					{objectives
+						.filter(({ completed }) => completed)
+						.map(objective => (
+							<ObjectiveListItem key={objective._id} completed>
+								<Objective
+									quest={quest}
+									objective={objective}
+									control={control}
+								/>
+							</ObjectiveListItem>
+						))}
+
+					{control && !quest.completed && (
+						<li>
+							<form onSubmit={onCreateObjective}>
+								<input placeholder='Objective' name='title' />
+								<input name='text' />
+								<button type='submit'>➕</button>
+							</form>
+						</li>
+					)}
+				</ObjectiveList>
+			</div>
+		)
 )
 
-const withQuestsData = withCards('quests', ({ control }) => ({
-	type: 'quest',
-	'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN }
-}))
-
-const withCurrentQuest = withTracker(({ quests, campaignSession }) => {
-	const currentQuest = campaignSession.get('currentQuest')
-
-	return {
-		currentQuest,
-		quests: idFirst(quests, currentQuest)
+const withQuestsData = withCards(
+	'quests',
+	({ control }) => ({
+		type: 'quest',
+		'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN }
+	}),
+	{
+		sort: {
+			updated: -1
+		}
 	}
-})
+)
 
 const connectQuestsList = compose(
 	withCampaignSession,
-	withQuestsData,
-	withCurrentQuest
+	withQuestsData
 )
 
 const QuestsList = connectQuestsList(
