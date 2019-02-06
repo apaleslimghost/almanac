@@ -13,7 +13,7 @@ const objectToMongoUpdate = (
 		if (value === null) {
 			$unset = $unset || {}
 			$unset[currentPath.join('.')] = true
-		} else if (Object.getPrototypeOf(value) === Object) {
+		} else if (value && Object.getPrototypeOf(value) === Object) {
 			objectToMongoUpdate(value, { $set, $unset }, currentPath)
 		} else {
 			$set[currentPath.join('.')] = value
