@@ -53,7 +53,7 @@ const Splash = ({ action, quest, objective, animationState }) => (
 
 const withQuestChanges = withComputation(
 	({ setSplash, setAnimationState, campaignId }) => {
-		subscribe('cards.all')
+		const ready = subscribe('cards.all')
 
 		const notify = (id, action) => {
 			const item = Cards.findOne(id)
@@ -69,19 +69,20 @@ const withQuestChanges = withComputation(
 		}
 
 		let initial = true
+
 		const computation = Cards.find({
 			type: { $in: ['quest', 'objective'] },
 			'access.view': { $gte: access.CAMPAIGN },
 			campaignId
 		}).observeChanges({
 			added(id) {
-				if (!initial) {
+				if (!initial && ready) {
 					notify(id, 'start')
 				}
 			},
 
 			changed(id, { completed }) {
-				if (!initial && completed) {
+				if (!initial && ready && completed) {
 					notify(id, 'complete')
 				}
 			}

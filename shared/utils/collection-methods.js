@@ -13,7 +13,7 @@ const objectToMongoUpdate = (
 		if (value === null) {
 			$unset = $unset || {}
 			$unset[currentPath.join('.')] = true
-		} else if (typeof value === 'object') {
+		} else if (value && Object.getPrototypeOf(value) === Object) {
 			objectToMongoUpdate(value, { $set, $unset }, currentPath)
 		} else {
 			$set[currentPath.join('.')] = value
@@ -27,6 +27,7 @@ export default (collection, validate, historyCollection) => {
 		validate.create(data, this.userId)
 
 		data.owner = this.userId
+		data.updated = new Date()
 		collection.insert(data)
 
 		if (historyCollection) {
@@ -48,6 +49,8 @@ export default (collection, validate, historyCollection) => {
 
 		update: method(`${collection._name}.update`, function({ _id }, edit) {
 			const data = collection.findOne(_id)
+			edit.updated = new Date()
+
 			const update = objectToMongoUpdate(edit)
 
 			if (!update.$unset) {
