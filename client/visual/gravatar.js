@@ -37,5 +37,13 @@ const formatGravatarUrl = email =>
 	})
 
 export default ({ email, ...props }) => (
-	<Gravatar src={formatGravatarUrl(email)} alt={email} {...props} />
+	<Gravatar
+		src={
+			email
+				? formatGravatarUrl(email)
+				: 'https://www.gravatar.com/avatar/empty?f=y&d=mp'
+		}
+		alt='Profile picture'
+		{...props}
+	/>
 )

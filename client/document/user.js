@@ -23,21 +23,24 @@ const User = ({
 	small,
 	children,
 	...props
-}) => (
-	<Component user={user} {...props}>
-		<Gravatar email={user.emails[0].address} small={small} />
-		<UserText verified={user.emails[0].verified}>
-			{user.username || user.emails[0].address}
-		</UserText>
-		{!user.emails[0].verified && (
-			<Label colour='steel'>
-				<LabelBody>Invite sent</LabelBody>
-			</Label>
-		)}
+}) => {
+	const primaryEmail = user.emails ? user.emails[0] : {}
+	return (
+		<Component user={user} {...props}>
+			<Gravatar email={primaryEmail.address} small={small} />
+			<UserText verified={primaryEmail.verified}>
+				{user.username || primaryEmail.address}
+			</UserText>
+			{!primaryEmail.verified && (
+				<Label colour='steel'>
+					<LabelBody>Invite sent</LabelBody>
+				</Label>
+			)}
 
-		{children}
-	</Component>
-)
+			{children}
+		</Component>
+	)
+}
 
 export default User
 
