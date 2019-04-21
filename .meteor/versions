@@ -92,6 +92,5 @@ tmeasday:check-npm-versions@0.3.2
 tracker@1.2.0
 ui@1.0.13
 underscore@1.0.10
-url@1.2.0
 webapp@1.7.4
 webapp-hashing@1.0.9
