@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 import colours from '@quarterto/colours'
-import Link from '../control/link'
+import { Link } from 'use-history'
 import { background, colourTransitions } from './primitives'
 
 export const Toolbar = styled.nav`
@@ -44,7 +44,7 @@ export const MenuButton = InteractiveMenuItem.withComponent('button').extend`
 		(primary
 			? background({ colour, shade })
 			: css`
-					color: ${colours[colour][shade]};
+			color: ${colours[colour][shade]};
 			  `)}
 
 	&:hover {

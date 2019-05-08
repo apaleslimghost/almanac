@@ -1,7 +1,7 @@
 import { withHandlers } from 'recompact'
+import { navigate as go } from 'use-history'
 import CampaignSettings from '../document/campaign-settings'
 import { Campaign } from '../../shared/methods'
-import { go } from '../utils/router'
 
 const withCampaignActions = withHandlers({
 	onSubmit: () => async data => {

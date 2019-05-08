@@ -1,6 +1,7 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
 import relativeDate from 'tiny-relative-date'
+import { Link } from 'use-history'
 import { compose } from 'recompact'
 
 import styled from 'styled-components'
@@ -9,7 +10,6 @@ import { Owner } from '../document/user'
 import { CardHistory } from '../../shared/collections'
 import subscribe from '../utils/subscribe'
 import match from '../utils/match'
-import Link from '../control/link'
 import { withCampaignId } from '../data/campaign'
 
 const withHistory = withTracker(({ campaignId }) => ({

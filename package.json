@@ -21,7 +21,7 @@
 	},
 	"homepage": "https://github.com/quarterto/Almanac#readme",
 	"dependencies": {
-		"@babel/runtime": "^7.0.0-beta.42",
+		"@babel/runtime": "^7.4.4",
 		"@quarterto/campaign-name-generator": "^1.0.0",
 		"@quarterto/colours": "^1.5.0",
 		"@quarterto/form-json": "^1.0.0",
@@ -32,7 +32,7 @@
 		"@quarterto/update-path": "^1.5.0",
 		"babel-plugin-transform-class-properties": "^6.24.1",
 		"bcrypt": "^3.0.2",
-		"boulevard": "^2.3.5",
+		"boulevard-react": "^1.0.2",
 		"contrast": "^1.0.1",
 		"core-js": "^2.5.3",
 		"dream-date": "^0.5.0",
@@ -46,8 +46,8 @@
 		"pluralize": "^3.1.0",
 		"polished": "^1.2.1",
 		"prop-types": "^15.6.0",
-		"react": "^16.3.0",
-		"react-dom": "^16.3.0",
+		"react": "^16.8.0",
+		"react-dom": "^16.8.0",
 		"react-grid-layout": "^0.15.0",
 		"react-helmet": "^5.2.0",
 		"react-ionicons": "^1.5.7",
@@ -62,7 +62,8 @@
 		"remark-behead": "^2.1.0",
 		"string-hash": "^1.1.3",
 		"styled-components": "^3.4.10",
-		"tiny-relative-date": "^1.3.0"
+		"tiny-relative-date": "^1.3.0",
+		"use-history": "^1.3.4"
 	},
 	"devDependencies": {
 		"@quarterto/eslint-config": "^1.4.0",

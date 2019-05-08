@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-import Link from '../control/link'
+import { Link } from 'use-history'
 import withImage from '../data/image'
 import { SplashBackground, Hero, HeroTitle } from '../visual/splash'
 import { Card as CardPrimitive } from '../visual/primitives'

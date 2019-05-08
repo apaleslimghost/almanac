@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { branch, renderNothing, compose } from 'recompact'
-import { go } from './router'
+import { navigate as go } from 'use-history'
 
 export const withUserData = withTracker(() => ({
 	user: Meteor.user(),

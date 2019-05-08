@@ -22,9 +22,9 @@ dynamic-import@0.5.1
 session@1.2.0
 less@2.7.12
 nagoshi:rpg-awesome
-quarterto:reactive-history
 accounts-password@1.5.1
 fortawesome:fontawesome
 underscore@1.0.10
 pauldowman:dotenv
+quarterto:hooks
 http

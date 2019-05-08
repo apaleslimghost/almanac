@@ -1,9 +1,9 @@
 import React from 'react'
 import { compose, withHandlers } from 'recompact'
+import { navigate as go } from 'use-history'
 import { withCampaignData } from '../data/campaign'
 import CampaignSettings from '../document/campaign-settings'
 import { Campaign } from '../../shared/methods'
-import { go } from '../utils/router'
 import { assertAmOwner } from '../data/owner'
 import { Main } from '../visual/grid'
 

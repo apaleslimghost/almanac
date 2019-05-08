@@ -1,9 +1,9 @@
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { compose, renderComponent } from 'recompact'
+import { Link } from 'use-history'
 
 import { Campaigns } from '../../shared/collections'
-import Link from '../control/link'
 import subscribe from '../utils/subscribe'
 import loggedIn from '../utils/logged-in'
 import { SplashBackground, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
