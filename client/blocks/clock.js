@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
+import useInterval from 'use-interval'
 import styled, { keyframes } from 'styled-components'
-import { compose, lifecycle, withState } from 'recompact'
 
 const blink = keyframes`
 	0%   { opacity: 0; }
@@ -31,25 +31,10 @@ const AmPm = styled.span`
 	font-size: 0.66em;
 `
 
-const dateState = withState('date', 'setDate', new Date())
-const dateTimer = lifecycle({
-	componentWillMount() {
-		this.timer = setInterval(() => {
-			this.props.setDate(new Date())
-		}, 1000)
-	},
+export const control = () => {
+	const [date, setDate] = useState(new Date())
+	useInterval(() => setDate(new Date()), 1000)
 
-	componentWillUnmount() {
-		clearInterval(this.timer)
-	},
-})
-
-const connectClock = compose(
-	dateState,
-	dateTimer,
-)
-
-export const control = connectClock(({ date }) => {
 	const h = date.getHours() % 12
 	const m = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes()
 	const ampm = date.getHours() < 12 ? 'am' : 'pm'
@@ -66,6 +51,6 @@ export const control = connectClock(({ date }) => {
 			<AmPm>{ampm}</AmPm>
 		</Time>
 	)
-})
+}
 
 export const display = () => null
