@@ -9,7 +9,12 @@ import {
 	getContext,
 } from 'recompact'
 import { ToastContainer } from 'react-toastify'
-import { setsCampaign, withCampaignData } from '../data/campaign'
+import {
+	setsCampaign,
+	withCampaignData,
+	CampaignContext,
+	useCampaignData
+} from '../data/campaign'
 import Icon from '../visual/icon'
 import { H3 } from '../visual/heading'
 import { withUserData, logout } from '../utils/logged-in'
@@ -161,21 +166,28 @@ const connectLayout = compose(
 	setsCampaign,
 )
 
-const BasicLayout = ({ children }) => (
-	<>
+export const BasicLayout = ({ campaignId, secret, children }) => {
+	console.trace('BasicLayout', { campaignId, secret })
+	const { campaign } = useCampaignData({ campaignId, secret })
+
+	return (
+		<CampaignContext.Provider value={campaign}>
 		<Title />
 		<ToastContainer autoClose={10000} />
 		{children}
-	</>
-)
+		</CampaignContext.Provider>
+	)
+}
 
-export const Basic = setsCampaign(BasicLayout)
+export const Basic = setsCampaign(props => <BasicLayout {...props} />)
 
-const Layout = connectLayout(({ state, children, ready }) => (
-	<BasicLayout>
-		{state.navShown && <Nav extraItems={state.extraItems} />}
-		<Grid>{ready ? children : 'loading...'}</Grid>
-	</BasicLayout>
-))
+const Layout =
+	({ campaignId, secret, state = {}, children, ready }) => (
+		<BasicLayout {...{ campaignId, secret }}>
+			{state.navShown && <Nav extraItems={state.extraItems} />}
+			<Grid>{ready ? children : 'loading...'}</Grid>
+		</BasicLayout>
+	)
+
 
 export default Layout
