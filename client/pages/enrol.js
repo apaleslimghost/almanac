@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { compose, withProps, withHandlers } from 'recompact'
@@ -57,7 +58,7 @@ const connectEnrol = compose(
 )
 
 export default connectEnrol(
-	({ campaign, enrolling, addLoggedInUser, secret }) =>
+	({ campaign, enrolling, secret }) =>
 		enrolling ? (
 			<>
 				<CampaignSplash small noBlurb>
@@ -77,6 +78,6 @@ export default connectEnrol(
 				/>
 			</>
 		) : (
-			'Redirecting...'
-		)
+				'Redirecting...'
+			)
 )

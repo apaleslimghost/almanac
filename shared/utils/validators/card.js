@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor'
 import { Campaigns } from '../../collections'
 import access from '../../access'
 

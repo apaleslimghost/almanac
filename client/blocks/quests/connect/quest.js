@@ -8,13 +8,13 @@ import {
 import access from '../../../../shared/access'
 
 const questActions = withHandlers({
-	onDeleteQuest: ({ quest }) => ev => {
+	onDeleteQuest: ({ quest }) => () => {
 		if (confirm(`Delete ${quest.title} and all objectives?`)) {
 			deleteCardWithRelated(quest, { ofType: 'objective' })
 		}
 	},
 
-	onCompleteQuest: ({ quest, campaignSession }) => ev => {
+	onCompleteQuest: ({ quest, campaignSession }) => () => {
 		Card.update(quest, {
 			completed: true,
 			completedDate: campaignSession.get('date') || 0
@@ -27,13 +27,13 @@ const questActions = withHandlers({
 		})
 	},
 
-	onStartQuest: ({ quest }) => ev => {
+	onStartQuest: ({ quest }) => () => {
 		Card.update(quest, {
 			'access.view': access.CAMPAIGN
 		})
 	},
 
-	onCreateObjective: ({ quest, campaignId, campaignSession }) => async ev => {
+	onCreateObjective: ({ quest, campaignId }) => async ev => {
 		ev.preventDefault()
 		const data = formJson(ev.target)
 		ev.target.reset()

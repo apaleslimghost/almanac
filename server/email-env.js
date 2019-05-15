@@ -20,10 +20,10 @@ if (missingMailgunVars.length === 0) {
 		port: process.env.MAILGUN_SMTP_PORT,
 		auth: `${process.env.MAILGUN_SMTP_LOGIN}:${
 			process.env.MAILGUN_SMTP_PASSWORD
-		}`
+			}`
 	})
 
-	console.log(`mailgunning via ${process.env.MAIL_URL}`)
+	console.log(`mailgunning via ${process.env.MAIL_URL}`) // eslint-disable-line no-console
 } else if (missingMailtrapVars.length === 0) {
 	const mailtrapUrl = url.format({
 		protocol: 'https',
@@ -44,7 +44,7 @@ if (missingMailgunVars.length === 0) {
 		auth: `${inbox.username}:${inbox.password}`
 	})
 } else {
-	console.log(
+	console.log( // eslint-disable-line no-console
 		`email environment variables ${missingMailgunVars.concat(
 			missingMailtrapVars
 		)} missing, falling back to outputting emails to stdout`

@@ -30,7 +30,7 @@ const Right = styled.span`
 `
 
 const connectModRelationship = withHandlers({
-	modRelationship: ({ amount, faction }) => ev => {
+	modRelationship: ({ amount, faction }) => () => {
 		const relationship = (faction.relationship || 0) + amount
 
 		if (
@@ -53,7 +53,7 @@ const ModRelationship = connectModRelationship(
 	)
 )
 
-const Relationship = ({ control, modRelationship, faction }) => (
+const Relationship = ({ control, faction }) => (
 	<Right>
 		{relationshipLabel[faction.relationship || 0]}{' '}
 		<Icon icon={relationshipIcon[faction.relationship || 0]} />
@@ -82,7 +82,7 @@ const withFactionActions = withHandlers({
 })
 
 const connectRemoveButton = withHandlers({
-	remove: ({ faction }) => ev => {
+	remove: ({ faction }) => () => {
 		Card.delete(faction)
 	}
 })
@@ -100,7 +100,7 @@ const connectFactions = compose(
 )
 
 const ShowFactions = connectFactions(
-	({ factions, onCreate, remove, control = false }) => (
+	({ factions, onCreate, control = false }) => (
 		<div>
 			<Ornamented ornament='x'>Factions</Ornamented>
 

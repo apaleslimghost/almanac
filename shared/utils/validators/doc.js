@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor'
 import { isLoggedIn } from './common'
 
 export const create = (data, userId) => isLoggedIn(data, userId, 'create')

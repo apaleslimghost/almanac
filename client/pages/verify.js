@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import React from 'react'
 import { toast } from 'react-toastify'
@@ -7,7 +8,7 @@ import { Input } from '../visual/form'
 import { go } from '../utils/router'
 
 const resetPassword = token => ({ password }) =>
-	Accounts.resetPassword(token, password, (err, ...r) => {
+	Accounts.resetPassword(token, password, err => {
 		if (err) {
 			toast.error(err.reason)
 		} else {

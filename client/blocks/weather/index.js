@@ -64,7 +64,7 @@ const weatherCondition = ({ temperature, humidity }) =>
 			'heavy-lightning'
 		]
 	][Math.min(3, Math.floor((humidity * 4) / 100))][
-		Math.min(5, Math.floor(((20 + temperature) * 6) / 80))
+	Math.min(5, Math.floor(((20 + temperature) * 6) / 80))
 	]
 
 const defaultWeather = {
@@ -145,7 +145,7 @@ const connectWeather = compose(
 )
 
 const Weather = connectWeather(
-	({ weather: { temperature, humidity, windHeading, windSpeed }, date }) => (
+	({ weather: { temperature, humidity, windHeading }, date }) => (
 		<WeatherWrapper>
 			<WeatherThings>
 				<WeatherThing large>{temperature}°C</WeatherThing>
@@ -158,8 +158,8 @@ const Weather = connectWeather(
 					{date.isNight ? (
 						moonPhaseIcon(date)
 					) : (
-						<WeatherCondition {...{ temperature, humidity }} />
-					)}
+							<WeatherCondition {...{ temperature, humidity }} />
+						)}
 				</WeatherIcon>
 			</Ornamented>
 		</WeatherWrapper>
@@ -179,7 +179,7 @@ const withWeatherState = withReducer(
 )
 
 const weatherFormActions = withHandlers({
-	onSubmit: ({ campaignSession, _weather }) => ev => {
+	onSubmit: ({ campaignSession, _weather }) => () => {
 		campaignSession.set('weather', _weather)
 	}
 })

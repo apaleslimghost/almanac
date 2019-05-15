@@ -4,7 +4,7 @@ import { Card } from '../../../../shared/methods'
 import access from '../../../../shared/access'
 
 const questsActions = withHandlers({
-	onCreateQuest: ({ campaignId, campaignSession }) => ev => {
+	onCreateQuest: ({ campaignId }) => ev => {
 		ev.preventDefault()
 		const data = formJson(ev.target)
 		ev.target.reset()

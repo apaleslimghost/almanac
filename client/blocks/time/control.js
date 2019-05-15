@@ -25,7 +25,7 @@ const Inc = connectIncrement(({ onIncrement, multiplier = 1, period }) => (
 ))
 
 const withDateActions = withHandlers({
-	onSubmit: ({ CampaignDate, campaignSession, _date }) => ev => {
+	onSubmit: ({ CampaignDate, campaignSession, _date }) => () => {
 		campaignSession.set('date', new CampaignDate(_date).timestamp)
 	}
 })

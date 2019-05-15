@@ -28,6 +28,7 @@ import {
 	MenuButton,
 	MenuItem
 } from '../visual/menu'
+import _ from 'lodash'
 
 const connectFormSplash = compose(
 	withFormData,

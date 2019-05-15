@@ -21,7 +21,7 @@ export const iAmOwner = key =>
 export const assertAmOwner = key =>
 	compose(
 		iAmOwner(key),
-		withProps(({ ready, isOwner, ...props }) => {
+		withProps(({ ready, isOwner }) => {
 			if (ready && isOwner === false) {
 				throw new Forbidden(`You're not allowed to do that`)
 			}

@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor'
+
 export const isLoggedIn = (data, userId, verb) => {
 	if (userId) {
 		return true

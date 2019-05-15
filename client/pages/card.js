@@ -23,6 +23,7 @@ import {
 } from '../visual/menu'
 import withImage from '../data/image'
 import { CardHistoryList } from '../collection/card-history'
+import _ from 'lodash'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
 	_id: { $in: (card && card.related) || [] }
@@ -54,7 +55,7 @@ const Right = styled.aside`
 	grid-column: right;
 `
 
-export default withCardData(({ card, relatedCards, user, image }) => (
+export default withCardData(({ card, relatedCards, user }) => (
 	<>
 		<CardSplash card={card} />
 		<Title>{card.title}</Title>

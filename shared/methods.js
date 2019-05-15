@@ -86,11 +86,11 @@ export const setSession = method('setSession', (campaignId, _key, data) => {
 			Session.insert({ data, campaignId, _key })
 		}
 	} else {
-		console.trace('No campaign id')
+		console.trace('No campaign id') // eslint-disable-line no-console
 	}
 })
 
-export const createAccount = method('createAccount', function(user, campaign) {
+export const createAccount = method('createAccount', function (user, campaign) {
 	if (!this.isSimulation) {
 		// Accounts.createUser only works on the server
 		const userId = Accounts.createUser(user)
@@ -115,7 +115,7 @@ export const createAccount = method('createAccount', function(user, campaign) {
 	}
 })
 
-export const createAccountAndJoin = method('createAccountAndJoin', function(
+export const createAccountAndJoin = method('createAccountAndJoin', function (
 	user,
 	campaign,
 	secret
@@ -141,7 +141,7 @@ export const errorTest = method('errorTest', () => {
 	throw new Meteor.Error('test-error', 'You done goofed')
 })
 
-export const unsplashDownload = method('unsplashDownload', function(photoId) {
+export const unsplashDownload = method('unsplashDownload', function (photoId) {
 	if (!this.isSimulation) {
 		unsplash.download(photoId)
 	}

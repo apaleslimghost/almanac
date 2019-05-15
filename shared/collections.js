@@ -17,13 +17,15 @@ if (Meteor.isServer) {
 
 if (Meteor.isClient) {
 	window.collections = exports
+
 	window.showCollection = (collection, ...args) =>
-		console.table(collection.find(...args))
+		console.table(collection.find(...args)) // eslint-disable-line no-console
+
 	window.showCollections = selector =>
-		Object.keys(collections)
-			.filter(k => collections[k] instanceof Mongo.Collection)
+		Object.keys(window.collections)
+			.filter(k => window.collections[k] instanceof Mongo.Collection)
 			.forEach(k => {
-				console.log(k)
-				showCollection(collections[k], selector)
+				console.log(k) // eslint-disable-line no-console
+				window.showCollection(window.collections[k], selector)
 			})
 }
