@@ -164,8 +164,8 @@ render(
 						<Home />
 					</Layout>
 				)
-			}
+			},
 		}}
 	/>,
-	root
+	root,
 )

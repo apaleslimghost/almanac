@@ -9,7 +9,7 @@ const connectAdvanceTime = compose(
 	withCampaignSession,
 	withProps({ period: 'minute', amount: 1 }),
 	withIncrement,
-	withTimer(30000, ({ enabled, onIncrement }) => enabled && onIncrement())
+	withTimer(30000, ({ enabled, onIncrement }) => enabled && onIncrement()),
 )
 
 const AdvanceTime = ({ enabled, setEnabled }) => (

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 
 export default function method(name, fn) {
 	Meteor.methods({
-		[name]: fn
+		[name]: fn,
 	})
 
 	return (...args) =>
@@ -15,6 +15,6 @@ export default function method(name, fn) {
 				} else {
 					resolve(results.length === 1 ? results[0] : results)
 				}
-			})
+			}),
 		)
 }

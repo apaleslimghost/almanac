@@ -4,7 +4,7 @@ import { branch, renderNothing, compose } from 'recompact'
 import { go } from './router'
 
 export const withUserData = withTracker(() => ({
-	user: Meteor.user()
+	user: Meteor.user(),
 }))
 
 export const logout = ev => {
@@ -18,5 +18,5 @@ const showLogin = (or = renderNothing) => branch(({ user }) => !user, or)
 export default or =>
 	compose(
 		withUserData,
-		showLogin(or)
+		showLogin(or),
 	)

@@ -7,7 +7,7 @@ import preventingDefault from '../utils/preventing-default'
 const connectTabs = withState(
 	'tab',
 	'setTab',
-	({ children }) => Object.keys(children)[0]
+	({ children }) => Object.keys(children)[0],
 )
 
 const TabBar = styled.div`

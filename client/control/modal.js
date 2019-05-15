@@ -11,9 +11,9 @@ export default withModalState(
 			<Modal isOpen={open} onRequestClose={() => setOpen(false)} {...props}>
 				{render({
 					...props,
-					close: () => setOpen(false)
+					close: () => setOpen(false),
 				})}
 			</Modal>
 		</>
-	)
+	),
 )

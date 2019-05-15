@@ -9,7 +9,7 @@ export const getInputValue = el =>
 			range: 'valueAsNumber',
 			date: 'valueAsDate',
 			checkbox: 'checked',
-			radio: 'value'
+			radio: 'value',
 		}[el.type] || 'value'
 	]
 
@@ -22,7 +22,7 @@ const qq = (a, b) => (a === undefined ? b : a)
 
 export const Input = (
 	{ name, fieldRef, tag: Tag = 'input', ...props },
-	context
+	context,
 ) => (
 	<Tag
 		ref={fieldRef}
@@ -40,7 +40,7 @@ export const Input = (
 			if (context.setFields) {
 				if (props.type !== 'radio' || ev.target.checked) {
 					context.setFields({
-						[name]: getInputValue(ev.target)
+						[name]: getInputValue(ev.target),
 					})
 				}
 			}
@@ -72,7 +72,7 @@ export const Select = ({ tag: Tag = 'select', ...props }, context) => {
 
 				if (context.setFields) {
 					context.setFields({
-						[props.name]: getSelectValue(ev.target)
+						[props.name]: getSelectValue(ev.target),
 					})
 				}
 			}}
@@ -84,25 +84,25 @@ export const Select = ({ tag: Tag = 'select', ...props }, context) => {
 
 export class Form extends Component {
 	state = {
-		fields: this.props.initialData
+		fields: this.props.initialData,
 	}
 
 	setFields = f => {
 		this.setState(
 			{
-				fields: Object.assign(this.fields, f)
+				fields: Object.assign(this.fields, f),
 			},
 			() => {
 				if (this.context.setFields && this.props.name) {
 					this.context.setFields({
-						[this.props.name]: this.fields
+						[this.props.name]: this.fields,
 					})
 				}
 
 				if (this.props.onChange) {
 					this.props.onChange(this.fields)
 				}
-			}
+			},
 		)
 	}
 
@@ -113,14 +113,14 @@ export class Form extends Component {
 	static get childContextTypes() {
 		return {
 			fields: PropTypes.object,
-			setFields: PropTypes.func
+			setFields: PropTypes.func,
 		}
 	}
 
 	static get defaultProps() {
 		return {
 			initialData: {},
-			tag: 'form'
+			tag: 'form',
 		}
 	}
 
@@ -135,7 +135,7 @@ export class Form extends Component {
 	getChildContext() {
 		return {
 			fields: this.fields,
-			setFields: this.setFields
+			setFields: this.setFields,
 		}
 	}
 
@@ -146,7 +146,7 @@ export class Form extends Component {
 			.then(() => {
 				if (this.mounted) {
 					this.setState({
-						fields: this.props.initialData
+						fields: this.props.initialData,
 					})
 				}
 			})
@@ -170,7 +170,7 @@ export class Form extends Component {
 
 export const fieldLike = {
 	fields: PropTypes.object,
-	setFields: PropTypes.func
+	setFields: PropTypes.func,
 }
 
 export const withFormData = getContext(fieldLike)

@@ -3,7 +3,7 @@ import React from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import {
 	default as GridLayout,
-	WidthProvider as widthProvider
+	WidthProvider as widthProvider,
 } from 'react-grid-layout'
 import { withState, withHandlers, compose } from 'recompact'
 import { Layouts } from '../../shared/collections'
@@ -75,7 +75,7 @@ const CloseButton = styled.button`
 
 const withLayoutData = withTracker(({ campaignId }) => ({
 	ready: subscribe('layout.all'),
-	layout: Layouts.find({ campaignId }).fetch()
+	layout: Layouts.find({ campaignId }).fetch(),
 }))
 
 const withLayoutActions = withHandlers({
@@ -91,13 +91,13 @@ const withLayoutActions = withHandlers({
 
 	removeComponent: () => layout => {
 		Layout.delete(layout)
-	}
+	},
 })
 
 const connectLayout = compose(
 	withCampaign,
 	withLayoutData,
-	withLayoutActions
+	withLayoutActions,
 )
 
 const Bleed = styled.div`
@@ -135,5 +135,5 @@ export default connectLayout(
 				))}
 			</GridLayoutWidth>
 		</Bleed>
-	)
+	),
 )

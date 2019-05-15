@@ -73,7 +73,7 @@ const withQuestChanges = withComputation(
 		const computation = Cards.find({
 			type: { $in: ['quest', 'objective'] },
 			'access.view': { $gte: access.CAMPAIGN },
-			campaignId
+			campaignId,
 		}).observeChanges({
 			added(id) {
 				if (!initial && ready) {
@@ -85,12 +85,12 @@ const withQuestChanges = withComputation(
 				if (!initial && ready && completed) {
 					notify(id, 'complete')
 				}
-			}
+			},
 		})
 
 		initial = false
 		return computation
-	}
+	},
 )
 
 const quest = new Audio('/sound/quest.mp3')
@@ -119,9 +119,9 @@ const connectQuestSplash = compose(
 					setSplash(null)
 					break
 			}
-		}
+		},
 	),
-	withQuestChanges
+	withQuestChanges,
 )
 
 const QuestSplash = ({ animationState, splash }) => (

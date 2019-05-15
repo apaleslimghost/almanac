@@ -4,11 +4,11 @@ import { withCampaignSession } from '../../../data/campaign'
 import { withCampaignDate } from '../../../data/calendar'
 
 const withTime = withTracker(({ campaignSession, CampaignDate }) => ({
-	date: new CampaignDate(campaignSession.get('date') || 0)
+	date: new CampaignDate(campaignSession.get('date') || 0),
 }))
 
 export default compose(
 	withCampaignSession,
 	withCampaignDate,
-	withTime
+	withTime,
 )

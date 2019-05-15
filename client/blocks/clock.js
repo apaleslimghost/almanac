@@ -41,12 +41,12 @@ const dateTimer = lifecycle({
 
 	componentWillUnmount() {
 		clearInterval(this.timer)
-	}
+	},
 })
 
 const connectClock = compose(
 	dateState,
-	dateTimer
+	dateTimer,
 )
 
 export const control = connectClock(({ date }) => {

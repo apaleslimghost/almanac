@@ -17,9 +17,9 @@ const withPlayerData = withTracker(({ campaign, getPlayerIds }) => ({
 	ready: subscribe('campaigns.members'),
 	players: Meteor.users
 		.find({
-			_id: { $in: getPlayerIds(campaign) }
+			_id: { $in: getPlayerIds(campaign) },
 		})
-		.fetch()
+		.fetch(),
 }))
 
 const connectRemoveUser = compose(
@@ -29,14 +29,14 @@ const connectRemoveUser = compose(
 			const reallyRemove = confirm(
 				`Remove ${user.username || user.emails[0].address} from ${
 					campaign.title
-				}?`
+				}?`,
 			)
 
 			if (reallyRemove) {
 				removeMember(campaign, user)
 			}
-		}
-	})
+		},
+	}),
 )
 
 const RemoveUser = connectRemoveUser(({ user, removeUser }) => (
@@ -48,8 +48,8 @@ const connectReinstateUser = compose(
 	withHandlers({
 		reinstateUser: ({ campaign }) => user => {
 			addMember(campaign, user)
-		}
-	})
+		},
+	}),
 )
 
 const ReinstateUser = connectReinstateUser(({ user, reinstateUser }) => (
@@ -59,7 +59,7 @@ const ReinstateUser = connectReinstateUser(({ user, reinstateUser }) => (
 const connectPlayers = compose(
 	withCampaignData,
 	withPlayerData,
-	withLoading
+	withLoading,
 )
 
 const Players = connectPlayers(
@@ -72,13 +72,13 @@ const Players = connectPlayers(
 				</li>
 			))}
 		</ul>
-	)
+	),
 )
 
 const connectPlayersPage = compose(
 	withCampaignData,
 	withLoading,
-	assertAmOwner('campaign')
+	assertAmOwner('campaign'),
 )
 
 const connectInviteLink = compose(
@@ -86,10 +86,10 @@ const connectInviteLink = compose(
 	withHandlers({
 		toggleInvitesEnabled: ({ campaign }) => () => {
 			Campaign.update(campaign, {
-				inviteSecret: campaign.inviteSecret ? null : Random.secret()
+				inviteSecret: campaign.inviteSecret ? null : Random.secret(),
 			})
-		}
-	})
+		},
+	}),
 )
 
 const InviteLink = connectInviteLink(({ campaign, toggleInvitesEnabled }) => (

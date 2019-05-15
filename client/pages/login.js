@@ -25,7 +25,7 @@ const withLoginActions = withHandlers({
 				onLogin(Meteor.user())
 			}
 		})
-	}
+	},
 })
 
 export default withLoginActions(({ login }) => (

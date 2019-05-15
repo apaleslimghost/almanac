@@ -14,7 +14,7 @@ import {
 	MenuItem,
 	MenuLink,
 	Space,
-	Center
+	Center,
 } from '../visual/menu'
 import Icon from '../visual/icon'
 import { Input } from '../visual/form'
@@ -33,13 +33,13 @@ const withSearch = compose(
 		setSearch(s) {
 			debouncedSetSearch(s)
 			_setSearch(s)
-		}
-	}))
+		},
+	})),
 )
 
 const connectCampaignPage = compose(
 	withCampaignData,
-	withSearch
+	withSearch,
 )
 
 export default connectCampaignPage(
@@ -75,5 +75,5 @@ export default connectCampaignPage(
 				<HistoryList />
 			</Aside>
 		</>
-	)
+	),
 )

@@ -14,7 +14,7 @@ const main = css`
 	grid-column: ${select({
 		left: 'main-left',
 		right: 'main-right',
-		default: 'main'
+		default: 'main',
 	})};
 `
 
@@ -25,7 +25,7 @@ export const Main = styled.div`
 export const Aside = styled.aside`
 	grid-column: ${select({
 		left: 'left',
-		default: 'right'
+		default: 'right',
 	})};
 `
 

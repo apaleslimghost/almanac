@@ -6,7 +6,7 @@ import {
 	withContext,
 	withState,
 	lifecycle,
-	getContext
+	getContext,
 } from 'recompact'
 import { ToastContainer } from 'react-toastify'
 import { setsCampaign, withCampaignData } from '../data/campaign'
@@ -26,7 +26,7 @@ import 'react-toastify/dist/ReactToastify.min.css'
 const LogoutButton = withUserData(({ user }) =>
 	user ? (
 		<User user={user} component={MenuLink} href='/logout' onClick={logout} />
-	) : null
+	) : null,
 )
 
 const MenuTitle = styled(H3)`
@@ -49,7 +49,7 @@ const CampaignTitle = ({ campaign }) => (
 const connectNav = compose(
 	withCampaignData,
 	iAmOwner('campaign'),
-	withUserData
+	withUserData,
 )
 
 const Nav = connectNav(({ campaign, isOwner, extraItems }) => (
@@ -96,30 +96,30 @@ const Nav = connectNav(({ campaign, isOwner, extraItems }) => (
 
 const navContext = {
 	setExtraNavItems: PropTypes.func,
-	setNavShown: PropTypes.func
+	setNavShown: PropTypes.func,
 }
 
 export const withNavContext = getContext(navContext)
 
 const navState = withState('state', 'setState', {
 	extraItems: [],
-	navShown: true
+	navShown: true,
 })
 
 const setNavContext = withContext(navContext, ({ setState, state }) => ({
 	setExtraNavItems(...extraItems) {
 		setState({
 			...state,
-			extraItems
+			extraItems,
 		})
 	},
 
 	setNavShown(navShown = true) {
 		setState({
 			...state,
-			navShown
+			navShown,
 		})
-	}
+	},
 }))
 
 export const hidesNav = compose(
@@ -131,8 +131,8 @@ export const hidesNav = compose(
 
 		componentWillUnmount() {
 			this.props.setNavShown(true)
-		}
-	})
+		},
+	}),
 )
 
 export const withExtraNavItems = (...navItems) =>
@@ -143,20 +143,20 @@ export const withExtraNavItems = (...navItems) =>
 				this.props.setExtraNavItems(
 					...navItems.map(NavItem => (
 						<NavItem {...this.props} key={NavItem.name} />
-					))
+					)),
 				)
 			},
 
 			componentWillUnmount() {
 				this.props.setExtraNavItems()
-			}
-		})
+			},
+		}),
 	)
 
 const connectLayout = compose(
 	navState,
 	setNavContext,
-	setsCampaign
+	setsCampaign,
 )
 
 const BasicLayout = ({ children }) => (

@@ -17,7 +17,7 @@ const route = route_({
 
 	fourOhFour(params, state, url) {
 		return <h1>{url} not found</h1>
-	}
+	},
 })
 
 const withHistoryLifecycle = lifecycle({
@@ -27,23 +27,23 @@ const withHistoryLifecycle = lifecycle({
 
 	componentWillUnmount() {
 		reactiveHistory.stop()
-	}
+	},
 })
 
 const withRouter = withProps(({ routes }) => ({
-	router: route(routes)
+	router: route(routes),
 }))
 
 const withHistory = withTracker(({ router }) => ({
 	currentRoute: reactiveHistory.history.get(),
 	children: router({
 		url: reactiveHistory.history.get(),
-		state: reactiveHistory.state.get()
-	})
+		state: reactiveHistory.state.get(),
+	}),
 }))
 
 export default compose(
 	withHistoryLifecycle,
 	withRouter,
-	withHistory
+	withHistory,
 )

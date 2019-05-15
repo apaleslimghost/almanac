@@ -26,7 +26,7 @@ const isControl = ({ control }) => control
 const connectObjective = compose(
 	withCampaignSession,
 	withCampaignDate,
-	objectiveActions
+	objectiveActions,
 )
 
 const Objective = connectObjective(
@@ -37,7 +37,7 @@ const Objective = connectObjective(
 		onStartObjective,
 		onDeleteObjective,
 		control,
-		CampaignDate
+		CampaignDate,
 	}) => (
 		<>
 			{control && (
@@ -70,13 +70,13 @@ const Objective = connectObjective(
 				</Completed>
 			)}
 		</>
-	)
+	),
 )
 
 const withQuestObjectives = withCards('objectives', ({ quest, control }) => ({
 	type: 'objective',
 	_id: { $in: quest.related || [] },
-	'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN }
+	'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN },
 }))
 
 const withQuestActions = branch(isControl, questActions)
@@ -84,7 +84,7 @@ const withQuestActions = branch(isControl, questActions)
 const connectQuest = compose(
 	withCampaignSession,
 	withQuestObjectives,
-	withQuestActions
+	withQuestActions,
 )
 
 const m = (a, b, c) => (a ? b(a) || c : c)
@@ -113,13 +113,13 @@ const Quest = connectQuest(
 		onSelectQuest,
 		currentQuest,
 		control,
-		first
+		first,
 	}) =>
 		!control &&
 		(quest.completed ||
 			objectives.every(
 				objective =>
-					objective.completed || objective.access.view === access.PRIVATE
+					objective.completed || objective.access.view === access.PRIVATE,
 			)) ? null : (
 			<div>
 				<Ornamented ornament='u'>
@@ -159,7 +159,7 @@ const Quest = connectQuest(
 						m(
 							objectives.find(({ completed }) => !completed),
 							objective => objective.text,
-							quest.text
+							quest.text,
 						)}
 				</Large>
 
@@ -199,25 +199,25 @@ const Quest = connectQuest(
 					)}
 				</ObjectiveList>
 			</div>
-		)
+		),
 )
 
 const withQuestsData = withCards(
 	'quests',
 	({ control }) => ({
 		type: 'quest',
-		'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN }
+		'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN },
 	}),
 	{
 		sort: {
-			updated: -1
-		}
-	}
+			updated: -1,
+		},
+	},
 )
 
 const connectQuestsList = compose(
 	withCampaignSession,
-	withQuestsData
+	withQuestsData,
 )
 
 const QuestsList = connectQuestsList(
@@ -241,13 +241,13 @@ const QuestsList = connectQuestsList(
 			)}
 			{!control && <QuestSplash />}
 		</div>
-	)
+	),
 )
 
 const connectQuestControl = compose(
 	withCampaignSession,
 	questsActions,
-	withProps({ control: true })
+	withProps({ control: true }),
 )
 
 const QuestsControl = connectQuestControl(QuestsList)

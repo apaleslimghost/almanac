@@ -11,7 +11,7 @@ const getImageSubscription = image => {
 		case 'unsplash':
 			return {
 				ready: subscribe(['unsplash.getPhoto', image.id]),
-				image: UnsplashPhotos.findOne(image.id)
+				image: UnsplashPhotos.findOne(image.id),
 			}
 	}
 
@@ -29,5 +29,5 @@ export default getImageId =>
 			}
 
 			return {}
-		}
+		},
 	})

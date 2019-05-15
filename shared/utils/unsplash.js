@@ -8,20 +8,20 @@ const unsplash = (pathname, options) => {
 			url.format({
 				protocol: 'https',
 				hostname: 'api.unsplash.com',
-				pathname
+				pathname,
 			}),
 			{
 				headers: {
-					Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`
+					Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
 				},
-				...options
-			}
+				...options,
+			},
 		).data
 	} catch (error) {
 		if (error.response && error.response.content === 'Rate Limit Exceeded') {
 			throw new Meteor.Error(
 				'unsplash-rate-limit',
-				'Image search is currently unavailable. Try again in a few minutes'
+				'Image search is currently unavailable. Try again in a few minutes',
 			)
 		}
 
@@ -33,8 +33,8 @@ export const getCollectionPhotos = collectionId =>
 	unsplash(`collections/${collectionId}/photos`, {
 		params: {
 			per_page: 100,
-			order_by: 'popular'
-		}
+			order_by: 'popular',
+		},
 	})
 
 export const getPhoto = photoId => unsplash(`photos/${photoId}`)
@@ -44,8 +44,8 @@ export const search = query =>
 		params: {
 			per_page: 100,
 			order_by: 'popular',
-			query
-		}
+			query,
+		},
 	})
 
 export const download = photoId => unsplash(`photos/${photoId}/download`)

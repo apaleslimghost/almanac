@@ -4,7 +4,7 @@ import generateSlug from './generate-slug'
 const objectToMongoUpdate = (
 	obj,
 	top = { $set: {}, $unset: undefined },
-	path = []
+	path = [],
 ) =>
 	Object.keys(obj).reduce(({ $set, $unset }, key) => {
 		const value = obj[key]
@@ -36,7 +36,7 @@ export default (collection, validate, historyCollection) => {
 				date: new Date(),
 				owner: this.userId,
 				campaignId: data.campaignId,
-				data
+				data,
 			})
 		}
 
@@ -66,7 +66,7 @@ export default (collection, validate, historyCollection) => {
 					date: new Date(),
 					owner: this.userId,
 					campaignId: data.campaignId,
-					data: collection.findOne(_id)
+					data: collection.findOne(_id),
 				})
 			}
 		}),
@@ -82,9 +82,9 @@ export default (collection, validate, historyCollection) => {
 					date: new Date(),
 					owner: this.userId,
 					campaignId: data.campaignId,
-					data: {}
+					data: {},
 				})
 			}
-		})
+		}),
 	}
 }

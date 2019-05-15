@@ -16,7 +16,7 @@ const checkCampaignSecret = withProps(
 		if (campaignId && ready && secret !== campaign.inviteSecret) {
 			throw new Forbidden('Incorrect or expired campaign invite link')
 		}
-	}
+	},
 )
 
 const connectEnrol = compose(
@@ -36,14 +36,14 @@ const connectEnrol = compose(
 				toast.info(
 					yours
 						? `That's your campaign!`
-						: `You're already a member of ${campaign.title}`
+						: `You're already a member of ${campaign.title}`,
 				)
 			} else {
 				toast.success(`Welcome to ${campaign.title}!`)
 
 				addMember(campaign, user, secret)
 			}
-		}
+		},
 	}),
 	withTracker(({ addLoggedInUser }) => {
 		const user = Meteor.user()
@@ -54,30 +54,29 @@ const connectEnrol = compose(
 		}
 
 		return { enrolling: true }
-	})
+	}),
 )
 
-export default connectEnrol(
-	({ campaign, enrolling, secret }) =>
-		enrolling ? (
-			<>
-				<CampaignSplash small noBlurb>
-					<HeroSubtitle>Sign up or log in to join</HeroSubtitle>
-				</CampaignSplash>
+export default connectEnrol(({ campaign, enrolling, secret }) =>
+	enrolling ? (
+		<>
+			<CampaignSplash small noBlurb>
+				<HeroSubtitle>Sign up or log in to join</HeroSubtitle>
+			</CampaignSplash>
 
-				<SignupForm
-					createAccountMethod={user =>
-						createAccountAndJoin(user, campaign, secret)
-					}
-				/>
+			<SignupForm
+				createAccountMethod={user =>
+					createAccountAndJoin(user, campaign, secret)
+				}
+			/>
 
-				<Login
-					onLogin={() => {
-						/* Logging in will rerender this page and do the usual redirect */
-					}}
-				/>
-			</>
-		) : (
-				'Redirecting...'
-			)
+			<Login
+				onLogin={() => {
+					/* Logging in will rerender this page and do the usual redirect */
+				}}
+			/>
+		</>
+	) : (
+		'Redirecting...'
+	),
 )

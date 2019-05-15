@@ -14,16 +14,16 @@ const buildGoogleFontsUrl = fonts =>
 					font =>
 						`${font}${
 							fonts[font].length > 0 ? `:${fonts[font].join(',')}` : ''
-						}`
+						}`,
 				)
-				.join('|')
-		}
+				.join('|'),
+		},
 	})
 
 injectGlobal`
 	@import url(${buildGoogleFontsUrl({
 		'Source Sans Pro': ['400', '400i', '700', '700i'],
-		'Libre Baskerville': []
+		'Libre Baskerville': [],
 	})});
 
 	@font-face {

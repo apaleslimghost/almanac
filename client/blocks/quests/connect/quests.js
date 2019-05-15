@@ -13,9 +13,9 @@ const questsActions = withHandlers({
 			...data,
 			type: 'quest',
 			campaignId,
-			access: { edit: access.PRIVATE, view: access.PRIVATE }
+			access: { edit: access.PRIVATE, view: access.PRIVATE },
 		})
-	}
+	},
 })
 
 export default questsActions

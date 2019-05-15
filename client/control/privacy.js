@@ -9,13 +9,13 @@ import { Form, FormFieldData, Input, getInputValue } from './form'
 const getPrivacyIcon = match({
 	[accessLevels.PRIVATE]: 'lock',
 	[accessLevels.CAMPAIGN]: 'double-team',
-	[accessLevels.PUBLIC]: 'globe'
+	[accessLevels.PUBLIC]: 'globe',
 })
 
 const getPrivacyLabel = match({
 	[accessLevels.PRIVATE]: 'Only You',
 	[accessLevels.CAMPAIGN]: 'Campaign',
-	[accessLevels.PUBLIC]: 'Public'
+	[accessLevels.PUBLIC]: 'Public',
 })
 
 const defaultAccess = { view: accessLevels.PRIVATE, edit: accessLevels.PRIVATE }
@@ -71,7 +71,7 @@ const AccessForm = ({ access = defaultAccess, ...props }) => (
 							id='view'
 							onChange={ev => {
 								setFields({
-									edit: Math.min(getInputValue(ev.target), edit)
+									edit: Math.min(getInputValue(ev.target), edit),
 								})
 							}}
 						/>

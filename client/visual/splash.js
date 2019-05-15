@@ -16,20 +16,20 @@ const getSplashUrl = ({ urls }, { _2x = false } = {}) =>
 		Object.assign(
 			{
 				fit: 'crop',
-				crop: 'entropy'
+				crop: 'entropy',
 			},
 			_2x
 				? {
 						q: 20,
 						w: 1800,
-						h: 600
+						h: 600,
 				  }
 				: {
 						q: 70,
 						w: 900,
-						h: 300
-				  }
-		)
+						h: 300,
+				  },
+		),
 	)
 
 const splashBackground = css`
@@ -92,13 +92,13 @@ export const SplashBleed = styled.div`
 			height: ${select({
 				large: '60vw',
 				small: '30vw',
-				default: '40vw'
+				default: '40vw',
 			})};
 
 			max-height: ${select({
 				large: '60vh',
 				small: '30vh',
-				default: '40vh'
+				default: '40vh',
 			})};
 		`}
 `
@@ -191,7 +191,7 @@ const connectCampaignSplash = compose(
 	withCampaignData,
 	withProps(),
 	withImage(({ campaign }) => campaign.theme),
-	withOwnerData('campaign')
+	withOwnerData('campaign'),
 )
 
 export const CampaignSplash = connectCampaignSplash(
@@ -207,5 +207,5 @@ export const CampaignSplash = connectCampaignSplash(
 				)}
 			</Hero>
 		</SplashBleed>
-	)
+	),
 )

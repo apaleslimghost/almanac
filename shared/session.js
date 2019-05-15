@@ -7,7 +7,7 @@ export default campaignId => ({
 
 		const result = Session.findOne({
 			campaignId,
-			_key
+			_key,
 		})
 
 		return result ? result.data : null
@@ -15,5 +15,5 @@ export default campaignId => ({
 
 	set(_key, data) {
 		setSession(campaignId, _key, data)
-	}
+	},
 })

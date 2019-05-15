@@ -15,18 +15,18 @@ const withCardSearch = withTracker(({ search, campaignId }) => ({
 		{ campaignId },
 		search
 			? {
-					sort: [['score', 'desc']]
+					sort: [['score', 'desc']],
 			  }
 			: {
-					sort: [['title', 'asc']]
-			  }
-	).fetch()
+					sort: [['title', 'asc']],
+			  },
+	).fetch(),
 }))
 
 const connectCardList = compose(
 	withCampaignSession,
 	withCardSearch,
-	withLoading
+	withLoading,
 )
 
 const CardList = connectCardList(({ cards }) => (

@@ -13,7 +13,7 @@ export const Error = ({ error }) => (
 
 const displayError = branch(
 	({ error }) => Boolean(error),
-	renderComponent(Error)
+	renderComponent(Error),
 )
 
 export default displayError

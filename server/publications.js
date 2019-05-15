@@ -4,7 +4,7 @@ import {
 	Campaigns,
 	Session,
 	Layouts,
-	CardHistory
+	CardHistory,
 } from '../shared/collections'
 import access from '../shared/access'
 import * as unsplash from '../shared/utils/unsplash'
@@ -12,19 +12,19 @@ import publish from './utils/publish'
 
 const ownedCampaigns = ({ userId }) =>
 	Campaigns.find({
-		owner: userId
+		owner: userId,
 	})
 
 const memberCampaigns = ({ userId }) =>
 	Campaigns.find({
-		$or: [{ owner: userId }, { member: userId }]
+		$or: [{ owner: userId }, { member: userId }],
 	})
 
 const visibleDocs = collection => ({ userId }) => {
 	const campaignIds = memberCampaigns({ userId }).map(c => c._id)
 
 	return collection.find({
-		$or: [{ owner: userId }, { campaignId: { $in: campaignIds } }]
+		$or: [{ owner: userId }, { campaignId: { $in: campaignIds } }],
 	})
 }
 
@@ -37,16 +37,16 @@ const visibleCardQuery = ({ userId }) => {
 			{ campaignId: { $in: ownedCampaignIds } },
 			{
 				campaignId: { $in: memberCampaignIds },
-				'access.view': access.CAMPAIGN
+				'access.view': access.CAMPAIGN,
 			},
-			{ 'access.view': access.PUBLIC }
-		]
+			{ 'access.view': access.PUBLIC },
+		],
 	}
 }
 
 publish({
 	users: {
-		all: () => Meteor.users.find({}, { fields: { username: 1 } })
+		all: () => Meteor.users.find({}, { fields: { username: 1 } }),
 	},
 
 	campaigns: {
@@ -55,7 +55,7 @@ publish({
 		join({ args: [{ campaignId, secret }] }) {
 			return Campaigns.find({
 				_id: campaignId,
-				inviteSecret: secret
+				inviteSecret: secret,
 			})
 		},
 
@@ -68,13 +68,13 @@ publish({
 						.concat(campaign.owner)
 						.concat(campaign.member)
 						.concat(campaign.removedMember || []),
-				[]
+				[],
 			)
 
 			return Meteor.users.find({
-				_id: { $in: allCampaignUsers }
+				_id: { $in: allCampaignUsers },
 			})
-		}
+		},
 	},
 
 	cards: {
@@ -90,19 +90,19 @@ publish({
 				{
 					$and: [
 						query && { $text: { $search: query } },
-						visibleCardQuery({ userId })
-					].filter(part => part)
+						visibleCardQuery({ userId }),
+					].filter(part => part),
 				},
 				query
 					? {
 							fields: {
-								score: { $meta: 'textScore' }
+								score: { $meta: 'textScore' },
 							},
 							sort: {
-								score: { $meta: 'textScore' }
-							}
+								score: { $meta: 'textScore' },
+							},
 					  }
-					: {}
+					: {},
 			)
 		},
 
@@ -110,17 +110,17 @@ publish({
 			const visibleCards = Cards.find(visibleCardQuery({ userId })).fetch()
 			const visibleCardIDs = visibleCards.map(card => card._id)
 			return CardHistory.find({
-				'data._id': { $in: visibleCardIDs }
+				'data._id': { $in: visibleCardIDs },
 			})
-		}
+		},
 	},
 
 	session: {
-		all: visibleDocs(Session)
+		all: visibleDocs(Session),
 	},
 
 	layout: {
-		all: visibleDocs(Layouts)
+		all: visibleDocs(Layouts),
 	},
 
 	unsplash: {
@@ -150,6 +150,6 @@ publish({
 			const photo = unsplash.getPhoto(photoId)
 			added('unsplash-photos', photo.id, photo)
 			ready()
-		}
-	}
+		},
+	},
 })

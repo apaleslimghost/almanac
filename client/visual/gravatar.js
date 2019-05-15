@@ -32,8 +32,8 @@ const formatGravatarUrl = email =>
 		host: 'www.gravatar.com',
 		pathname: `/avatar/${gravatarHash(email)}`,
 		query: {
-			d: 'identicon'
-		}
+			d: 'identicon',
+		},
 	})
 
 export default ({ email, ...props }) => (

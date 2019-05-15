@@ -13,7 +13,7 @@ import AdvanceTime from './advance'
 const connectIncrement = compose(
 	withCampaignSession,
 	withCampaignDate,
-	withIncrement
+	withIncrement,
 )
 
 const Inc = connectIncrement(({ onIncrement, multiplier = 1, period }) => (
@@ -27,7 +27,7 @@ const Inc = connectIncrement(({ onIncrement, multiplier = 1, period }) => (
 const withDateActions = withHandlers({
 	onSubmit: ({ CampaignDate, campaignSession, _date }) => () => {
 		campaignSession.set('date', new CampaignDate(_date).timestamp)
-	}
+	},
 })
 
 const withDateState = withState('_date', 'setDate', ({ date }) => date.P)
@@ -40,7 +40,7 @@ const connectDateForm = compose(
 	withDateActions,
 	withPropsOnChange(['date'], ({ date, setDate }) => {
 		setDate(date.P)
-	})
+	}),
 )
 
 const DateForm = connectDateForm(({ _date, setDate, onSubmit }) => (

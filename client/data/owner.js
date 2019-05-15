@@ -7,15 +7,15 @@ import subscribe from '../utils/subscribe'
 export const withOwnerData = key =>
 	withTracker(props => ({
 		ready: subscribe('users.all'),
-		user: props[key] ? Meteor.users.findOne(props[key].owner) : null
+		user: props[key] ? Meteor.users.findOne(props[key].owner) : null,
 	}))
 
 export const iAmOwner = key =>
 	compose(
 		withOwnerData(key),
 		withTracker(props => ({
-			isOwner: props.user ? Meteor.userId() === props.user._id : false
-		}))
+			isOwner: props.user ? Meteor.userId() === props.user._id : false,
+		})),
 	)
 
 export const assertAmOwner = key =>
@@ -25,5 +25,5 @@ export const assertAmOwner = key =>
 			if (ready && isOwner === false) {
 				throw new Forbidden(`You're not allowed to do that`)
 			}
-		})
+		}),
 	)

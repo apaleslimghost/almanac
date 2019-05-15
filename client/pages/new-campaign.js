@@ -8,7 +8,7 @@ const withCampaignActions = withHandlers({
 		data.member = []
 		const { _id } = await Campaign.create(data)
 		go(`/${_id}`)
-	}
+	},
 })
 
 export default withCampaignActions(CampaignSettings)

@@ -13,5 +13,5 @@ export default startComputation =>
 
 		componentWillUnmount() {
 			this.computation.stop()
-		}
+		},
 	})

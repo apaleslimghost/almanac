@@ -10,31 +10,31 @@ import { withCampaign } from './campaign'
 export const calendars = {
 	harptosV1: {
 		name: 'Harptos',
-		dateConstructor: HarptosDate
+		dateConstructor: HarptosDate,
 	},
 	harptosCommonV1: {
 		name: 'Harptos (common)',
-		dateConstructor: HarptosCommonDate
+		dateConstructor: HarptosCommonDate,
 	},
 	odreianV1: {
 		name: 'Odreian',
-		dateConstructor: OdreianDate
+		dateConstructor: OdreianDate,
 	},
 	tideV1: {
 		name: 'Tide',
-		dateConstructor: TideDate
-	}
+		dateConstructor: TideDate,
+	},
 }
 
 const defaultCalendarId = 'odreianV1'
 
 export const calendarList = Object.entries(calendars).map(([id, detail]) =>
-	Object.assign({ id }, detail)
+	Object.assign({ id }, detail),
 )
 
 const withCampaignDateConstructor = withTracker(({ campaignCalendarId }) => ({
 	CampaignDate: (calendars[campaignCalendarId] || calendars[defaultCalendarId])
-		.dateConstructor
+		.dateConstructor,
 }))
 
 const withCampaignCalendarId = withTracker(({ campaignId }) => {
@@ -45,5 +45,5 @@ const withCampaignCalendarId = withTracker(({ campaignId }) => {
 export const withCampaignDate = compose(
 	withCampaign,
 	withCampaignCalendarId,
-	withCampaignDateConstructor
+	withCampaignDateConstructor,
 )

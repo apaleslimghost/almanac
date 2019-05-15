@@ -5,7 +5,7 @@ import {
 	compose,
 	withReducer,
 	withHandlers,
-	withPropsOnChange
+	withPropsOnChange,
 } from 'recompact'
 import { withCampaignDate } from '../../data/calendar'
 import Ornamented from '../../visual/ornamented'
@@ -40,7 +40,7 @@ const compassDir = heading =>
 		'W',
 		'WNW',
 		'NW',
-		'NNW'
+		'NNW',
 	][Math.round((heading * 16) / 360) % 16]
 
 const weatherCondition = ({ temperature, humidity }) =>
@@ -53,7 +53,7 @@ const weatherCondition = ({ temperature, humidity }) =>
 			'sun-cloud-rain',
 			'sun-cloud',
 			'heavy-rain',
-			'lightning'
+			'lightning',
 		],
 		[
 			'snow-storm',
@@ -61,17 +61,17 @@ const weatherCondition = ({ temperature, humidity }) =>
 			'wet',
 			'lightning',
 			'lightning',
-			'heavy-lightning'
-		]
+			'heavy-lightning',
+		],
 	][Math.min(3, Math.floor((humidity * 4) / 100))][
-	Math.min(5, Math.floor(((20 + temperature) * 6) / 80))
+		Math.min(5, Math.floor(((20 + temperature) * 6) / 80))
 	]
 
 const defaultWeather = {
 	temperature: 10,
 	humidity: 50,
 	windHeading: 0,
-	windSpeed: 10
+	windSpeed: 10,
 }
 
 // Fast linear that      ︵__
@@ -134,14 +134,14 @@ const withWeatherData = withTracker(({ campaignSession, CampaignDate }) => {
 	const date = new CampaignDate(campaignSession.get('date'))
 	return {
 		weather: campaignSession.get('weather') || defaultWeather,
-		date
+		date,
 	}
 })
 
 const connectWeather = compose(
 	withCampaignSession,
 	withCampaignDate,
-	withWeatherData
+	withWeatherData,
 )
 
 const Weather = connectWeather(
@@ -158,12 +158,12 @@ const Weather = connectWeather(
 					{date.isNight ? (
 						moonPhaseIcon(date)
 					) : (
-							<WeatherCondition {...{ temperature, humidity }} />
-						)}
+						<WeatherCondition {...{ temperature, humidity }} />
+					)}
 				</WeatherIcon>
 			</Ornamented>
 		</WeatherWrapper>
-	)
+	),
 )
 
 const FixedWidthLabel = styled.label`
@@ -175,13 +175,13 @@ const withWeatherState = withReducer(
 	'_weather',
 	'setWeather',
 	Object.assign,
-	({ weather }) => weather
+	({ weather }) => weather,
 )
 
 const weatherFormActions = withHandlers({
 	onSubmit: ({ campaignSession, _weather }) => () => {
 		campaignSession.set('weather', _weather)
-	}
+	},
 })
 
 const connectWeatherForm = compose(
@@ -192,7 +192,7 @@ const connectWeatherForm = compose(
 	weatherFormActions,
 	withPropsOnChange(['weather'], ({ weather, setWeather }) => {
 		setWeather(weather)
-	})
+	}),
 )
 
 const WeatherForm = connectWeatherForm(({ _weather, setWeather, onSubmit }) => (

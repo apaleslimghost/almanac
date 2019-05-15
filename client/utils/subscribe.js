@@ -10,13 +10,13 @@ const subscribe = (...subs) =>
 					if (error) {
 						toast.error(error.reason)
 					}
-				}
-			})
+				},
+			}),
 		)
 		.every(sub => sub.ready())
 
 export default subscribe
 export const withSubscribe = (...subs) =>
 	withTracker(() => ({
-		ready: subscribe(...subs)
+		ready: subscribe(...subs),
 	}))

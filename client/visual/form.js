@@ -7,7 +7,7 @@ const withInputProps = withProps({
 	colour: 'steel',
 	shade: 4,
 	sunken: true,
-	large: true
+	large: true,
 })
 
 const asTag = component => tag => withProps({ tag })(component)
@@ -16,11 +16,11 @@ const asSelect = asTag(FormControls.Select)
 
 const withInput = compose(
 	withInputProps,
-	asInput
+	asInput,
 )
 const withSelect = compose(
 	withInputProps,
-	asSelect
+	asSelect,
 )
 
 const BaseInput = Label.withComponent('input').extend`

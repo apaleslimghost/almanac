@@ -12,6 +12,6 @@ export default withProps(({ excerpt }) => ({
 					? children.find(child => child.type === 'p') || children[0]
 					: children}
 			</>
-		)
-	}
+		),
+	},
 }))(Markdown)

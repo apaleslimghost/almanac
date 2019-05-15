@@ -26,14 +26,14 @@ import {
 	Space,
 	Divider,
 	MenuButton,
-	MenuItem
+	MenuItem,
 } from '../visual/menu'
 import _ from 'lodash'
 
 const connectFormSplash = compose(
 	withFormData,
 	withProps({ small: true }),
-	withImage(({ fields }) => fields.cover)
+	withImage(({ fields }) => fields.cover),
 )
 
 const FormCardSplash = connectFormSplash(SplashBleed)
@@ -51,13 +51,13 @@ const SchemaFields = withFormData(({ fields }) =>
 			))}
 			<Divider />
 		</>
-	) : null
+	) : null,
 )
 
 const ContentsForm = withProps({
 	tag: styled.form`
 		display: contents;
-	`
+	`,
 })(Form)
 
 const FloatMenuItem = styled.div`
@@ -125,7 +125,7 @@ const editCardActions = withHandlers({
 		} else {
 			_id = (await Card.create({
 				...data,
-				campaignId
+				campaignId,
 			}))._id
 		}
 
@@ -143,7 +143,7 @@ const editCardActions = withHandlers({
 
 	back: ({ card, campaignId }) => () => {
 		go(`/${campaignId}/${card ? card._id : ''}`)
-	}
+	},
 })
 
 const withCardData = compose(
@@ -151,7 +151,7 @@ const withCardData = compose(
 	withCard,
 	withLoading,
 	editCardActions,
-	iAmOwner('card')
+	iAmOwner('card'),
 )
 
 export default withCardData(EditCard)

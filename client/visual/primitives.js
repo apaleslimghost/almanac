@@ -22,7 +22,7 @@ export const etched = ({
 	colour = 'sky',
 	shade = 3,
 	sunken = false,
-	focused = false
+	focused = false,
 }) => css`
 	${
 		sunken
@@ -34,14 +34,14 @@ export const etched = ({
 	border: solid 1px ${colours[colour][shade - 1]};
 	box-shadow: ${[
 		sunken && `inset ${shadow()}`,
-		focused && `0 0 3px 2px ${colours.sky[4]}`
+		focused && `0 0 3px 2px ${colours.sky[4]}`,
 	]
 		.filter(i => i)
 		.join() || 'unset'};
 `
 
 export const List = styled.div.attrs({
-	'data-spacing': ({ spaced }) => (spaced ? '0.5em' : '2px')
+	'data-spacing': ({ spaced }) => (spaced ? '0.5em' : '2px'),
 })`
 	display: flex;
 	align-items: ${({ vertical }) => (vertical ? 'stretch' : 'flex-start')};
@@ -170,13 +170,13 @@ const makeButton = ({ Button, Body }) => props => (
 
 export const Button = makeButton({
 	Button: Button_,
-	Body: LabelBody
+	Body: LabelBody,
 })
 
 Button.extend = (...args) =>
 	makeButton({
 		Button: Button_.extend(...args),
-		Body: LabelBody
+		Body: LabelBody,
 	})
 
 export const Group = List.extend`

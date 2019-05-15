@@ -491,7 +491,7 @@ const rpgIcons = new Set([
 	'wyvern',
 	'x-mark',
 	'zebra-shield',
-	'zigzag-leaf'
+	'zigzag-leaf',
 ])
 
 const Icon = ({ icon, className = '' }) => {

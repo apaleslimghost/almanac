@@ -8,5 +8,5 @@ export default (interval, onFire) =>
 
 		componentWillUnmount() {
 			clearInterval(this.timer)
-		}
+		},
 	})

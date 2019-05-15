@@ -11,7 +11,7 @@ export const UnsplashPhotos = new Mongo.Collection('unsplash-photos')
 if (Meteor.isServer) {
 	Cards._ensureIndex({
 		title: 'text',
-		text: 'text'
+		text: 'text',
 	})
 }
 

@@ -11,7 +11,7 @@ const publish = (publications, path = []) =>
 					changed: this.changed.bind(this),
 					removed: this.removed.bind(this),
 					ready: this.ready.bind(this),
-					args
+					args,
 				})
 			})
 		} else {

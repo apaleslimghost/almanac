@@ -12,15 +12,15 @@ const withCards = (key, query = {}, { single = false, ...options } = {}) =>
 			Cards,
 			Object.assign(
 				{ campaignId },
-				typeof query === 'function' ? query(props) : query
+				typeof query === 'function' ? query(props) : query,
 			),
 			single,
-			options
-		)
+			options,
+		),
 	}))
 
 export const withCard = withCards('card', ({ cardId }) => ({ _id: cardId }), {
-	single: true
+	single: true,
 })
 
 export default withCards
