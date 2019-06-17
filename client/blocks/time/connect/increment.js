@@ -5,13 +5,13 @@ export default withHandlers({
 		campaignSession,
 		CampaignDate,
 		period,
-		multiplier = 1
+		multiplier = 1,
 	}) => () => {
 		campaignSession.set(
 			'date',
 			new CampaignDate(campaignSession.get('date') || 0).add({
-				[period]: multiplier
-			}).timestamp
+				[period]: multiplier,
+			}).timestamp,
 		)
-	}
+	},
 })

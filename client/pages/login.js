@@ -25,10 +25,10 @@ const withLoginActions = withHandlers({
 				onLogin(Meteor.user())
 			}
 		})
-	}
+	},
 })
 
-export default withLoginActions(({ onLogin, login }) => (
+export default withLoginActions(({ login }) => (
 	<Form onSubmit={login}>
 		<LabelledInput>
 			Username or email

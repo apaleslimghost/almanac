@@ -14,9 +14,9 @@ const withDashboardActions = withHandlers({
 		window.open(
 			`/${campaign._id}/dashboard`,
 			campaign._id,
-			'width=600,height=400'
+			'width=600,height=400',
 		)
-	}
+	},
 })
 
 const LaunchLink = ({ campaign, launchDashboard }) => (
@@ -31,7 +31,7 @@ const connectDashboardControl = compose(
 	assertAmOwner('campaign'),
 	withDashboardActions,
 	withExtraNavItems(LaunchLink),
-	withProps({ which: 'control' })
+	withProps({ which: 'control' }),
 )
 
 export default connectDashboardControl(BlockLayout)

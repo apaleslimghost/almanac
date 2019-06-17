@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor'
 import { Campaigns } from '../../collections'
 import access from '../../access'
 
@@ -32,7 +33,7 @@ export const canEdit = (data, userId, diff) => {
 	) {
 		throw new Meteor.Error(
 			'card-access-denied',
-			'Only the owner can change the access of a card'
+			'Only the owner can change the access of a card',
 		)
 	}
 

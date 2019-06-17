@@ -16,7 +16,7 @@ const connectApp = compose(
 	displayError,
 	withPropsOnChange('currentRoute', ({ setError }) => {
 		setError(null)
-	})
+	}),
 )
 
 const App = connectApp(({ children }) => children)

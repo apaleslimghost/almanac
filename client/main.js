@@ -110,7 +110,7 @@ render(
 				)
 			},
 
-			'/new-campaign'(params) {
+			'/new-campaign'() {
 				return (
 					<Layout>
 						<NewCampaign />
@@ -164,8 +164,8 @@ render(
 						<Home />
 					</Layout>
 				)
-			}
+			},
 		}}
 	/>,
-	root
+	root,
 )

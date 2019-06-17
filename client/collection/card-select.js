@@ -35,14 +35,14 @@ const withCardData = withTracker({
 		// TODO: use withCard
 		cardsById: _.keyBy(
 			Cards.find({ _id: { $nin: skip }, campaignId }).fetch(),
-			'_id'
-		)
-	})
+			'_id',
+		),
+	}),
 })
 
 const connectCardSelect = compose(
 	withCampaign,
-	withCardData
+	withCardData,
 )
 
 export default connectCardSelect(CardSelect)

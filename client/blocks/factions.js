@@ -14,7 +14,7 @@ const relationshipLabel = {
 	'-1': 'Unfriendly',
 	0: 'Neutral',
 	1: 'Friendly',
-	2: 'Allied'
+	2: 'Allied',
 }
 
 const relationshipIcon = {
@@ -22,7 +22,7 @@ const relationshipIcon = {
 	'-1': 'cracked-shield',
 	0: 'castle-emblem',
 	1: 'beer',
-	2: 'two-hearts'
+	2: 'two-hearts',
 }
 
 const Right = styled.span`
@@ -30,7 +30,7 @@ const Right = styled.span`
 `
 
 const connectModRelationship = withHandlers({
-	modRelationship: ({ amount, faction }) => ev => {
+	modRelationship: ({ amount, faction }) => () => {
 		const relationship = (faction.relationship || 0) + amount
 
 		if (
@@ -39,7 +39,7 @@ const connectModRelationship = withHandlers({
 		) {
 			Card.update(faction, { relationship })
 		}
-	}
+	},
 })
 
 const ModRelationship = connectModRelationship(
@@ -50,10 +50,10 @@ const ModRelationship = connectModRelationship(
 		>
 			{amount > 0 ? '+' : '-'}
 		</Button>
-	)
+	),
 )
 
-const Relationship = ({ control, modRelationship, faction }) => (
+const Relationship = ({ control, faction }) => (
 	<Right>
 		{relationshipLabel[faction.relationship || 0]}{' '}
 		<Icon icon={relationshipIcon[faction.relationship || 0]} />
@@ -76,15 +76,15 @@ const withFactionActions = withHandlers({
 			...data,
 			relationship: 0,
 			type: 'faction',
-			campaignId
+			campaignId,
 		})
-	}
+	},
 })
 
 const connectRemoveButton = withHandlers({
-	remove: ({ faction }) => ev => {
+	remove: ({ faction }) => () => {
 		Card.delete(faction)
-	}
+	},
 })
 
 const Remove = connectRemoveButton(({ remove }) => (
@@ -96,11 +96,11 @@ const withFactionData = withCards('factions', { type: 'faction' })
 const connectFactions = compose(
 	withCampaign,
 	withFactionData,
-	withFactionActions
+	withFactionActions,
 )
 
 const ShowFactions = connectFactions(
-	({ factions, onCreate, remove, control = false }) => (
+	({ factions, onCreate, control = false }) => (
 		<div>
 			<Ornamented ornament='x'>Factions</Ornamented>
 
@@ -121,7 +121,7 @@ const ShowFactions = connectFactions(
 				)}
 			</ul>
 		</div>
-	)
+	),
 )
 
 const FactionsControl = withProps({ control: true })(ShowFactions)

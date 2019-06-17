@@ -19,13 +19,14 @@ import {
 	MenuLink,
 	Space,
 	Divider,
-	Center
+	Center,
 } from '../visual/menu'
 import withImage from '../data/image'
 import { CardHistoryList } from '../collection/card-history'
+import _ from 'lodash'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
-	_id: { $in: (card && card.related) || [] }
+	_id: { $in: (card && card.related) || [] },
 }))
 
 const withCardData = compose(
@@ -33,7 +34,7 @@ const withCardData = compose(
 	withCard,
 	withRelatedCards,
 	withUserData,
-	withLoading
+	withLoading,
 )
 
 const connectCardSplash = withImage(({ card }) => card.cover)
@@ -54,7 +55,7 @@ const Right = styled.aside`
 	grid-column: right;
 `
 
-export default withCardData(({ card, relatedCards, user, image }) => (
+export default withCardData(({ card, relatedCards, user }) => (
 	<>
 		<CardSplash card={card} />
 		<Title>{card.title}</Title>
@@ -77,7 +78,7 @@ export default withCardData(({ card, relatedCards, user, image }) => (
 									<b>{label} </b>
 									{format(card[key])}
 								</MenuItem>
-							)
+							),
 						)}
 						<Divider />
 					</>

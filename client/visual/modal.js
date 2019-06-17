@@ -33,7 +33,7 @@ const Modal = styled.div`
 	animation-name: ${({ animationState }) =>
 		({
 			opening: fadeIn,
-			closing: fadeOut
+			closing: fadeOut,
 		}[animationState] || 'none')};
 	animation-duration: ${({ animationState }) =>
 		animationState === 'opening' ? '300ms' : '5s'};

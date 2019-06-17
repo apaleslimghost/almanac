@@ -27,12 +27,12 @@ function _addMember(campaign, user, secret, token) {
 	if (amOwner || ((amUser || hasToken) && hasSecret)) {
 		Campaigns.update(campaign._id, {
 			$pull: { removedMember: user._id },
-			$addToSet: { member: user._id }
+			$addToSet: { member: user._id },
 		})
 	} else
 		throw new Meteor.Error(
 			'doc-access-denied',
-			`Can't add a member to that campaign`
+			`Can't add a member to that campaign`,
 		)
 }
 
@@ -42,19 +42,19 @@ export const removeMember = method('removeMember', (campaign, user) => {
 	// TODO: verify can do stuff
 	Campaigns.update(campaign._id, {
 		$pull: { member: user._id },
-		$addToSet: { removedMember: user._id }
+		$addToSet: { removedMember: user._id },
 	})
 })
 
 export const addRelated = method('addRelated', (card, related) => {
 	Cards.update(card._id, {
-		$addToSet: { related: related._id }
+		$addToSet: { related: related._id },
 	})
 })
 
 export const removeRelated = method('removeRelated', (card, related) => {
 	Cards.update(card._id, {
-		$pull: { related: related._id }
+		$pull: { related: related._id },
 	})
 })
 
@@ -66,17 +66,17 @@ export const deleteCardWithRelated = method(
 				{ _id: card._id },
 				{
 					type,
-					_id: { $in: card.related || [] }
-				}
-			]
+					_id: { $in: card.related || [] },
+				},
+			],
 		})
-	}
+	},
 )
 
 export const setSession = method('setSession', (campaignId, _key, data) => {
 	const existing = Session.findOne({
 		campaignId,
-		_key
+		_key,
 	})
 
 	if (campaignId) {
@@ -86,7 +86,7 @@ export const setSession = method('setSession', (campaignId, _key, data) => {
 			Session.insert({ data, campaignId, _key })
 		}
 	} else {
-		console.trace('No campaign id')
+		console.trace('No campaign id') // eslint-disable-line no-console
 	}
 })
 
@@ -101,15 +101,15 @@ export const createAccount = method('createAccount', function(user, campaign) {
 				Object.assign(
 					{
 						owner: userId,
-						member: []
+						member: [],
 					},
-					campaign
-				)
-			)
+					campaign,
+				),
+			),
 		)
 
 		Meteor.users.update(userId, {
-			$set: { 'profile.defaultCampaign': defaultCampaign }
+			$set: { 'profile.defaultCampaign': defaultCampaign },
 		})
 		Accounts.sendEnrollmentEmail(userId, user.email)
 	}
@@ -118,7 +118,7 @@ export const createAccount = method('createAccount', function(user, campaign) {
 export const createAccountAndJoin = method('createAccountAndJoin', function(
 	user,
 	campaign,
-	secret
+	secret,
 ) {
 	if (!secret) {
 		throw new Meteor.Error('no-secret', 'tell createAccountAndJoin a secret ;)')
@@ -130,7 +130,7 @@ export const createAccountAndJoin = method('createAccountAndJoin', function(
 
 		_addMember(campaign, { _id: userId }, secret, serverToken)
 		Meteor.users.update(userId, {
-			$set: { 'profile.defaultCampaign': campaign._id }
+			$set: { 'profile.defaultCampaign': campaign._id },
 		})
 
 		Accounts.sendEnrollmentEmail(userId, user.email)

@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'production') {
 	WebApp.connectHandlers.use((req, res, next) => {
 		res.setHeader(
 			'Strict-Transport-Security',
-			`max-age=${THIRTY_DAYS}; includeSubDomains`
+			`max-age=${THIRTY_DAYS}; includeSubDomains`,
 		)
 
 		next()

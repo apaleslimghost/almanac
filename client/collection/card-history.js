@@ -12,20 +12,20 @@ import Link from '../control/link'
 
 const withHistory = withTracker(() => ({
 	ready: subscribe('cards.history'),
-	history: CardHistory.find({}, { sort: [['date', 'desc']] }).fetch()
+	history: CardHistory.find({}, { sort: [['date', 'desc']] }).fetch(),
 }))
 
 const withCardHistory = withTracker(({ card }) => ({
 	ready: subscribe('cards.history'),
 	history: CardHistory.find(
 		{ 'data._id': card._id },
-		{ sort: [['date', 'desc']] }
-	).fetch()
+		{ sort: [['date', 'desc']] },
+	).fetch(),
 }))
 
 const getHistoryIcon = match({
 	add: 'file-text-o',
-	edit: 'edit'
+	edit: 'edit',
 })
 
 const IconList = styled.ul`

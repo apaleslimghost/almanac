@@ -4,9 +4,9 @@ export default {
 		fields: {
 			completed: {
 				label: 'Date',
-				type: 'text'
-			}
-		}
+				type: 'text',
+			},
+		},
 	},
 
 	quest: {
@@ -15,9 +15,9 @@ export default {
 			completed: {
 				label: 'Completed',
 				type: 'checkbox',
-				format: val => (val ? '✔︎' : '✘')
-			}
-		}
+				format: val => (val ? '✔︎' : '✘'),
+			},
+		},
 	},
 
 	objective: {
@@ -26,9 +26,9 @@ export default {
 			completed: {
 				label: 'Completed',
 				type: 'checkbox',
-				format: val => (val ? '✔︎' : '✘')
-			}
-		}
+				format: val => (val ? '✔︎' : '✘'),
+			},
+		},
 	},
 
 	faction: {
@@ -38,8 +38,8 @@ export default {
 				label: 'Relationship',
 				type: 'number',
 				min: -2,
-				max: +2
-			}
-		}
-	}
+				max: +2,
+			},
+		},
+	},
 }

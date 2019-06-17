@@ -47,7 +47,7 @@ export default User
 const connectOwner = compose(
 	withSubscribe('campaigns.members'),
 	withOwnerData('of'),
-	withLoadingComponent(() => null)
+	withLoadingComponent(() => null),
 )
 
 export const Owner = connectOwner(User)

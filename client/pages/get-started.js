@@ -13,14 +13,14 @@ export const withAccountActions = withHandlers({
 	submitAccount: ({ createAccountMethod = createAccount }) => async ({
 		username,
 		email,
-		campaign
+		campaign,
 	}) => {
 		await createAccountMethod({ username, email }, campaign)
 		toast.success(
-			`We've sent an email to ${email} to verify your address. Check your inbox.`
+			`We've sent an email to ${email} to verify your address. Check your inbox.`,
 		)
 		go('/')
-	}
+	},
 })
 
 const SignupFields = () => (

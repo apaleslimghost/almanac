@@ -21,12 +21,12 @@ const withSearch = withState('query', 'setQuery', '')
 
 const withUnsplashSearch = withTracker(({ query }) => ({
 	ready: query ? subscribe(['unsplash.search', query]) : false,
-	photos: UnsplashPhotos.find({ fromSearch: query }).fetch()
+	photos: UnsplashPhotos.find({ fromSearch: query }).fetch(),
 }))
 
 const withAlmanacCollection = withTracker(() => ({
 	ready: subscribe(['unsplash.getCollectionPhotos', '2021417']),
-	photos: UnsplashPhotos.find({ fromCollection: '2021417' }).fetch()
+	photos: UnsplashPhotos.find({ fromCollection: '2021417' }).fetch(),
 }))
 
 const withFieldContext = getContext(fieldLike)
@@ -34,28 +34,28 @@ const withFieldContext = getContext(fieldLike)
 const withImageSelectActions = withHandlers({
 	setImage: ({ setFields, name }) => image => {
 		setFields({
-			[name]: image
+			[name]: image,
 		})
 
 		if (image) {
 			unsplashDownload(image.id)
 		}
-	}
+	},
 })
 
 const connectImageSelect = compose(
 	withFieldContext,
-	withImageSelectActions
+	withImageSelectActions,
 )
 
 const connectSearch = compose(
 	withSearch,
-	withUnsplashSearch
+	withUnsplashSearch,
 )
 
 const connectCollection = compose(
 	withAlmanacCollection,
-	withLoading
+	withLoading,
 )
 
 const FlexImg = styled.img`
@@ -83,7 +83,7 @@ const getThumb = ({ urls }, { w = 450, h = 150 } = {}) =>
 		fit: 'crop',
 		crop: 'entropy',
 		w,
-		h
+		h,
 	})
 
 const ImageSelectSection = ({ photos, setImage, fields, name }) => (
@@ -93,7 +93,7 @@ const ImageSelectSection = ({ photos, setImage, fields, name }) => (
 				key={photo.id}
 				selected={fields[name] === photo.id}
 				onClick={preventingDefault(() =>
-					setImage({ from: 'unsplash', id: photo.id })
+					setImage({ from: 'unsplash', id: photo.id }),
 				)}
 			>
 				<FlexImg
@@ -124,7 +124,7 @@ const ImageSelectTabs = props => (
 	<Tabs>
 		{{
 			Suggested: <CollectionImage {...props} />,
-			Search: <SearchImage {...props} />
+			Search: <SearchImage {...props} />,
 		}}
 	</Tabs>
 )
@@ -164,5 +164,5 @@ export const ImageSelectModal = connectImageSelect(
 				/>
 			)}
 		/>
-	)
+	),
 )

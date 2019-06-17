@@ -13,16 +13,16 @@ import Splash from './splash'
 
 const withCampaignData = withTracker(() => ({
 	ready: subscribe('campaigns.all'),
-	campaigns: Campaigns.find({}).fetch()
+	campaigns: Campaigns.find({}).fetch(),
 }))
 
 const connectCampaign = compose(
 	loggedIn(renderComponent(Splash)),
-	withCampaignData
+	withCampaignData,
 )
 
 const CampaignTile = withImage(
-	({ campaign }) => campaign.theme
+	({ campaign }) => campaign.theme,
 )(SplashBackground.withComponent(Link).extend`
 	height: 25vmin;
 	border-radius: 3px;

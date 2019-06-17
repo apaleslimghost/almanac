@@ -11,13 +11,13 @@ const withCampaignActions = withHandlers({
 	onSubmit: ({ campaign }) => data => {
 		Campaign.update(campaign, data)
 		go(`/${campaign._id}`)
-	}
+	},
 })
 
 const connectCampaignSettings = compose(
 	withCampaignData,
 	assertAmOwner('campaign'),
-	withCampaignActions
+	withCampaignActions,
 )
 
 const CampaignSettingsPage = connectCampaignSettings(CampaignSettings)
