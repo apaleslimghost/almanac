@@ -30,9 +30,9 @@ import { addRelated, Card } from '../../shared/methods'
 import _ from 'lodash'
 import { ReactiveVar } from 'meteor/reactive-var'
 import { withHandlers } from 'recompact'
-import { Input } from '../visual/form'
 import { withState } from 'recompact'
 import { lifecycle } from 'recompact'
+import { FlexGrid } from '../visual/grid'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
 	_id: { $in: (card && card.related) || [] },
@@ -233,10 +233,13 @@ export default withCardData(({ card, relatedCards, user }) => (
 		</CardBody>
 
 		<Right>
-			{relatedCards.length > 0 &&
-				relatedCards.map(related => (
-					<ShowCard key={related._id} card={related} />
-				))}
+			{relatedCards.length > 0 && (
+				<FlexGrid>
+					{relatedCards.map(related => (
+						<ShowCard key={related._id} card={related} />
+					))}
+				</FlexGrid>
+			)}
 
 			<CardHistoryList card={card} />
 		</Right>
