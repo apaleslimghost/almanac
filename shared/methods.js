@@ -64,9 +64,24 @@ export const addRelated = method('addRelated', async function(card, related) {
 	})
 })
 
-export const removeRelated = method('removeRelated', (card, related) => {
+export const removeRelated = method('removeRelated', async function(
+	card,
+	related,
+) {
 	Cards.update(card._id, {
 		$pull: { related: related._id },
+	})
+
+	const cardData = Cards.findOne(card._id)
+	const relatedData = Cards.findOne(related._id)
+
+	CardHistory.insert({
+		verb: 'unlink',
+		date: new Date(),
+		owner: this.userId,
+		campaignId: card.campaignId,
+		data: cardData,
+		extra: relatedData,
 	})
 })
 

@@ -27,6 +27,7 @@ const getHistoryIcon = match({
 	add: 'file-text-o',
 	edit: 'edit',
 	link: 'link',
+	unlink: 'chain-broken',
 })
 
 const IconList = styled.ul`
