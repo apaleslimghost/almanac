@@ -46,9 +46,21 @@ export const removeMember = method('removeMember', (campaign, user) => {
 	})
 })
 
-export const addRelated = method('addRelated', (card, related) => {
-	Cards.update(card._id, {
+export const addRelated = method('addRelated', async function(card, related) {
+	await Cards.update(card._id, {
 		$addToSet: { related: related._id },
+	})
+
+	const cardData = Cards.findOne(card._id)
+	const relatedData = Cards.findOne(related._id)
+
+	CardHistory.insert({
+		verb: 'link',
+		date: new Date(),
+		owner: this.userId,
+		campaignId: card.campaignId,
+		data: cardData,
+		extra: relatedData,
 	})
 })
 
