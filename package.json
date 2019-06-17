@@ -71,7 +71,7 @@
 		"babel-eslint": "^10.0.1",
 		"eslint": "^5.16.0",
 		"husky": "^2.3.0",
-		"precise-commits": "^1.0.2",
+		"lint-staged": "^8.2.1",
 		"prettier": "^1.17.1"
 	},
 	"eslintConfig": {
@@ -100,9 +100,15 @@
 		}
 	},
 	"prettier": "@quarterto/prettier",
+	"lint-staged": {
+		"*": [
+			"prettier --write",
+			"git add"
+		]
+	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "precise-commits",
+			"pre-commit": "lint-staged",
 			"pre-push": "npm test"
 		}
 	}
