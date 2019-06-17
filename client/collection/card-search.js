@@ -26,6 +26,7 @@ const Search = withSearchState(
 		searchAction,
 		placeholder = 'Search…',
 		right = false,
+		...props
 	}) => (
 		<MaybeBackwardsFragment reverse={right}>
 			<MenuItem flush>
@@ -43,6 +44,7 @@ const Search = withSearchState(
 						searchAction &&
 						createCtrlEnterHandler(() => searchAction({ search, setSearch }))
 					}
+					{...props}
 				/>
 			</MenuItem>
 			{search && searchAction && (

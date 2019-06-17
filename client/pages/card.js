@@ -30,6 +30,9 @@ import { addRelated, Card } from '../../shared/methods'
 import _ from 'lodash'
 import { ReactiveVar } from 'meteor/reactive-var'
 import { withHandlers } from 'recompact'
+import { Input } from '../visual/form'
+import { withState } from 'recompact'
+import { lifecycle } from 'recompact'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
 	_id: { $in: (card && card.related) || [] },
@@ -72,6 +75,7 @@ const debouncedSetSearch = _.debounce(searchVar.set.bind(searchVar), 300)
 const withCampaignSearch = withTracker(() => ({
 	search: searchVar.get(),
 	setSearch: debouncedSetSearch,
+	containerRef: React.createRef(),
 }))
 
 const withAddRelatedSearchAction = withHandlers({
@@ -89,11 +93,32 @@ const withAddRelatedSearchAction = withHandlers({
 	},
 })
 
+const withDropdownState = withState('showDropdown', 'setShowDropdown', false)
+
+const withOutsideEventHandler = lifecycle({
+	componentDidMount() {
+		document.body.addEventListener(
+			'mousedown',
+			(this.handler = event => {
+				if (!this.props.containerRef.current.contains(event.target)) {
+					this.props.setShowDropdown(false)
+				}
+			}),
+		)
+	},
+
+	componentWillUnmount() {
+		document.body.removeEventListener('mousedown', this.handler)
+	},
+})
+
 const connectSearchContainer = compose(
 	withCampaignId,
 	withCampaignSearch,
 	withCardSearch,
 	withAddRelatedSearchAction,
+	withDropdownState,
+	withOutsideEventHandler,
 )
 
 const Dropdown = styled.div`
@@ -102,22 +127,33 @@ const Dropdown = styled.div`
 	right: 1rem;
 	background: white;
 	z-index: 1;
+	max-height: 20rem;
+	overflow-x: auto;
 `
 
 const SearchContainer = connectSearchContainer(
-	({ cards, search, setSearch, searchAction, ready }) => (
-		<SearchWrapper>
+	({
+		cards,
+		search,
+		setSearch,
+		searchAction,
+		ready,
+		showDropdown,
+		setShowDropdown,
+		containerRef,
+	}) => (
+		<SearchWrapper innerRef={containerRef}>
 			<Search
 				right
 				placeholder='Add related&hellip;'
 				searchAction={searchAction}
 				onChange={setSearch}
+				onFocus={() => setShowDropdown(true)}
 			/>
-			{console.log({ search, ready })}
-			{search && ready && (
+			{search && ready && showDropdown && (
 				<Dropdown>
 					<ul>
-						{cards.slice(0, 10).map(card => (
+						{cards.map(card => (
 							<li key={card._id}>{card.title}</li>
 						))}
 					</ul>
