@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Children } from 'react'
 import { withState } from 'recompact'
 import Shortcut from '../visual/shortcut'
 import { Input } from '../visual/form'
@@ -14,31 +14,47 @@ const createCtrlEnterHandler = action => event => {
 	}
 }
 
+const MaybeBackwardsFragment = ({ reverse, children }) => (
+	<>{reverse ? Children.toArray(children).reverse() : children}</>
+)
+
 const Search = withSearchState(
-	({ search, setSearch, onChange, searchAction, actionLabel }) => (
-		<>
+	({
+		search,
+		setSearch,
+		onChange,
+		searchAction,
+		placeholder = 'Search…',
+		right = false,
+	}) => (
+		<MaybeBackwardsFragment reverse={right}>
 			<MenuItem flush>
 				<Input
 					type='search'
-					placeholder='Search&hellip;'
+					placeholder={placeholder}
 					value={search}
 					onChange={ev => {
 						setSearch(ev.target.value)
-						onChange(ev.target.value)
+						if (onChange) {
+							onChange(ev.target.value)
+						}
 					}}
-					onKeyDown={createCtrlEnterHandler(searchAction)}
+					onKeyDown={
+						searchAction &&
+						createCtrlEnterHandler(() => searchAction({ search, setSearch }))
+					}
 				/>
 			</MenuItem>
-			{search && (
-				<MenuButton onClick={searchAction}>
+			{search && searchAction && (
+				<MenuButton onClick={() => searchAction({ search, setSearch })}>
 					<Shortcut>
 						{navigator.platform === 'MacIntel' ? '⌘↩︎' : 'Ctrl + Enter'}
 					</Shortcut>
 					Quick add
 				</MenuButton>
 			)}
-		</>
-	)
+		</MaybeBackwardsFragment>
+	),
 )
 
 export default Search

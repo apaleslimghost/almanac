@@ -21,24 +21,24 @@ const debouncedSetSearch = _.debounce(searchVar.set.bind(searchVar), 300)
 
 const withCampaignSearch = withTracker(() => ({
 	search: searchVar.get(),
-	setSearch: debouncedSetSearch
+	setSearch: debouncedSetSearch,
 }))
 
 const withCreateCardSearchAction = withHandlers({
 	searchAction: ({ search, setSearch, campaign }) => async () => {
 		const { _id } = await Card.create({
 			title: search,
-			campaignId: campaign._id
+			campaignId: campaign._id,
 		})
 		setSearch('')
 		go(`/${campaign._id}/${_id}`)
-	}
+	},
 })
 
 const connectCampaignPage = compose(
 	withCampaignData,
 	withCampaignSearch,
-	withCreateCardSearchAction
+	withCreateCardSearchAction,
 )
 
 export default connectCampaignPage(
@@ -50,11 +50,7 @@ export default connectCampaignPage(
 
 			<SplashToolbar>
 				<Center>
-					<Search
-						searchAction={searchAction}
-						actionLabel='Quick add'
-						onChange={setSearch}
-					/>
+					<Search searchAction={searchAction} onChange={setSearch} />
 
 					<Space />
 
@@ -71,5 +67,5 @@ export default connectCampaignPage(
 				<HistoryList />
 			</Aside>
 		</>
-	)
+	),
 )

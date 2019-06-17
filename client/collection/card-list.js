@@ -1,27 +1,11 @@
 import React from 'react'
-import { withTracker } from 'meteor/react-meteor-data'
 import { compose } from 'recompact'
-import { withCampaignSession } from '../data/campaign'
 
+import { withCampaignSession } from '../data/campaign'
 import ShowCard from '../document/card'
 import withLoading from '../control/loading'
-import subscribe from '../utils/subscribe'
-import { Cards } from '../../shared/collections'
 import { FlexGrid } from '../visual/grid'
-
-const withCardSearch = withTracker(({ search, campaignId }) => ({
-	ready: subscribe(['cards.all', search]),
-	cards: Cards.find(
-		{ campaignId },
-		search
-			? {
-					sort: [['score', 'desc']],
-			  }
-			: {
-					sort: [['title', 'asc']],
-			  },
-	).fetch(),
-}))
+import withCardSearch from '../data/card-search'
 
 const connectCardList = compose(
 	withCampaignSession,

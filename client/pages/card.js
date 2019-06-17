@@ -1,3 +1,4 @@
+import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
 import { compose } from 'recompact'
 import styled from 'styled-components'
@@ -23,7 +24,12 @@ import {
 } from '../visual/menu'
 import withImage from '../data/image'
 import { CardHistoryList } from '../collection/card-history'
+import Search from '../collection/card-search'
+import withCardSearch from '../data/card-search'
+import { addRelated, Card } from '../../shared/methods'
 import _ from 'lodash'
+import { ReactiveVar } from 'meteor/reactive-var'
+import { withHandlers } from 'recompact'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
 	_id: { $in: (card && card.related) || [] },
@@ -54,6 +60,72 @@ const CardBody = styled.article`
 const Right = styled.aside`
 	grid-column: right;
 `
+
+const SearchWrapper = styled.div`
+	display: flex;
+	position: relative;
+`
+
+const searchVar = new ReactiveVar('')
+const debouncedSetSearch = _.debounce(searchVar.set.bind(searchVar), 300)
+
+const withCampaignSearch = withTracker(() => ({
+	search: searchVar.get(),
+	setSearch: debouncedSetSearch,
+}))
+
+const withAddRelatedSearchAction = withHandlers({
+	searchAction: ({ search, setSearch, campaignId, card }) => async ({
+		setSearch: setSearchInput,
+	}) => {
+		const relatedCard = await Card.create({
+			title: search,
+			campaignId,
+		})
+
+		setSearch('')
+		setSearchInput('')
+		addRelated(card, relatedCard)
+	},
+})
+
+const connectSearchContainer = compose(
+	withCampaignId,
+	withCampaignSearch,
+	withCardSearch,
+	withAddRelatedSearchAction,
+)
+
+const Dropdown = styled.div`
+	position: absolute;
+	top: 100%;
+	right: 1rem;
+	background: white;
+	z-index: 1;
+`
+
+const SearchContainer = connectSearchContainer(
+	({ cards, search, setSearch, searchAction, ready }) => (
+		<SearchWrapper>
+			<Search
+				right
+				placeholder='Add related&hellip;'
+				searchAction={searchAction}
+				onChange={setSearch}
+			/>
+			{console.log({ search, ready })}
+			{search && ready && (
+				<Dropdown>
+					<ul>
+						{cards.slice(0, 10).map(card => (
+							<li key={card._id}>{card.title}</li>
+						))}
+					</ul>
+				</Dropdown>
+			)}
+		</SearchWrapper>
+	),
+)
 
 export default withCardData(({ card, relatedCards, user }) => (
 	<>
@@ -88,12 +160,16 @@ export default withCardData(({ card, relatedCards, user }) => (
 					<Owner of={card} />
 				</MenuItem>
 
-				<Space />
 				{canEditCard(card, user._id) && (
-					<MenuLink href={`/${card.campaignId}/${card._id}/edit`}>
-						<Icon icon='edit' />
-						Edit
-					</MenuLink>
+					<>
+						<MenuLink href={`/${card.campaignId}/${card._id}/edit`}>
+							<Icon icon='edit' />
+							Edit
+						</MenuLink>
+
+						<Space />
+						<SearchContainer card={card} />
+					</>
 				)}
 			</Center>
 		</SplashToolbar>
