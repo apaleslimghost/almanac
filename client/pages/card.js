@@ -131,8 +131,17 @@ const Dropdown = styled.div`
 	overflow-x: auto;
 `
 
+const CardPreview = ({ card, onClick }) => (
+	<li>
+		<a href={`/${card.campaignId}/${card._id}`} onClick={onClick}>
+			{card.title}
+		</a>
+	</li>
+)
+
 const SearchContainer = connectSearchContainer(
 	({
+		card,
 		cards,
 		search,
 		setSearch,
@@ -146,6 +155,7 @@ const SearchContainer = connectSearchContainer(
 			<Search
 				right
 				placeholder='Add related&hellip;'
+				actionLabel='Create &amp; link'
 				searchAction={searchAction}
 				onChange={setSearch}
 				onFocus={() => setShowDropdown(true)}
@@ -153,8 +163,16 @@ const SearchContainer = connectSearchContainer(
 			{search && ready && showDropdown && (
 				<Dropdown>
 					<ul>
-						{cards.map(card => (
-							<li key={card._id}>{card.title}</li>
+						{cards.map(related => (
+							<CardPreview
+								key={related._id}
+								card={related}
+								onClick={event => {
+									event.preventDefault()
+									addRelated(card, related)
+									setSearch('')
+								}}
+							/>
 						))}
 					</ul>
 				</Dropdown>

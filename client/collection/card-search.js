@@ -23,6 +23,7 @@ const Search = withSearchState(
 		search,
 		setSearch,
 		onChange,
+		actionLabel,
 		searchAction,
 		placeholder = 'Search…',
 		right = false,
@@ -52,7 +53,7 @@ const Search = withSearchState(
 					<Shortcut>
 						{navigator.platform === 'MacIntel' ? '⌘↩︎' : 'Ctrl + Enter'}
 					</Shortcut>
-					Quick add
+					{actionLabel || 'Quick add'}
 				</MenuButton>
 			)}
 		</MaybeBackwardsFragment>
