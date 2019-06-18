@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
 import colours from '@quarterto/colours'
 import Link from '../control/link'
+import { background, colourTransitions } from './primitives'
 
 export const Toolbar = styled.nav`
 	display: flex;
@@ -36,12 +37,20 @@ export const MenuButton = InteractiveMenuItem.withComponent('button').extend`
 	border: none;
 	font: inherit;
 	cursor: pointer;
+	${colourTransitions}
 
-	${({ colour, shade = 2 }) =>
+	${({ colour, shade = 2, primary }) =>
 		colour &&
-		css`
-			color: ${colours[colour][shade]};
-		`}
+		(primary
+			? background({ colour, shade })
+			: css`
+					color: ${colours[colour][shade]};
+			  `)}
+
+	&:hover {
+		${({ colour, shade = 2, primary }) =>
+			primary && background({ colour, shade: Math.min(6, shade + 1) })}
+	}
 `
 
 export const Divider = styled.div`

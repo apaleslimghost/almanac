@@ -92,7 +92,7 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 				)}
 
 				<Space />
-				<MenuButton colour='apple' shade={3}>
+				<MenuButton primary colour='apple' shade={3}>
 					{card._id ? <Icon icon='check' /> : <Icon icon='plus' />}
 					{card._id ? 'Save' : 'Create'}
 				</MenuButton>

@@ -135,11 +135,15 @@ export const FormGroup = styled.label`
 	margin-bottom: 0.5em;
 `
 
-const Button_ = Label.withComponent('button').extend`
-	font: inherit;
+export const colourTransitions = css`
 	transition-property: box-shadow, transform, background, opacity;
 	transition-duration: 100ms;
 	transition-timing-function: linear;
+`
+
+const Button_ = Label.withComponent('button').extend`
+	font: inherit;
+	${colourTransitions}
 	box-shadow: ${shadow(1)};
 	cursor: pointer;
 

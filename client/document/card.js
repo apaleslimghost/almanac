@@ -43,7 +43,10 @@ const CardLink = styled(Link)`
 `
 
 export default ({ card }) => (
-	<CardLink card={card} href={`/${card.campaignId}/${card._id}`}>
+	<CardLink
+		card={card}
+		href={card._id ? `/${card.campaignId}/${card._id}` : null}
+	>
 		<CardPrimitive>
 			<CardHeader card={card}>
 				<Hero>
