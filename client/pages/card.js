@@ -69,26 +69,27 @@ const SearchWrapper = styled.div`
 	position: relative;
 `
 
+const withSearchState = withState('_search', '_setSearch', '')
 const searchVar = new ReactiveVar('')
 const debouncedSetSearch = _.debounce(searchVar.set.bind(searchVar), 300)
 
-const withCampaignSearch = withTracker(() => ({
+const withCampaignSearch = withTracker(({ _setSearch }) => ({
 	search: searchVar.get(),
-	setSearch: debouncedSetSearch,
+	setSearch(search) {
+		_setSearch(search)
+		debouncedSetSearch(search)
+	},
 	containerRef: React.createRef(),
 }))
 
 const withAddRelatedSearchAction = withHandlers({
-	searchAction: ({ search, setSearch, campaignId, card }) => async ({
-		setSearch: setSearchInput,
-	}) => {
+	searchAction: ({ search, setSearch, campaignId, card }) => async () => {
 		const relatedCard = await Card.create({
 			title: search,
 			campaignId,
 		})
 
 		setSearch('')
-		setSearchInput('')
 		addRelated(card, relatedCard)
 	},
 })
@@ -114,6 +115,7 @@ const withOutsideEventHandler = lifecycle({
 
 const connectSearchContainer = compose(
 	withCampaignId,
+	withSearchState,
 	withCampaignSearch,
 	withCardSearch,
 	withAddRelatedSearchAction,
@@ -127,6 +129,7 @@ const Dropdown = styled.div`
 	right: 1rem;
 	background: white;
 	z-index: 1;
+	min-height: 10rem;
 	max-height: 20rem;
 	overflow-x: auto;
 `
@@ -144,6 +147,7 @@ const SearchContainer = connectSearchContainer(
 		card,
 		cards,
 		search,
+		_search,
 		setSearch,
 		searchAction,
 		ready,
@@ -157,24 +161,27 @@ const SearchContainer = connectSearchContainer(
 				placeholder='Add related&hellip;'
 				actionLabel='Create &amp; link'
 				searchAction={searchAction}
+				value={_search}
 				onChange={setSearch}
 				onFocus={() => setShowDropdown(true)}
 			/>
-			{search && ready && showDropdown && (
+			{_search && showDropdown && (
 				<Dropdown>
-					<ul>
-						{cards.map(related => (
-							<CardPreview
-								key={related._id}
-								card={related}
-								onClick={event => {
-									event.preventDefault()
-									addRelated(card, related)
-									setSearch('')
-								}}
-							/>
-						))}
-					</ul>
+					{ready && search && (
+						<ul>
+							{cards.map(related => (
+								<CardPreview
+									key={related._id}
+									card={related}
+									onClick={event => {
+										event.preventDefault()
+										addRelated(card, related)
+										setSearch('')
+									}}
+								/>
+							))}
+						</ul>
+					)}
 				</Dropdown>
 			)}
 		</SearchWrapper>
