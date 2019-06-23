@@ -218,3 +218,15 @@ export const Group = List.extend`
 export const LabelledInput = List.withComponent('label').extend`
 	align-items: center;
 `
+
+export const Dropdown = Card.extend`
+	box-shadow: ${shadow(3)};
+	position: absolute;
+	top: 100%;
+	right: 1rem;
+	background: white;
+	z-index: 1;
+	min-height: 10rem;
+	max-height: 20rem;
+	overflow-x: auto;
+`

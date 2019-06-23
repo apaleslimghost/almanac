@@ -33,6 +33,7 @@ import { withHandlers } from 'recompact'
 import { withState } from 'recompact'
 import { lifecycle } from 'recompact'
 import { FlexGrid } from '../visual/grid'
+import { Dropdown } from '../visual/primitives'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
 	_id: { $in: (card && card.related) || [] },
@@ -122,17 +123,6 @@ const connectSearchContainer = compose(
 	withDropdownState,
 	withOutsideEventHandler,
 )
-
-const Dropdown = styled.div`
-	position: absolute;
-	top: 100%;
-	right: 1rem;
-	background: white;
-	z-index: 1;
-	min-height: 10rem;
-	max-height: 20rem;
-	overflow-x: auto;
-`
 
 const CardPreview = ({ card, onClick }) => (
 	<li>
