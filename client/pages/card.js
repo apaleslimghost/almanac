@@ -7,7 +7,7 @@ import withCards, { withCard } from '../data/card'
 import { withCampaignId } from '../data/campaign'
 import withLoading from '../control/loading'
 import { SplashBleed, Hero, HeroTitle } from '../visual/splash'
-import ShowCard from '../document/card'
+import ShowCard, { CardListItem } from '../document/card'
 import { canEdit as canEditCard } from '../../shared/utils/validators/card'
 import { withUserData } from '../utils/logged-in'
 import Icon from '../visual/icon'
@@ -34,6 +34,7 @@ import { withState } from 'recompact'
 import { lifecycle } from 'recompact'
 import { FlexGrid } from '../visual/grid'
 import { Dropdown } from '../visual/primitives'
+import colours from '@quarterto/colours'
 
 const withRelatedCards = withCards('relatedCards', ({ card }) => ({
 	_id: { $in: (card && card.related) || [] },
@@ -124,13 +125,15 @@ const connectSearchContainer = compose(
 	withOutsideEventHandler,
 )
 
-const CardPreview = ({ card, onClick }) => (
-	<li>
-		<a href={`/${card.campaignId}/${card._id}`} onClick={onClick}>
-			{card.title}
-		</a>
-	</li>
-)
+const CardList = styled.ul`
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		border-bottom: 1px solid ${colours.steel[4]};
+	}
+`
 
 const SearchContainer = connectSearchContainer(
 	({
@@ -158,9 +161,9 @@ const SearchContainer = connectSearchContainer(
 			{_search && showDropdown && (
 				<Dropdown>
 					{ready && search && (
-						<ul>
+						<CardList>
 							{cards.map(related => (
-								<CardPreview
+								<CardListItem
 									key={related._id}
 									card={related}
 									onClick={event => {
@@ -170,7 +173,7 @@ const SearchContainer = connectSearchContainer(
 									}}
 								/>
 							))}
-						</ul>
+						</CardList>
 					)}
 				</Dropdown>
 			)}

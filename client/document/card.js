@@ -35,12 +35,38 @@ const CardHeader = withImage(({ card }) => card.cover)(SplashBackground.extend`
 const CardLink = styled(Link)`
 	text-decoration: none;
 	color: inherit;
-	grid-row: span ${({ card }) => 3 + Boolean(card.cover) + Boolean(card.text)};
+	${({ card }) =>
+		card &&
+		css`
+			grid-row: span ${3 + Boolean(card.cover) + Boolean(card.text)};
+		`};
 
 	${CardPrimitive} {
 		height: 100%;
 	}
 `
+
+const ListImage = withImage(({ card }) => card.cover)(SplashBackground.extend`
+	min-height: 2rem;
+	padding: 0.5rem;
+	font-family: 'Libre Baskerville', serif;
+	font-size: 0.8em;
+
+	a:hover & {
+		filter: contrast(120%) brightness(95%) saturate(110%);
+	}
+`)
+
+export const CardListItem = ({ card, onClick }) => (
+	<li>
+		<CardLink
+			href={card._id ? `/${card.campaignId}/${card._id}` : null}
+			onClick={onClick}
+		>
+			<ListImage card={card}>{card.title}</ListImage>
+		</CardLink>
+	</li>
+)
 
 export default ({ card }) => (
 	<CardLink

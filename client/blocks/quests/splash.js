@@ -11,7 +11,7 @@ import access from '../../../shared/access'
 import subscribe from '../../utils/subscribe'
 
 const QuestHeader = styled(Ornamented)`
-	font-family: 'Libre Baskerville', sans-serif;
+	font-family: 'Libre Baskerville', serif;
 	font-size: 5em;
 	margin: 0;
 	line-height: 1;
