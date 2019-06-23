@@ -1,13 +1,5 @@
 <h1 align="center">
-   <img src="/public/images/logo.svg" alt="Almanac" width="300"><br>
-
-   <a href="http://waffle.io/quarterto/almanac">
-      <img alt="Waffle.io - Columns and their card count" src="https://badge.waffle.io/quarterto/almanac.svg?columns=In%20progress">
-   </a>
-
-   <a href="https://travis-ci.org/quarterto/almanac">
-      <img alt="Build status" src="https://travis-ci.org/quarterto/almanac.svg?branch=master">
-   </a>
+   <img src="/public/images/logo.svg" alt="Almanac" width="300">
 </h1>
 
 ## getting started
