@@ -14,13 +14,19 @@ import HistoryList from '../collection/card-history'
 import { Main, Aside } from '../visual/grid'
 import { Card } from '../../shared/methods'
 import { go, state, history } from '../utils/router'
+import { withState } from 'recompact'
+import { withPropsOnChange } from 'recompact'
 
+const withSearchState = withState('_search', '_setSearch', '')
 const setSearch = search => go(history.get(), { search })
 const debouncedSetSearch = _.debounce(setSearch, 300)
 
-const withCampaignSearch = withTracker(() => ({
+const withCampaignSearch = withTracker(({ _setSearch }) => ({
 	search: (state.get() || {}).search,
-	setSearch: debouncedSetSearch,
+	setSearch(search) {
+		_setSearch(search)
+		debouncedSetSearch(search)
+	},
 }))
 
 const withCreateCardSearchAction = withHandlers({
@@ -36,12 +42,16 @@ const withCreateCardSearchAction = withHandlers({
 
 const connectCampaignPage = compose(
 	withCampaignData,
+	withSearchState,
 	withCampaignSearch,
 	withCreateCardSearchAction,
+	withPropsOnChange('search', ({ search, _setSearch }) => {
+		_setSearch(search)
+	}),
 )
 
 export default connectCampaignPage(
-	({ campaign, search, setSearch, searchAction }) => (
+	({ campaign, search, _search, setSearch, searchAction }) => (
 		<>
 			<Title>{campaign.title}</Title>
 
@@ -50,7 +60,7 @@ export default connectCampaignPage(
 			<SplashToolbar>
 				<Center>
 					<Search
-						initialValue={search}
+						value={_search}
 						searchAction={searchAction}
 						onChange={setSearch}
 					/>
