@@ -5,7 +5,11 @@ import { Input } from '../visual/form'
 
 import { MenuItem, MenuButton } from '../visual/menu'
 
-const withSearchState = withState('search', 'setSearch', '')
+const withSearchState = withState(
+	'search',
+	'setSearch',
+	({ initialValue }) => initialValue || '',
+)
 
 const createCtrlEnterHandler = action => event => {
 	// ⌘↩︎ or Ctrl+Enter

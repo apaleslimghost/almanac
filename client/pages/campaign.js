@@ -1,7 +1,6 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
 import { compose, withHandlers } from 'recompact'
-import { ReactiveVar } from 'meteor/reactive-var'
 import _ from 'lodash'
 
 import { withCampaignData } from '../data/campaign'
@@ -14,13 +13,13 @@ import Search from '../collection/card-search'
 import HistoryList from '../collection/card-history'
 import { Main, Aside } from '../visual/grid'
 import { Card } from '../../shared/methods'
-import { go } from '../utils/router'
+import { go, state, history } from '../utils/router'
 
-const searchVar = new ReactiveVar('')
-const debouncedSetSearch = _.debounce(searchVar.set.bind(searchVar), 300)
+const setSearch = search => go(history.get(), { search })
+const debouncedSetSearch = _.debounce(setSearch, 300)
 
 const withCampaignSearch = withTracker(() => ({
-	search: searchVar.get(),
+	search: (state.get() || {}).search,
 	setSearch: debouncedSetSearch,
 }))
 
@@ -50,7 +49,11 @@ export default connectCampaignPage(
 
 			<SplashToolbar>
 				<Center>
-					<Search searchAction={searchAction} onChange={setSearch} />
+					<Search
+						initialValue={search}
+						searchAction={searchAction}
+						onChange={setSearch}
+					/>
 
 					<Space />
 
