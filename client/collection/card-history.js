@@ -1,6 +1,7 @@
 import React from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
 import relativeDate from 'tiny-relative-date'
+import { compose } from 'recompact'
 
 import styled from 'styled-components'
 import Icon from '../visual/icon'
@@ -9,11 +10,20 @@ import { CardHistory } from '../../shared/collections'
 import subscribe from '../utils/subscribe'
 import match from '../utils/match'
 import Link from '../control/link'
+import { withCampaignId } from '../data/campaign'
 
-const withHistory = withTracker(() => ({
+const withHistory = withTracker(({ campaignId }) => ({
 	ready: subscribe('cards.history'),
-	history: CardHistory.find({}, { sort: [['date', 'desc']] }).fetch(),
+	history: CardHistory.find(
+		{ campaignId },
+		{ sort: [['date', 'desc']] },
+	).fetch(),
 }))
+
+const connectHistory = compose(
+	withCampaignId,
+	withHistory,
+)
 
 const withCardHistory = withTracker(({ card }) => ({
 	ready: subscribe('cards.history'),
@@ -75,5 +85,5 @@ const HistoryList = ({ history, ...props }) => (
 	</IconList>
 )
 
-export default withHistory(HistoryList)
+export default connectHistory(HistoryList)
 export const CardHistoryList = withCardHistory(HistoryList)
