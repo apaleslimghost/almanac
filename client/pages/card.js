@@ -147,6 +147,7 @@ const SearchContainer = connectSearchContainer(
 		showDropdown,
 		setShowDropdown,
 		containerRef,
+		hideCardIds,
 	}) => (
 		<SearchWrapper innerRef={containerRef}>
 			<Search
@@ -162,17 +163,20 @@ const SearchContainer = connectSearchContainer(
 				<Dropdown>
 					{ready && search && (
 						<CardList>
-							{cards.map(related => (
-								<CardListItem
-									key={related._id}
-									card={related}
-									onClick={event => {
-										event.preventDefault()
-										addRelated(card, related)
-										setSearch('')
-									}}
-								/>
-							))}
+							{cards.map(
+								related =>
+									!hideCardIds.has(related._id) && (
+										<CardListItem
+											key={related._id}
+											card={related}
+											onClick={event => {
+												event.preventDefault()
+												addRelated(card, related)
+												setSearch('')
+											}}
+										/>
+									),
+							)}
 						</CardList>
 					)}
 				</Dropdown>
@@ -222,7 +226,10 @@ export default withCardData(({ card, relatedCards, user }) => (
 						</MenuLink>
 
 						<Space />
-						<SearchContainer card={card} />
+						<SearchContainer
+							card={card}
+							hideCardIds={new Set(relatedCards.map(card => card._id))}
+						/>
 					</>
 				)}
 			</Center>
