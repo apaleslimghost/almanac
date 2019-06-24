@@ -36,6 +36,8 @@ const withCardHistory = withTracker(({ card }) => ({
 const getHistoryIcon = match({
 	add: 'file-text-o',
 	edit: 'edit',
+	link: 'link',
+	unlink: 'chain-broken',
 })
 
 const IconList = styled.ul`
@@ -60,16 +62,26 @@ const ChangeMeta = styled.span`
 	color: rgba(0, 0, 0, 0.6);
 `
 
+const ChangeData = data => (
+	<>
+		{data.type && `the ${data.type} `}
+		<Link href={`/${data.campaignId}/${data._id}`}>{data.title}</Link>
+	</>
+)
+
 const HistoryList = ({ history, ...props }) => (
 	<IconList {...props}>
 		{history.map(change => (
 			<li key={change._id}>
 				<Icon icon={getHistoryIcon(change.verb)} />
 				{change.verb + 'ed '}
-				{change.data && change.data.type && `the ${change.data.type} `}
-				<Link href={`/${change.data.campaignId}/${change.data._id}`}>
-					{change.data.title}
-				</Link>
+				{change.data && <ChangeData {...change.data} />}
+				{change.extra && (
+					<>
+						{' '}
+						and <ChangeData {...change.extra} />
+					</>
+				)}
 				<br />
 				<ChangeMeta>
 					<Owner small of={change} />{' '}

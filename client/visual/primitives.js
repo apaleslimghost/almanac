@@ -135,11 +135,15 @@ export const FormGroup = styled.label`
 	margin-bottom: 0.5em;
 `
 
-const Button_ = Label.withComponent('button').extend`
-	font: inherit;
+export const colourTransitions = css`
 	transition-property: box-shadow, transform, background, opacity;
 	transition-duration: 100ms;
 	transition-timing-function: linear;
+`
+
+const Button_ = Label.withComponent('button').extend`
+	font: inherit;
+	${colourTransitions}
 	box-shadow: ${shadow(1)};
 	cursor: pointer;
 
@@ -213,4 +217,19 @@ export const Group = List.extend`
 
 export const LabelledInput = List.withComponent('label').extend`
 	align-items: center;
+`
+
+export const Dropdown = Card.extend`
+	box-shadow: ${shadow(3)};
+	position: absolute;
+	top: calc(100% - 0.5rem);
+	padding: 0;
+	right: 1rem;
+	background: white;
+	z-index: 1;
+	min-height: 10rem;
+	max-height: 20rem;
+	width: 16rem;
+	overflow-x: auto;
+	column-width: unset;
 `

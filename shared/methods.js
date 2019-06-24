@@ -46,15 +46,46 @@ export const removeMember = method('removeMember', (campaign, user) => {
 	})
 })
 
-export const addRelated = method('addRelated', (card, related) => {
-	Cards.update(card._id, {
-		$addToSet: { related: related._id },
+const addCardHistory = method('addCardHistory', async function(history) {
+	CardHistory.insert({
+		...history,
+		owner: this.userId,
+		date: new Date(),
 	})
 })
 
-export const removeRelated = method('removeRelated', (card, related) => {
+export const addRelated = method('addRelated', async function(card, related) {
+	await Cards.update(card._id, {
+		$addToSet: { related: related._id },
+	})
+
+	const cardData = Cards.findOne(card._id)
+	const relatedData = Cards.findOne(related._id)
+
+	await addCardHistory({
+		verb: 'link',
+		campaignId: card.campaignId,
+		data: cardData,
+		extra: relatedData,
+	})
+})
+
+export const removeRelated = method('removeRelated', async function(
+	card,
+	related,
+) {
 	Cards.update(card._id, {
 		$pull: { related: related._id },
+	})
+
+	const cardData = Cards.findOne(card._id)
+	const relatedData = Cards.findOne(related._id)
+
+	await addCardHistory({
+		verb: 'unlink',
+		campaignId: card.campaignId,
+		data: cardData,
+		extra: relatedData,
 	})
 })
 

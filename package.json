@@ -23,7 +23,7 @@
 	"dependencies": {
 		"@babel/runtime": "^7.0.0-beta.42",
 		"@quarterto/campaign-name-generator": "^1.0.0",
-		"@quarterto/colours": "^1.0.0",
+		"@quarterto/colours": "^1.5.0",
 		"@quarterto/form-json": "^1.0.0",
 		"@quarterto/heroku-version-infer": "^4.0.1",
 		"@quarterto/package-version-github-release": "^1.2.0",

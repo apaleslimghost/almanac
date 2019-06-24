@@ -4,7 +4,7 @@ import React from 'react'
 import { route_ } from 'boulevard'
 import { compose, lifecycle, withProps } from 'recompact'
 
-export const { link, setUrl, navigate: go } = reactiveHistory
+export const { link, setUrl, navigate: go, state, history } = reactiveHistory
 
 const route = route_({
 	getUrl({ url }) {
