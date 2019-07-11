@@ -164,6 +164,15 @@ const Quest = connectQuest(
 				</Large>
 
 				<ObjectiveList>
+					{control && !quest.completed && (
+						<li>
+							<form onSubmit={onCreateObjective}>
+								<input placeholder='Objective' name='title' />
+								<input name='text' />
+								<button type='submit'>➕</button>
+							</form>
+						</li>
+					)}
 					{objectives
 						.filter(({ completed }) => !completed)
 						.map((objective, index) => (
@@ -187,16 +196,6 @@ const Quest = connectQuest(
 								/>
 							</ObjectiveListItem>
 						))}
-
-					{control && !quest.completed && (
-						<li>
-							<form onSubmit={onCreateObjective}>
-								<input placeholder='Objective' name='title' />
-								<input name='text' />
-								<button type='submit'>➕</button>
-							</form>
-						</li>
-					)}
 				</ObjectiveList>
 			</div>
 		),
@@ -224,6 +223,13 @@ const connectQuestsList = compose(
 const QuestsList = connectQuestsList(
 	({ onCreateQuest, control, quests, ...props }) => (
 		<div>
+			{control && (
+				<form onSubmit={onCreateQuest}>
+					<input placeholder='Quest' name='title' />
+					<input name='text' />
+					<button type='submit'>➕</button>
+				</form>
+			)}
 			{quests.map((quest, index) => (
 				<Quest
 					key={quest._id}
@@ -233,13 +239,6 @@ const QuestsList = connectQuestsList(
 					{...props}
 				/>
 			))}
-			{control && (
-				<form onSubmit={onCreateQuest}>
-					<input placeholder='Quest' name='title' />
-					<input name='text' />
-					<button type='submit'>➕</button>
-				</form>
-			)}
 			{!control && <QuestSplash />}
 		</div>
 	),
