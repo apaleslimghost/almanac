@@ -8,6 +8,7 @@ import { withCampaign } from '../data/campaign'
 import { Button } from '../visual/primitives'
 import withCards from '../data/card'
 import { Card } from '../../shared/methods'
+import access from '../../shared/access'
 
 const relationshipLabel = {
 	'-2': 'Hostile',
@@ -77,6 +78,7 @@ const withFactionActions = withHandlers({
 			relationship: 0,
 			type: 'faction',
 			campaignId,
+			access: {view: access.CAMPAIGN, edit: access.PRIVATE},
 		})
 	},
 })
