@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import Modal from 'react-modal'
 
 import { errorTest } from '../shared/methods'
-import Layout, { Basic as BasicLayout } from './pages/layout'
+import Layout from './pages/layout'
 import App from './app'
 
 import 'formdata-polyfill'
