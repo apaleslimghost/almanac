@@ -123,7 +123,7 @@ const Quest = connectQuest(
 			)) ? null : (
 			<div>
 				<Ornamented ornament='u'>
-					{quest.title}
+					{quest.completed ? <s>{quest.title}</s> : quest.title}
 
 					{control && (
 						<>
