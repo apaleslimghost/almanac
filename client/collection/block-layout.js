@@ -121,7 +121,7 @@ export default connectLayout(
 				isResizable={which === 'control'}
 				rowHeight={60}
 				draggableCancel='input, button, select'
-				onLayoutChange={which === 'control' ? updateLayout : null}
+				{...(which === 'control' ? {onLayoutChange: updateLayout} : {})}
 			>
 				{layout.map(item => (
 					<div key={item._id}>
