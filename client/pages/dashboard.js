@@ -1,4 +1,5 @@
 import React from 'react'
+import { compose } from 'recompact'
 import BlockLayout from '../collection/block-layout'
 import { withCampaignData } from '../data/campaign'
 import { iAmOwner } from '../data/owner'
