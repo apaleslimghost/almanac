@@ -34,9 +34,9 @@ render(
 		routes={{
 			'/:campaignId/dashboard'({ campaignId }) {
 				return (
-					<BasicLayout campaignId={campaignId}>
+					<Layout campaignId={campaignId}>
 						<Dashboard />
-					</BasicLayout>
+					</Layout>
 				)
 			},
 
