@@ -64,7 +64,7 @@ const Nav = connectNav(({ campaign, isOwner, extraItems }) => (
 					<Divider />
 					<CampaignTitle campaign={campaign} />
 
-					{isOwner && (
+					{isOwner ? (
 						<>
 							<MenuLink href={`/${campaign._id}/dashboard-control`}>
 								<Icon icon='wooden-sign' />
@@ -81,6 +81,11 @@ const Nav = connectNav(({ campaign, isOwner, extraItems }) => (
 								Settings
 							</MenuLink>
 						</>
+					) : (
+						<MenuLink href={`/${campaign._id}/dashboard`}>
+							<Icon icon='wooden-sign' />
+							Dashboard
+						</MenuLink>
 					)}
 				</>
 			)}
