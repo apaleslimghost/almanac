@@ -210,6 +210,7 @@ const withQuestsData = withCards(
 	}),
 	{
 		sort: {
+			completed: 1,
 			updated: -1,
 		},
 	},
