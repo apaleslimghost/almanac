@@ -127,11 +127,11 @@ const setNavContext = withContext(navContext, ({ setState, state }) => ({
 	},
 }))
 
-export const hidesNav = compose(
+export const maybeHidesNav = hideFromProps => compose(
 	withNavContext,
 	lifecycle({
 		componentDidMount() {
-			this.props.setNavShown(false)
+			this.props.setNavShown(!hideFromProps(this.props))
 		},
 
 		componentWillUnmount() {
@@ -139,6 +139,8 @@ export const hidesNav = compose(
 		},
 	}),
 )
+
+export const hidesNav = maybeHidesNav(() => true)
 
 export const withExtraNavItems = (...navItems) =>
 	compose(
