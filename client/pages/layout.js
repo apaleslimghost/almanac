@@ -89,7 +89,7 @@ const Nav = connectNav(({ campaign, isOwner, extraItems, user }) => (
 		<NavArea>
 			<Space />
 			{extraItems}
-			{user && <LogoutButton />}
+			{user && <LogoutButton user={user} />}
 		</NavArea>
 	</Toolbar>
 ))
