@@ -22,11 +22,7 @@ import { Toolbar, MenuLink, Divider, NavArea, Space } from '../visual/menu'
 
 import 'react-toastify/dist/ReactToastify.min.css'
 
-const LogoutButton = withUserData(({ user }) =>
-	user ? (
-		<User user={user} component={MenuLink} href='/logout' onClick={logout} />
-	) : null,
-)
+const LogoutButton = ({ user }) => <User user={user} component={MenuLink} href='/logout' onClick={logout} />
 
 const MenuTitle = styled(H3)`
 	display: inline-block;
@@ -51,7 +47,7 @@ const connectNav = compose(
 	withUserData,
 )
 
-const Nav = connectNav(({ campaign, isOwner, extraItems }) => (
+const Nav = connectNav(({ campaign, isOwner, extraItems, user }) => (
 	<Toolbar>
 		<NavArea>
 			<MenuLink href='/'>
@@ -63,7 +59,7 @@ const Nav = connectNav(({ campaign, isOwner, extraItems }) => (
 					<Divider />
 					<CampaignTitle campaign={campaign} />
 
-					{isOwner ? (
+					{user && (isOwner ? (
 						<>
 							<MenuLink href={`/${campaign._id}/dashboard-control`}>
 								<Icon icon='wooden-sign' />
@@ -85,7 +81,7 @@ const Nav = connectNav(({ campaign, isOwner, extraItems }) => (
 							<Icon icon='wooden-sign' />
 							Dashboard
 						</MenuLink>
-					)}
+					))}
 				</>
 			)}
 		</NavArea>
@@ -93,7 +89,7 @@ const Nav = connectNav(({ campaign, isOwner, extraItems }) => (
 		<NavArea>
 			<Space />
 			{extraItems}
-			<LogoutButton />
+			{user && <LogoutButton />}
 		</NavArea>
 	</Toolbar>
 ))
