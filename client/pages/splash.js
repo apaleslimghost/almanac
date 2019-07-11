@@ -11,6 +11,7 @@ import { H3 } from '../visual/heading'
 import { SplashBleed, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
 import { Input } from '../visual/form'
 import { hidesNav } from './layout'
+import Ribbon from '../visual/ribbon'
 
 const formHeight = '160px'
 
@@ -100,6 +101,12 @@ const Splash = hidesNav(() => (
 		url2x='/images/splash@2x.jpg'
 		color='#BEBDA0'
 	>
+		<Ribbon
+			href='https://github.com/quarterto/almanac/wiki/Almanac-is-in-beta'
+			target='_blank'
+		>
+			Beta
+		</Ribbon>
 		<SplashLogo />
 		<Hero>
 			<HeroTitle>The sandbox RPG app.</HeroTitle>
