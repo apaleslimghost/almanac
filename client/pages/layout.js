@@ -164,13 +164,8 @@ export const withExtraNavItems = (...navItems) =>
 		}),
 	)
 
-const connectLayout = compose(
-	navState,
-	setNavContext,
-	setsCampaign,
-)
-
 export const BasicLayout = ({ campaignId, secret, children }) => {
+	// eslint-disable-next-line no-console
 	console.trace('BasicLayout', { campaignId, secret })
 	const { campaign } = useCampaignData({ campaignId, secret })
 
