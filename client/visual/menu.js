@@ -44,7 +44,7 @@ export const MenuButton = InteractiveMenuItem.withComponent('button').extend`
 		(primary
 			? background({ colour, shade })
 			: css`
-			color: ${colours[colour][shade]};
+					color: ${colours[colour][shade]};
 			  `)}
 
 	&:hover {

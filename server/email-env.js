@@ -18,9 +18,7 @@ if (missingMailgunVars.length === 0) {
 		slashes: true,
 		hostname: process.env.MAILGUN_SMTP_SERVER,
 		port: process.env.MAILGUN_SMTP_PORT,
-		auth: `${process.env.MAILGUN_SMTP_LOGIN}:${
-			process.env.MAILGUN_SMTP_PASSWORD
-			}`,
+		auth: `${process.env.MAILGUN_SMTP_LOGIN}:${process.env.MAILGUN_SMTP_PASSWORD}`,
 	})
 
 	console.log(`mailgunning via ${process.env.MAIL_URL}`) // eslint-disable-line no-console

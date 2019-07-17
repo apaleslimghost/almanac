@@ -13,7 +13,7 @@ import {
 	setsCampaign,
 	withCampaignData,
 	CampaignContext,
-	useCampaignData
+	useCampaignData,
 } from '../data/campaign'
 import Icon from '../visual/icon'
 import { H3 } from '../visual/heading'
@@ -27,7 +27,9 @@ import { Toolbar, MenuLink, Divider, NavArea, Space } from '../visual/menu'
 
 import 'react-toastify/dist/ReactToastify.min.css'
 
-const LogoutButton = ({ user }) => <User user={user} component={MenuLink} href='/logout' onClick={logout} />
+const LogoutButton = ({ user }) => (
+	<User user={user} component={MenuLink} href='/logout' onClick={logout} />
+)
 
 const MenuTitle = styled(H3)`
 	display: inline-block;
@@ -64,29 +66,30 @@ const Nav = connectNav(({ campaign, isOwner, extraItems, user }) => (
 					<Divider />
 					<CampaignTitle campaign={campaign} />
 
-					{user && (isOwner ? (
-						<>
-							<MenuLink href={`/${campaign._id}/dashboard-control`}>
+					{user &&
+						(isOwner ? (
+							<>
+								<MenuLink href={`/${campaign._id}/dashboard-control`}>
+									<Icon icon='wooden-sign' />
+									Dashboard
+								</MenuLink>
+
+								<MenuLink href={`/${campaign._id}/players`}>
+									<Icon icon='double-team' />
+									Players
+								</MenuLink>
+
+								<MenuLink href={`/${campaign._id}/settings`}>
+									<Icon icon='gears' />
+									Settings
+								</MenuLink>
+							</>
+						) : (
+							<MenuLink href={`/${campaign._id}/dashboard`}>
 								<Icon icon='wooden-sign' />
 								Dashboard
 							</MenuLink>
-
-							<MenuLink href={`/${campaign._id}/players`}>
-								<Icon icon='double-team' />
-								Players
-							</MenuLink>
-
-							<MenuLink href={`/${campaign._id}/settings`}>
-								<Icon icon='gears' />
-								Settings
-							</MenuLink>
-						</>
-					) : (
-						<MenuLink href={`/${campaign._id}/dashboard`}>
-							<Icon icon='wooden-sign' />
-							Dashboard
-						</MenuLink>
-					))}
+						))}
 				</>
 			)}
 		</NavArea>
@@ -127,18 +130,19 @@ const setNavContext = withContext(navContext, ({ setState, state }) => ({
 	},
 }))
 
-export const maybeHidesNav = hideFromProps => compose(
-	withNavContext,
-	lifecycle({
-		componentDidMount() {
-			this.props.setNavShown(!hideFromProps(this.props))
-		},
+export const maybeHidesNav = hideFromProps =>
+	compose(
+		withNavContext,
+		lifecycle({
+			componentDidMount() {
+				this.props.setNavShown(!hideFromProps(this.props))
+			},
 
-		componentWillUnmount() {
-			this.props.setNavShown(true)
-		},
-	}),
-)
+			componentWillUnmount() {
+				this.props.setNavShown(true)
+			},
+		}),
+	)
 
 export const hidesNav = maybeHidesNav(() => true)
 
@@ -172,22 +176,20 @@ export const BasicLayout = ({ campaignId, secret, children }) => {
 
 	return (
 		<CampaignContext.Provider value={campaign}>
-		<Title />
-		<ToastContainer autoClose={10000} />
-		{children}
+			<Title />
+			<ToastContainer autoClose={10000} />
+			{children}
 		</CampaignContext.Provider>
 	)
 }
 
 export const Basic = setsCampaign(props => <BasicLayout {...props} />)
 
-const Layout =
-	({ campaignId, secret, state = {}, children, ready }) => (
-		<BasicLayout {...{ campaignId, secret }}>
-			{state.navShown && <Nav extraItems={state.extraItems} />}
-			<Grid>{ready ? children : 'loading...'}</Grid>
-		</BasicLayout>
-	)
-
+const Layout = ({ campaignId, secret, state = {}, children, ready }) => (
+	<BasicLayout {...{ campaignId, secret }}>
+		{state.navShown && <Nav extraItems={state.extraItems} />}
+		<Grid>{ready ? children : 'loading...'}</Grid>
+	</BasicLayout>
+)
 
 export default Layout

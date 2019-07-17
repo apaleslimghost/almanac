@@ -7,6 +7,7 @@ import { useCampaignId } from '../data/campaign'
 import { Button } from '../visual/primitives'
 import { Card } from '../../shared/methods'
 import access from '../../shared/access'
+import { useCards } from '../data/card'
 
 const relationshipLabel = {
 	'-2': 'Hostile',
@@ -47,7 +48,7 @@ const ModRelationship = ({ amount, faction }) => {
 		>
 			{amount > 0 ? '+' : '-'}
 		</Button>
-	),
+	)
 }
 
 const Relationship = ({ control, faction }) => (
@@ -81,7 +82,7 @@ const ShowFactions = ({ control = false }) => {
 			relationship: 0,
 			type: 'faction',
 			campaignId,
-			access: {view: access.CAMPAIGN, edit: access.PRIVATE},
+			access: { view: access.CAMPAIGN, edit: access.PRIVATE },
 		})
 	}
 
@@ -106,7 +107,7 @@ const ShowFactions = ({ control = false }) => {
 				)}
 			</ul>
 		</div>
-	),
+	)
 }
 
 const FactionsControl = () => <ShowFactions control />

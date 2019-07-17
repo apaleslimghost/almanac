@@ -25,7 +25,7 @@ export const useCards = (query, { single = false, ...options } = {}) => {
 	const campaignId = useCampaignId()
 	return useTracker(() => ({
 		ready: subscribe('cards.all'),
-		cards: find(Cards, { campaignId, ...query }, single, options)
+		cards: find(Cards, { campaignId, ...query }, single, options),
 	}))
 }
 

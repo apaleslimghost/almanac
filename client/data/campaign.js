@@ -20,7 +20,7 @@ export const useCampaignData = ({ campaignId, secret }) =>
 		ready:
 			subscribe('campaigns.all') &&
 			(!secret || subscribe(['campaigns.join', { campaignId, secret }])),
-		campaign: Campaigns.findOne(campaignId)
+		campaign: Campaigns.findOne(campaignId),
 	}))
 
 const checkCampaignExists = withProps(({ campaign, ready, campaignId }) => {
