@@ -1,26 +1,34 @@
-import React from 'react'
-import { withState, withProps, compose } from 'recompact'
-import withTimer from '../../utils/timer'
-import { withCampaignSession } from '../../data/campaign'
-import withIncrement from './connect/increment'
+import React, { useState } from 'react'
+import { useCampaignSession } from '../../data/campaign'
+import useInterval from 'use-interval'
+import { useCampaignDate } from '../../data/calendar'
 
-const connectAdvanceTime = compose(
-	withState('enabled', 'setEnabled', false),
-	withCampaignSession,
-	withProps({ period: 'minute', amount: 1 }),
-	withIncrement,
-	withTimer(30000, ({ enabled, onIncrement }) => enabled && onIncrement()),
-)
+const AdvanceTime = () => {
+	const [enabled, setEnabled] = useState(false)
+	const campaignSession = useCampaignSession()
+	const CampaignDate = useCampaignDate()
 
-const AdvanceTime = ({ enabled, setEnabled }) => (
-	<label>
-		<input
-			type='checkbox'
-			checked={enabled}
-			onChange={ev => setEnabled(ev.target.checked)}
-		/>
-		Advance time
-	</label>
-)
+	useInterval(() => {
+		if (enabled) {
+			campaignSession.set(
+				'date',
+				new CampaignDate(campaignSession.get('date') || 0).add({
+					minute: 1,
+				}).timestamp,
+			)
+		}
+	}, 30000)
 
-export default connectAdvanceTime(AdvanceTime)
+	return (
+		<label>
+			<input
+				type='checkbox'
+				checked={enabled}
+				onChange={ev => setEnabled(ev.target.checked)}
+			/>
+			Advance time
+		</label>
+	)
+}
+
+export default AdvanceTime

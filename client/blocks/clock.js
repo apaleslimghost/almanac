@@ -31,7 +31,7 @@ const AmPm = styled.span`
 	font-size: 0.66em;
 `
 
-export const control = () => {
+const Clock = () => {
 	const [date, setDate] = useState(new Date())
 	useInterval(() => setDate(new Date()), 1000)
 
@@ -53,4 +53,6 @@ export const control = () => {
 	)
 }
 
-export const display = () => null
+const display = () => null
+
+export { Clock as control, display }

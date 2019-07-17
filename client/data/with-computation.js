@@ -1,4 +1,5 @@
 import { Tracker } from 'meteor/tracker'
+import { useTracker } from 'meteor/quarterto:hooks'
 import { lifecycle } from 'recompact'
 
 export default startComputation =>
@@ -15,3 +16,16 @@ export default startComputation =>
 			this.computation.stop()
 		},
 	})
+
+export const useComputation = (startComputation, dependencies = []) =>
+	useTracker(() => {
+		let computation
+
+		process.nextTick(() => {
+			Tracker.autorun(() => {
+				computation = startComputation()
+			})
+		})
+
+		return () => computation.stop()
+	}, dependencies)
