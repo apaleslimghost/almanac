@@ -13,7 +13,7 @@ import Search from '../collection/card-search'
 import HistoryList from '../collection/card-history'
 import { Main, Aside } from '../visual/grid'
 import { Card } from '../../shared/methods'
-import { go, state, history } from '../utils/router'
+// import { go, state, history } from '../utils/router'
 import { withState } from 'recompact'
 import { withPropsOnChange } from 'recompact'
 

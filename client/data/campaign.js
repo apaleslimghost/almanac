@@ -1,4 +1,4 @@
-import { createContext } from 'react'
+import { createContext, useContext } from 'react'
 import { withTracker } from 'meteor/react-meteor-data'
 import { useTracker } from 'meteor/quarterto:hooks'
 import PropTypes from 'prop-types'
@@ -66,3 +66,7 @@ export const withCampaignSession = compose(
 export const CampaignContext = createContext({ _id: null })
 export const useCampaign = () => useContext(CampaignContext)
 export const useCampaignId = () => useCampaign()._id
+export const useCampaignSession = () => {
+	const id = useCampaignId()
+	return getCampaignSession(id)
+}
