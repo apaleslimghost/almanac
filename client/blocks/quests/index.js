@@ -9,6 +9,7 @@ import access from '../../../shared/access'
 import questActions from './connect/quest'
 import questsActions from './connect/quests'
 import objectiveActions from './connect/objective'
+import Markdown from '../../document/markdown'
 
 import QuestSplash from './splash'
 
@@ -17,7 +18,7 @@ const Completed = styled.span`
 	font-size: 0.7em;
 `
 
-const Large = styled.span`
+const Large = styled(Markdown)`
 	font-size: 1.2em;
 `
 
