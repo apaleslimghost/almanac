@@ -1,19 +1,28 @@
 {
   "name": "almanac",
-  "scripts": {
-  },
+  "scripts": {},
   "env": {
     "HEROKU_APP_NAME": {
       "required": true
+    },
+    "UNSPLASH_ACCESS_KEY": {
+      "required": false
+    },
+    "MAILTRAP_API_TOKEN": {
+      "required": false
     }
   },
-  "formation": {
-  },
+  "formation": {},
   "addons": [
-    "mongolab"
+    "mongolab",
+    "mailtrap"
   ],
   "buildpacks": [
-    {"url": "https://github.com/heroku/heroku-buildpack-nodejs.git"},
-    {"url": "https://github.com/AdmitHub/meteor-buildpack-horse.git"}
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs.git"
+    },
+    {
+      "url": "https://github.com/AdmitHub/meteor-buildpack-horse.git"
+    }
   ]
 }

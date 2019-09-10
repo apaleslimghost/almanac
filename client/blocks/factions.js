@@ -1,97 +1,131 @@
-import React from 'react';
-import {createContainer} from 'meteor/react-meteor-data';
-import formJson from '@quarterto/form-json';
-import {Cards} from '../../shared/collections';
-import Ornamented from '../components/ornamented';
-import Icon from '../components/icon';
-import styled from 'styled-components';
-import {withCampaign} from '../components/campaign';
+import React from 'react'
+import formJson from '@quarterto/form-json'
+import styled from 'styled-components'
+import { compose, withHandlers, withProps } from 'recompact'
+import Ornamented from '../visual/ornamented'
+import Icon from '../visual/icon'
+import { withCampaign } from '../data/campaign'
+import { Button } from '../visual/primitives'
+import withCards from '../data/card'
+import { Card } from '../../shared/methods'
+import access from '../../shared/access'
 
 const relationshipLabel = {
 	'-2': 'Hostile',
 	'-1': 'Unfriendly',
-	 '0': 'Neutral',
-	 '1': 'Friendly',
-	 '2': 'Allied',
-};
+	0: 'Neutral',
+	1: 'Friendly',
+	2: 'Allied',
+}
 
 const relationshipIcon = {
 	'-2': 'crossed-swords',
 	'-1': 'cracked-shield',
-	 '0': 'castle-emblem',
-	 '1': 'beer',
-	 '2': 'two-hearts',
-};
+	0: 'castle-emblem',
+	1: 'beer',
+	2: 'two-hearts',
+}
 
 const Right = styled.span`
 	float: right;
-`;
+`
 
-const Relationship = ({level = 0, control, modRelationship, faction}) => <Right>
-	{relationshipLabel[level]}{' '}
-	<Icon icon={relationshipIcon[level]} />
+const connectModRelationship = withHandlers({
+	modRelationship: ({ amount, faction }) => () => {
+		const relationship = (faction.relationship || 0) + amount
 
-	{control && <span>
-		<button disabled={level >= 2}  onClick={() => modRelationship(+1, faction)}>+</button>
-		<button disabled={level <= -2} onClick={() => modRelationship(-1, faction)}>-</button>
-	</span>}
-</Right>;
+		if (
+			amount + faction.relationship < 3 &&
+			amount + faction.relationship > -3
+		) {
+			Card.update(faction, { relationship })
+		}
+	},
+})
 
-const ShowFactions = withCampaign(createContainer(({campaignId}) => ({
-	factions: Cards.find({type: 'faction', campaignId}).fetch(),
+const ModRelationship = connectModRelationship(
+	({ amount, faction, modRelationship }) => (
+		<Button
+			disabled={amount * faction.relationship >= 2}
+			onClick={modRelationship}
+		>
+			{amount > 0 ? '+' : '-'}
+		</Button>
+	),
+)
 
-	onCreate(ev) {
-		ev.preventDefault();
-		const data = formJson(ev.target);
-		ev.target.reset();
-		Cards.insert({
+const Relationship = ({ control, faction }) => (
+	<Right>
+		{relationshipLabel[faction.relationship || 0]}{' '}
+		<Icon icon={relationshipIcon[faction.relationship || 0]} />
+		{control && (
+			<span>
+				<ModRelationship faction={faction} amount={+1} />
+				<ModRelationship faction={faction} amount={-1} />
+			</span>
+		)}
+	</Right>
+)
+
+const withFactionActions = withHandlers({
+	onCreate: ({ campaignId }) => ev => {
+		ev.preventDefault()
+		const data = formJson(ev.target)
+		ev.target.reset()
+
+		Card.create({
 			...data,
 			relationship: 0,
 			type: 'faction',
-			campaignId
-		});
+			campaignId,
+			access: {view: access.CAMPAIGN, edit: access.PRIVATE},
+		})
 	},
+})
 
-	modRelationship(amount, faction) {
-		if(amount + faction.relationship < 3 && amount + faction.relationship > -3) {
-			Cards.update(faction._id, {
-				$inc: {relationship: amount},
-			});
-		} else if(!faction.relationship) {
-			Cards.update(faction._id, {
-				$set: {relationship: amount},
-			});
-		}
+const connectRemoveButton = withHandlers({
+	remove: ({ faction }) => () => {
+		Card.delete(faction)
 	},
+})
 
-	remove(faction) {
-		Cards.remove(faction._id);
-	}
-}), ({factions, onCreate, modRelationship, remove, control = false}) => <div>
-	<Ornamented ornament='x'>Factions</Ornamented>
+const Remove = connectRemoveButton(({ remove }) => (
+	<Button onClick={remove}>×</Button>
+))
 
-	<ul>
-		{factions.map(faction => <li key={faction._id}>
-			{faction.title}
-			<Relationship
-				level={faction.relationship}
-				control={control}
-				modRelationship={modRelationship}
-				faction={faction}
-			/>
-			{control && <button onClick={() => remove(faction)}>×</button>}
-		</li>)}
+const withFactionData = withCards('factions', { type: 'faction' })
 
-		{control && <form onSubmit={onCreate}>
-			<input placeholder='Faction' name='title' />
-			<button>➕</button>
-		</form>}
-	</ul>
-</div>));
+const connectFactions = compose(
+	withCampaign,
+	withFactionData,
+	withFactionActions,
+)
 
-const FactionsControl = () => <ShowFactions control />;
+const ShowFactions = connectFactions(
+	({ factions, onCreate, control = false }) => (
+		<div>
+			<Ornamented ornament='x'>Factions</Ornamented>
 
-export {
-	ShowFactions as display,
-	FactionsControl as control
-};
+			<ul>
+				{factions.map(faction => (
+					<li key={faction._id}>
+						{faction.title}
+						<Relationship control={control} faction={faction} />
+						{control && <Remove faction={faction} />}
+					</li>
+				))}
+
+				{control && (
+					<form onSubmit={onCreate}>
+						<input placeholder='Faction' name='title' />
+						<Button>➕</Button>
+					</form>
+				)}
+			</ul>
+		</div>
+	),
+)
+
+const FactionsControl = withProps({ control: true })(ShowFactions)
+
+export { ShowFactions as display, FactionsControl as control }
