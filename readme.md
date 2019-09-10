@@ -39,7 +39,7 @@ the `meteor` server compiles everything in [`client`](/client), [`shared`](/shar
 ## licence
 
 Almanac
-Copyright (C) 2018 Matt Brennan
+Copyright (C) 2019 Bren Brightwell
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
