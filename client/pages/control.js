@@ -11,11 +11,15 @@ const withDashboardActions = withHandlers({
 	launchDashboard: ({ campaign }) => ev => {
 		ev.preventDefault()
 
-		window.open(
+		const dashboardWindow = window.open(
 			`/${campaign._id}/dashboard`,
 			campaign._id,
 			'width=600,height=400',
 		)
+
+		dashboardWindow.document.body.addEventListener('click', () => {
+			dashboardWindow.document.body.requestFullscreen()
+		}, {once: true})
 	},
 })
 
