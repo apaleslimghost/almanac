@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState, createContext } from 'react'
 import PropTypes from 'prop-types'
 import { getContext } from 'recompact'
 
@@ -82,90 +82,61 @@ export const Select = ({ tag: Tag = 'select', ...props }, context) => {
 	)
 }
 
-export class Form extends Component {
-	state = {
-		fields: this.props.initialData,
+export const FieldLike = createContext({
+	fields: {},
+	setFields() {},
+})
+
+const Form = ({
+	initialData = {},
+	name,
+	tag: Tag = 'form',
+	onChange,
+	onSubmit: _onSubmit,
+	onDidSubmit,
+	children,
+}) => {
+	const [fields, _setFields] = useState(initialData)
+	const { fields: contextFields, setFields: setContextFields } = useContext(
+		FieldLike,
+	)
+
+	function setFields(f) {
+		_setFields(Object.assign(fields, f), () => {
+			if (this.context.setFields && this.props.name) {
+				this.context.setFields({
+					[this.props.name]: this.fields,
+				})
+			}
+
+			if (this.props.onChange) {
+				this.props.onChange(this.fields)
+			}
+		})
 	}
 
-	setFields = f => {
-		this.setState(
-			{
-				fields: Object.assign(this.fields, f),
-			},
-			() => {
-				if (this.context.setFields && this.props.name) {
-					this.context.setFields({
-						[this.props.name]: this.fields,
-					})
-				}
-
-				if (this.props.onChange) {
-					this.props.onChange(this.fields)
-				}
-			},
-		)
-	}
-
-	get fields() {
-		return this.state.fields
-	}
-
-	static get childContextTypes() {
-		return {
-			fields: PropTypes.object,
-			setFields: PropTypes.func,
-		}
-	}
-
-	static get defaultProps() {
-		return {
-			initialData: {},
-			tag: 'form',
-		}
-	}
-
-	componentDidMount() {
-		this.mounted = true
-	}
-
-	componentWillUnount() {
-		this.mounted = false
-	}
-
-	getChildContext() {
-		return {
-			fields: this.fields,
-			setFields: this.setFields,
-		}
-	}
-
-	onSubmit = ev => {
+	function onSubmit(ev) {
 		// TODO validation
-		ev.preventDefault()
-		Promise.resolve(this.props.onSubmit(this.fields))
-			.then(() => {
-				if (this.mounted) {
-					this.setState({
-						fields: this.props.initialData,
-					})
-				}
-			})
-			.then(() => {
-				if (this.props.onDidSubmit) {
-					this.props.onDidSubmit(this.fields)
-				}
-			})
+		if (_onSubmit) {
+			ev.preventDefault()
+
+			Promise.resolve(_onSubmit(fields))
+				.then(() => {
+					setFields(this.props.initialData)
+				})
+				.then(() => {
+					if (onDidSubmit) {
+						onDidSubmit(this.fields)
+					}
+				})
+		}
 	}
 
-	render() {
-		return (
-			<this.props.tag
-				{...(this.props.onSubmit ? { onSubmit: this.onSubmit } : {})}
-			>
-				{this.props.children}
-			</this.props.tag>
-		)
-	}
+	return (
+		<FieldLike.Provider value={{ fields, setFields }}>
+			<Tag {...(_onSubmit ? { onSubmit } : {})}>{children}</Tag>
+		</FieldLike.Provider>
+	)
 }
 
 export const fieldLike = {
