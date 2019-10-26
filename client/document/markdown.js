@@ -1,12 +1,12 @@
 import React from 'react'
 import Markdown from 'react-markdown'
-import { withProps } from 'recompact'
 import behead from 'remark-behead'
 import styled from 'styled-components'
 
-export default withProps(({ excerpt }) => ({
-	plugins: [[behead, { depth: 1 }]],
-	renderers: {
+export default ({ excerpt, ...props }) => (
+	<Markdown
+		plugins={[[behead, { depth: 1 }]]}
+		renderers={{
 		root: ({ children }) => (
 			<>
 				{excerpt
@@ -22,5 +22,7 @@ export default withProps(({ excerpt }) => ({
 			font-size: 1.1em;
 			font-family: 'Libre Baskerville', serif;
 		`,
-	},
-}))(Markdown)
+		}}
+		{...props}
+	/>
+)
