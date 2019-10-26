@@ -1,14 +1,7 @@
-import React from 'react'
-import { withState } from 'recompact'
+import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 
 import preventingDefault from '../utils/preventing-default'
-
-const connectTabs = withState(
-	'tab',
-	'setTab',
-	({ children }) => Object.keys(children)[0],
-)
 
 const TabBar = styled.div`
 	border-bottom: 1px solid black;
@@ -27,19 +20,23 @@ const Tab = styled.button`
 	font: inherit;
 `
 
-export default connectTabs(({ tab, setTab, children }) => (
-	<div>
-		<TabBar>
-			{Object.keys(children).map(t => (
-				<Tab
-					key={t}
-					selected={t === tab}
-					onClick={preventingDefault(() => setTab(t))}
-				>
-					{t}
-				</Tab>
-			))}
-		</TabBar>
-		{children[tab]}
-	</div>
-))
+export default ({ children }) => {
+	const [tab, setTab] = useState(Object.keys(children)[0])
+
+	return (
+		<div>
+			<TabBar>
+				{Object.keys(children).map(t => (
+					<Tab
+						key={t}
+						selected={t === tab}
+						onClick={preventingDefault(() => setTab(t))}
+					>
+						{t}
+					</Tab>
+				))}
+			</TabBar>
+			{children[tab]}
+		</div>
+	)
+}
