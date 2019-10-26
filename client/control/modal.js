@@ -1,11 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Modal from 'react-modal'
-import { withState } from 'recompact'
 
-const withModalState = withState('open', 'setOpen', false)
-
-export default withModalState(
-	({ control: Control = 'button', open, setOpen, render, ...props }) => (
+export default ({ control: Control = 'button', render, ...props }) => {
+	const [open, setOpen] = useState(false)
+	return (
 		<>
 			<Control onClick={() => setOpen(true)} />
 			<Modal isOpen={open} onRequestClose={() => setOpen(false)} {...props}>
@@ -15,5 +13,5 @@ export default withModalState(
 				})}
 			</Modal>
 		</>
-	),
-)
+	)
+}
