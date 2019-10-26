@@ -2,11 +2,10 @@ import qs from 'querystring'
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { aqua, steel } from '@quarterto/colours'
-import { compose, withProps } from 'recompact'
 import contrast from 'contrast'
-import withImage from '../data/image'
-import { withCampaignData } from '../data/campaign'
-import { withOwnerData } from '../data/owner'
+import { useImage } from '../data/image'
+import { useCampaignData } from '../data/campaign'
+import { useOwner } from '../data/owner'
 import select from '../utils/select'
 
 const getSplashUrl = ({ urls }, { _2x = false } = {}) =>
@@ -187,25 +186,22 @@ export const HeroBlurb = styled.p`
 	}
 `
 
-const connectCampaignSplash = compose(
-	withCampaignData,
-	withProps(),
-	withImage(({ campaign }) => campaign.theme),
-	withOwnerData('campaign'),
-)
+export const CampaignSplash = ({ campaignId, noBlurb, children }) => {
+	const { campaign } = useCampaignData({ campaignId })
+	const owner = useOwner(campaign)
+	const { image, ready } = useImage(campaign.theme)
 
-export const CampaignSplash = connectCampaignSplash(
-	({ campaign, noBlurb, user, children, image, ready }) => (
+	return (
 		<SplashBleed image={image} ready={ready}>
 			<Hero>
 				{children}
 				<HeroTitle>{campaign.title}</HeroTitle>
-				{!noBlurb && (campaign.tagline || user) && (
+				{!noBlurb && (campaign.tagline || owner) && (
 					<HeroBlurb>
-						{campaign.tagline || `A campaign by ${user.username}`}
+						{campaign.tagline || `A campaign by ${owner.username}`}
 					</HeroBlurb>
 				)}
 			</Hero>
 		</SplashBleed>
-	),
-)
+	)
+}
