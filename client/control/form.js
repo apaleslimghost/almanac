@@ -1,6 +1,4 @@
-import React, { Component, useState, createContext } from 'react'
-import PropTypes from 'prop-types'
-import { getContext } from 'recompact'
+import React, { useState, createContext, useContext } from 'react'
 
 export const getInputValue = el =>
 	el[
@@ -15,52 +13,61 @@ export const getInputValue = el =>
 
 export const getSelectValue = el => el.options[el.selectedIndex].value
 
-export const FormFieldData = ({ render }, context) =>
-	render(context.fields, context.setFields)
+export const FieldLike = createContext({
+	fields: {},
+	setFields() {},
+})
 
 const qq = (a, b) => (a === undefined ? b : a)
 
-export const Input = (
-	{ name, fieldRef, tag: Tag = 'input', ...props },
-	context,
-) => (
-	<Tag
-		ref={fieldRef}
-		name={name}
-		type='text'
-		{...props}
-		value={
-			context.fields
-				? qq(name in context.fields ? context.fields[name] : props.value, '')
-				: 'value' in props
-				? props.value
-				: undefined /* Uncontrolled component if there's no context */
-		}
-		onChange={ev => {
-			if (context.setFields) {
-				if (props.type !== 'radio' || ev.target.checked) {
-					context.setFields({
-						[name]: getInputValue(ev.target),
-					})
+export const Input = ({
+	name,
+	fieldRef,
+	tag: Tag = 'input',
+	onChange,
+	...props
+}) => {
+	const { fields, setFields } = useContext(FieldLike)
+
+	return (
+		<Tag
+			ref={fieldRef}
+			name={name}
+			type='text'
+			{...props}
+			value={
+				fields
+					? qq(name in fields ? fields[name] : props.value, '')
+					: 'value' in props
+					? props.value
+					: undefined /* uncontrolled component if there's no */
+			}
+			onChange={ev => {
+				if (setFields) {
+					if (props.type !== 'radio' || ev.target.checked) {
+						setFields({
+							[name]: getInputValue(ev.target),
+						})
+					}
 				}
-			}
 
-			if (props.onChange) {
-				props.onChange(ev)
-			}
-		}}
-	/>
-)
+				if (onChange) {
+					onChange(ev)
+				}
+			}}
+		/>
+	)
+}
 
-export const Select = ({ tag: Tag = 'select', ...props }, context) => {
+export const Select = ({ tag: Tag = 'select', ...props }) => {
+	const { fields, setFields } = useContext(FieldLike)
+
 	return (
 		<Tag
 			{...props}
 			value={
-				context.fields
-					? (props.name in context.fields
-							? context.fields[props.name]
-							: props.value) || ''
+				fields
+					? (props.name in fields ? fields[props.name] : props.value) || ''
 					: 'value' in props
 					? props.value
 					: undefined
@@ -70,8 +77,8 @@ export const Select = ({ tag: Tag = 'select', ...props }, context) => {
 					props.onChange(ev)
 				}
 
-				if (context.setFields) {
-					context.setFields({
+				if (setFields) {
+					setFields({
 						[props.name]: getSelectValue(ev.target),
 					})
 				}
@@ -82,12 +89,7 @@ export const Select = ({ tag: Tag = 'select', ...props }, context) => {
 	)
 }
 
-export const FieldLike = createContext({
-	fields: {},
-	setFields() {},
-})
-
-const Form = ({
+export const Form = ({
 	initialData = {},
 	name,
 	tag: Tag = 'form',
@@ -96,21 +98,22 @@ const Form = ({
 	onDidSubmit,
 	children,
 }) => {
-	const [fields, _setFields] = useState(initialData)
 	const { fields: contextFields, setFields: setContextFields } = useContext(
 		FieldLike,
 	)
+	const initialFields = { ...initialData, contextFields }
+	const [fields, _setFields] = useState(initialFields)
 
 	function setFields(f) {
 		_setFields(Object.assign(fields, f), () => {
-			if (this.context.setFields && this.props.name) {
-				this.context.setFields({
-					[this.props.name]: this.fields,
+			if (setContextFields && name) {
+				setContextFields({
+					[name]: fields,
 				})
 			}
 
-			if (this.props.onChange) {
-				this.props.onChange(this.fields)
+			if (onChange) {
+				onChange(fields)
 			}
 		})
 	}
@@ -122,11 +125,11 @@ const Form = ({
 
 			Promise.resolve(_onSubmit(fields))
 				.then(() => {
-					setFields(this.props.initialData)
+					setFields(initialFields)
 				})
 				.then(() => {
 					if (onDidSubmit) {
-						onDidSubmit(this.fields)
+						onDidSubmit(fields)
 					}
 				})
 		}
@@ -138,13 +141,3 @@ const Form = ({
 		</FieldLike.Provider>
 	)
 }
-
-export const fieldLike = {
-	fields: PropTypes.object,
-	setFields: PropTypes.func,
-}
-
-export const withFormData = getContext(fieldLike)
-;[Input, Select, Form, FormFieldData].forEach(thing => {
-	thing.contextTypes = fieldLike
-})
