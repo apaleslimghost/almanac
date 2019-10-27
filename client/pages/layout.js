@@ -1,20 +1,7 @@
-import React from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import {
-	compose,
-	withContext,
-	withState,
-	lifecycle,
-	getContext,
-} from 'recompact'
 import { ToastContainer } from 'react-toastify'
-import {
-	setsCampaign,
-	withCampaignData,
-	CampaignContext,
-	useCampaignData,
-} from '../data/campaign'
+import { CampaignContext, useCampaignData } from '../data/campaign'
 import Icon from '../visual/icon'
 import { H3 } from '../visual/heading'
 import { withUserData, logout } from '../utils/logged-in'
@@ -102,71 +89,31 @@ const Nav = connectNav(({ campaign, isOwner, extraItems, user }) => (
 	</Toolbar>
 ))
 
-const navContext = {
-	setExtraNavItems: PropTypes.func,
-	setNavShown: PropTypes.func,
-}
-
-export const withNavContext = getContext(navContext)
-
-const navState = withState('state', 'setState', {
-	extraItems: [],
-	navShown: true,
+const NavContext = createContext({
+	setExtraNavItems() {},
+	setNavShown() {},
 })
 
-const setNavContext = withContext(navContext, ({ setState, state }) => ({
-	setExtraNavItems(...extraItems) {
-		setState({
-			...state,
-			extraItems,
-		})
-	},
+export const useHidesNav = hide => {
+	const { setNavShown } = useContext(NavContext)
 
-	setNavShown(navShown = true) {
-		setState({
-			...state,
-			navShown,
-		})
-	},
-}))
+	useEffect(() => {
+		setNavShown(hide)
+		return () => setNavShown(true)
+	})
+}
 
-export const maybeHidesNav = hideFromProps =>
-	compose(
-		withNavContext,
-		lifecycle({
-			componentDidMount() {
-				this.props.setNavShown(!hideFromProps(this.props))
-			},
+export const useExtraNavItems = (...navItems) => {
+	const { setExtraNavItems } = useContext(NavContext)
 
-			componentWillUnmount() {
-				this.props.setNavShown(true)
-			},
-		}),
-	)
+	useEffect(() => {
+		setExtraNavItems(...navItems)
 
-export const hidesNav = maybeHidesNav(() => true)
+		return () => setExtraNavItems()
+	})
+}
 
-export const withExtraNavItems = (...navItems) =>
-	compose(
-		withNavContext,
-		lifecycle({
-			componentDidMount() {
-				this.props.setExtraNavItems(
-					...navItems.map(NavItem => (
-						<NavItem {...this.props} key={NavItem.name} />
-					)),
-				)
-			},
-
-			componentWillUnmount() {
-				this.props.setExtraNavItems()
-			},
-		}),
-	)
-
-export const BasicLayout = ({ campaignId, secret, children }) => {
-	// eslint-disable-next-line no-console
-	console.trace('BasicLayout', { campaignId, secret })
+export const Basic = ({ campaignId, secret, children }) => {
 	const { campaign } = useCampaignData({ campaignId, secret })
 
 	return (
@@ -178,13 +125,18 @@ export const BasicLayout = ({ campaignId, secret, children }) => {
 	)
 }
 
-export const Basic = setsCampaign(props => <BasicLayout {...props} />)
+const Layout = ({ campaignId, secret, children, ready }) => {
+	const [extraItems, setExtraNavItems] = useState([])
+	const [navShown, setNavShown] = useState(true)
 
-const Layout = ({ campaignId, secret, state = {}, children, ready }) => (
-	<BasicLayout {...{ campaignId, secret }}>
-		{state.navShown && <Nav extraItems={state.extraItems} />}
-		<Grid>{ready ? children : 'loading...'}</Grid>
-	</BasicLayout>
-)
+	return (
+		<NavContext.Provider {...{ setExtraNavItems, setNavShown }}>
+			<Basic {...{ campaignId, secret }}>
+				{navShown && <Nav extraItems={extraItems} />}
+				<Grid>{ready ? children : 'loading...'}</Grid>
+			</Basic>
+		</NavContext.Provider>
+	)
+}
 
 export default Layout

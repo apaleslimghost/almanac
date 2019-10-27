@@ -1,14 +1,15 @@
 import React from 'react'
-import { compose, withHandlers, withProps } from 'recompact'
 import BlockLayout from '../collection/block-layout'
 import Icon from '../visual/icon'
-import { withCampaignData } from '../data/campaign'
-import { assertAmOwner } from '../data/owner'
+import { useCampaign } from '../data/campaign'
+import { useAssertAmOwner } from '../data/owner'
 import { MenuLink } from '../visual/menu'
-import { withExtraNavItems } from './layout'
+import { useExtraNavItems } from './layout'
 
-const withDashboardActions = withHandlers({
-	launchDashboard: ({ campaign }) => ev => {
+const LaunchLink = () => {
+	const campaign = useCampaign()
+
+	function launchDashboard(ev) {
 		ev.preventDefault()
 
 		const dashboardWindow = window.open(
@@ -20,22 +21,20 @@ const withDashboardActions = withHandlers({
 		dashboardWindow.document.body.addEventListener('click', () => {
 			dashboardWindow.document.body.requestFullscreen()
 		}, {once: true})
-	},
-})
+	}
 
-const LaunchLink = ({ campaign, launchDashboard }) => (
+	return (
 	<MenuLink href={`/${campaign._id}/dashboard`} onClick={launchDashboard}>
 		<Icon icon='scroll-unfurled' />
 		Launch Dashboard
 	</MenuLink>
-)
+	)
+}
 
-const connectDashboardControl = compose(
-	withCampaignData,
-	assertAmOwner('campaign'),
-	withDashboardActions,
-	withExtraNavItems(LaunchLink),
-	withProps({ which: 'control' }),
-)
+export default props => {
+	const campaign = useCampaign()
+	useAssertAmOwner(campaign)
+	useExtraNavItems(<LaunchLink />)
 
-export default connectDashboardControl(BlockLayout)
+	return <BlockLayout which='control' {...props} />
+}
