@@ -1,29 +1,23 @@
 import React from 'react'
-import { compose, withHandlers } from 'recompact'
 import { navigate as go } from 'use-history'
-import { withCampaignData } from '../data/campaign'
+import { useCampaign } from '../data/campaign'
 import CampaignSettings from '../document/campaign-settings'
 import { Campaign } from '../../shared/methods'
-import { assertAmOwner } from '../data/owner'
+import { useAssertAmOwner } from '../data/owner'
 import { Main } from '../visual/grid'
 
-const withCampaignActions = withHandlers({
-	onSubmit: ({ campaign }) => data => {
+export default () => {
+	const campaign = useCampaign()
+	useAssertAmOwner(campaign)
+
+	function onSubmit(data) {
 		Campaign.update(campaign, data)
 		go(`/${campaign._id}`)
-	},
-})
+	}
 
-const connectCampaignSettings = compose(
-	withCampaignData,
-	assertAmOwner('campaign'),
-	withCampaignActions,
-)
-
-const CampaignSettingsPage = connectCampaignSettings(CampaignSettings)
-
-export default () => (
-	<Main>
-		<CampaignSettingsPage />
-	</Main>
-)
+	return (
+		<Main>
+			<CampaignSettings campaign={campaign} onSubmit={onSubmit} />
+		</Main>
+	)
+}
