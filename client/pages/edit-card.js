@@ -1,14 +1,12 @@
 import React from 'react'
-import { compose, withHandlers, withProps } from 'recompact'
 
 import styled from 'styled-components'
 import { navigate as go } from 'use-history'
 
-import { withCard } from '../data/card'
-import { withCampaignId } from '../data/campaign'
-import withLoading from '../control/loading'
-import { Form, withFormData } from '../control/form'
-import { iAmOwner } from '../data/owner'
+import { useCard } from '../data/card'
+import { useCampaignId } from '../data/campaign'
+import { Form, useFormData } from '../control/form'
+import { useAssertAmOwner } from '../data/owner'
 import TypeSelect from '../collection/type-select'
 import preventingDefault from '../utils/preventing-default'
 import { Card } from '../../shared/methods'
@@ -20,7 +18,7 @@ import schema from '../../shared/schema'
 import { ImageSelectModal } from '../control/image-select'
 import { Main } from '../visual/grid'
 import { SplashBleed, Hero, HeroTitle, SplashAccessory } from '../visual/splash'
-import withImage from '../data/image'
+import { useImage } from '../data/image'
 import {
 	SplashToolbar,
 	Center,
@@ -31,18 +29,18 @@ import {
 } from '../visual/menu'
 import _ from 'lodash'
 
-const connectFormSplash = compose(
-	withFormData,
-	withProps({ small: true }),
-	withImage(({ fields }) => fields.cover),
-)
+const FormCardSplash = props => {
+	const { cover } = useFormData()
+	const image = useImage(cover)
 
-const FormCardSplash = connectFormSplash(SplashBleed)
+	return <SplashBleed small image={image} {...props} />
+}
 
-const SchemaFields = withFormData(({ fields }) =>
-	fields.type ? (
+const SchemaFields = () => {
+	const { type } = useFormData()
+	return type ? (
 		<>
-			{_.map(schema[fields.type].fields, ({ label, format, ...field }, key) => (
+			{_.map(schema[type].fields, ({ label, format, ...field }, key) => (
 				<MenuItem key={key} flush>
 					<LabelledInput>
 						<div>{label}</div>
@@ -52,14 +50,17 @@ const SchemaFields = withFormData(({ fields }) =>
 			))}
 			<Divider />
 		</>
-	) : null,
-)
+	) : null
+}
 
-const ContentsForm = withProps({
-	tag: styled.form`
-		display: contents;
-	`,
-})(Form)
+const ContentsForm = props => (
+	<Form
+		tag={styled.form`
+			display: contents;
+		`}
+		{...props}
+	/>
+)
 
 const FloatMenuItem = styled.div`
 	display: flex;
@@ -116,8 +117,15 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 	</ContentsForm>
 )
 
-const editCardActions = withHandlers({
-	saveCard: ({ card, campaignId }) => async data => {
+export default ({ cardId, ...props }) => {
+	const campaignId = useCampaignId()
+	const { ready, card } = useCard(cardId)
+
+	if (!ready) return null
+
+	useAssertAmOwner(card)
+
+	async function saveCard(data) {
 		let _id
 
 		if (card) {
@@ -131,28 +139,20 @@ const editCardActions = withHandlers({
 		}
 
 		go(`/${campaignId}/${_id}`)
-	},
+	}
 
-	deleteCard: ({ card }) => ev => {
+	function deleteCard(ev) {
 		ev.preventDefault()
 
 		if (confirm(`Are you sure you want to delete ${card.title}?`)) {
 			Card.delete(card)
 			go(`/${card.campaignId}`)
 		}
-	},
+	}
 
-	back: ({ card, campaignId }) => () => {
+	function back() {
 		go(`/${campaignId}/${card ? card._id : ''}`)
-	},
-})
+	}
 
-const withCardData = compose(
-	withCampaignId,
-	withCard,
-	withLoading,
-	editCardActions,
-	iAmOwner('card'),
-)
-
-export default withCardData(EditCard)
+	return <EditCard {...{ saveCard, deleteCard, back }} {...props} />
+}

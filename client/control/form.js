@@ -13,10 +13,12 @@ export const getInputValue = el =>
 
 export const getSelectValue = el => el.options[el.selectedIndex].value
 
-export const FieldLike = createContext({
+const FieldLike = createContext({
 	fields: {},
 	setFields() {},
 })
+
+export const useFormData = () => useContext(FieldLike).fields
 
 const qq = (a, b) => (a === undefined ? b : a)
 

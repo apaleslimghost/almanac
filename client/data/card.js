@@ -33,4 +33,9 @@ export const withCard = withCards('card', ({ cardId }) => ({ _id: cardId }), {
 	single: true,
 })
 
+export const useCard = _id => {
+	const { ready, cards } = useCards({ _id }, { single: true })
+	return { ready, card: cards }
+}
+
 export default withCards
