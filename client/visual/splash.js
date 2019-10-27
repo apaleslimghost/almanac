@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 import { aqua, steel } from '@quarterto/colours'
 import contrast from 'contrast'
 import { useImage } from '../data/image'
-import { useCampaignData } from '../data/campaign'
+import { useCampaign } from '../data/campaign'
 import { useOwner } from '../data/owner'
 import select from '../utils/select'
 
@@ -186,9 +186,9 @@ export const HeroBlurb = styled.p`
 	}
 `
 
-export const CampaignSplash = ({ campaignId, noBlurb, children }) => {
-	const { campaign } = useCampaignData({ campaignId })
-	const owner = useOwner(campaign)
+export const CampaignSplash = ({ noBlurb, children }) => {
+	const { campaign } = useCampaign()
+	const { owner } = useOwner(campaign)
 	const { image, ready } = useImage(campaign.theme)
 
 	return (

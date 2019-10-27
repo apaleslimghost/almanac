@@ -1,7 +1,7 @@
-import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
-import { useTracker } from 'meteor/quarterto:hooks'
 import { Forbidden } from 'http-errors'
+import { Meteor } from 'meteor/meteor'
+import { useTracker } from 'meteor/quarterto:hooks'
+import { withTracker } from 'meteor/react-meteor-data'
 import { compose, withProps } from 'recompact'
 import subscribe from '../utils/subscribe'
 
@@ -12,7 +12,13 @@ export const withOwnerData = key =>
 	}))
 
 export const useOwner = item =>
-	useTracker(() => Meteor.users.findOne(item.owner), [item])
+	useTracker(
+		() => ({
+			ready: subscribe('users.all'),
+			owner: Meteor.users.findOne(item.owner),
+		}),
+		[item],
+	)
 
 export const iAmOwner = key =>
 	compose(
@@ -31,3 +37,12 @@ export const assertAmOwner = key =>
 			}
 		}),
 	)
+
+export const useAssertAmOwner = item => {
+	const me = useTracker(() => Meteor.userId())
+	const { ready, owner } = useOwner(item)
+
+	if (ready && owner._id !== me) {
+		throw new Forbidden(`You're not allowed to do that`)
+	}
+}

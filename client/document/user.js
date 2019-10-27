@@ -44,6 +44,6 @@ export default User
 
 export const Owner = ({ of: ofThing, ...props }) => {
 	const ready = subscribe('campaigns.members')
-	const user = useOwner(ofThing)
-	return ready ? <User user={user} {...props} /> : null
+	const { owner } = useOwner(ofThing)
+	return ready ? <User user={owner} {...props} /> : null
 }
