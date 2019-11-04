@@ -6,5 +6,5 @@ width: 100%;
 height: 100%;
 `
 
-export control = () => <Textarea />
-export display = () => null
+export const control = () => <Textarea />
+export const display = () => null
