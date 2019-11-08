@@ -4,12 +4,12 @@ import { ToastContainer } from 'react-toastify'
 import { CampaignContext, useCampaignData } from '../data/campaign'
 import Icon from '../visual/icon'
 import { H3 } from '../visual/heading'
-import { withUserData, logout } from '../utils/logged-in'
+import { logout, useUser } from '../utils/logged-in'
 import Logo from '../visual/logo'
 import Grid from '../visual/grid'
 import Title from '../utils/title'
 import User from '../document/user'
-import { iAmOwner } from '../data/owner'
+import { useAmOwner } from '../data/owner'
 import { Toolbar, MenuLink, Divider, NavArea, Space } from '../visual/menu'
 
 import 'react-toastify/dist/ReactToastify.min.css'
@@ -35,59 +35,59 @@ const CampaignTitle = ({ campaign }) => (
 	</MenuLink>
 )
 
-const connectNav = compose(
-	withCampaignData,
-	iAmOwner('campaign'),
-	withUserData,
-)
+const Nav = ({ campaignId, extraItems }) => {
+	const campaign = useCampaignData({ campaignId })
+	const isOwner = useAmOwner(campaign)
+	const user = useUser()
 
-const Nav = connectNav(({ campaign, isOwner, extraItems, user }) => (
-	<Toolbar>
-		<NavArea>
-			<MenuLink href='/'>
-				<MenuLogo />
-			</MenuLink>
+	return (
+		<Toolbar>
+			<NavArea>
+				<MenuLink href='/'>
+					<MenuLogo />
+				</MenuLink>
 
-			{campaign && (
-				<>
-					<Divider />
-					<CampaignTitle campaign={campaign} />
+				{campaign && (
+					<>
+						<Divider />
+						<CampaignTitle campaign={campaign} />
 
-					{user &&
-						(isOwner ? (
-							<>
-								<MenuLink href={`/${campaign._id}/dashboard-control`}>
+						{user &&
+							(isOwner ? (
+								<>
+									<MenuLink href={`/${campaign._id}/dashboard-control`}>
+										<Icon icon='wooden-sign' />
+										Dashboard
+									</MenuLink>
+
+									<MenuLink href={`/${campaign._id}/players`}>
+										<Icon icon='double-team' />
+										Players
+									</MenuLink>
+
+									<MenuLink href={`/${campaign._id}/settings`}>
+										<Icon icon='gears' />
+										Settings
+									</MenuLink>
+								</>
+							) : (
+								<MenuLink href={`/${campaign._id}/dashboard`}>
 									<Icon icon='wooden-sign' />
 									Dashboard
 								</MenuLink>
+							))}
+					</>
+				)}
+			</NavArea>
 
-								<MenuLink href={`/${campaign._id}/players`}>
-									<Icon icon='double-team' />
-									Players
-								</MenuLink>
-
-								<MenuLink href={`/${campaign._id}/settings`}>
-									<Icon icon='gears' />
-									Settings
-								</MenuLink>
-							</>
-						) : (
-							<MenuLink href={`/${campaign._id}/dashboard`}>
-								<Icon icon='wooden-sign' />
-								Dashboard
-							</MenuLink>
-						))}
-				</>
-			)}
-		</NavArea>
-
-		<NavArea>
-			<Space />
-			{extraItems}
-			{user && <LogoutButton user={user} />}
-		</NavArea>
-	</Toolbar>
-))
+			<NavArea>
+				<Space />
+				{extraItems}
+				{user && <LogoutButton user={user} />}
+			</NavArea>
+		</Toolbar>
+	)
+}
 
 const NavContext = createContext({
 	setExtraNavItems() {},

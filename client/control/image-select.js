@@ -73,10 +73,11 @@ const useUnsplashSearch = query =>
 		[query],
 	)
 
-const useAlmanacCollection = useTracker(() => ({
-	ready: subscribe(['unsplash.getCollectionPhotos', '2021417']),
-	photos: UnsplashPhotos.find({ fromCollection: '2021417' }).fetch(),
-}))
+const useAlmanacCollection = () =>
+	useTracker(() => ({
+		ready: subscribe(['unsplash.getCollectionPhotos', '2021417']),
+		photos: UnsplashPhotos.find({ fromCollection: '2021417' }).fetch(),
+	}))
 
 const SearchImage = props => {
 	const [query, setQuery] = useState('')

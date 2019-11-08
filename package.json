@@ -72,6 +72,7 @@
     "@quarterto/prettier": "^1.1.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
+    "eslint-plugin-react-hooks": "^2.2.0",
     "husky": "^2.3.0",
     "lint-staged": "^8.2.1",
     "prettier": "^1.17.1"
@@ -84,7 +85,12 @@
     "extends": [
       "@quarterto"
     ],
+    "plugins": [
+      "react-hooks"
+    ],
     "rules": {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
       "camelcase": [
         "error",
         {
