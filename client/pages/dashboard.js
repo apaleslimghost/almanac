@@ -1,14 +1,13 @@
 import React from 'react'
-import { compose } from 'recompact'
 import BlockLayout from '../collection/block-layout'
-import { withCampaignData } from '../data/campaign'
-import { iAmOwner } from '../data/owner'
-import { maybeHidesNav } from './layout'
+import { useCampaign } from '../data/campaign'
+import { useAmOwner } from '../data/owner'
+import { useHidesNav } from './layout'
 
-const connectDashboard = compose(
-	withCampaignData,
-	iAmOwner('campaign'),
-	maybeHidesNav(({ isOwner }) => isOwner),
-)
+export default props => {
+	const campaign = useCampaign()
+	const amOwner = useAmOwner(campaign)
+	useHidesNav(amOwner)
 
-export default connectDashboard(() => <BlockLayout which='display' />)
+	return <BlockLayout which='display' {...props} />
+}
