@@ -1,55 +1,63 @@
-import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import { compose, renderComponent } from 'recompact'
+import { useTracker } from 'meteor/quarterto:hooks'
 import { Link } from 'use-history'
 
 import { Campaigns } from '../../shared/collections'
 import subscribe from '../utils/subscribe'
-import loggedIn from '../utils/logged-in'
+import { useUser } from '../utils/logged-in'
 import { SplashBackground, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
 import { MainGrid } from '../visual/grid'
-import withImage from '../data/image'
+import { useImage } from '../data/image'
 import Splash from './splash'
 
-const withCampaignData = withTracker(() => ({
-	ready: subscribe('campaigns.all'),
-	campaigns: Campaigns.find({}).fetch(),
-}))
+const useCampaigns = () =>
+	useTracker(() => ({
+		ready: subscribe('campaigns.all'),
+		campaigns: Campaigns.find({}).fetch(),
+	}))
 
-const connectCampaign = compose(
-	loggedIn(renderComponent(Splash)),
-	withCampaignData,
-)
+const CampaignTileImage = SplashBackground.withComponent(Link).extend`
+height: 25vmin;
+border-radius: 3px;
+text-decoration: none;
+transition: filter 0.2s;
+will-change: filter;
 
-const CampaignTile = withImage(
-	({ campaign }) => campaign.theme,
-)(SplashBackground.withComponent(Link).extend`
-	height: 25vmin;
-	border-radius: 3px;
-	text-decoration: none;
-	transition: filter 0.2s;
-	will-change: filter;
+&:hover {
+	filter: contrast(120%) brightness(95%) saturate(110%);
+}
+`
 
-	&:hover {
-		filter: contrast(120%) brightness(95%) saturate(110%);
+const CampaignTile = ({ campaign, ...props }) => {
+	const image = useImage(campaign.theme)
+
+	return <CampaignTileImage {...props} image={image} />
+}
+
+export default () => {
+	const user = useUser()
+	const { campaigns } = useCampaigns()
+
+	if (!user) {
+		return <Splash />
 	}
-`)
 
-export default connectCampaign(({ campaigns }) => (
-	<MainGrid>
-		{campaigns.map(campaign => (
-			<CampaignTile
-				key={campaign._id}
-				campaign={campaign}
-				href={`/${campaign._id}`}
-			>
-				<Hero>
-					<HeroTitle>{campaign.title}</HeroTitle>
-					<HeroBlurb>{campaign.tagline}</HeroBlurb>
-				</Hero>
-			</CampaignTile>
-		))}
+	return (
+		<MainGrid>
+			{campaigns.map(campaign => (
+				<CampaignTile
+					key={campaign._id}
+					campaign={campaign}
+					href={`/${campaign._id}`}
+				>
+					<Hero>
+						<HeroTitle>{campaign.title}</HeroTitle>
+						<HeroBlurb>{campaign.tagline}</HeroBlurb>
+					</Hero>
+				</CampaignTile>
+			))}
 
-		<Link href='/new-campaign'>Add a campaign</Link>
-	</MainGrid>
-))
+			<Link href='/new-campaign'>Add a campaign</Link>
+		</MainGrid>
+	)
+}
