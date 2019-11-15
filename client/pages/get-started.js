@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { toast } from 'react-toastify'
-import { withHandlers } from 'recompact'
 import { navigate as go } from 'use-history'
 import { H2 } from '../visual/heading'
 import { Form } from '../control/form'
@@ -8,20 +7,6 @@ import { Input } from '../visual/form'
 import { Button, LabelledInput } from '../visual/primitives'
 import { createAccount } from '../../shared/methods'
 import CampaignSettings from '../document/campaign-settings'
-
-export const withAccountActions = withHandlers({
-	submitAccount: ({ createAccountMethod = createAccount }) => async ({
-		username,
-		email,
-		campaign,
-	}) => {
-		await createAccountMethod({ username, email }, campaign)
-		toast.success(
-			`We've sent an email to ${email} to verify your address. Check your inbox.`,
-		)
-		go('/')
-	},
-})
 
 const SignupFields = () => (
 	<>
@@ -47,16 +32,28 @@ const SignupFields = () => (
 	</>
 )
 
-export const SignupForm = withAccountActions(({ submitAccount }) => (
-	<Form onSubmit={submitAccount}>
+const getSubmitAccount = (createAccountMethod = createAccount) => async ({
+	username,
+	email,
+	campaign,
+}) => {
+	await createAccountMethod({ username, email }, campaign)
+	toast.success(
+		`We've sent an email to ${email} to verify your address. Check your inbox.`,
+	)
+	go('/')
+}
+
+export const SignupForm = ({ createAccountMethod }) => (
+	<Form onSubmit={getSubmitAccount(createAccountMethod)}>
 		<SignupFields />
 
 		<Button>Create your account</Button>
 	</Form>
-))
+)
 
-export default withAccountActions(({ title, submitAccount }) => (
-	<Form onSubmit={submitAccount}>
+export default ({ title, createAccountMethod }) => (
+	<Form onSubmit={getSubmitAccount(createAccountMethod)}>
 		<H2>About you</H2>
 
 		<SignupFields />
@@ -66,4 +63,4 @@ export default withAccountActions(({ title, submitAccount }) => (
 
 		<Button>Create your account</Button>
 	</Form>
-))
+)
