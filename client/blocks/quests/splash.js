@@ -4,7 +4,7 @@ import Portal from 'react-portal'
 import Modal from '../../visual/modal'
 import Ornamented from '../../visual/ornamented'
 import { Cards } from '../../../shared/collections'
-import { useComputation } from '../../data/with-computation'
+import { useComputation } from '../../data/computation'
 import access from '../../../shared/access'
 import subscribe from '../../utils/subscribe'
 

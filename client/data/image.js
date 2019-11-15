@@ -1,4 +1,3 @@
-import { withTracker } from 'meteor/react-meteor-data'
 import { useTracker } from 'meteor/quarterto:hooks'
 import subscribe from '../utils/subscribe'
 import { UnsplashPhotos } from '../../shared/collections'
@@ -18,20 +17,6 @@ const getImageSubscription = image => {
 
 	return {}
 }
-
-export default getImageId =>
-	withTracker({
-		pure: false,
-		getMeteorData(props) {
-			const image = getImageId(props)
-
-			if (image) {
-				return getImageSubscription(image)
-			}
-
-			return {}
-		},
-	})
 
 export const useImage = image =>
 	useTracker(() => {
