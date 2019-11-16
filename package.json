@@ -59,7 +59,6 @@
 		"react-resizable": "^1.7.5",
 		"react-toastify": "^4.2.0",
 		"react-typeahead": "^2.0.0-alpha.5",
-		"recompact": "^3.3.0",
 		"remark-behead": "^2.1.0",
 		"string-hash": "^1.1.3",
 		"styled-components": "^4.4.1",
