@@ -47,7 +47,7 @@ const AccessGrid = styled.div`
 	align-items: center;
 `
 
-const AccessLabel = Label.extend`
+const AccessLabel = styled(Label)`
 	display: block;
 	text-align: right;
 `

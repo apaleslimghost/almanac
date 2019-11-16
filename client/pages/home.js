@@ -1,5 +1,6 @@
 import React from 'react'
 import { useTracker } from 'meteor/quarterto:hooks'
+import styled from 'styled-components'
 import { Link } from 'use-history'
 
 import { Campaigns } from '../../shared/collections'
@@ -16,22 +17,22 @@ const useCampaigns = () =>
 		campaigns: Campaigns.find({}).fetch(),
 	}))
 
-const CampaignTileImage = SplashBackground.withComponent(Link).extend`
-height: 25vmin;
-border-radius: 3px;
-text-decoration: none;
-transition: filter 0.2s;
-will-change: filter;
+const CampaignTileImage = styled(SplashBackground)`
+	height: 25vmin;
+	border-radius: 3px;
+	text-decoration: none;
+	transition: filter 0.2s;
+	will-change: filter;
 
-&:hover {
-	filter: contrast(120%) brightness(95%) saturate(110%);
-}
+	&:hover {
+		filter: contrast(120%) brightness(95%) saturate(110%);
+	}
 `
 
 const CampaignTile = ({ campaign, ...props }) => {
 	const image = useImage(campaign.theme)
 
-	return <CampaignTileImage {...props} image={image} />
+	return <CampaignTileImage {...props} image={image} as={Link} />
 }
 
 export default () => {

@@ -7,7 +7,7 @@ import { SplashBackground, Hero, HeroTitle } from '../visual/splash'
 import { Card as CardPrimitive } from '../visual/primitives'
 import Markdown from './markdown'
 
-const CardHeader = withImage(({ card }) => card.cover)(SplashBackground.extend`
+const CardHeader = withImage(({ card }) => card.cover)(styled(SplashBackground)`
 	margin: -1rem -1rem 0;
 	padding-top: 0.5rem;
 	transition: filter 0.2s;
@@ -46,7 +46,7 @@ const CardLink = styled(Link)`
 	}
 `
 
-const ListImage = withImage(({ card }) => card.cover)(SplashBackground.extend`
+const ListImage = withImage(({ card }) => card.cover)(styled(SplashBackground)`
 	min-height: 2rem;
 	padding: 0.5rem;
 	font-family: 'Libre Baskerville', serif;

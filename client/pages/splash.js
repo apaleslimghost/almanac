@@ -14,7 +14,7 @@ import Ribbon from '../visual/ribbon'
 
 const formHeight = '160px'
 
-const SplashWithForm = SplashBleed.extend`
+const SplashWithForm = styled(SplashBleed)`
 	margin-bottom: ${formHeight};
 
 	@media (min-width: 40em) {
@@ -49,7 +49,7 @@ const Split = styled.div`
 	}
 `
 
-const SplitBlurb = HeroBlurb.extend`
+const SplitBlurb = styled(HeroBlurb)`
 	@media (min-width: 40em) {
 		text-align: right;
 		margin-right: 1em;
@@ -78,7 +78,7 @@ const SplashForm = styled.form`
 	}
 `
 
-const CallToAction = Button.extend`
+const CallToAction = styled(Button)`
 	padding: 0.4em;
 	margin-top: 0.4em;
 	margin-right: 0.4em;

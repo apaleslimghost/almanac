@@ -2,9 +2,13 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 import colours from '@quarterto/colours'
 import contrast from 'contrast'
+import composeStyles from '@quarterto/styled-compose'
+
+const clamp = (min, max) => n => Math.min(max, Math.max(min, n))
+const validShade = clamp(0, colours.sky.length)
 
 export const background = ({ colour = 'sky', shade = 3 }) => {
-	const bg = colours[colour][shade]
+	const bg = colours[colour][validShade(shade)]
 
 	return css`
 		background: ${bg};
@@ -68,8 +72,6 @@ export const Card = styled.div`
 	column-gap: 1rem;
 `
 
-// TODO: use theme for label colour
-
 export const Label = styled.span`
 	display: inline-block;
 	${etched}
@@ -88,8 +90,7 @@ export const LabelBody = styled.span`
 
 export const LabelTitle = styled.span`
 	display: inline-block;
-	${({ colour = 'sky', shade = 3 }) =>
-		background({ colour, shade: Math.max(0, shade - 1) })}
+	${({ colour = 'sky', shade = 3 }) => background({ colour, shade: shade - 1 })}
 	padding: .25em .6em;
 	margin: -0.25em 0;
 	border: 0 solid ${({ colour = 'sky', shade = 3 }) => colours[colour][shade]};
@@ -115,14 +116,29 @@ export const LabelTitle = styled.span`
 	}
 `
 
-export const LabelButton = LabelTitle.withComponent('button').extend`
-	appearance: none;
+// i hate this
+export const UnstyledButton = styled.button`
+	background: none;
+	border: none;
 	font: inherit;
 	cursor: pointer;
+`
+
+// i hate this more
+export const BackgroundButton = styled(UnstyledButton)`
+	${colourTransitions}
+
+	${({ colour, shade = 2, primary }) =>
+		colour &&
+		(primary
+			? background({ colour, shade })
+			: css`
+					color: ${colours[colour][shade]};
+			  `)}
 
 	&:hover {
-		${({ colour = 'sky', shade = 3 }) =>
-			background({ colour, shade: Math.min(6, shade + 1) })}
+		${({ colour, shade = 2, primary }) =>
+			primary && background({ colour, shade: shade + 1 })}
 	}
 `
 
@@ -141,56 +157,48 @@ export const colourTransitions = css`
 	transition-timing-function: linear;
 `
 
-const Button_ = Label.withComponent('button').extend`
-	font: inherit;
-	${colourTransitions}
-	box-shadow: ${shadow(1)};
-	cursor: pointer;
-
-	&:hover {
-		${({ colour = 'sky', shade = 3 }) =>
-			background({ colour, shade: Math.min(6, shade + 1) })}
-		box-shadow: ${shadow(1.5)};
-		${''}
-	}
-
-	&:active {
-		transition-property: box-shadow, background;
-		box-shadow: ${shadow(0)};
-		${''}
-	}
-
-	&[disabled] {
-		pointer-events: none;
-		opacity: 0.6;
-	}
-`
-
-const makeButton = ({ Button, Body }) => props => (
-	<Button large {...props}>
-		<Body>{props.children}</Body>
-	</Button>
+const BaseButton = ({ children, ...props }) => (
+	// eslint-disable-next-line react/button-has-type
+	<button {...props}>
+		<LabelBody>{children}</LabelBody>
+	</button>
 )
 
-export const Button = makeButton({
-	Button: Button_,
-	Body: LabelBody,
-})
+export const Button = composeStyles(
+	BaseButton,
+	styled(Label)`
+		font: inherit;
+		${colourTransitions}
+		box-shadow: ${shadow(1)};
+		cursor: pointer;
 
-Button.extend = (...args) =>
-	makeButton({
-		Button: Button_.extend(...args),
-		Body: LabelBody,
-	})
+		&:hover {
+			${({ colour = 'sky', shade = 3 }) => background({ colour, shade: shade + 1 })}
+			box-shadow: ${shadow(1.5)};
+			${''}
+		}
 
-export const Group = List.extend`
+		&:active {
+			transition-property: box-shadow, background;
+			box-shadow: ${shadow(0)};
+			${''}
+		}
+
+		&[disabled] {
+			pointer-events: none;
+			opacity: 0.6;
+		}
+	`,
+)
+
+export const Group = styled(List)`
 	${List} > & {
 		margin: 2px;
 	}
 
 	box-shadow: ${shadow(1)};
 
-	${Button_} {
+	${Button} {
 		margin-left: -1px;
 		margin-right: 0;
 		border-radius: 0;
@@ -215,11 +223,14 @@ export const Group = List.extend`
 	}
 `
 
-export const LabelledInput = List.withComponent('label').extend`
-	align-items: center;
-`
+export const LabelledInput = composeStyles(
+	'label',
+	styled(List)`
+		align-items: center;
+	`,
+)
 
-export const Dropdown = Card.extend`
+export const Dropdown = styled(Card)`
 	box-shadow: ${shadow(3)};
 	position: absolute;
 	top: calc(100% - 0.5rem);
