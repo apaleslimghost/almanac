@@ -10,7 +10,7 @@ import {
 	deleteCardWithRelated,
 	Card,
 	addRelated,
-} from '../../../../shared/methods'
+} from '../../../shared/methods'
 import Markdown from '../../document/markdown'
 
 import QuestSplash from './splash'
@@ -154,99 +154,99 @@ const Quest = ({ quest, control, first }) => {
 				objective =>
 					objective.completed || objective.access.view === access.PRIVATE,
 			)) ? null : (
-			<div>
-				<Ornamented ornament='u'>
-					{quest.completed ? <s>{quest.title}</s> : quest.title}
+		<div>
+			<Ornamented ornament='u'>
+				{quest.completed ? <s>{quest.title}</s> : quest.title}
 
-					{control && (
-						<>
+				{control && (
+					<>
 						{!first && (
-								<button type='button' onClick={() => onSelectQuest(quest)}>
-									🔝
-								</button>
-							)}
-
-							{!quest.completed && quest.access.view > access.PRIVATE && (
-								<button type='button' onClick={onCompleteQuest}>
-									☑️
-								</button>
-							)}
-
-							{quest.access.view === access.PRIVATE && (
-								<button type='button' onClick={onStartQuest}>
-									👁
-								</button>
-							)}
-
-							{
-								<button type='button' onClick={onDeleteQuest}>
-									❌
-								</button>
-							}
-						</>
-					)}
-				</Ornamented>
-
-				<Large>
-					{first &&
-						m(
-							objectives.find(({ completed }) => !completed),
-							objective => objective.text,
-							quest.text,
+							<button type='button' onClick={() => onSelectQuest(quest)}>
+								🔝
+							</button>
 						)}
-				</Large>
 
-				<ObjectiveList>
-					{control && !quest.completed && (
-						<li>
-							<form onSubmit={onCreateObjective}>
-								<input placeholder='Objective' name='title' />
-								<input name='text' />
-								<button type='submit'>➕</button>
-							</form>
-						</li>
+						{!quest.completed && quest.access.view > access.PRIVATE && (
+							<button type='button' onClick={onCompleteQuest}>
+								☑️
+							</button>
+						)}
+
+						{quest.access.view === access.PRIVATE && (
+							<button type='button' onClick={onStartQuest}>
+								👁
+							</button>
+						)}
+
+						{
+							<button type='button' onClick={onDeleteQuest}>
+								❌
+							</button>
+						}
+					</>
+				)}
+			</Ornamented>
+
+			<Large>
+				{first &&
+					m(
+						objectives.find(({ completed }) => !completed),
+						objective => objective.text,
+						quest.text,
 					)}
-					{objectives
-						.filter(({ completed }) => !completed)
-						.map((objective, index) => (
-							<ObjectiveListItem key={objective._id} first={index === 0}>
-								<Objective
-									quest={quest}
-									objective={objective}
-									control={control}
-								/>
-							</ObjectiveListItem>
-						))}
+			</Large>
 
-					{objectives
-						.filter(({ completed }) => completed)
-						.map(objective => (
-							<ObjectiveListItem key={objective._id} completed>
-								<Objective
-									quest={quest}
-									objective={objective}
-									control={control}
-								/>
-							</ObjectiveListItem>
-						))}
-				</ObjectiveList>
-			</div>
+			<ObjectiveList>
+				{control && !quest.completed && (
+					<li>
+						<form onSubmit={onCreateObjective}>
+							<input placeholder='Objective' name='title' />
+							<input name='text' />
+							<button type='submit'>➕</button>
+						</form>
+					</li>
+				)}
+				{objectives
+					.filter(({ completed }) => !completed)
+					.map((objective, index) => (
+						<ObjectiveListItem key={objective._id} first={index === 0}>
+							<Objective
+								quest={quest}
+								objective={objective}
+								control={control}
+							/>
+						</ObjectiveListItem>
+					))}
+
+				{objectives
+					.filter(({ completed }) => completed)
+					.map(objective => (
+						<ObjectiveListItem key={objective._id} completed>
+							<Objective
+								quest={quest}
+								objective={objective}
+								control={control}
+							/>
+						</ObjectiveListItem>
+					))}
+			</ObjectiveList>
+		</div>
 	)
 }
 
 const QuestsList = ({ control, ...props }) => {
 	const campaignId = useCampaignId()
 	const quests = useCards(
-	({ control }) => ({
-		type: 'quest',
-		'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN },
-	}),
-	{
-		sort: {
-			completed: 1,
-			updated: -1,
+		({ control }) => ({
+			type: 'quest',
+			'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN },
+		}),
+		{
+			sort: {
+				completed: 1,
+				updated: -1,
+			},
 		},
-	},
 	)
 
 	function onCreateQuest(ev) {

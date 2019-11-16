@@ -12,12 +12,12 @@ import Search from '../collection/card-search'
 import HistoryList from '../collection/card-history'
 import { Main, Aside } from '../visual/grid'
 import { Card } from '../../shared/methods'
-import { go, state, history } from '../utils/router'
-
-const setSearch = search => go(history.get(), { search })
-const debouncedSetSearch = _.debounce(setSearch, 300)
+import { navigate as go, useCurrentUrl } from 'use-history'
 
 export default () => {
+	const { url, state } = useCurrentUrl()
+	const debouncedSetSearch = _.debounce(search => go(url, { search }), 300)
+
 	const campaign = useCampaign()
 	const { search } = useTracker(() => state.get() || {})
 	const [_search, _setSearch] = useState('')

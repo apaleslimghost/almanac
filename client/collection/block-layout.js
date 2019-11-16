@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled, { injectGlobal } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import {
 	default as GridLayout,
 	WidthProvider as widthProvider,
@@ -14,7 +14,7 @@ import 'react-resizable/css/styles.css'
 import { useCampaignId } from '../data/campaign'
 import { useTracker } from 'meteor/quarterto:hooks'
 
-injectGlobal`
+const ReactGrid = createGlobalStyle`
 	.react-grid-item {
 		overflow: auto;
 	}
@@ -39,7 +39,8 @@ const ComponentSelect = ({ onSelect }) => {
 	const [selected, select] = useState('')
 
 	return (
-		<div>
+		<>
+			<ReactGrid />
 			<select
 				value={selected}
 				onChange={ev => select(ev.target.selectedOptions[0].value)}
@@ -63,7 +64,7 @@ const ComponentSelect = ({ onSelect }) => {
 			>
 				+
 			</button>
-		</div>
+		</>
 	)
 }
 

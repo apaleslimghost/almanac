@@ -9,7 +9,7 @@ import { Button } from '../visual/primitives'
 import { H3 } from '../visual/heading'
 import { SplashBleed, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
 import { Input } from '../visual/form'
-import { hidesNav } from './layout'
+import { useHidesNav } from './layout'
 import Ribbon from '../visual/ribbon'
 
 const formHeight = '160px'
@@ -93,44 +93,48 @@ const startCreateFlow = ev => {
 	go(pathname, { title })
 }
 
-const Splash = hidesNav(() => (
-	<SplashWithForm
-		large
-		url='/images/splash.jpg'
-		url2x='/images/splash@2x.jpg'
-		color='#BEBDA0'
-	>
-		<Ribbon
-			href='https://github.com/quarterto/almanac/wiki/Almanac-is-in-beta'
-			target='_blank'
-		>
-			Beta
-		</Ribbon>
-		<SplashLogo />
-		<Hero>
-			<HeroTitle>The sandbox RPG app.</HeroTitle>
+const Splash = () => {
+	useHidesNav(true)
 
-			<Split>
-				<SplitBlurb>
-					Everything you need to run a sandbox tabletop RPG & get your players
-					involved in your world.
-				</SplitBlurb>
-				<SplashForm action='/get-started' onSubmit={startCreateFlow}>
-					<H3>Start your campaign</H3>
-					<Input
-						required
-						name='title'
-						size={30}
-						placeholder={generateCampaign()}
-					/>
-					<div>
-						<CallToAction>Get started</CallToAction> or,{' '}
-						<Link href='/login'>log in</Link>.
-					</div>
-				</SplashForm>
-			</Split>
-		</Hero>
-	</SplashWithForm>
-))
+	return (
+		<SplashWithForm
+			large
+			url='/images/splash.jpg'
+			url2x='/images/splash@2x.jpg'
+			color='#BEBDA0'
+		>
+			<Ribbon
+				href='https://github.com/quarterto/almanac/wiki/Almanac-is-in-beta'
+				target='_blank'
+			>
+				Beta
+			</Ribbon>
+			<SplashLogo />
+			<Hero>
+				<HeroTitle>The sandbox RPG app.</HeroTitle>
+
+				<Split>
+					<SplitBlurb>
+						Everything you need to run a san dbox tabletop RPG & get your
+						players involved in your world.
+					</SplitBlurb>
+					<SplashForm action='/get-started' onSubmit={startCreateFlow}>
+						<H3>Start your campaign</H3>
+						<Input
+							required
+							name='title'
+							size={30}
+							placeholder={generateCampaign()}
+						/>
+						<div>
+							<CallToAction>Get started</CallToAction> or,{' '}
+							<Link href='/login'>log in</Link>.
+						</div>
+					</SplashForm>
+				</Split>
+			</Hero>
+		</SplashWithForm>
+	)
+}
 
 export default Splash

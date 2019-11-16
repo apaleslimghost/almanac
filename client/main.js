@@ -7,7 +7,6 @@ import Layout from './pages/layout'
 import App from './app'
 
 import 'formdata-polyfill'
-import './visual/global'
 
 import Dashboard from './pages/dashboard'
 import Control from './pages/control'

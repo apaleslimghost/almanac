@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import useRoutes from 'boulevard-react'
 import { Error } from './utils/error'
+import GlobalStyles from './visual/global'
 
 class RenderError extends Component {
 	state = { error: null }
@@ -25,6 +26,7 @@ const App = ({ routes }) => {
 
 export default props => (
 	<RenderError>
+		<GlobalStyles />
 		<App {...props} />
 	</RenderError>
 )

@@ -44,6 +44,12 @@ export const etched = ({
 		.join() || 'unset'};
 `
 
+export const colourTransitions = css`
+	transition-property: box-shadow, transform, background, opacity;
+	transition-duration: 100ms;
+	transition-timing-function: linear;
+`
+
 export const List = styled.div.attrs({
 	'data-spacing': ({ spaced }) => (spaced ? '0.5em' : '2px'),
 })`
@@ -149,12 +155,6 @@ export const Emoji = styled.span`
 export const FormGroup = styled.label`
 	display: block;
 	margin-bottom: 0.5em;
-`
-
-export const colourTransitions = css`
-	transition-property: box-shadow, transform, background, opacity;
-	transition-duration: 100ms;
-	transition-timing-function: linear;
 `
 
 const BaseButton = ({ children, ...props }) => (
