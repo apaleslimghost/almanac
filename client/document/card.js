@@ -2,12 +2,12 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 
 import { Link } from 'use-history'
-import withImage from '../data/image'
+import { useImage } from '../data/image'
 import { SplashBackground, Hero, HeroTitle } from '../visual/splash'
 import { Card as CardPrimitive } from '../visual/primitives'
 import Markdown from './markdown'
 
-const CardHeader = withImage(({ card }) => card.cover)(styled(SplashBackground)`
+const CardHeaderBackground = styled(SplashBackground)`
 	margin: -1rem -1rem 0;
 	padding-top: 0.5rem;
 	transition: filter 0.2s;
@@ -30,7 +30,13 @@ const CardHeader = withImage(({ card }) => card.cover)(styled(SplashBackground)`
 		border-bottom-left-radius: 2px;
 		border-bottom-right-radius: 2px;
 	}
-`)
+`
+
+const CardHeader = ({ card, ...props }) => {
+	const { image } = useImage(card.cover)
+
+	return <CardHeaderBackground {...props} image={image} />
+}
 
 const CardLink = styled(Link)`
 	text-decoration: none;
@@ -46,7 +52,7 @@ const CardLink = styled(Link)`
 	}
 `
 
-const ListImage = withImage(({ card }) => card.cover)(styled(SplashBackground)`
+const ListImageBackground = styled(SplashBackground)`
 	min-height: 2rem;
 	padding: 0.5rem;
 	font-family: 'Libre Baskerville', serif;
@@ -55,7 +61,13 @@ const ListImage = withImage(({ card }) => card.cover)(styled(SplashBackground)`
 	a:hover & {
 		filter: contrast(120%) brightness(95%) saturate(110%);
 	}
-`)
+`
+
+const ListImage = ({ card, ...props }) => {
+	const { image } = useImage(card.cover)
+
+	return <ListImageBackground {...props} image={image} />
+}
 
 export const CardListItem = ({ card, onClick }) => (
 	<li>
