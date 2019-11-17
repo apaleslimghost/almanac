@@ -187,7 +187,7 @@ export const HeroBlurb = styled.p`
 `
 
 export const CampaignSplash = ({ noBlurb, children }) => {
-	const { campaign } = useCampaign()
+	const campaign = useCampaign()
 	const { owner } = useOwner(campaign)
 	const { image, ready } = useImage(campaign.theme)
 

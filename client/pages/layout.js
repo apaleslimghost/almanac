@@ -113,7 +113,7 @@ export const useExtraNavItems = (...navItems) => {
 }
 
 const Layout = ({ campaignId, secret, children }) => {
-	const { campaign, ready } = useCampaignData({ campaignId, secret })
+	const { campaign = {}, ready } = useCampaignData({ campaignId, secret })
 	const [extraItems, setExtraNavItems] = useState([])
 	const [navShown, setNavShown] = useState(true)
 

@@ -7,10 +7,10 @@ import subscribe from '../utils/subscribe'
 
 export const useCampaignData = ({ campaignId, secret }) =>
 	useTracker(() => ({
+		campaign: Campaigns.findOne(campaignId),
 		ready:
 			subscribe('campaigns.all') &&
 			(!secret || subscribe(['campaigns.join', { campaignId, secret }])),
-		campaign: Campaigns.findOne(campaignId),
 	}))
 
 export const checkCampaignExists = ({ campaign, ready, campaignId }) => {
@@ -19,7 +19,7 @@ export const checkCampaignExists = ({ campaign, ready, campaignId }) => {
 	}
 }
 
-export const CampaignContext = createContext({ _id: null })
+export const CampaignContext = createContext({})
 export const useCampaign = () => useContext(CampaignContext)
 export const useCampaignId = () => useCampaign()._id
 export const useCampaignSession = () => {
