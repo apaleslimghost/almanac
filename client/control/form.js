@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react'
+import React, { useState, createContext, useContext, useEffect } from 'react'
 
 export const getInputValue = el =>
 	el[
@@ -98,48 +98,47 @@ export const Form = ({
 	onChange,
 	onSubmit: _onSubmit,
 	onDidSubmit,
-	children,
+	...props
 }) => {
 	const { fields: contextFields, setFields: setContextFields } = useContext(
 		FieldLike,
 	)
-	const initialFields = { ...initialData, contextFields }
+	const initialFields = { ...initialData, ...contextFields }
 	const [fields, _setFields] = useState(initialFields)
 
-	function setFields(f) {
-		_setFields(Object.assign(fields, f), () => {
-			if (setContextFields && name) {
-				setContextFields({
-					[name]: fields,
-				})
-			}
+	useEffect(() => {
+		if (setContextFields && name) {
+			setContextFields({
+				[name]: fields,
+			})
+		}
 
-			if (onChange) {
-				onChange(fields)
-			}
-		})
+		if (onChange) {
+			onChange(fields)
+		}
+	}, [fields, name, onChange, setContextFields])
+
+	function setFields(childFields) {
+		_setFields(currentFields => ({ ...currentFields, ...childFields }))
 	}
 
-	function onSubmit(ev) {
+	async function onSubmit(ev) {
 		// TODO validation
 		if (_onSubmit) {
 			ev.preventDefault()
 
-			Promise.resolve(_onSubmit(fields))
-				.then(() => {
-					setFields(initialFields)
-				})
-				.then(() => {
-					if (onDidSubmit) {
-						onDidSubmit(fields)
-					}
-				})
+			await _onSubmit(fields)
+			setFields(initialFields)
+
+			if (onDidSubmit) {
+				onDidSubmit(fields)
+			}
 		}
 	}
 
 	return (
 		<FieldLike.Provider value={{ fields, setFields }}>
-			<Tag {...(_onSubmit ? { onSubmit } : {})}>{children}</Tag>
+			<Tag {...props} {...(_onSubmit ? { onSubmit } : {})} />
 		</FieldLike.Provider>
 	)
 }

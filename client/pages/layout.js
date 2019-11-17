@@ -108,7 +108,6 @@ export const useExtraNavItems = (...navItems) => {
 
 	useEffect(() => {
 		setExtraNavItems(...navItems)
-
 		return () => setExtraNavItems()
 	})
 }
