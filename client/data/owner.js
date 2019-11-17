@@ -7,7 +7,7 @@ export const useOwner = item =>
 	useTracker(
 		() => ({
 			ready: subscribe('users.all'),
-			owner: Meteor.users.findOne(item.owner),
+			owner: item && Meteor.users.findOne(item.owner),
 		}),
 		[item],
 	)
@@ -16,7 +16,7 @@ export const useAmOwner = item => {
 	const me = useTracker(() => Meteor.userId())
 	const { ready, owner } = useOwner(item)
 
-	return ready && owner._id !== me
+	return ready && owner && owner._id !== me
 }
 
 export const useAssertAmOwner = item => {

@@ -36,7 +36,7 @@ const CampaignTitle = ({ campaign }) => (
 )
 
 const Nav = ({ campaignId, extraItems }) => {
-	const campaign = useCampaignData({ campaignId })
+	const { campaign } = useCampaignData({ campaignId })
 	const isOwner = useAmOwner(campaign)
 	const user = useUser()
 
@@ -113,28 +113,19 @@ export const useExtraNavItems = (...navItems) => {
 	})
 }
 
-export const Basic = ({ campaignId, secret, children }) => {
-	const { campaign } = useCampaignData({ campaignId, secret })
-
-	return (
-		<CampaignContext.Provider value={campaign}>
-			<Title />
-			<ToastContainer autoClose={10000} />
-			{children}
-		</CampaignContext.Provider>
-	)
-}
-
-const Layout = ({ campaignId, secret, children, ready }) => {
+const Layout = ({ campaignId, secret, children }) => {
+	const { campaign, ready } = useCampaignData({ campaignId, secret })
 	const [extraItems, setExtraNavItems] = useState([])
 	const [navShown, setNavShown] = useState(true)
 
 	return (
-		<NavContext.Provider {...{ setExtraNavItems, setNavShown }}>
-			<Basic {...{ campaignId, secret }}>
+		<NavContext.Provider value={{ setExtraNavItems, setNavShown }}>
+			<CampaignContext.Provider value={campaign}>
+				<Title />
+				<ToastContainer autoClose={10000} />
 				{navShown && <Nav extraItems={extraItems} />}
 				<Grid>{ready ? children : 'loading...'}</Grid>
-			</Basic>
+			</CampaignContext.Provider>
 		</NavContext.Provider>
 	)
 }
