@@ -49,8 +49,8 @@ const ChangeData = data => (
 
 const useHistory = query =>
 	useTracker(() => ({
-		ready: subscribe('cards.history'),
 		history: CardHistory.find(query, { sort: [['date', 'desc']] }).fetch(),
+		ready: subscribe('cards.history'),
 	}))
 
 const HistoryList = ({ history, ...props }) => (
@@ -83,13 +83,13 @@ const HistoryList = ({ history, ...props }) => (
 
 export default props => {
 	const campaignId = useCampaignId()
-	const history = useHistory({ campaignId })
+	const { history } = useHistory({ campaignId })
 
 	return <HistoryList history={history} {...props} />
 }
 
 export const CardHistoryList = ({ card, ...props }) => {
-	const history = useHistory({ 'data._id': card._id })
+	const { history } = useHistory({ 'data._id': card._id })
 
 	return <HistoryList history={history} {...props} />
 }
