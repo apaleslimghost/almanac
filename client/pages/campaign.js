@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useTracker } from 'meteor/quarterto:hooks'
 import _ from 'lodash'
 
 import { useCampaign } from '../data/campaign'
@@ -15,11 +14,12 @@ import { Card } from '../../shared/methods'
 import { navigate as go, useCurrentUrl } from 'use-history'
 
 export default () => {
-	const { url, state } = useCurrentUrl()
+	let { url, state } = useCurrentUrl()
+	state = state || {} // ugh
+
 	const debouncedSetSearch = _.debounce(search => go(url, { search }), 300)
 
 	const campaign = useCampaign()
-	const { search } = useTracker(() => state.get() || {})
 	const [_search, _setSearch] = useState('')
 
 	function setSearch(search) {
@@ -28,12 +28,12 @@ export default () => {
 	}
 
 	useEffect(() => {
-		_setSearch(search)
-	}, [search])
+		_setSearch(state.search)
+	}, [state.search])
 
 	async function searchAction() {
 		const { _id } = await Card.create({
-			title: search,
+			title: state.search,
 			campaignId: campaign._id,
 		})
 		setSearch('')
@@ -63,7 +63,7 @@ export default () => {
 			</SplashToolbar>
 
 			<Main left>
-				<CardList search={search} />
+				<CardList search={state.search} />
 			</Main>
 			<Aside>
 				<HistoryList />
