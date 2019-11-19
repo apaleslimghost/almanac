@@ -31,7 +31,7 @@ import _ from 'lodash'
 
 const FormCardSplash = props => {
 	const { cover } = useFormData()
-	const image = useImage(cover)
+	const { image } = useImage(cover)
 
 	return <SplashBleed small image={image} {...props} />
 }

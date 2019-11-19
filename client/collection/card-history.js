@@ -1,5 +1,5 @@
 import React from 'react'
-import { useTracker } from 'meteor/quarterto:hooks'
+import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
 import relativeDate from 'tiny-relative-date'
 import { Link } from 'use-history'
 import styled from 'styled-components'
@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import Icon from '../visual/icon'
 import { Owner } from '../document/user'
 import { CardHistory } from '../../shared/collections'
-import subscribe from '../utils/subscribe'
 import match from '../utils/match'
 import { useCampaignId } from '../data/campaign'
 
@@ -47,11 +46,15 @@ const ChangeData = data => (
 	</>
 )
 
-const useHistory = query =>
-	useTracker(() => ({
-		history: CardHistory.find(query, { sort: [['date', 'desc']] }).fetch(),
-		ready: subscribe('cards.history'),
-	}))
+const useHistory = query => {
+	const ready = useSubscription('cards.history')
+	const history = useCursor(
+		CardHistory.find(query, { sort: [['date', 'desc']] }),
+		[query, ready],
+	)
+
+	return { ready, history }
+}
 
 const HistoryList = ({ history, ...props }) => (
 	<IconList {...props}>

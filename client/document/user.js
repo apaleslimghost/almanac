@@ -4,7 +4,7 @@ import colours from '@quarterto/colours'
 import Gravatar from '../visual/gravatar'
 import { Label, LabelBody } from '../visual/primitives'
 import { useOwner } from '../data/owner'
-import subscribe from '../utils/subscribe'
+import { useSubscription } from 'meteor/quarterto:hooks'
 
 const UserText = styled.span`
 	font-style: ${({ verified }) => (verified ? 'normal' : 'italic')};
@@ -43,7 +43,7 @@ const User = ({
 export default User
 
 export const Owner = ({ of: ofThing, ...props }) => {
-	const ready = subscribe('campaigns.members')
+	const ready = useSubscription('campaigns.members')
 	const { owner } = useOwner(ofThing)
 	return ready ? <User user={owner} {...props} /> : null
 }

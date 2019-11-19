@@ -31,7 +31,7 @@ const getSplashUrl = ({ urls }, { _2x = false } = {}) =>
 		),
 	)
 
-const splashBackground = css`
+export const SplashBackground = styled.div`
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -74,12 +74,7 @@ const splashBackground = css`
 	background-position: center;
 `
 
-export const SplashBackground = styled.div`
-	${splashBackground}
-`
-
-export const SplashBleed = styled.div`
-	${splashBackground}
+export const SplashBleed = styled(SplashBackground)`
 	grid-column: bleed;
 	margin-top: -1rem;
 

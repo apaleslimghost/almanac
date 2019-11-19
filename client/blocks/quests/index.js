@@ -101,11 +101,11 @@ const Quest = ({ quest, control, first }) => {
 	const campaignId = useCampaignId()
 	const campaignSession = useCampaignSession()
 
-	const objectives = useCards(({ quest, control }) => ({
+	const objectives = useCards({
 		type: 'objective',
 		_id: { $in: quest.related || [] },
 		'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN },
-	}))
+	})
 
 	function onDeleteQuest() {
 		if (confirm(`Delete ${quest.title} and all objectives?`)) {
@@ -237,10 +237,10 @@ const Quest = ({ quest, control, first }) => {
 const QuestsList = ({ control, ...props }) => {
 	const campaignId = useCampaignId()
 	const quests = useCards(
-		({ control }) => ({
+		{
 			type: 'quest',
 			'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN },
-		}),
+		},
 		{
 			sort: {
 				completed: 1,

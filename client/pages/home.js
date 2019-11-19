@@ -1,21 +1,20 @@
 import React from 'react'
-import { useTracker } from 'meteor/quarterto:hooks'
+import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
 import styled from 'styled-components'
 import { Link } from 'use-history'
 
 import { Campaigns } from '../../shared/collections'
-import subscribe from '../utils/subscribe'
 import { useUser } from '../utils/logged-in'
 import { SplashBackground, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
 import { MainGrid } from '../visual/grid'
 import { useImage } from '../data/image'
 import Splash from './splash'
 
-const useCampaigns = () =>
-	useTracker(() => ({
-		ready: subscribe('campaigns.all'),
-		campaigns: Campaigns.find({}).fetch(),
-	}))
+const useCampaigns = () => {
+	const ready = useSubscription('campaigns.all')
+	const campaigns = useCursor(Campaigns.find({}), [ready])
+	return { ready, campaigns }
+}
 
 const CampaignTileImage = styled(SplashBackground)`
 	height: 25vmin;
@@ -30,7 +29,7 @@ const CampaignTileImage = styled(SplashBackground)`
 `
 
 const CampaignTile = ({ campaign, ...props }) => {
-	const image = useImage(campaign.theme)
+	const { image } = useImage(campaign.theme)
 
 	return <CampaignTileImage {...props} image={image} as={Link} />
 }

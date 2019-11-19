@@ -1,16 +1,12 @@
 import { Forbidden } from 'http-errors'
 import { Meteor } from 'meteor/meteor'
-import { useTracker } from 'meteor/quarterto:hooks'
-import subscribe from '../utils/subscribe'
+import { useSubscription, useFindOne, useTracker } from 'meteor/quarterto:hooks'
 
-export const useOwner = item =>
-	useTracker(
-		() => ({
-			ready: subscribe('users.all'),
-			owner: item && Meteor.users.findOne(item.owner),
-		}),
-		[item],
-	)
+export const useOwner = item => {
+	const ready = useSubscription('users.all')
+	const owner = useFindOne(Meteor.users, item && item.owner, [ready, item])
+	return { ready, owner }
+}
 
 export const useAmOwner = item => {
 	const me = useTracker(() => Meteor.userId())

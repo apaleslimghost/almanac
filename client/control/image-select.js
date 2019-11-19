@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react'
 import qs from 'querystring'
-import { useTracker } from 'meteor/quarterto:hooks'
+import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
 import styled, { css } from 'styled-components'
 
-import subscribe from '../utils/subscribe'
 import { UnsplashPhotos } from '../../shared/collections'
 import { FlexGrid } from '../visual/grid'
 import preventingDefault from '../utils/preventing-default'
@@ -64,20 +63,20 @@ const ImageSelectSection = ({ photos, setImage, fields, name }) => (
 	</FlexGrid>
 )
 
-const useUnsplashSearch = query =>
-	useTracker(
-		() => ({
-			ready: query ? subscribe(['unsplash.search', query]) : false,
-			photos: UnsplashPhotos.find({ fromSearch: query }).fetch(),
-		}),
-		[query],
-	)
+const useUnsplashSearch = query => {
+	const ready = useSubscription('unsplash.search', query)
+	const photos = useCursor(UnsplashPhotos.find({ fromSearch: query }), [ready])
 
-const useAlmanacCollection = () =>
-	useTracker(() => ({
-		ready: subscribe(['unsplash.getCollectionPhotos', '2021417']),
-		photos: UnsplashPhotos.find({ fromCollection: '2021417' }).fetch(),
-	}))
+	return { ready, photos }
+}
+
+const useAlmanacCollection = () => {
+	const ready = useSubscription('unsplash.getCollectionPhotos', '2021417')
+	const photos = useCursor(UnsplashPhotos.find({ fromCollection: '2021417' }), [
+		ready,
+	])
+	return { ready, photos }
+}
 
 const SearchImage = props => {
 	const [query, setQuery] = useState('')

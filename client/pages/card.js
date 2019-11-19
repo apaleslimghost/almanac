@@ -146,7 +146,7 @@ export default ({ cardId }) => {
 		{
 			_id: { $in: (card && card.related) || [] },
 		},
-		[card],
+		{ deps: card ? card.related.map(related => related._id) : [ready] },
 	)
 
 	const user = useUser()

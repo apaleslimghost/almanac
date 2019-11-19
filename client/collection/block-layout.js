@@ -6,13 +6,12 @@ import {
 } from 'react-grid-layout'
 import { Layouts } from '../../shared/collections'
 import * as blocks from '../blocks'
-import subscribe from '../utils/subscribe'
 import { Layout } from '../../shared/methods'
 
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { useCampaignId } from '../data/campaign'
-import { useTracker } from 'meteor/quarterto:hooks'
+import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
 
 const ReactGrid = createGlobalStyle`
 	.react-grid-item {
@@ -81,10 +80,8 @@ const Bleed = styled.div`
 
 export default ({ which, ...props }) => {
 	const campaignId = useCampaignId()
-	const layout = useTracker(() => {
-		subscribe('layout.all')
-		return Layouts.find({ campaignId }).fetch()
-	}, [campaignId])
+	const ready = useSubscription('layout.all')
+	const layout = useCursor(Layouts.find({ campaignId }), [ready, campaignId])
 
 	function updateLayout(layout) {
 		layout.forEach(({ i, ...item }) => {

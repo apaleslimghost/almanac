@@ -1,8 +1,7 @@
-import { useTracker } from 'meteor/quarterto:hooks'
-import subscribe from '../utils/subscribe'
+import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
 import { UnsplashPhotos } from '../../shared/collections'
 
-const getImageSubscription = image => {
+const getImageSubscription = (image = {}) => {
 	switch (image.from) {
 		case undefined:
 			// backwards compatibility for implicit unsplash images
@@ -10,19 +9,17 @@ const getImageSubscription = image => {
 
 		case 'unsplash':
 			return {
-				ready: subscribe(['unsplash.getPhoto', image.id]),
-				image: UnsplashPhotos.findOne(image.id),
+				cursor: UnsplashPhotos.findOne(image.id),
+				subscription: ['unsplash.getPhoto', image.id],
 			}
 	}
 
-	return {}
+	return { cursor: null, subscription: [] }
 }
 
-export const useImage = image =>
-	useTracker(() => {
-		if (image) {
-			return getImageSubscription(image)
-		}
-
-		return {}
-	}, [image])
+export const useImage = imageQuery => {
+	const { subscription, cursor } = getImageSubscription(imageQuery)
+	const ready = useSubscription(...subscription)
+	const image = useCursor(cursor, [ready])
+	return { ready, image }
+}

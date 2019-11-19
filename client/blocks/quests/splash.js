@@ -6,7 +6,7 @@ import Ornamented from '../../visual/ornamented'
 import { Cards } from '../../../shared/collections'
 import { useComputation } from '../../data/computation'
 import access from '../../../shared/access'
-import subscribe from '../../utils/subscribe'
+import { useSubscription } from 'meteor/quarterto:hooks'
 
 const QuestHeader = styled(Ornamented)`
 	font-family: 'Libre Baskerville', serif;
@@ -75,9 +75,9 @@ const QuestSplash = () => {
 		}
 	}, [animationState])
 
-	useComputation(({ setSplash, setAnimationState, campaignId }) => {
-		const ready = subscribe('cards.all')
+	const ready = useSubscription('cards.all')
 
+	useComputation(({ setSplash, setAnimationState, campaignId }) => {
 		const notify = (id, action) => {
 			const item = Cards.findOne(id)
 			const quest =

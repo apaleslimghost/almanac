@@ -1,21 +1,21 @@
-import { useTracker } from 'meteor/quarterto:hooks'
-import subscribe from '../utils/subscribe'
+import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
 import { Cards } from '../../shared/collections'
 
-export const useCardSearch = ({ search, campaignId }) =>
-	useTracker(
-		() => ({
-			ready: subscribe(['cards.all', search]),
-			cards: Cards.find(
-				{ campaignId },
-				search
-					? {
-							sort: [['score', 'desc']],
-					  }
-					: {
-							sort: [['title', 'asc']],
-					  },
-			).fetch(),
-		}),
-		[search, campaignId],
+export const useCardSearch = ({ search, campaignId }) => {
+	const ready = useSubscription('cards.all', search)
+	const cards = useCursor(
+		Cards.find(
+			{ campaignId },
+			search
+				? {
+						sort: [['score', 'desc']],
+				  }
+				: {
+						sort: [['title', 'asc']],
+				  },
+		),
+		[ready, search, campaignId],
 	)
+
+	return { ready, cards }
+}
