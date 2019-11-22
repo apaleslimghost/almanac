@@ -35,7 +35,7 @@
 		"boulevard": "^2.3.5",
 		"contrast": "^1.0.1",
 		"core-js": "^2.5.3",
-		"dream-date": "^0.4.1",
+		"dream-date": "^0.5.0",
 		"email-regex": "^3.0.0",
 		"formdata-polyfill": "^3.0.9",
 		"fuse.js": "^3.2.1",
