@@ -3,6 +3,7 @@ import HarptosDate from 'dream-date/calendar/harptos'
 import HarptosCommonDate from 'dream-date/calendar/harptos-common'
 import OdreianDate from 'dream-date/calendar/odreian'
 import TideDate from 'dream-date/calendar/tide'
+import GregorianDate from 'dream-date/calendar/gregorian'
 import { compose } from 'recompact'
 import { Campaigns } from '../../shared/collections'
 import { withCampaign } from './campaign'
@@ -23,6 +24,10 @@ export const calendars = {
 	tideV1: {
 		name: 'Tide',
 		dateConstructor: TideDate,
+	},
+	gregorianV1: {
+		name: 'Gregorian',
+		dateConstructor: GregorianDate,
 	},
 }
 
