@@ -1,7 +1,7 @@
 import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
 import { UnsplashPhotos } from '../../shared/collections'
 
-const getImageSubscription = (image = {}) => {
+const getImageSubscription = (image = { from: 'nowhere' }) => {
 	switch (image.from) {
 		case undefined:
 			// backwards compatibility for implicit unsplash images
