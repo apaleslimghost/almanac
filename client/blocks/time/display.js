@@ -46,7 +46,7 @@ const Time = connectTime(({ date }) => (
 			<small>{date.a}</small>
 		</TimeOfDay>
 		<Year>
-			<span>{date.YYYY}</span>
+			<span>{date.Y}</span>
 		</Year>
 	</DateGroup>
 ))
