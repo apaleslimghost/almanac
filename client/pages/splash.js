@@ -1,8 +1,6 @@
-import url from 'url'
 import React from 'react'
 import styled from 'styled-components'
 import generateCampaign from '@quarterto/campaign-name-generator'
-import formJson from '@quarterto/form-json'
 import { Link, navigate as go } from 'use-history'
 import { Form } from '../control/form'
 import Logo from '../visual/logo'
@@ -86,14 +84,6 @@ const CallToAction = styled(Button)`
 	font-size: 1.1em;
 `
 
-const startCreateFlow = ev => {
-	ev.preventDefault()
-	const { title } = formJson(ev.target)
-	const { pathname } = url.parse(ev.target.action)
-
-	go(pathname, { title })
-}
-
 const Splash = () => {
 	useHidesNav(true)
 
@@ -119,7 +109,7 @@ const Splash = () => {
 						Everything you need to run a san dbox tabletop RPG & get your
 						players involved in your world.
 					</SplitBlurb>
-					<SplashForm action='/get-started' onSubmit={startCreateFlow}>
+					<SplashForm onSubmit={({ title }) => go('/get-started', { title })}>
 						<H3>Start your campaign</H3>
 						<Input
 							required
