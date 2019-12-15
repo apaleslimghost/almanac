@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import generateCampaign from '@quarterto/campaign-name-generator'
 import formJson from '@quarterto/form-json'
 import { Link, navigate as go } from 'use-history'
+import { Form } from '../control/form'
 import Logo from '../visual/logo'
 import { Button } from '../visual/primitives'
 import { H3 } from '../visual/heading'
@@ -59,7 +60,7 @@ const SplitBlurb = styled(HeroBlurb)`
 	}
 `
 
-const SplashForm = styled.form`
+const SplashForm = styled(Form)`
 	background: #102535;
 	padding: 1em;
 	height: ${formHeight};
