@@ -18,7 +18,8 @@ const FieldLike = createContext({
 	setFields() {},
 })
 
-export const useFormData = () => useContext(FieldLike).fields
+export const useFormContext = () => useContext(FieldLike)
+export const useFormData = () => useFormContext().fields
 
 const qq = (a, b) => (a === undefined ? b : a)
 
