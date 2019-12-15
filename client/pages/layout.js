@@ -98,7 +98,7 @@ export const useHidesNav = hide => {
 	const { setNavShown } = useContext(NavContext)
 
 	useEffect(() => {
-		setNavShown(hide)
+		setNavShown(!hide)
 		return () => setNavShown(true)
 	})
 }
