@@ -13,12 +13,10 @@ export const getInputValue = el =>
 
 export const getSelectValue = el => el.options[el.selectedIndex].value
 
-const FieldLike = createContext({
-	fields: {},
-	setFields() {},
-})
+const FieldLike = createContext(null)
 
-export const useFormContext = () => useContext(FieldLike)
+export const useFormContext = () =>
+	useContext(FieldLike) || { fields: {}, setFields() {} }
 export const useFormData = () => useFormContext().fields
 
 const qq = (a, b) => (a === undefined ? b : a)
@@ -30,7 +28,7 @@ export const Input = ({
 	onChange,
 	...props
 }) => {
-	const { fields, setFields } = useContext(FieldLike)
+	const { fields, setFields } = useFormContext()
 
 	return (
 		<Tag
@@ -63,7 +61,7 @@ export const Input = ({
 }
 
 export const Select = ({ tag: Tag = 'select', ...props }) => {
-	const { fields, setFields } = useContext(FieldLike)
+	const { fields, setFields } = useFormContext()
 
 	return (
 		<Tag
@@ -92,6 +90,8 @@ export const Select = ({ tag: Tag = 'select', ...props }) => {
 	)
 }
 
+let c = 10
+
 export const Form = ({
 	initialData = {},
 	name,
@@ -101,9 +101,10 @@ export const Form = ({
 	onDidSubmit,
 	...props
 }) => {
-	const { fields: contextFields, setFields: setContextFields } = useContext(
-		FieldLike,
-	)
+	const {
+		fields: contextFields,
+		setFields: setContextFields,
+	} = useFormContext()
 	const initialFields = { ...initialData, ...contextFields }
 	const [fields, _setFields] = useState(initialFields)
 
@@ -121,6 +122,10 @@ export const Form = ({
 
 	function setFields(childFields) {
 		_setFields(currentFields => ({ ...currentFields, ...childFields }))
+	}
+
+	if (c--) {
+		console.log({ contextFields, fields })
 	}
 
 	async function onSubmit(ev) {

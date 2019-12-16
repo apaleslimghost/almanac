@@ -12,7 +12,7 @@ import { Button, List } from '../visual/primitives'
 import Icon from '../visual/icon'
 import Tabs from './tabs'
 import Modal from './modal'
-import { FieldLike } from './form'
+import { useFormData, useFormContext } from './form'
 
 const FlexImg = styled.img`
 	width: 100%;
@@ -105,19 +105,24 @@ const CollectionImage = props => {
 	return <ImageSelectSection {...props} photos={photos} />
 }
 
-const ImageSelectTabs = props => (
-	<Tabs>
-		{{
-			Suggested: <CollectionImage {...props} />,
-			Search: <SearchImage {...props} />,
-		}}
-	</Tabs>
-)
+const ImageSelectTabs = props => {
+	const fields = useFormData()
+
+	return (
+		<Tabs>
+			{{
+				Suggested: <CollectionImage {...props} fields={fields} />,
+				Search: <SearchImage {...props} fields={fields} />,
+			}}
+		</Tabs>
+	)
+}
 
 export default ImageSelectTabs
 
 export const ImageSelectModal = ({ name }) => {
-	const { fields, setFields } = useContext(FieldLike)
+	const { fields, setFields } = useFormContext()
+
 	function setImage(image) {
 		setFields({
 			[name]: image,

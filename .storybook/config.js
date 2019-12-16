@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { configure } from '@storybook/react'
-import { addDecorator } from '@storybook/react'
+import { configure, addDecorator } from '@storybook/react'
 import GlobalStyles from '../client/visual/global'
 
 // automatically import all files ending in *.stories.js
