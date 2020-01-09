@@ -24,6 +24,30 @@ const Inc = connectIncrement(({ onIncrement, multiplier = 1, period }) => (
 	</Button>
 ))
 
+const startOfDay = timestamp => timestamp - (timestamp % 86400)
+
+const connectMorning = compose(
+	withCampaignSession,
+	withCampaignDate,
+	withHandlers({
+		onMorning: ({
+			campaignSession,
+			CampaignDate,
+		}) => () => {
+			campaignSession.set(
+				'date',
+				startOfDay(campaignSession.get('date') || 0) + 86400 + 28800,
+			)
+		},
+	}),
+)
+
+const Morning = connectMorning(({onMorning}) => (
+	<Button large={false} colour='steel' onClick={onMorning}>
+		🌅
+	</Button>
+))
+
 const withDateActions = withHandlers({
 	onSubmit: ({ CampaignDate, campaignSession, _date }) => () => {
 		campaignSession.set('date', new CampaignDate(_date).timestamp)
@@ -69,6 +93,10 @@ const TimeControl = () => (
 
 			<Group>
 				<Inc period='day' />
+			</Group>
+	
+			<Group>
+				<Morning />
 			</Group>
 		</List>
 
