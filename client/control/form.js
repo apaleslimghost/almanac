@@ -13,11 +13,11 @@ export const getInputValue = el =>
 
 export const getSelectValue = el => el.options[el.selectedIndex].value
 
-const FieldLike = createContext(null)
+const Fields = createContext(null)
+const SetFields = createContext(null)
 
-export const useFormContext = () =>
-	useContext(FieldLike) || { fields: {}, setFields() {} }
-export const useFormData = () => useFormContext().fields
+export const useFormFields = () => useContext(Fields)
+export const useFormSet = () => useContext(SetFields)
 
 const qq = (a, b) => (a === undefined ? b : a)
 
@@ -28,7 +28,8 @@ export const Input = ({
 	onChange,
 	...props
 }) => {
-	const { fields, setFields } = useFormContext()
+	const fields = useFormFields()
+	const setFields = useFormSet()
 
 	return (
 		<Tag
@@ -61,7 +62,8 @@ export const Input = ({
 }
 
 export const Select = ({ tag: Tag = 'select', ...props }) => {
-	const { fields, setFields } = useFormContext()
+	const fields = useFormFields()
+	const setFields = useFormSet()
 
 	return (
 		<Tag
@@ -90,8 +92,6 @@ export const Select = ({ tag: Tag = 'select', ...props }) => {
 	)
 }
 
-let c = 10
-
 export const Form = ({
 	initialData = {},
 	name,
@@ -101,12 +101,8 @@ export const Form = ({
 	onDidSubmit,
 	...props
 }) => {
-	const {
-		fields: contextFields,
-		setFields: setContextFields,
-	} = useFormContext()
-	const initialFields = { ...initialData, ...contextFields }
-	const [fields, _setFields] = useState(initialFields)
+	const setContextFields = useFormSet()
+	const [fields, _setFields] = useState(initialData)
 
 	useEffect(() => {
 		if (setContextFields && name) {
@@ -124,27 +120,23 @@ export const Form = ({
 		_setFields(currentFields => ({ ...currentFields, ...childFields }))
 	}
 
-	if (c--) {
-		console.log({ contextFields, fields })
-	}
-
 	async function onSubmit(ev) {
-		// TODO validation
-		if (_onSubmit) {
-			ev.preventDefault()
+		// TODO validation?
+		ev.preventDefault()
 
-			await _onSubmit(fields)
-			setFields(initialFields)
+		await _onSubmit(fields)
+		_setFields(initialData)
 
-			if (onDidSubmit) {
-				onDidSubmit(fields)
-			}
+		if (onDidSubmit) {
+			onDidSubmit(fields)
 		}
 	}
 
 	return (
-		<FieldLike.Provider value={{ fields, setFields }}>
-			<Tag {...props} {...(_onSubmit ? { onSubmit } : {})} />
-		</FieldLike.Provider>
+		<Fields.Provider value={fields}>
+			<SetFields.Provider value={setFields}>
+				<Tag {...props} {...(_onSubmit ? { onSubmit } : {})} />
+			</SetFields.Provider>
+		</Fields.Provider>
 	)
 }

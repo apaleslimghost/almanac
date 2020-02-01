@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import qs from 'querystring'
 import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
 import styled, { css } from 'styled-components'
@@ -12,7 +12,7 @@ import { Button, List } from '../visual/primitives'
 import Icon from '../visual/icon'
 import Tabs from './tabs'
 import Modal from './modal'
-import { useFormData, useFormContext } from './form'
+import { useFormFields, useFormSet } from './form'
 
 const FlexImg = styled.img`
 	width: 100%;
@@ -106,7 +106,7 @@ const CollectionImage = props => {
 }
 
 const ImageSelectTabs = props => {
-	const fields = useFormData()
+	const fields = useFormFields()
 
 	return (
 		<Tabs>
@@ -121,7 +121,8 @@ const ImageSelectTabs = props => {
 export default ImageSelectTabs
 
 export const ImageSelectModal = ({ name }) => {
-	const { fields, setFields } = useFormContext()
+	const fields = useFormFields()
+	const setFields = useFormSet()
 
 	function setImage(image) {
 		setFields({

@@ -5,7 +5,7 @@ import { navigate as go } from 'use-history'
 
 import { useCard } from '../data/card'
 import { useCampaignId } from '../data/campaign'
-import { Form, useFormData } from '../control/form'
+import { Form, useFormFields } from '../control/form'
 import { useAssertAmOwner } from '../data/owner'
 import TypeSelect from '../collection/type-select'
 import preventingDefault from '../utils/preventing-default'
@@ -30,14 +30,14 @@ import {
 import _ from 'lodash'
 
 const FormCardSplash = props => {
-	const { cover } = useFormData()
+	const { cover } = useFormFields()
 	const { image } = useImage(cover)
 
 	return <SplashBleed small image={image} {...props} />
 }
 
 const SchemaFields = () => {
-	const { type } = useFormData()
+	const { type } = useFormFields()
 	return type ? (
 		<>
 			{_.map(schema[type].fields, ({ label, format, ...field }, key) => (

@@ -4,7 +4,7 @@ import accessLevels from '../../shared/access'
 import Icon from '../visual/icon'
 import { LabelledInput as Label } from '../visual/primitives'
 import match from '../utils/match'
-import { Form, Input, getInputValue, useFormContext } from './form'
+import { Form, Input, getInputValue, useFormFields, useFormSet } from './form'
 
 const getPrivacyIcon = match({
 	[accessLevels.PRIVATE]: 'lock',
@@ -60,10 +60,8 @@ const AccessText = styled.div`
 `
 
 const AccessForm = ({ access = defaultAccess, ...props }) => {
-	const {
-		fields: { view, edit },
-		setFields,
-	} = useFormContext()
+	const { view, edit } = useFormFields()
+	const setFields = useFormSet()
 
 	return (
 		<Form tag='div' initialData={access} name='access' {...props}>
