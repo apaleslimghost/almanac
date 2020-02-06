@@ -1,4 +1,10 @@
-import React, { useState, createContext, useContext, useEffect } from 'react'
+import React, {
+	useState,
+	createContext,
+	useContext,
+	useEffect,
+	useCallback,
+} from 'react'
 
 export const getInputValue = el =>
 	el[
@@ -116,9 +122,12 @@ export const Form = ({
 		}
 	}, [fields, name, onChange, setContextFields])
 
-	function setFields(childFields) {
-		_setFields(currentFields => ({ ...currentFields, ...childFields }))
-	}
+	const setFields = useCallback(
+		childFields => {
+			_setFields(currentFields => ({ ...currentFields, ...childFields }))
+		},
+		[_setFields],
+	)
 
 	async function onSubmit(ev) {
 		// TODO validation?

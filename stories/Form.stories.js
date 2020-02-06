@@ -27,3 +27,11 @@ export const select = () => (
 		</Select>
 	</Form>
 )
+
+export const nested = () => (
+	<Form>
+		<Form name='nest'>
+			<Input name='test' />
+		</Form>
+	</Form>
+)
