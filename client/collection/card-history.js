@@ -46,11 +46,11 @@ const ChangeData = data => (
 	</>
 )
 
-const useHistory = query => {
+const useHistory = (query, deps) => {
 	const ready = useSubscription('cards.history')
 	const history = useCursor(
 		CardHistory.find(query, { sort: [['date', 'desc']] }),
-		[query, ready],
+		[ready, ...deps],
 	)
 
 	return { ready, history }
@@ -86,13 +86,13 @@ const HistoryList = ({ history, ...props }) => (
 
 export default props => {
 	const campaignId = useCampaignId()
-	const { history } = useHistory({ campaignId })
+	const { history } = useHistory({ campaignId }, [campaignId])
 
 	return <HistoryList history={history} {...props} />
 }
 
 export const CardHistoryList = ({ card, ...props }) => {
-	const { history } = useHistory({ 'data._id': card._id })
+	const { history } = useHistory({ 'data._id': card._id }, [card._id])
 
 	return <HistoryList history={history} {...props} />
 }
