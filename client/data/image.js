@@ -14,7 +14,7 @@ const getImageSubscription = (image = { from: 'nowhere' }) => {
 			}
 	}
 
-	return { cursor: null, subscription: [] }
+	return { cursor: null, subscription: [false, null] }
 }
 
 export const useImage = imageQuery => {
