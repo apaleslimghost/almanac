@@ -117,13 +117,13 @@ const EditCard = ({ card = {}, saveCard, back, deleteCard, isOwner }) => (
 	</ContentsForm>
 )
 
-export default ({ cardId, ...props }) => {
+export default function EditCardPage({ cardId, ...props }) {
 	const campaignId = useCampaignId()
 	const { ready, card } = useCard(cardId)
 
-	if (!ready) return null
+	useAssertAmOwner(ready && card)
 
-	useAssertAmOwner(card)
+	if (!ready) return null
 
 	async function saveCard(data) {
 		let _id
