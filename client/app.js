@@ -19,14 +19,12 @@ class RenderError extends Component {
 	}
 }
 
-const App = ({ routes }) => {
+export default function App({ routes }) {
 	const { children } = useRoutes(routes)
-	return children
+	return (
+		<RenderError>
+			<GlobalStyles />
+			{children}
+		</RenderError>
+	)
 }
-
-export default props => (
-	<RenderError>
-		<GlobalStyles />
-		<App {...props} />
-	</RenderError>
-)
