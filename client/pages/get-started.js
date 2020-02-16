@@ -5,7 +5,7 @@ import { H2 } from '../visual/heading'
 import { Form } from '../control/form'
 import { Input } from '../visual/form'
 import { Button, LabelledInput } from '../visual/primitives'
-import { createAccount } from '../../shared/methods'
+import { createAccount, createAccountAndJoin } from '../../shared/methods'
 import CampaignSettings from '../document/campaign-settings'
 
 const SignupFields = () => (
@@ -44,8 +44,12 @@ const getSubmitAccount = (createAccountMethod = createAccount) => async ({
 	go('/')
 }
 
-export const SignupForm = ({ createAccountMethod }) => (
-	<Form onSubmit={getSubmitAccount(createAccountMethod)}>
+export const SignupForm = ({ secret }) => (
+	<Form
+		onSubmit={({ username, email, campaign }) =>
+			createAccountAndJoin({ username, email }, campaign, secret)
+		}
+	>
 		<SignupFields />
 
 		<Button>Create your account</Button>

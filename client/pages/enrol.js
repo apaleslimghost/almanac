@@ -5,7 +5,7 @@ import { Forbidden } from 'http-errors'
 import { toast } from 'react-toastify'
 import { navigate as go } from 'use-history'
 import { useCampaignData } from '../data/campaign'
-import { createAccountAndJoin, addMember } from '../../shared/methods'
+import { addMember } from '../../shared/methods'
 import { CampaignSplash, HeroSubtitle } from '../visual/splash'
 import Login from './login'
 import { SignupForm } from './get-started'
@@ -37,6 +37,7 @@ export default ({ campaignId, secret }) => {
 			} else {
 				toast.success(`Welcome to ${campaign.title}!`)
 
+				// TODO i dunno bro sounds race conditioney
 				addMember(campaign, user, secret)
 			}
 
@@ -52,11 +53,7 @@ export default ({ campaignId, secret }) => {
 				<HeroSubtitle>Sign up or log in to join</HeroSubtitle>
 			</CampaignSplash>
 
-			<SignupForm
-				createAccountMethod={user =>
-					createAccountAndJoin(user, campaign, secret)
-				}
-			/>
+			<SignupForm secret={secret} />
 
 			<Login
 				onLogin={() => {
