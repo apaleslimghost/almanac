@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { ToastContainer } from 'react-toastify'
-import { CampaignContext, useCampaignData } from '../data/campaign'
+import { CampaignContext, useCampaignData, useCampaign } from '../data/campaign'
 import Icon from '../visual/icon'
 import { H3 } from '../visual/heading'
 import { logout, useUser } from '../utils/logged-in'
@@ -35,8 +35,8 @@ const CampaignTitle = ({ campaign }) => (
 	</MenuLink>
 )
 
-const Nav = ({ campaignId, extraItems }) => {
-	const { campaign } = useCampaignData({ campaignId })
+const Nav = ({ extraItems }) => {
+	const campaign = useCampaign()
 	const isOwner = useAmOwner(campaign)
 	const user = useUser()
 
