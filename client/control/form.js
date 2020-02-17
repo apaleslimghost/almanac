@@ -98,8 +98,6 @@ export const Select = ({ tag: Tag = 'select', ...props }) => {
 	)
 }
 
-let f
-
 export const Form = ({
 	initialData = {},
 	name,
@@ -111,8 +109,6 @@ export const Form = ({
 }) => {
 	const setContextFields = useFormSet()
 	const [fields, _setFields] = useState(initialData)
-	console.log(fields, f, f === fields)
-	f = fields
 
 	useEffect(() => {
 		if (setContextFields && name) {

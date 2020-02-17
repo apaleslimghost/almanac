@@ -6,7 +6,7 @@ import { calendarList } from '../data/calendar'
 import ImageSelect from '../control/image-select'
 
 export default ({ campaign, ...props }) => {
-	const { username = 'user' } = useFormFields()
+	const { username } = useFormFields()
 
 	return (
 		<Form initialData={campaign} {...props}>
@@ -18,7 +18,10 @@ export default ({ campaign, ...props }) => {
 			{/* TODO most of this can be in an 'advanced settings' accordion? */}
 			<Label>
 				Tagline
-				<Input name='tagline' placeholder={`A campaign by ${username}`} />
+				<Input
+					name='tagline'
+					placeholder={`A campaign by ${username || 'user'}`}
+				/>
 			</Label>
 
 			<Label>
