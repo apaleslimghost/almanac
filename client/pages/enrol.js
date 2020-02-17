@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor'
 import { useTracker } from 'meteor/quarterto:hooks'
 import React from 'react'
-import { Forbidden } from 'http-errors'
 import { toast } from 'react-toastify'
 import { navigate as go } from 'use-history'
 import { useCampaignData } from '../data/campaign'
@@ -14,7 +13,7 @@ export default ({ campaignId, secret }) => {
 	const { campaign, ready } = useCampaignData()
 
 	if (campaignId && ready && secret !== campaign.inviteSecret) {
-		throw new Forbidden('Incorrect or expired campaign invite link')
+		throw new Error('Incorrect or expired campaign invite link')
 	}
 
 	const enrolling = useTracker(() => {

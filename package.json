@@ -42,7 +42,6 @@
 		"email-regex": "^3.0.0",
 		"formdata-polyfill": "^3.0.9",
 		"fuse.js": "^3.2.1",
-		"http-errors": "^1.6.3",
 		"lodash": "^4.17.4",
 		"meteor-node-stubs": "~0.2.4",
 		"param-case": "^2.1.1",

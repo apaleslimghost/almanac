@@ -1,6 +1,5 @@
 import { createContext, useContext } from 'react'
 import { useSubscription, useFindOne } from 'meteor/quarterto:hooks'
-import { NotFound } from 'http-errors'
 import getCampaignSession from '../../shared/session'
 import { Campaigns } from '../../shared/collections'
 
@@ -15,7 +14,7 @@ export const useCampaignData = ({ campaignId, secret }) => {
 
 export const checkCampaignExists = ({ campaign, ready, campaignId }) => {
 	if (campaignId && ready && !campaign) {
-		throw new NotFound(`Campaign ${campaignId} not found`)
+		throw new Error(`Campaign ${campaignId} not found`)
 	}
 }
 

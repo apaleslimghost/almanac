@@ -1,4 +1,3 @@
-import { Forbidden } from 'http-errors'
 import { Meteor } from 'meteor/meteor'
 import { useSubscription, useFindOne, useTracker } from 'meteor/quarterto:hooks'
 
@@ -17,6 +16,6 @@ export const useAmOwner = item => {
 
 export const useAssertAmOwner = item => {
 	if (!useAmOwner(item) && item) {
-		throw new Forbidden(`You're not allowed to do that`)
+		throw new Error(`You're not allowed to do that`)
 	}
 }
