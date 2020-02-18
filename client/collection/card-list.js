@@ -4,8 +4,8 @@ import ShowCard from '../document/card'
 import { FlexGrid } from '../visual/grid'
 import { useCardSearch } from '../data/card-search'
 
-const CardList = ({ search, campaignId }) => {
-	const { cards, ready } = useCardSearch({ search, campaignId })
+const CardList = ({ search }) => {
+	const { cards, ready } = useCardSearch({ search })
 
 	return (
 		<FlexGrid>
