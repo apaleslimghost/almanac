@@ -6,7 +6,7 @@ import { useHidesNav } from './layout'
 
 export default props => {
 	const campaign = useCampaign()
-	const amOwner = useAmOwner(campaign)
+	const { amOwner } = useAmOwner(campaign)
 	useHidesNav(amOwner)
 
 	return <BlockLayout which='display' {...props} />

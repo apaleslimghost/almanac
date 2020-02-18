@@ -11,11 +11,12 @@ export const useAmOwner = item => {
 	const me = useTracker(() => Meteor.userId())
 	const { ready, owner } = useOwner(item)
 
-	return ready && owner && owner._id === me
+	return { ready, amOwner: owner && owner._id === me }
 }
 
 export const useAssertAmOwner = item => {
-	if (!useAmOwner(item) && item) {
+	const { ready, amOwner } = useAmOwner(item)
+	if (ready && !amOwner) {
 		throw new Error(`You're not allowed to do that`)
 	}
 }

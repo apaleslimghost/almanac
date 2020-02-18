@@ -37,7 +37,7 @@ const CampaignTitle = ({ campaign }) => (
 
 const Nav = ({ extraItems }) => {
 	const campaign = useCampaign()
-	const isOwner = useAmOwner(campaign)
+	const { amOwner } = useAmOwner(campaign)
 	const user = useUser()
 
 	return (
@@ -53,7 +53,7 @@ const Nav = ({ extraItems }) => {
 						<CampaignTitle campaign={campaign} />
 
 						{user &&
-							(isOwner ? (
+							(amOwner ? (
 								<>
 									<MenuLink href={`/${campaign._id}/dashboard-control`}>
 										<Icon icon='wooden-sign' />
