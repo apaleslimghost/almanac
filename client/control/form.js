@@ -19,8 +19,8 @@ export const getInputValue = el =>
 
 export const getSelectValue = el => el.options[el.selectedIndex].value
 
-const Fields = createContext(null)
-const SetFields = createContext(null)
+const Fields = createContext({})
+const SetFields = createContext(() => {})
 
 export const useFormFields = () => useContext(Fields)
 export const useFormSet = () => useContext(SetFields)
