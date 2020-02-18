@@ -40,7 +40,7 @@ export default () => {
 		go(`/${campaign._id}/${_id}`)
 	}
 
-	return (
+	return campaign ? (
 		<>
 			<Title>{campaign.title}</Title>
 
@@ -69,5 +69,5 @@ export default () => {
 				<HistoryList />
 			</Aside>
 		</>
-	)
+	) : null
 }
