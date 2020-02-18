@@ -92,7 +92,7 @@ const SearchContainer = ({ card, hideCardIds }) => {
 	}
 
 	function handleOutsideClick(event) {
-		if (!containerRef.current.contains(event.target)) {
+		if (containerRef.current && !containerRef.current.contains(event.target)) {
 			setShowDropdown(false)
 		}
 	}
