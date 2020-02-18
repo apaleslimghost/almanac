@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { useTracker } from 'meteor/quarterto:hooks'
+import { useTracker } from '../utils/hooks'
 import { Random } from 'meteor/random'
 import React from 'react'
 import { useCampaign } from '../data/campaign'

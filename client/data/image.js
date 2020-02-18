@@ -1,4 +1,4 @@
-import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
+import { useSubscription, useCursor } from '../utils/hooks'
 import { UnsplashPhotos } from '../../shared/collections'
 
 const getImageSubscription = (image = { from: 'nowhere' }) => {

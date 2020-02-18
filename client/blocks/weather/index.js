@@ -4,7 +4,7 @@ import Ornamented from '../../visual/ornamented'
 import preventingDefault from '../../utils/preventing-default'
 import { useCampaignSession } from '../../data/campaign'
 import { useCampaignDate } from '../../data/calendar'
-import { useTracker } from 'meteor/quarterto:hooks'
+import { useTracker } from '../../utils/hooks'
 
 // For now we just use the first moon in the schema,
 // later we may want to support multiple moons 😱.

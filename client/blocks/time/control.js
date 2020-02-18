@@ -6,7 +6,7 @@ import { useCampaignDate } from '../../data/calendar'
 import preventingDefault from '../../utils/preventing-default'
 import Time from './display'
 import AdvanceTime from './advance'
-import { useTracker } from 'meteor/quarterto:hooks'
+import { useTracker } from '../../utils/hooks'
 
 const Inc = ({ multiplier = 1, period }) => {
 	const campaignSession = useCampaignSession()

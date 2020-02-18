@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
+import { useSubscription, useCursor } from '../utils/hooks'
 import relativeDate from 'tiny-relative-date'
 import { Link } from 'use-history'
 import styled from 'styled-components'

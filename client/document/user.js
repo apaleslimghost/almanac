@@ -4,7 +4,7 @@ import colours from '@quarterto/colours'
 import Gravatar from '../visual/gravatar'
 import { Label, LabelBody } from '../visual/primitives'
 import { useOwner } from '../data/owner'
-import { useSubscription } from 'meteor/quarterto:hooks'
+import { useSubscription } from '../utils/hooks'
 
 const UserText = styled.span`
 	font-style: ${({ verified }) => (verified ? 'normal' : 'italic')};

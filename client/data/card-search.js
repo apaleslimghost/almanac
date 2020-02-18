@@ -1,4 +1,4 @@
-import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
+import { useSubscription, useCursor } from '../utils/hooks'
 import { Cards } from '../../shared/collections'
 import { useCampaignId } from './campaign'
 

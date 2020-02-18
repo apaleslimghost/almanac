@@ -11,7 +11,7 @@ import { Layout } from '../../shared/methods'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 import { useCampaignId } from '../data/campaign'
-import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
+import { useSubscription, useCursor } from '../utils/hooks'
 
 const ReactGrid = createGlobalStyle`
 	.react-grid-item {

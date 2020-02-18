@@ -1,4 +1,4 @@
-import { useCursor, useFindOne, useSubscription } from 'meteor/quarterto:hooks'
+import { useCursor, useFindOne, useSubscription } from '../utils/hooks'
 import { Cards } from '../../shared/collections'
 import { useCampaignId } from './campaign'
 
@@ -15,6 +15,12 @@ export const useCards = (query, { deps = [], ...options } = {}) => {
 export const useCard = (_id, deps = []) => {
 	const campaignId = useCampaignId()
 	const ready = useSubscription('cards.all')
-	const card = useFindOne(Cards, { campaignId, _id }, [ready, ...deps])
+	const card = useFindOne(Cards, { campaignId, _id }, [
+		_id,
+		campaignId,
+		ready,
+		...deps,
+	])
+
 	return { ready, card }
 }

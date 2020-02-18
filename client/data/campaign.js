@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import { useSubscription, useFindOne } from 'meteor/quarterto:hooks'
+import { useSubscription, useFindOne } from '../utils/hooks'
 import getCampaignSession from '../../shared/session'
 import { Campaigns } from '../../shared/collections'
 

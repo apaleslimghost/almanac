@@ -6,7 +6,7 @@ import Ornamented from '../../visual/ornamented'
 import { Cards } from '../../../shared/collections'
 import { useComputation } from '../../data/computation'
 import access from '../../../shared/access'
-import { useSubscription } from 'meteor/quarterto:hooks'
+import { useSubscription } from '../../utils/hooks'
 
 const QuestHeader = styled(Ornamented)`
 	font-family: 'Libre Baskerville', serif;

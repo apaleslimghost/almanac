@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useTracker } from 'meteor/quarterto:hooks'
+import { useTracker } from '../utils/hooks'
 import styled from 'styled-components'
 import Markdown from '../document/markdown'
 import { useCard, useCards } from '../data/card'
@@ -141,12 +141,12 @@ const SearchContainer = ({ card, hideCardIds }) => {
 }
 
 export default ({ cardId }) => {
-	const { card, ready } = useCard(cardId)
+	const { card, ready } = useCard(cardId, [cardId])
 	const { cards: relatedCards } = useCards(
 		{
 			_id: { $in: (card && card.related) || [] },
 		},
-		{ deps: card ? card.related.map(related => related._id) : [ready] },
+		{ deps: [ready] },
 	)
 
 	const user = useUser()

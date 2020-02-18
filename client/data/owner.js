@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { useSubscription, useFindOne, useTracker } from 'meteor/quarterto:hooks'
+import { useSubscription, useFindOne, useTracker } from '../utils/hooks'
 
 export const useOwner = item => {
 	const ready = useSubscription('users.all')

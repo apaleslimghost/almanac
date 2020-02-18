@@ -1,5 +1,5 @@
 import { Tracker } from 'meteor/tracker'
-import { useTracker } from 'meteor/quarterto:hooks'
+import { useTracker } from '../utils/hooks'
 
 export const useComputation = (startComputation, dependencies = []) =>
 	useTracker(() => {

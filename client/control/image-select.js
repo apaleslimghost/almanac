@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import qs from 'querystring'
-import { useSubscription, useCursor } from 'meteor/quarterto:hooks'
+import { useSubscription, useCursor } from '../utils/hooks'
 import styled, { css } from 'styled-components'
 
 import { UnsplashPhotos } from '../../shared/collections'

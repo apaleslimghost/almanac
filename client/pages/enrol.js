@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { useTracker } from 'meteor/quarterto:hooks'
+import { useTracker } from '../utils/hooks'
 import React from 'react'
 import { toast } from 'react-toastify'
 import { navigate as go } from 'use-history'

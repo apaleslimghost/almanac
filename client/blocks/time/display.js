@@ -4,7 +4,7 @@ import { H1, H3 } from '../../visual/heading'
 import Ornamented, { bordered } from '../../visual/ornamented'
 import { useCampaignSession } from '../../data/campaign'
 import { useCampaignDate } from '../../data/calendar'
-import { useTracker } from 'meteor/quarterto:hooks'
+import { useTracker } from '../../utils/hooks'
 
 const TimeOfDay = styled(H1)`
 	margin: 0;
