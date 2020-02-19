@@ -9,7 +9,7 @@ import App from './app'
 import 'formdata-polyfill'
 
 import Dashboard from './pages/dashboard'
-import Control from './pages/control'
+import Control, { LaunchDashboardLink } from './pages/control'
 import Home from './pages/home'
 import Login, { loggedInRedirect } from './pages/login'
 import GetStarted from './pages/get-started'
@@ -41,7 +41,10 @@ render(
 
 			'/:campaignId/dashboard-control'({ campaignId }) {
 				return (
-					<Layout campaignId={campaignId}>
+					<Layout
+						campaignId={campaignId}
+						extraNavItem={<LaunchDashboardLink />}
+					>
 						<Control />
 					</Layout>
 				)

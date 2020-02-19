@@ -35,7 +35,7 @@ const CampaignTitle = ({ campaign }) => (
 	</MenuLink>
 )
 
-const Nav = ({ extraItems }) => {
+const Nav = ({ extraNavItem = null }) => {
 	const campaign = useCampaign()
 	const { amOwner } = useAmOwner(campaign)
 	const user = useUser()
@@ -82,20 +82,17 @@ const Nav = ({ extraItems }) => {
 
 			<NavArea>
 				<Space />
-				{extraItems}
+				{extraNavItem}
 				{user && <LogoutButton user={user} />}
 			</NavArea>
 		</Toolbar>
 	)
 }
 
-const NavContext = createContext({
-	setExtraNavItems() {},
-	setNavShown() {},
-})
+const NavContext = createContext(() => {})
 
 export const useHidesNav = hide => {
-	const { setNavShown } = useContext(NavContext)
+	const setNavShown = useContext(NavContext)
 
 	useEffect(() => {
 		setNavShown(!hide)
@@ -103,26 +100,16 @@ export const useHidesNav = hide => {
 	})
 }
 
-export const useExtraNavItems = (...navItems) => {
-	const { setExtraNavItems } = useContext(NavContext)
-
-	useEffect(() => {
-		setExtraNavItems(...navItems)
-		return () => setExtraNavItems()
-	})
-}
-
-const Layout = ({ campaignId, secret, children }) => {
+const Layout = ({ campaignId, secret, extraNavItem, children }) => {
 	const { campaign, ready } = useCampaignData({ campaignId, secret })
-	const [extraItems, setExtraNavItems] = useState([])
 	const [navShown, setNavShown] = useState(true)
 
 	return (
-		<NavContext.Provider value={{ setExtraNavItems, setNavShown }}>
+		<NavContext.Provider value={setNavShown}>
 			<CampaignContext.Provider value={campaign}>
 				<Title />
 				<ToastContainer autoClose={10000} />
-				{navShown && <Nav extraItems={extraItems} />}
+				{navShown && <Nav extraNavItem={extraNavItem} />}
 				<Grid>{ready ? children : 'loading...'}</Grid>
 			</CampaignContext.Provider>
 		</NavContext.Provider>

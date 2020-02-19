@@ -4,10 +4,11 @@ import Icon from '../visual/icon'
 import { useCampaign } from '../data/campaign'
 import { useAssertAmOwner } from '../data/owner'
 import { MenuLink } from '../visual/menu'
-import { useExtraNavItems } from './layout'
 
-const LaunchLink = () => {
+export const LaunchDashboardLink = () => {
 	const campaign = useCampaign()
+
+	if (!campaign) return null
 
 	function launchDashboard(ev) {
 		ev.preventDefault()
@@ -24,17 +25,20 @@ const LaunchLink = () => {
 	}
 
 	return (
-	<MenuLink href={`/${campaign._id}/dashboard`} onClick={launchDashboard}>
-		<Icon icon='scroll-unfurled' />
-		Launch Dashboard
-	</MenuLink>
+		<MenuLink
+			as='a'
+			href={`/${campaign._id}/dashboard`}
+			onClick={launchDashboard}
+		>
+			<Icon icon='scroll-unfurled' />
+			Launch Dashboard
+		</MenuLink>
 	)
 }
 
 export default props => {
 	const campaign = useCampaign()
 	useAssertAmOwner(campaign)
-	useExtraNavItems(<LaunchLink />)
 
 	return <BlockLayout which='control' {...props} />
 }
