@@ -21,7 +21,7 @@ const FlexImg = styled.img`
 	display: block;
 `
 
-const ImgSelect = styled.button.attrs({ type: 'button' })`
+const ImgSelect = styled.button.attrs(() => ({ type: 'button' }))`
 	border: 0 none;
 	background: none;
 	padding: 0;

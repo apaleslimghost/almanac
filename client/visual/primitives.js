@@ -50,17 +50,15 @@ export const colourTransitions = css`
 	transition-timing-function: linear;
 `
 
-export const List = styled.div.attrs({
-	'data-spacing': ({ spaced }) => (spaced ? '0.5em' : '2px'),
-})`
+export const List = styled.div`
 	display: flex;
 	align-items: ${({ vertical }) => (vertical ? 'stretch' : 'flex-start')};
 	flex-wrap: wrap;
 	flex-direction: ${({ vertical }) => (vertical ? 'column' : 'row')};
-	margin: -${({ 'data-spacing': spacing }) => spacing};
+	margin: -${({ spaced }) => (spaced ? '0.5em' : '2px')};
 
 	& > * {
-		margin: ${({ 'data-spacing': spacing }) => spacing};
+		margin: ${({ spaced }) => (spaced ? '0.5em' : '2px')};
 	}
 `
 
