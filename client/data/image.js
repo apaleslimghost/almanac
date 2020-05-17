@@ -1,4 +1,4 @@
-import { useSubscription, useCursor } from '../utils/hooks'
+import { useSubscription } from '../utils/hooks'
 import { UnsplashPhotos } from '../../shared/collections'
 
 const getImageSubscription = (image = { from: 'nowhere' }) => {
@@ -9,17 +9,16 @@ const getImageSubscription = (image = { from: 'nowhere' }) => {
 
 		case 'unsplash':
 			return {
-				cursor: UnsplashPhotos.findOne(image.id),
+				image: UnsplashPhotos.findOne(image.id),
 				subscription: ['unsplash.getPhoto', image.id],
 			}
 	}
 
-	return { cursor: null, subscription: [false, null] }
+	return { image: null, subscription: [false, null] }
 }
 
 export const useImage = imageQuery => {
-	const { subscription, cursor } = getImageSubscription(imageQuery)
+	const { subscription, image } = getImageSubscription(imageQuery)
 	const ready = useSubscription(...subscription)
-	const image = useCursor(cursor, [ready])
 	return { ready, image }
 }
