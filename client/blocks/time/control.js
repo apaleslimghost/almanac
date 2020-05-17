@@ -22,11 +22,11 @@ const Inc = ({ multiplier = 1, period }) => {
 	}
 
 	return (
-	<Button large={false} colour='steel' onClick={onIncrement}>
-		{multiplier > 0 && '+'}
-		{multiplier}
-		{period[0]}
-	</Button>
+		<Button large={false} colour='steel' onClick={onIncrement}>
+			{multiplier > 0 && '+'}
+			{multiplier}
+			{period[0]}
+		</Button>
 	)
 }
 
@@ -42,18 +42,19 @@ const Morning = () => {
 		)
 	}
 
-	return <Button large={false} colour='steel' onClick={onMorning}>
-		🌅
-	</Button>
+	return (
+		<Button large={false} colour='steel' onClick={onMorning}>
+			🌅
+		</Button>
+	)
 }
-
 
 const DateForm = () => {
 	const campaignSession = useCampaignSession()
 	const CampaignDate = useCampaignDate()
 	const date = useTracker(
 		() => new CampaignDate(campaignSession.get('date') || 0),
-			)
+	)
 	const [_date, setDate] = useState(date.P)
 
 	useEffect(() => {
@@ -63,17 +64,16 @@ const DateForm = () => {
 	function onSubmit() {
 		campaignSession.set('date', new CampaignDate(_date).timestamp)
 	}
-}
 
 	return (
-	<form onSubmit={preventingDefault(onSubmit)}>
+		<form onSubmit={preventingDefault(onSubmit)}>
 			<Input
 				value={_date}
 				size={35}
 				onChange={ev => setDate(ev.target.value)}
 			/>
-		<Button>Set</Button>
-	</form>
+			<Button>Set</Button>
+		</form>
 	)
 }
 
@@ -97,7 +97,7 @@ const TimeControl = () => (
 			<Group>
 				<Inc period='day' />
 			</Group>
-	
+
 			<Group>
 				<Morning />
 			</Group>
