@@ -23,6 +23,7 @@
 	},
 	"homepage": "https://github.com/quarterto/Almanac#readme",
 	"dependencies": {
+		"@apaleslimghost/only-valid-attributes": "^1.2.0",
 		"@babel/runtime": "^7.4.4",
 		"@quarterto/campaign-name-generator": "^1.0.0",
 		"@quarterto/colours": "^1.5.0",

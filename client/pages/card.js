@@ -104,7 +104,7 @@ const SearchContainer = ({ card, hideCardIds }) => {
 	})
 
 	return (
-		<SearchWrapper innerRef={containerRef}>
+		<SearchWrapper ref={containerRef}>
 			<Search
 				right
 				placeholder='Add related&hellip;'

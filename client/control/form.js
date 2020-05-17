@@ -5,6 +5,7 @@ import React, {
 	useEffect,
 	useCallback,
 } from 'react'
+import onlyValidAttributes from '@apaleslimghost/only-valid-attributes'
 
 export const getInputValue = el =>
 	el[
@@ -42,7 +43,7 @@ export const Input = ({
 			ref={fieldRef}
 			name={name}
 			type='text'
-			{...props}
+			{...onlyValidAttributes(props)}
 			value={
 				fields
 					? qq(name in fields ? fields[name] : props.value, '')
@@ -73,7 +74,7 @@ export const Select = ({ tag: Tag = 'select', ...props }) => {
 
 	return (
 		<Tag
-			{...props}
+			{...onlyValidAttributes(props)}
 			value={
 				fields
 					? (props.name in fields ? fields[props.name] : props.value) || ''
@@ -144,7 +145,10 @@ export const Form = ({
 	return (
 		<Fields.Provider value={fields}>
 			<SetFields.Provider value={setFields}>
-				<Tag {...props} {...(_onSubmit ? { onSubmit } : {})} />
+				<Tag
+					{...onlyValidAttributes(props)}
+					{...(_onSubmit ? { onSubmit } : {})}
+				/>
 			</SetFields.Provider>
 		</Fields.Provider>
 	)
