@@ -1,24 +1,30 @@
-import { compose, withState, withPropsOnChange } from 'recompact'
-import withRouter from './utils/router'
-import withCatch from './utils/catch'
-import displayError from './utils/error'
+import React, { Component } from 'react'
+import useRoutes from 'boulevard-react'
+import { Error } from './utils/error'
+import GlobalStyles from './visual/global'
 
-const errorState = withState('error', 'setError', null)
+class RenderError extends Component {
+	state = { error: null }
 
-const mainCatch = withCatch((error, info, props) => {
-	props.setError(Object.assign(error, info))
-})
+	static getDerivedStateFromError(error) {
+		return { error }
+	}
 
-const connectApp = compose(
-	withRouter,
-	errorState,
-	mainCatch,
-	displayError,
-	withPropsOnChange('currentRoute', ({ setError }) => {
-		setError(null)
-	}),
-)
+	render() {
+		if (this.state.error) {
+			return <Error error={this.state.error} />
+		}
 
-const App = connectApp(({ children }) => children)
+		return this.props.children
+	}
+}
 
-export default App
+export default function App({ routes }) {
+	const { children } = useRoutes(routes)
+	return (
+		<RenderError>
+			<GlobalStyles />
+			{children}
+		</RenderError>
+	)
+}

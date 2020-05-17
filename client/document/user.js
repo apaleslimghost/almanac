@@ -1,12 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import colours from '@quarterto/colours'
-import { compose } from 'recompact'
 import Gravatar from '../visual/gravatar'
 import { Label, LabelBody } from '../visual/primitives'
-import { withOwnerData } from '../data/owner'
-import { withLoadingComponent } from '../control/loading'
-import { withSubscribe } from '../utils/subscribe'
+import { useOwner } from '../data/owner'
+import { useSubscription } from '../utils/hooks'
 
 const UserText = styled.span`
 	font-style: ${({ verified }) => (verified ? 'normal' : 'italic')};
@@ -44,10 +42,8 @@ const User = ({
 
 export default User
 
-const connectOwner = compose(
-	withSubscribe('campaigns.members'),
-	withOwnerData('of'),
-	withLoadingComponent(() => null),
-)
-
-export const Owner = connectOwner(User)
+export const Owner = ({ of: ofThing, ...props }) => {
+	const ready = useSubscription('campaigns.members')
+	const { owner } = useOwner(ofThing)
+	return ready ? <User user={owner} {...props} /> : null
+}

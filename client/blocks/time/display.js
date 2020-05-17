@@ -2,7 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { H1, H3 } from '../../visual/heading'
 import Ornamented, { bordered } from '../../visual/ornamented'
-import connectTime from './connect/time'
+import { useCampaignSession } from '../../data/campaign'
+import { useCampaignDate } from '../../data/calendar'
+import { useTracker } from '../../utils/hooks'
 
 const TimeOfDay = styled(H1)`
 	margin: 0;
@@ -38,17 +40,25 @@ const OrnamentedMonth = ({ date }) => (
 	</Ornamented>
 )
 
-const Time = connectTime(({ date }) => (
-	<DateGroup>
-		<OrnamentedMonth date={date} />
-		<TimeOfDay>
-			{date.format`${'h'}:${'mm'}`}
-			<small>{date.a}</small>
-		</TimeOfDay>
-		<Year>
-			<span>{date.YYYY}</span>
-		</Year>
-	</DateGroup>
-))
+const Time = () => {
+	const campaignSession = useCampaignSession()
+	const CampaignDate = useCampaignDate()
+	const date = useTracker(
+		() => new CampaignDate(campaignSession.get('date') || 0),
+	)
+
+	return (
+		<DateGroup>
+			<OrnamentedMonth date={date} />
+			<TimeOfDay>
+				{date.format`${'h'}:${'mm'}`}
+				<small>{date.a}</small>
+			</TimeOfDay>
+			<Year>
+				<span>{date.YYYY}</span>
+			</Year>
+		</DateGroup>
+	)
+}
 
 export default Time

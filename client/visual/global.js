@@ -1,5 +1,5 @@
 import url from 'url'
-import { injectGlobal } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 import { steel, sky } from '@quarterto/colours'
 import { background } from '../utils/colors'
 
@@ -20,7 +20,7 @@ const buildGoogleFontsUrl = fonts =>
 		},
 	})
 
-injectGlobal`
+export default createGlobalStyle`
 	@import url(${buildGoogleFontsUrl({
 		'Source Sans Pro': ['400', '400i', '700', '700i'],
 		'Libre Baskerville': [],

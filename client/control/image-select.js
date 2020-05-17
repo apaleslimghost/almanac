@@ -1,10 +1,9 @@
+import React, { useState } from 'react'
 import qs from 'querystring'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useSubscription, useCursor } from '../utils/hooks'
 import styled, { css } from 'styled-components'
-import { compose, getContext, withHandlers, withState } from 'recompact'
-import React from 'react'
+import colours from '@quarterto/colours'
 
-import subscribe from '../utils/subscribe'
 import { UnsplashPhotos } from '../../shared/collections'
 import { FlexGrid } from '../visual/grid'
 import preventingDefault from '../utils/preventing-default'
@@ -14,49 +13,7 @@ import { Button, List } from '../visual/primitives'
 import Icon from '../visual/icon'
 import Tabs from './tabs'
 import Modal from './modal'
-import { fieldLike } from './form'
-import withLoading from './loading'
-
-const withSearch = withState('query', 'setQuery', '')
-
-const withUnsplashSearch = withTracker(({ query }) => ({
-	ready: query ? subscribe(['unsplash.search', query]) : false,
-	photos: UnsplashPhotos.find({ fromSearch: query }).fetch(),
-}))
-
-const withAlmanacCollection = withTracker(() => ({
-	ready: subscribe(['unsplash.getCollectionPhotos', '2021417']),
-	photos: UnsplashPhotos.find({ fromCollection: '2021417' }).fetch(),
-}))
-
-const withFieldContext = getContext(fieldLike)
-
-const withImageSelectActions = withHandlers({
-	setImage: ({ setFields, name }) => image => {
-		setFields({
-			[name]: image,
-		})
-
-		if (image) {
-			unsplashDownload(image.id)
-		}
-	},
-})
-
-const connectImageSelect = compose(
-	withFieldContext,
-	withImageSelectActions,
-)
-
-const connectSearch = compose(
-	withSearch,
-	withUnsplashSearch,
-)
-
-const connectCollection = compose(
-	withAlmanacCollection,
-	withLoading,
-)
+import { useFormFields, useFormSet } from './form'
 
 const FlexImg = styled.img`
 	width: 100%;
@@ -64,7 +21,7 @@ const FlexImg = styled.img`
 	display: block;
 `
 
-const ImgSelect = styled.button.attrs({ type: 'button' })`
+const ImgSelect = styled.button.attrs(() => ({ type: 'button' }))`
 	border: 0 none;
 	background: none;
 	padding: 0;
@@ -72,7 +29,7 @@ const ImgSelect = styled.button.attrs({ type: 'button' })`
 	${({ selected }) =>
 		selected &&
 		css`
-			outline: 5px solid blue;
+			outline: 5px solid ${colours.sky.primary};
 		`};
 `
 
@@ -86,53 +43,111 @@ const getThumb = ({ urls }, { w = 450, h = 150 } = {}) =>
 		h,
 	})
 
-const ImageSelectSection = ({ photos, setImage, fields, name }) => (
-	<FlexGrid small>
-		{photos.map(photo => (
-			<ImgSelect
-				key={photo.id}
-				selected={fields[name] === photo.id}
-				onClick={preventingDefault(() =>
-					setImage({ from: 'unsplash', id: photo.id }),
-				)}
-			>
-				<FlexImg
-					width={450}
-					height={150}
-					src={getThumb(photo)}
-					alt={photo.description}
-				/>
-			</ImgSelect>
-		))}
-	</FlexGrid>
-)
+const useSetImage = name => {
+	const setFields = useFormSet()
 
-const SearchImage = connectSearch(({ query, setQuery, ready, ...props }) => (
-	<>
-		<input
-			type='search'
-			value={query}
-			onChange={ev => setQuery(ev.target.value)}
-		/>
-		{query && (ready ? <ImageSelectSection {...props} /> : 'loading...')}
-	</>
-))
+	return image => {
+		setFields({
+			[name]: image,
+		})
 
-const CollectionImage = connectCollection(ImageSelectSection)
+		if (image) {
+			unsplashDownload(image.id)
+		}
+	}
+}
 
-const ImageSelectTabs = props => (
-	<Tabs>
-		{{
-			Suggested: <CollectionImage {...props} />,
-			Search: <SearchImage {...props} />,
-		}}
-	</Tabs>
-)
+const ImageSelectSection = ({ photos, name, onSelect }) => {
+	const fields = useFormFields()
+	const setImage = useSetImage(name)
 
-export default connectImageSelect(ImageSelectTabs)
+	return (
+		<FlexGrid small>
+			{photos.map(photo => (
+				<ImgSelect
+					key={photo.id}
+					selected={fields[name] && fields[name].id === photo.id}
+					onClick={preventingDefault(() => {
+						const image = { from: 'unsplash', id: photo.id }
+						setImage(image)
 
-export const ImageSelectModal = connectImageSelect(
-	({ setImage, fields, name }) => (
+						if (onSelect) {
+							onSelect(image)
+						}
+					})}
+				>
+					<FlexImg
+						width={450}
+						height={150}
+						src={getThumb(photo)}
+						alt={photo.description}
+					/>
+				</ImgSelect>
+			))}
+		</FlexGrid>
+	)
+}
+
+const useUnsplashSearch = query => {
+	const ready = useSubscription('unsplash.search', query)
+	const photos = useCursor(UnsplashPhotos.find({ fromSearch: query }), [ready])
+
+	return { ready, photos }
+}
+
+const useAlmanacCollection = () => {
+	const ready = useSubscription('unsplash.getCollectionPhotos', '2021417')
+	const photos = useCursor(UnsplashPhotos.find({ fromCollection: '2021417' }), [
+		ready,
+	])
+	return { ready, photos }
+}
+
+const SearchImage = props => {
+	const [query, setQuery] = useState('')
+	const { ready, photos } = useUnsplashSearch(query)
+	return (
+		<>
+			<input
+				type='search'
+				value={query}
+				onChange={ev => setQuery(ev.target.value)}
+			/>
+			{query &&
+				(ready ? (
+					<ImageSelectSection {...props} photos={photos} />
+				) : (
+					'loading...'
+				))}
+		</>
+	)
+}
+
+const CollectionImage = props => {
+	const { ready, photos } = useAlmanacCollection()
+	if (!ready) return 'Loading...'
+
+	return <ImageSelectSection {...props} photos={photos} />
+}
+
+const ImageSelectTabs = props => {
+	return (
+		<Tabs>
+			{{
+				Suggested: <CollectionImage {...props} />,
+				Search: <SearchImage {...props} />,
+			}}
+		</Tabs>
+	)
+}
+
+export default ImageSelectTabs
+
+export const ImageSelectModal = ({ name }) => {
+	const fields = useFormFields()
+	const setImage = useSetImage(name)
+
+	return (
 		<Modal
 			control={props =>
 				fields[name] ? (
@@ -155,14 +170,8 @@ export const ImageSelectModal = connectImageSelect(
 				)
 			}
 			render={({ close }) => (
-				<ImageSelectTabs
-					{...{ fields, name }}
-					setImage={img => {
-						setImage(img)
-						close()
-					}}
-				/>
+				<ImageSelectTabs {...{ fields, name }} onSelect={close} />
 			)}
 		/>
-	),
-)
+	)
+}

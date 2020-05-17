@@ -1,21 +1,19 @@
-import url from 'url'
 import React from 'react'
 import styled from 'styled-components'
 import generateCampaign from '@quarterto/campaign-name-generator'
-import formJson from '@quarterto/form-json'
-import Link from '../control/link'
-import { go } from '../utils/router'
+import { Link, navigate as go } from 'use-history'
+import { Form } from '../control/form'
 import Logo from '../visual/logo'
 import { Button } from '../visual/primitives'
 import { H3 } from '../visual/heading'
 import { SplashBleed, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
 import { Input } from '../visual/form'
-import { hidesNav } from './layout'
+import { useHidesNav } from './layout'
 import Ribbon from '../visual/ribbon'
 
 const formHeight = '160px'
 
-const SplashWithForm = SplashBleed.extend`
+const SplashWithForm = styled(SplashBleed)`
 	margin-bottom: ${formHeight};
 
 	@media (min-width: 40em) {
@@ -50,7 +48,7 @@ const Split = styled.div`
 	}
 `
 
-const SplitBlurb = HeroBlurb.extend`
+const SplitBlurb = styled(HeroBlurb)`
 	@media (min-width: 40em) {
 		text-align: right;
 		margin-right: 1em;
@@ -60,7 +58,7 @@ const SplitBlurb = HeroBlurb.extend`
 	}
 `
 
-const SplashForm = styled.form`
+const SplashForm = styled(Form)`
 	background: #102535;
 	padding: 1em;
 	height: ${formHeight};
@@ -79,59 +77,55 @@ const SplashForm = styled.form`
 	}
 `
 
-const CallToAction = Button.extend`
+const CallToAction = styled(Button)`
 	padding: 0.4em;
 	margin-top: 0.4em;
 	margin-right: 0.4em;
 	font-size: 1.1em;
 `
 
-const startCreateFlow = ev => {
-	ev.preventDefault()
-	const { title } = formJson(ev.target)
-	const { pathname } = url.parse(ev.target.action)
+const Splash = () => {
+	useHidesNav(true)
 
-	go(pathname, { title })
-}
-
-const Splash = hidesNav(() => (
-	<SplashWithForm
-		large
-		url='/images/splash.jpg'
-		url2x='/images/splash@2x.jpg'
-		color='#BEBDA0'
-	>
-		<Ribbon
-			href='https://github.com/quarterto/almanac/wiki/Almanac-is-in-beta'
-			target='_blank'
+	return (
+		<SplashWithForm
+			large
+			url='/images/splash.jpg'
+			url2x='/images/splash@2x.jpg'
+			color='#BEBDA0'
 		>
-			Beta
-		</Ribbon>
-		<SplashLogo />
-		<Hero>
-			<HeroTitle>The sandbox RPG app.</HeroTitle>
+			<Ribbon
+				href='https://github.com/quarterto/almanac/wiki/Almanac-is-in-beta'
+				target='_blank'
+			>
+				Beta
+			</Ribbon>
+			<SplashLogo />
+			<Hero>
+				<HeroTitle>The sandbox RPG app.</HeroTitle>
 
-			<Split>
-				<SplitBlurb>
-					Everything you need to run a sandbox tabletop RPG & get your players
-					involved in your world.
-				</SplitBlurb>
-				<SplashForm action='/get-started' onSubmit={startCreateFlow}>
-					<H3>Start your campaign</H3>
-					<Input
-						required
-						name='title'
-						size={30}
-						placeholder={generateCampaign()}
-					/>
-					<div>
-						<CallToAction>Get started</CallToAction> or,{' '}
-						<Link href='/login'>log in</Link>.
-					</div>
-				</SplashForm>
-			</Split>
-		</Hero>
-	</SplashWithForm>
-))
+				<Split>
+					<SplitBlurb>
+						Everything you need to run a san dbox tabletop RPG & get your
+						players involved in your world.
+					</SplitBlurb>
+					<SplashForm onSubmit={({ title }) => go('/get-started', { title })}>
+						<H3>Start your campaign</H3>
+						<Input
+							required
+							name='title'
+							size={30}
+							placeholder={generateCampaign()}
+						/>
+						<div>
+							<CallToAction>Get started</CallToAction> or,{' '}
+							<Link href='/login'>log in</Link>.
+						</div>
+					</SplashForm>
+				</Split>
+			</Hero>
+		</SplashWithForm>
+	)
+}
 
 export default Splash

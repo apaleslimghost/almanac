@@ -1,14 +1,12 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { compose, withState, withPropsOnChange } from 'recompact'
 import Portal from 'react-portal'
 import Modal from '../../visual/modal'
-import { withCampaignId } from '../../data/campaign'
 import Ornamented from '../../visual/ornamented'
 import { Cards } from '../../../shared/collections'
-import withComputation from '../../data/with-computation'
+import { useComputation } from '../../data/computation'
 import access from '../../../shared/access'
-import subscribe from '../../utils/subscribe'
+import { useSubscription } from '../../utils/hooks'
 
 const QuestHeader = styled(Ornamented)`
 	font-family: 'Libre Baskerville', serif;
@@ -51,10 +49,35 @@ const Splash = ({ action, quest, objective, animationState }) => (
 	</Modal>
 )
 
-const withQuestChanges = withComputation(
-	({ setSplash, setAnimationState, campaignId }) => {
-		const ready = subscribe('cards.all')
+const quest = new Audio('/sound/quest.mp3')
 
+const QuestSplash = () => {
+	const [splash, setSplash] = useState(null)
+	const [animationState, setAnimationState] = useState('closed')
+	const timer = useRef(null)
+
+	useEffect(() => {
+		clearTimeout(timer.current)
+
+		switch (animationState) {
+			case 'opening':
+				quest.play()
+				timer.current = setTimeout(setAnimationState, 5000, 'closing')
+				break
+
+			case 'closing':
+				timer.current = setTimeout(setAnimationState, 5000, 'closed')
+				break
+
+			case 'closed':
+				setSplash(null)
+				break
+		}
+	}, [animationState])
+
+	const ready = useSubscription('cards.all')
+
+	useComputation(({ setSplash, setAnimationState, campaignId }) => {
 		const notify = (id, action) => {
 			const item = Cards.findOne(id)
 			const quest =
@@ -90,44 +113,13 @@ const withQuestChanges = withComputation(
 
 		initial = false
 		return computation
-	},
-)
+	})
 
-const quest = new Audio('/sound/quest.mp3')
+	return (
+		<Portal isOpened={animationState !== 'closed'}>
+			<Splash {...splash} animationState={animationState} />
+		</Portal>
+	)
+}
 
-const connectQuestSplash = compose(
-	withCampaignId,
-	withState('splash', 'setSplash', null),
-	withState('animationState', 'setAnimationState', 'closed'),
-	withState('timer', 'setTimer', null),
-	withPropsOnChange(
-		['animationState'],
-		({ animationState, setAnimationState, setSplash, timer, setTimer }) => {
-			clearTimeout(timer)
-
-			switch (animationState) {
-				case 'opening':
-					quest.play()
-					setTimer(setTimeout(setAnimationState, 5000, 'closing'))
-					break
-
-				case 'closing':
-					setTimer(setTimeout(setAnimationState, 5000, 'closed'))
-					break
-
-				case 'closed':
-					setSplash(null)
-					break
-			}
-		},
-	),
-	withQuestChanges,
-)
-
-const QuestSplash = ({ animationState, splash }) => (
-	<Portal isOpened={animationState !== 'closed'}>
-		<Splash {...splash} animationState={animationState} />
-	</Portal>
-)
-
-export default connectQuestSplash(QuestSplash)
+export default QuestSplash

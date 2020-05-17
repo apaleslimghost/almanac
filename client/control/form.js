@@ -1,6 +1,11 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { getContext } from 'recompact'
+import React, {
+	useState,
+	createContext,
+	useContext,
+	useEffect,
+	useCallback,
+} from 'react'
+import onlyValidAttributes from '@apaleslimghost/only-valid-attributes'
 
 export const getInputValue = el =>
 	el[
@@ -15,52 +20,64 @@ export const getInputValue = el =>
 
 export const getSelectValue = el => el.options[el.selectedIndex].value
 
-export const FormFieldData = ({ render }, context) =>
-	render(context.fields, context.setFields)
+const Fields = createContext({})
+const SetFields = createContext(() => {})
+
+export const useFormFields = () => useContext(Fields)
+export const useFormSet = () => useContext(SetFields)
 
 const qq = (a, b) => (a === undefined ? b : a)
 
-export const Input = (
-	{ name, fieldRef, tag: Tag = 'input', ...props },
-	context,
-) => (
-	<Tag
-		ref={fieldRef}
-		name={name}
-		type='text'
-		{...props}
-		value={
-			context.fields
-				? qq(name in context.fields ? context.fields[name] : props.value, '')
-				: 'value' in props
-				? props.value
-				: undefined /* Uncontrolled component if there's no context */
-		}
-		onChange={ev => {
-			if (context.setFields) {
-				if (props.type !== 'radio' || ev.target.checked) {
-					context.setFields({
-						[name]: getInputValue(ev.target),
-					})
-				}
-			}
+export const Input = ({
+	name,
+	fieldRef,
+	tag: Tag = 'input',
+	onChange,
+	...props
+}) => {
+	const fields = useFormFields()
+	const setFields = useFormSet()
 
-			if (props.onChange) {
-				props.onChange(ev)
-			}
-		}}
-	/>
-)
-
-export const Select = ({ tag: Tag = 'select', ...props }, context) => {
 	return (
 		<Tag
-			{...props}
+			ref={fieldRef}
+			name={name}
+			type='text'
+			{...onlyValidAttributes(props)}
 			value={
-				context.fields
-					? (props.name in context.fields
-							? context.fields[props.name]
-							: props.value) || ''
+				fields
+					? qq(name in fields ? fields[name] : props.value, '')
+					: 'value' in props
+					? props.value
+					: undefined /* uncontrolled component if there's no */
+			}
+			onChange={ev => {
+				if (setFields) {
+					if (props.type !== 'radio' || ev.target.checked) {
+						setFields({
+							[name]: getInputValue(ev.target),
+						})
+					}
+				}
+
+				if (onChange) {
+					onChange(ev)
+				}
+			}}
+		/>
+	)
+}
+
+export const Select = ({ tag: Tag = 'select', ...props }) => {
+	const fields = useFormFields()
+	const setFields = useFormSet()
+
+	return (
+		<Tag
+			{...onlyValidAttributes(props)}
+			value={
+				fields
+					? (props.name in fields ? fields[props.name] : props.value) || ''
 					: 'value' in props
 					? props.value
 					: undefined
@@ -70,8 +87,8 @@ export const Select = ({ tag: Tag = 'select', ...props }, context) => {
 					props.onChange(ev)
 				}
 
-				if (context.setFields) {
-					context.setFields({
+				if (setFields) {
+					setFields({
 						[props.name]: getSelectValue(ev.target),
 					})
 				}
@@ -82,98 +99,57 @@ export const Select = ({ tag: Tag = 'select', ...props }, context) => {
 	)
 }
 
-export class Form extends Component {
-	state = {
-		fields: this.props.initialData,
-	}
+export const Form = ({
+	initialData = {},
+	name,
+	tag: Tag = 'form',
+	onChange,
+	onSubmit: _onSubmit,
+	onDidSubmit,
+	...props
+}) => {
+	const setContextFields = useFormSet()
+	const [fields, _setFields] = useState(initialData)
 
-	setFields = f => {
-		this.setState(
-			{
-				fields: Object.assign(this.fields, f),
-			},
-			() => {
-				if (this.context.setFields && this.props.name) {
-					this.context.setFields({
-						[this.props.name]: this.fields,
-					})
-				}
-
-				if (this.props.onChange) {
-					this.props.onChange(this.fields)
-				}
-			},
-		)
-	}
-
-	get fields() {
-		return this.state.fields
-	}
-
-	static get childContextTypes() {
-		return {
-			fields: PropTypes.object,
-			setFields: PropTypes.func,
+	useEffect(() => {
+		if (setContextFields && name) {
+			setContextFields({
+				[name]: fields,
+			})
 		}
-	}
 
-	static get defaultProps() {
-		return {
-			initialData: {},
-			tag: 'form',
+		if (onChange) {
+			onChange(fields)
 		}
-	}
+	}, [fields, name, onChange, setContextFields])
 
-	componentDidMount() {
-		this.mounted = true
-	}
+	const setFields = useCallback(
+		childFields => {
+			_setFields(currentFields => ({ ...currentFields, ...childFields }))
+		},
+		[_setFields],
+	)
 
-	componentWillUnount() {
-		this.mounted = false
-	}
-
-	getChildContext() {
-		return {
-			fields: this.fields,
-			setFields: this.setFields,
-		}
-	}
-
-	onSubmit = ev => {
-		// TODO validation
+	async function onSubmit(ev) {
+		// TODO validation?
 		ev.preventDefault()
-		Promise.resolve(this.props.onSubmit(this.fields))
-			.then(() => {
-				if (this.mounted) {
-					this.setState({
-						fields: this.props.initialData,
-					})
-				}
-			})
-			.then(() => {
-				if (this.props.onDidSubmit) {
-					this.props.onDidSubmit(this.fields)
-				}
-			})
+
+		await _onSubmit(fields)
+		_setFields(initialData)
+
+		if (onDidSubmit) {
+			onDidSubmit(fields)
+		}
 	}
 
-	render() {
-		return (
-			<this.props.tag
-				{...(this.props.onSubmit ? { onSubmit: this.onSubmit } : {})}
-			>
-				{this.props.children}
-			</this.props.tag>
-		)
-	}
+	return (
+		<Fields.Provider value={fields}>
+			<SetFields.Provider value={setFields}>
+				<Tag
+					{...onlyValidAttributes(props)}
+					{...(_onSubmit ? { onSubmit } : {})}
+				/>
+			</SetFields.Provider>
+		</Fields.Provider>
+	)
 }
-
-export const fieldLike = {
-	fields: PropTypes.object,
-	setFields: PropTypes.func,
-}
-
-export const withFormData = getContext(fieldLike)
-;[Input, Select, Form, FormFieldData].forEach(thing => {
-	thing.contextTypes = fieldLike
-})

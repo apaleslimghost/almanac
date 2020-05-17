@@ -2,10 +2,10 @@ import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 import React from 'react'
 import { toast } from 'react-toastify'
+import { navigate as go } from 'use-history'
 import { LabelledInput, Button } from '../visual/primitives'
 import { Form } from '../control/form'
 import { Input } from '../visual/form'
-import { go } from '../utils/router'
 
 const resetPassword = token => ({ password }) =>
 	Accounts.resetPassword(token, password, err => {

@@ -1,29 +1,22 @@
-import { withTracker } from 'meteor/react-meteor-data'
 import React from 'react'
-import { compose, renderComponent } from 'recompact'
+import { useSubscription, useCursor } from '../utils/hooks'
+import styled from 'styled-components'
+import { Link } from 'use-history'
 
 import { Campaigns } from '../../shared/collections'
-import Link from '../control/link'
-import subscribe from '../utils/subscribe'
-import loggedIn from '../utils/logged-in'
+import { useUser } from '../utils/logged-in'
 import { SplashBackground, Hero, HeroTitle, HeroBlurb } from '../visual/splash'
 import { MainGrid } from '../visual/grid'
-import withImage from '../data/image'
+import { useImage } from '../data/image'
 import Splash from './splash'
 
-const withCampaignData = withTracker(() => ({
-	ready: subscribe('campaigns.all'),
-	campaigns: Campaigns.find({}).fetch(),
-}))
+const useCampaigns = () => {
+	const ready = useSubscription('campaigns.all')
+	const campaigns = useCursor(Campaigns.find({}), [ready])
+	return { ready, campaigns }
+}
 
-const connectCampaign = compose(
-	loggedIn(renderComponent(Splash)),
-	withCampaignData,
-)
-
-const CampaignTile = withImage(
-	({ campaign }) => campaign.theme,
-)(SplashBackground.withComponent(Link).extend`
+const CampaignTileImage = styled(SplashBackground)`
 	height: 25vmin;
 	border-radius: 3px;
 	text-decoration: none;
@@ -33,23 +26,38 @@ const CampaignTile = withImage(
 	&:hover {
 		filter: contrast(120%) brightness(95%) saturate(110%);
 	}
-`)
+`
 
-export default connectCampaign(({ campaigns }) => (
-	<MainGrid>
-		{campaigns.map(campaign => (
-			<CampaignTile
-				key={campaign._id}
-				campaign={campaign}
-				href={`/${campaign._id}`}
-			>
-				<Hero>
-					<HeroTitle>{campaign.title}</HeroTitle>
-					<HeroBlurb>{campaign.tagline}</HeroBlurb>
-				</Hero>
-			</CampaignTile>
-		))}
+const CampaignTile = ({ campaign, ...props }) => {
+	const { image } = useImage(campaign.theme)
 
-		<Link href='/new-campaign'>Add a campaign</Link>
-	</MainGrid>
-))
+	return <CampaignTileImage {...props} image={image} as={Link} />
+}
+
+export default () => {
+	const user = useUser()
+	const { campaigns } = useCampaigns()
+
+	if (!user) {
+		return <Splash />
+	}
+
+	return (
+		<MainGrid>
+			{campaigns.map(campaign => (
+				<CampaignTile
+					key={campaign._id}
+					campaign={campaign}
+					href={`/${campaign._id}`}
+				>
+					<Hero>
+						<HeroTitle>{campaign.title}</HeroTitle>
+						<HeroBlurb>{campaign.tagline}</HeroBlurb>
+					</Hero>
+				</CampaignTile>
+			))}
+
+			<Link href='/new-campaign'>Add a campaign</Link>
+		</MainGrid>
+	)
+}

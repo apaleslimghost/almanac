@@ -1,7 +1,8 @@
-import styled, { css } from 'styled-components'
-import colours from '@quarterto/colours'
-import Link from '../control/link'
-import { background, colourTransitions } from './primitives'
+import React from 'react'
+import styled from 'styled-components'
+import { Link } from 'use-history'
+import { colourTransitions, BackgroundButton } from './primitives'
+import composeStyles from '@quarterto/styled-compose'
 
 export const Toolbar = styled.nav`
 	display: flex;
@@ -21,7 +22,9 @@ export const MenuItem = styled.div`
 	}
 `
 
-const InteractiveMenuItem = MenuItem.extend`
+const InteractiveMenuItem = styled(MenuItem)`
+	${colourTransitions}
+
 	&:hover {
 		background: rgba(0, 0, 0, 0.05);
 	}
@@ -31,27 +34,8 @@ const InteractiveMenuItem = MenuItem.extend`
 	}
 `
 
-export const MenuLink = InteractiveMenuItem.withComponent(Link)
-export const MenuButton = InteractiveMenuItem.withComponent('button').extend`
-	background: none;
-	border: none;
-	font: inherit;
-	cursor: pointer;
-	${colourTransitions}
-
-	${({ colour, shade = 2, primary }) =>
-		colour &&
-		(primary
-			? background({ colour, shade })
-			: css`
-					color: ${colours[colour][shade]};
-			  `)}
-
-	&:hover {
-		${({ colour, shade = 2, primary }) =>
-			primary && background({ colour, shade: Math.min(6, shade + 1) })}
-	}
-`
+export const MenuLink = props => <InteractiveMenuItem as={Link} {...props} />
+export const MenuButton = composeStyles(BackgroundButton, InteractiveMenuItem)
 
 export const Divider = styled.div`
 	padding: 0.5em 0;
@@ -81,7 +65,7 @@ export const Center = styled.div`
 	margin: 0 auto;
 `
 
-export const SplashToolbar = Toolbar.extend`
+export const SplashToolbar = styled(Toolbar)`
 	margin-top: -1rem;
 	grid-column: bleed;
 `

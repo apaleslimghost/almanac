@@ -1,37 +1,14 @@
 import React from 'react'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useSubscription, useCursor } from '../utils/hooks'
 import relativeDate from 'tiny-relative-date'
-import { compose } from 'recompact'
-
+import { Link } from 'use-history'
 import styled from 'styled-components'
+
 import Icon from '../visual/icon'
 import { Owner } from '../document/user'
 import { CardHistory } from '../../shared/collections'
-import subscribe from '../utils/subscribe'
 import match from '../utils/match'
-import Link from '../control/link'
-import { withCampaignId } from '../data/campaign'
-
-const withHistory = withTracker(({ campaignId }) => ({
-	ready: subscribe('cards.history'),
-	history: CardHistory.find(
-		{ campaignId },
-		{ sort: [['date', 'desc']] },
-	).fetch(),
-}))
-
-const connectHistory = compose(
-	withCampaignId,
-	withHistory,
-)
-
-const withCardHistory = withTracker(({ card }) => ({
-	ready: subscribe('cards.history'),
-	history: CardHistory.find(
-		{ 'data._id': card._id },
-		{ sort: [['date', 'desc']] },
-	).fetch(),
-}))
+import { useCampaignId } from '../data/campaign'
 
 const getHistoryIcon = match({
 	add: 'file-text-o',
@@ -69,6 +46,16 @@ const ChangeData = data => (
 	</>
 )
 
+const useHistory = (query, deps) => {
+	const ready = useSubscription('cards.history')
+	const history = useCursor(
+		CardHistory.find(query, { sort: [['date', 'desc']] }),
+		[ready, ...deps],
+	)
+
+	return { ready, history }
+}
+
 const HistoryList = ({ history, ...props }) => (
 	<IconList {...props}>
 		{history.map(change => (
@@ -97,5 +84,15 @@ const HistoryList = ({ history, ...props }) => (
 	</IconList>
 )
 
-export default connectHistory(HistoryList)
-export const CardHistoryList = withCardHistory(HistoryList)
+export default props => {
+	const campaignId = useCampaignId()
+	const { history } = useHistory({ campaignId }, [campaignId])
+
+	return <HistoryList history={history} {...props} />
+}
+
+export const CardHistoryList = ({ card, ...props }) => {
+	const { history } = useHistory({ 'data._id': card._id }, [card._id])
+
+	return <HistoryList history={history} {...props} />
+}

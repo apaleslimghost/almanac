@@ -1,29 +1,22 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
-import { Forbidden } from 'http-errors'
-import { compose, withProps } from 'recompact'
-import subscribe from '../utils/subscribe'
+import { useSubscription, useFindOne, useTracker } from '../utils/hooks'
 
-export const withOwnerData = key =>
-	withTracker(props => ({
-		ready: subscribe('users.all'),
-		user: props[key] ? Meteor.users.findOne(props[key].owner) : null,
-	}))
+export const useOwner = item => {
+	const ready = useSubscription('users.all')
+	const owner = useFindOne(Meteor.users, item && item.owner, [ready, item])
+	return { ready, owner }
+}
 
-export const iAmOwner = key =>
-	compose(
-		withOwnerData(key),
-		withTracker(props => ({
-			isOwner: props.user ? Meteor.userId() === props.user._id : false,
-		})),
-	)
+export const useAmOwner = item => {
+	const me = useTracker(() => Meteor.userId())
+	const { ready, owner } = useOwner(item)
 
-export const assertAmOwner = key =>
-	compose(
-		iAmOwner(key),
-		withProps(({ ready, isOwner }) => {
-			if (ready && isOwner === false) {
-				throw new Forbidden(`You're not allowed to do that`)
-			}
-		}),
-	)
+	return { ready, amOwner: owner && owner._id === me }
+}
+
+export const useAssertAmOwner = item => {
+	const { ready, amOwner } = useAmOwner(item)
+	if (item && ready && !amOwner) {
+		throw new Error(`You're not allowed to do that`)
+	}
+}

@@ -1,8 +1,7 @@
-import { withTracker } from 'meteor/react-meteor-data'
-import subscribe from '../utils/subscribe'
+import { useSubscription } from '../utils/hooks'
 import { UnsplashPhotos } from '../../shared/collections'
 
-const getImageSubscription = image => {
+const getImageSubscription = (image = { from: 'nowhere' }) => {
 	switch (image.from) {
 		case undefined:
 			// backwards compatibility for implicit unsplash images
@@ -10,24 +9,16 @@ const getImageSubscription = image => {
 
 		case 'unsplash':
 			return {
-				ready: subscribe(['unsplash.getPhoto', image.id]),
 				image: UnsplashPhotos.findOne(image.id),
+				subscription: ['unsplash.getPhoto', image.id],
 			}
 	}
 
-	return {}
+	return { image: null, subscription: [false, null] }
 }
 
-export default getImageId =>
-	withTracker({
-		pure: false,
-		getMeteorData(props) {
-			const image = getImageId(props)
-
-			if (image) {
-				return getImageSubscription(image)
-			}
-
-			return {}
-		},
-	})
+export const useImage = imageQuery => {
+	const { subscription, image } = getImageSubscription(imageQuery)
+	const ready = useSubscription(...subscription)
+	return { ready, image }
+}

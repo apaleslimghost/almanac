@@ -1,26 +1,26 @@
-import { withTracker } from 'meteor/react-meteor-data'
+import { useCursor, useFindOne, useSubscription } from '../utils/hooks'
 import { Cards } from '../../shared/collections'
-import subscribe from '../utils/subscribe'
+import { useCampaignId } from './campaign'
 
-const find = (collection, query, single, options) =>
-	single ? collection.findOne(query) : collection.find(query, options).fetch()
+export const useCards = (query, { deps = [], ...options } = {}) => {
+	const campaignId = useCampaignId()
+	const ready = useSubscription('cards.all')
+	const cards = useCursor(Cards.find({ campaignId, ...query }, options), [
+		ready,
+		...deps,
+	])
+	return { ready, cards }
+}
 
-const withCards = (key, query = {}, { single = false, ...options } = {}) =>
-	withTracker(({ campaignId, ...props }) => ({
-		ready: subscribe('cards.all'),
-		[key]: find(
-			Cards,
-			Object.assign(
-				{ campaignId },
-				typeof query === 'function' ? query(props) : query,
-			),
-			single,
-			options,
-		),
-	}))
+export const useCard = (_id, deps = []) => {
+	const campaignId = useCampaignId()
+	const ready = useSubscription('cards.all')
+	const card = useFindOne(Cards, { campaignId, _id }, [
+		_id,
+		campaignId,
+		ready,
+		...deps,
+	])
 
-export const withCard = withCards('card', ({ cardId }) => ({ _id: cardId }), {
-	single: true,
-})
-
-export default withCards
+	return { ready, card }
+}

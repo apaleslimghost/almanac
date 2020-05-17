@@ -1,9 +1,7 @@
-import React from 'react'
-import { withTracker } from 'meteor/react-meteor-data'
-import { compose, withHandlers } from 'recompact'
+import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
 
-import { withCampaignData } from '../data/campaign'
+import { useCampaign } from '../data/campaign'
 import { CampaignSplash } from '../visual/splash'
 import Title from '../utils/title'
 import CardList from '../collection/card-list'
@@ -13,45 +11,36 @@ import Search from '../collection/card-search'
 import HistoryList from '../collection/card-history'
 import { Main, Aside } from '../visual/grid'
 import { Card } from '../../shared/methods'
-import { go, state, history } from '../utils/router'
-import { withState } from 'recompact'
-import { withPropsOnChange } from 'recompact'
+import { navigate as go, useCurrentUrl } from 'use-history'
 
-const withSearchState = withState('_search', '_setSearch', '')
-const setSearch = search => go(history.get(), { search })
-const debouncedSetSearch = _.debounce(setSearch, 300)
+export default () => {
+	let { url, state } = useCurrentUrl()
+	state = state || {} // ugh
 
-const withCampaignSearch = withTracker(({ _setSearch }) => ({
-	search: (state.get() || {}).search,
-	setSearch(search) {
+	const debouncedSetSearch = _.debounce(search => go(url, { search }), 300)
+
+	const campaign = useCampaign()
+	const [_search, _setSearch] = useState('')
+
+	function setSearch(search) {
 		_setSearch(search)
 		debouncedSetSearch(search)
-	},
-}))
+	}
 
-const withCreateCardSearchAction = withHandlers({
-	searchAction: ({ search, setSearch, campaign }) => async () => {
+	useEffect(() => {
+		_setSearch(state.search)
+	}, [state.search])
+
+	async function searchAction() {
 		const { _id } = await Card.create({
-			title: search,
+			title: state.search,
 			campaignId: campaign._id,
 		})
 		setSearch('')
 		go(`/${campaign._id}/${_id}`)
-	},
-})
+	}
 
-const connectCampaignPage = compose(
-	withCampaignData,
-	withSearchState,
-	withCampaignSearch,
-	withCreateCardSearchAction,
-	withPropsOnChange('search', ({ search, _setSearch }) => {
-		_setSearch(search)
-	}),
-)
-
-export default connectCampaignPage(
-	({ campaign, search, _search, setSearch, searchAction }) => (
+	return campaign ? (
 		<>
 			<Title>{campaign.title}</Title>
 
@@ -74,11 +63,11 @@ export default connectCampaignPage(
 			</SplashToolbar>
 
 			<Main left>
-				<CardList search={search} />
+				<CardList search={state.search} />
 			</Main>
 			<Aside>
 				<HistoryList />
 			</Aside>
 		</>
-	),
-)
+	) : null
+}

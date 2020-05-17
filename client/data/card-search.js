@@ -1,19 +1,23 @@
-import { withTracker } from 'meteor/react-meteor-data'
-import subscribe from '../utils/subscribe'
+import { useSubscription, useCursor } from '../utils/hooks'
 import { Cards } from '../../shared/collections'
+import { useCampaignId } from './campaign'
 
-const withCardSearch = withTracker(({ search, campaignId }) => ({
-	ready: subscribe(['cards.all', search]),
-	cards: Cards.find(
-		{ campaignId },
-		search
-			? {
-					sort: [['score', 'desc']],
-			  }
-			: {
-					sort: [['title', 'asc']],
-			  },
-	).fetch(),
-}))
+export const useCardSearch = ({ search }) => {
+	const campaignId = useCampaignId()
+	const ready = useSubscription('cards.all', search)
+	const cards = useCursor(
+		Cards.find(
+			{ campaignId },
+			search
+				? {
+						sort: [['score', 'desc']],
+				  }
+				: {
+						sort: [['title', 'asc']],
+				  },
+		),
+		[ready, search, campaignId],
+	)
 
-export default withCardSearch
+	return { ready, cards }
+}

@@ -1,16 +1,10 @@
-import { withTracker } from 'meteor/react-meteor-data'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import {
-	compose,
-	withReducer,
-	withHandlers,
-	withPropsOnChange,
-} from 'recompact'
-import { withCampaignDate } from '../../data/calendar'
 import Ornamented from '../../visual/ornamented'
-import { withCampaignSession } from '../../data/campaign'
 import preventingDefault from '../../utils/preventing-default'
+import { useCampaignSession } from '../../data/campaign'
+import { useCampaignDate } from '../../data/calendar'
+import { useTracker } from '../../utils/hooks'
 
 // For now we just use the first moon in the schema,
 // later we may want to support multiple moons 😱.
@@ -128,24 +122,28 @@ const WeatherCondition = ({ temperature, humidity }) => {
 	return <img src={`/weather/${condition}.png`} alt={condition} />
 }
 
+const useWeather = () => {
+	const campaignSession = useCampaignSession()
+	const CampaignDate = useCampaignDate()
+
+	return useTracker(() => {
+		const date = new CampaignDate(campaignSession.get('date'))
+		return {
+			weather: campaignSession.get('weather') || defaultWeather,
+			date,
+		}
+	})
+}
+
 // TODO: seasons, sunset time
 
-const withWeatherData = withTracker(({ campaignSession, CampaignDate }) => {
-	const date = new CampaignDate(campaignSession.get('date'))
-	return {
-		weather: campaignSession.get('weather') || defaultWeather,
+const Weather = () => {
+	const {
+		weather: { temperature, humidity, windHeading },
 		date,
-	}
-})
+	} = useWeather()
 
-const connectWeather = compose(
-	withCampaignSession,
-	withCampaignDate,
-	withWeatherData,
-)
-
-const Weather = connectWeather(
-	({ weather: { temperature, humidity, windHeading }, date }) => (
+	return (
 		<WeatherWrapper>
 			<WeatherThings>
 				<WeatherThing large>{temperature}°C</WeatherThing>
@@ -163,101 +161,92 @@ const Weather = connectWeather(
 				</WeatherIcon>
 			</Ornamented>
 		</WeatherWrapper>
-	),
-)
+	)
+}
 
 const FixedWidthLabel = styled.label`
 	display: inline-block;
 	width: ${({ size = 3.5 }) => size}em;
 `
 
-const withWeatherState = withReducer(
-	'_weather',
-	'setWeather',
-	Object.assign,
-	({ weather }) => weather,
-)
+const WeatherForm = () => {
+	const { weather } = useWeather()
+	const [_weather, setWeather] = useState(weather)
 
-const weatherFormActions = withHandlers({
-	onSubmit: ({ campaignSession, _weather }) => () => {
+	const campaignSession = useCampaignSession()
+
+	useEffect(() => {
+		setWeather(oldWeather => Object.assign(oldWeather, weather))
+	}, [weather])
+
+	function onSubmit() {
 		campaignSession.set('weather', _weather)
-	},
-})
+	}
 
-const connectWeatherForm = compose(
-	withCampaignSession,
-	withCampaignDate,
-	withWeatherData,
-	withWeatherState,
-	weatherFormActions,
-	withPropsOnChange(['weather'], ({ weather, setWeather }) => {
-		setWeather(weather)
-	}),
-)
-
-const WeatherForm = connectWeatherForm(({ _weather, setWeather, onSubmit }) => (
-	<form onSubmit={preventingDefault(onSubmit)}>
-		<div>
-			<FixedWidthLabel>{_weather.temperature}°C</FixedWidthLabel>
-			<input
-				type='range'
-				min={-20}
-				max={60}
-				placeholder='temperature'
-				value={_weather.temperature}
-				onChange={ev => setWeather({ temperature: ev.target.valueAsNumber })}
-			/>
-		</div>
-		<div>
-			<FixedWidthLabel>{_weather.humidity}%</FixedWidthLabel>
-			<input
-				type='range'
-				min={0}
-				max={100}
-				step={5}
-				placeholder='humidity'
-				value={_weather.humidity}
-				onChange={ev => setWeather({ humidity: ev.target.valueAsNumber })}
-			/>
-		</div>
-		<div>
-			<FixedWidthLabel>
-				<WindDirection heading={_weather.windHeading} />
-			</FixedWidthLabel>
-			<input
-				type='range'
-				min={0}
-				max={359}
-				step={5}
-				placeholder='windHeading'
-				value={_weather.windHeading}
-				onChange={ev => setWeather({ windHeading: ev.target.valueAsNumber })}
-			/>
-		</div>
-		<div>
-			<FixedWidthLabel>
-				{_weather.windSpeed}
-				<small>KN</small>
-			</FixedWidthLabel>
-			<input
-				type='range'
-				min={0}
-				max={120}
-				step={5}
-				placeholder='windSpeed'
-				value={_weather.windSpeed}
-				onChange={ev => setWeather({ windSpeed: ev.target.valueAsNumber })}
-			/>
-		</div>
-		<button type='submit'>Set</button>
-	</form>
-))
+	return (
+		<form onSubmit={preventingDefault(onSubmit)}>
+			<div>
+				<FixedWidthLabel>{_weather.temperature}°C</FixedWidthLabel>
+				<input
+					type='range'
+					min={-20}
+					max={60}
+					placeholder='temperature'
+					value={_weather.temperature}
+					onChange={ev => setWeather({ temperature: ev.target.valueAsNumber })}
+				/>
+			</div>
+			<div>
+				<FixedWidthLabel>{_weather.humidity}%</FixedWidthLabel>
+				<input
+					type='range'
+					min={0}
+					max={100}
+					step={5}
+					placeholder='humidity'
+					value={_weather.humidity}
+					onChange={ev => setWeather({ humidity: ev.target.valueAsNumber })}
+				/>
+			</div>
+			<div>
+				<FixedWidthLabel>
+					<WindDirection heading={_weather.windHeading} />
+				</FixedWidthLabel>
+				<input
+					type='range'
+					min={0}
+					max={359}
+					step={5}
+					placeholder='windHeading'
+					value={_weather.windHeading}
+					onChange={ev => setWeather({ windHeading: ev.target.valueAsNumber })}
+				/>
+			</div>
+			<div>
+				<FixedWidthLabel>
+					{_weather.windSpeed}
+					<small>KN</small>
+				</FixedWidthLabel>
+				<input
+					type='range'
+					min={0}
+					max={120}
+					step={5}
+					placeholder='windSpeed'
+					value={_weather.windSpeed}
+					onChange={ev => setWeather({ windSpeed: ev.target.valueAsNumber })}
+				/>
+			</div>
+			<button type='submit'>Set</button>
+		</form>
+	)
+}
 
 const WeatherControl = () => (
-	<div>
+	<>
 		<Weather />
 		<WeatherForm />
-	</div>
+	</>
 )
 
 export { WeatherControl as control, Weather as display }

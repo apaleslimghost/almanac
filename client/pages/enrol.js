@@ -1,33 +1,28 @@
 import { Meteor } from 'meteor/meteor'
-import { withTracker } from 'meteor/react-meteor-data'
+import { useTracker } from '../utils/hooks'
 import React from 'react'
-import { compose, withProps, withHandlers } from 'recompact'
-import { Forbidden } from 'http-errors'
 import { toast } from 'react-toastify'
-import { go } from '../utils/router'
-import { withCampaignData } from '../data/campaign'
-import { createAccountAndJoin, addMember } from '../../shared/methods'
+import { navigate as go } from 'use-history'
+import { useCampaignData } from '../data/campaign'
+import { addMember } from '../../shared/methods'
 import { CampaignSplash, HeroSubtitle } from '../visual/splash'
 import Login from './login'
 import { SignupForm } from './get-started'
 
-const checkCampaignSecret = withProps(
-	({ campaign, ready, campaignId, secret }) => {
-		if (campaignId && ready && secret !== campaign.inviteSecret) {
-			throw new Forbidden('Incorrect or expired campaign invite link')
-		}
-	},
-)
+export default ({ campaignId, secret }) => {
+	const { campaign, ready } = useCampaignData()
 
-const connectEnrol = compose(
-	withCampaignData,
-	checkCampaignSecret,
-	withHandlers({
-		addLoggedInUser: ({ campaign, secret }) => user => {
+	if (campaignId && ready && secret !== campaign.inviteSecret) {
+		throw new Error('Incorrect or expired campaign invite link')
+	}
+
+	const enrolling = useTracker(() => {
+		const user = Meteor.user()
+		if (user) {
 			const yours = campaign.owner === user._id
 			const member = campaign.member.includes(user._id)
 
-			// Redirect early so adding oneself to the campaign doesn't rerender
+			// redirect early so adding oneself to the campaign doesn't rerender
 			// this page and cause confusing double messages. it's not like a
 			// location.href, the rest of the function will still run
 			go(`/${campaign._id}`)
@@ -41,34 +36,23 @@ const connectEnrol = compose(
 			} else {
 				toast.success(`Welcome to ${campaign.title}!`)
 
+				// TODO i dunno bro sounds race conditioney
 				addMember(campaign, user, secret)
 			}
-		},
-	}),
-	withTracker(({ addLoggedInUser }) => {
-		const user = Meteor.user()
 
-		if (user) {
-			addLoggedInUser(user)
-			return { enrolling: false }
+			return false
 		}
 
-		return { enrolling: true }
-	}),
-)
+		return true
+	})
 
-export default connectEnrol(({ campaign, enrolling, secret }) =>
-	enrolling ? (
+	return enrolling ? (
 		<>
 			<CampaignSplash small noBlurb>
 				<HeroSubtitle>Sign up or log in to join</HeroSubtitle>
 			</CampaignSplash>
 
-			<SignupForm
-				createAccountMethod={user =>
-					createAccountAndJoin(user, campaign, secret)
-				}
-			/>
+			<SignupForm secret={secret} />
 
 			<Login
 				onLogin={() => {
@@ -78,5 +62,5 @@ export default connectEnrol(({ campaign, enrolling, secret }) =>
 		</>
 	) : (
 		'Redirecting...'
-	),
-)
+	)
+}

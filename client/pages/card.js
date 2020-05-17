@@ -1,15 +1,13 @@
-import { withTracker } from 'meteor/react-meteor-data'
-import React from 'react'
-import { compose } from 'recompact'
+import React, { useState, useRef, useEffect } from 'react'
+import { useTracker } from '../utils/hooks'
 import styled from 'styled-components'
 import Markdown from '../document/markdown'
-import withCards, { withCard } from '../data/card'
-import { withCampaignId } from '../data/campaign'
-import withLoading from '../control/loading'
+import { useCard, useCards } from '../data/card'
+import { useCampaignId } from '../data/campaign'
 import { SplashBleed, Hero, HeroTitle } from '../visual/splash'
 import ShowCard, { CardListItem } from '../document/card'
 import { canEdit as canEditCard } from '../../shared/utils/validators/card'
-import { withUserData } from '../utils/logged-in'
+import { useUser } from '../utils/logged-in'
 import Icon from '../visual/icon'
 import Title from '../utils/title'
 import schema from '../../shared/schema'
@@ -22,41 +20,27 @@ import {
 	Divider,
 	Center,
 } from '../visual/menu'
-import withImage from '../data/image'
+import { useImage } from '../data/image'
 import { CardHistoryList } from '../collection/card-history'
 import Search from '../collection/card-search'
-import withCardSearch from '../data/card-search'
+import { useCardSearch } from '../data/card-search'
 import { addRelated, Card } from '../../shared/methods'
 import _ from 'lodash'
 import { ReactiveVar } from 'meteor/reactive-var'
-import { withHandlers } from 'recompact'
-import { withState } from 'recompact'
-import { lifecycle } from 'recompact'
 import { FlexGrid } from '../visual/grid'
 import { Dropdown } from '../visual/primitives'
 import colours from '@quarterto/colours'
 
-const withRelatedCards = withCards('relatedCards', ({ card }) => ({
-	_id: { $in: (card && card.related) || [] },
-}))
-
-const withCardData = compose(
-	withCampaignId,
-	withCard,
-	withRelatedCards,
-	withUserData,
-	withLoading,
-)
-
-const connectCardSplash = withImage(({ card }) => card.cover)
-
-export const CardSplash = connectCardSplash(({ card, ...props }) => (
-	<SplashBleed small {...props}>
-		<Hero>
-			<HeroTitle>{card.title}</HeroTitle>
-		</Hero>
-	</SplashBleed>
-))
+export const CardSplash = ({ card }) => {
+	const { image, ready } = useImage(card.cover)
+	return (
+		<SplashBleed small image={image} ready={ready}>
+			<Hero>
+				<HeroTitle>{card.title}</HeroTitle>
+			</Hero>
+		</SplashBleed>
+	)
+}
 
 const CardBody = styled.article`
 	grid-column: main-left;
@@ -71,59 +55,8 @@ const SearchWrapper = styled.div`
 	position: relative;
 `
 
-const withSearchState = withState('_search', '_setSearch', '')
 const searchVar = new ReactiveVar('')
 const debouncedSetSearch = _.debounce(searchVar.set.bind(searchVar), 300)
-
-const withCampaignSearch = withTracker(({ _setSearch }) => ({
-	search: searchVar.get(),
-	setSearch(search) {
-		_setSearch(search)
-		debouncedSetSearch(search)
-	},
-	containerRef: React.createRef(),
-}))
-
-const withAddRelatedSearchAction = withHandlers({
-	searchAction: ({ search, setSearch, campaignId, card }) => async () => {
-		const relatedCard = await Card.create({
-			title: search,
-			campaignId,
-		})
-
-		setSearch('')
-		addRelated(card, relatedCard)
-	},
-})
-
-const withDropdownState = withState('showDropdown', 'setShowDropdown', false)
-
-const withOutsideEventHandler = lifecycle({
-	componentDidMount() {
-		document.body.addEventListener(
-			'mousedown',
-			(this.handler = event => {
-				if (!this.props.containerRef.current.contains(event.target)) {
-					this.props.setShowDropdown(false)
-				}
-			}),
-		)
-	},
-
-	componentWillUnmount() {
-		document.body.removeEventListener('mousedown', this.handler)
-	},
-})
-
-const connectSearchContainer = compose(
-	withCampaignId,
-	withSearchState,
-	withCampaignSearch,
-	withCardSearch,
-	withAddRelatedSearchAction,
-	withDropdownState,
-	withOutsideEventHandler,
-)
 
 const CardList = styled.ul`
 	list-style: none;
@@ -135,21 +68,43 @@ const CardList = styled.ul`
 	}
 `
 
-const SearchContainer = connectSearchContainer(
-	({
-		card,
-		cards,
-		search,
-		_search,
-		setSearch,
-		searchAction,
-		ready,
-		showDropdown,
-		setShowDropdown,
-		containerRef,
-		hideCardIds,
-	}) => (
-		<SearchWrapper innerRef={containerRef}>
+const SearchContainer = ({ card, hideCardIds }) => {
+	const campaignId = useCampaignId()
+	const [_search, _setSearch] = useState('')
+	const containerRef = useRef()
+	const search = useTracker(() => searchVar.get())
+	const [showDropdown, setShowDropdown] = useState(false)
+	const { cards, ready } = useCardSearch({ search, campaignId })
+
+	function setSearch(search) {
+		_setSearch(search)
+		debouncedSetSearch(search)
+	}
+
+	async function searchAction() {
+		const relatedCard = await Card.create({
+			title: search,
+			campaignId,
+		})
+
+		setSearch('')
+		addRelated(card, relatedCard)
+	}
+
+	function handleOutsideClick(event) {
+		if (containerRef.current && !containerRef.current.contains(event.target)) {
+			setShowDropdown(false)
+		}
+	}
+
+	useEffect(() => {
+		document.body.addEventListener('mousedown', handleOutsideClick)
+		return () =>
+			document.body.removeEventListener('mousedown', handleOutsideClick)
+	})
+
+	return (
+		<SearchWrapper ref={containerRef}>
 			<Search
 				right
 				placeholder='Add related&hellip;'
@@ -182,73 +137,89 @@ const SearchContainer = connectSearchContainer(
 				</Dropdown>
 			)}
 		</SearchWrapper>
-	),
-)
+	)
+}
 
-export default withCardData(({ card, relatedCards, user }) => (
-	<>
-		<CardSplash card={card} />
-		<Title>{card.title}</Title>
+export default ({ cardId }) => {
+	const { card, ready } = useCard(cardId, [cardId])
+	const { cards: relatedCards } = useCards(
+		{
+			_id: { $in: (card && card.related) || [] },
+		},
+		{ deps: [ready] },
+	)
 
-		<SplashToolbar>
-			<Center>
-				{card.type && (
-					<>
-						<MenuItem>{schema[card.type].name}</MenuItem>
-						<Divider />
-					</>
+	const user = useUser()
+
+	if (!ready) {
+		return 'Loading...'
+	}
+
+	return (
+		<>
+			<CardSplash card={card} />
+			<Title>{card.title}</Title>
+
+			<SplashToolbar>
+				<Center>
+					{card.type && (
+						<>
+							<MenuItem>{schema[card.type].name}</MenuItem>
+							<Divider />
+						</>
+					)}
+
+					{card.type && (
+						<>
+							{_.map(
+								schema[card.type].fields,
+								({ label, format = a => a }, key) => (
+									<MenuItem key={key}>
+										<b>{label} </b>
+										{format(card[key])}
+									</MenuItem>
+								),
+							)}
+							<Divider />
+						</>
+					)}
+
+					<MenuItem>
+						<Owner of={card} />
+					</MenuItem>
+
+					{canEditCard(card, user._id) && (
+						<>
+							<MenuLink href={`/${card.campaignId}/${card._id}/edit`}>
+								<Icon icon='edit' />
+								Edit
+							</MenuLink>
+
+							<Space />
+							<SearchContainer
+								card={card}
+								hideCardIds={new Set(relatedCards.map(card => card._id))}
+							/>
+						</>
+					)}
+				</Center>
+			</SplashToolbar>
+
+			<CardBody>
+				<Markdown source={card.text || ''} />
+			</CardBody>
+
+			<Right>
+				{relatedCards.length > 0 && (
+					<FlexGrid>
+						{relatedCards.map(related => (
+							<ShowCard key={related._id} card={related} />
+						))}
+					</FlexGrid>
 				)}
 
-				{card.type && (
-					<>
-						{_.map(
-							schema[card.type].fields,
-							({ label, format = a => a }, key) => (
-								<MenuItem key={key}>
-									<b>{label} </b>
-									{format(card[key])}
-								</MenuItem>
-							),
-						)}
-						<Divider />
-					</>
-				)}
-
-				<MenuItem>
-					<Owner of={card} />
-				</MenuItem>
-
-				{canEditCard(card, user._id) && (
-					<>
-						<MenuLink href={`/${card.campaignId}/${card._id}/edit`}>
-							<Icon icon='edit' />
-							Edit
-						</MenuLink>
-
-						<Space />
-						<SearchContainer
-							card={card}
-							hideCardIds={new Set(relatedCards.map(card => card._id))}
-						/>
-					</>
-				)}
-			</Center>
-		</SplashToolbar>
-
-		<CardBody>
-			<Markdown source={card.text || ''} />
-		</CardBody>
-
-		<Right>
-			{relatedCards.length > 0 && (
-				<FlexGrid>
-					{relatedCards.map(related => (
-						<ShowCard key={related._id} card={related} />
-					))}
-				</FlexGrid>
-			)}
-
-			<CardHistoryList card={card} />
-		</Right>
-	</>
-))
+				<CardHistoryList card={card} />
+			</Right>
+		</>
+	)
+}

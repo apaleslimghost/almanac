@@ -4,7 +4,7 @@ import accessLevels from '../../shared/access'
 import Icon from '../visual/icon'
 import { LabelledInput as Label } from '../visual/primitives'
 import match from '../utils/match'
-import { Form, FormFieldData, Input, getInputValue } from './form'
+import { Form, Input, getInputValue, useFormFields, useFormSet } from './form'
 
 const getPrivacyIcon = match({
 	[accessLevels.PRIVATE]: 'lock',
@@ -47,7 +47,7 @@ const AccessGrid = styled.div`
 	align-items: center;
 `
 
-const AccessLabel = Label.extend`
+const AccessLabel = styled(Label)`
 	display: block;
 	text-align: right;
 `
@@ -59,39 +59,40 @@ const AccessText = styled.div`
 	}
 `
 
-const AccessForm = ({ access = defaultAccess, ...props }) => (
-	<Form tag='div' initialData={access} name='access' {...props}>
-		<FormFieldData
-			render={({ view, edit }, setFields) => (
-				<AccessGrid>
-					<AccessLabel htmlFor='view'>Visible to</AccessLabel>
-					<div>
-						<AccessSelect
-							name='view'
-							id='view'
-							onChange={ev => {
-								setFields({
-									edit: Math.min(getInputValue(ev.target), edit),
-								})
-							}}
-						/>
-					</div>
-					<AccessText>
-						<PrivacyIcon level={view} />
-						{getPrivacyLabel(view)}
-					</AccessText>
-					<AccessLabel htmlFor='edit'>Editable by</AccessLabel>
-					<div>
-						<AccessSelect name='edit' id='edit' maxLevel={view} />
-					</div>
-					<AccessText>
-						<PrivacyIcon level={edit} />
-						{getPrivacyLabel(edit)}
-					</AccessText>
-				</AccessGrid>
-			)}
-		/>
-	</Form>
-)
+const AccessForm = ({ access = defaultAccess, ...props }) => {
+	const { view, edit } = useFormFields()
+	const setFields = useFormSet()
+
+	return (
+		<Form tag='div' initialData={access} name='access' {...props}>
+			<AccessGrid>
+				<AccessLabel htmlFor='view'>Visible to</AccessLabel>
+				<div>
+					<AccessSelect
+						name='view'
+						id='view'
+						onChange={ev => {
+							setFields({
+								edit: Math.min(getInputValue(ev.target), edit),
+							})
+						}}
+					/>
+				</div>
+				<AccessText>
+					<PrivacyIcon level={view} />
+					{getPrivacyLabel(view)}
+				</AccessText>
+				<AccessLabel htmlFor='edit'>Editable by</AccessLabel>
+				<div>
+					<AccessSelect name='edit' id='edit' maxLevel={view} />
+				</div>
+				<AccessText>
+					<PrivacyIcon level={edit} />
+					{getPrivacyLabel(edit)}
+				</AccessText>
+			</AccessGrid>
+		</Form>
+	)
+}
 
 export default AccessForm
