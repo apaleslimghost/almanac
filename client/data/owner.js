@@ -16,7 +16,7 @@ export const useAmOwner = item => {
 
 export const useAssertAmOwner = item => {
 	const { ready, amOwner } = useAmOwner(item)
-	if (ready && !amOwner) {
+	if (item && ready && !amOwner) {
 		throw new Error(`You're not allowed to do that`)
 	}
 }
