@@ -101,11 +101,16 @@ const Quest = ({ quest, control, first }) => {
 	const campaignId = useCampaignId()
 	const campaignSession = useCampaignSession()
 
-	const objectives = useCards({
-		type: 'objective',
-		_id: { $in: quest.related || [] },
-		'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN },
-	})
+	const { cards: objectives } = useCards(
+		{
+			type: 'objective',
+			_id: { $in: quest.related || [] },
+			'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN },
+		},
+		{
+			deps: [quest.related],
+		},
+	)
 
 	function onDeleteQuest() {
 		if (confirm(`Delete ${quest.title} and all objectives?`)) {
@@ -236,7 +241,7 @@ const Quest = ({ quest, control, first }) => {
 
 const QuestsList = ({ control, ...props }) => {
 	const campaignId = useCampaignId()
-	const quests = useCards(
+	const { ready, cards: quests } = useCards(
 		{
 			type: 'quest',
 			'access.view': { $gte: control ? access.PRIVATE : access.CAMPAIGN },
@@ -271,15 +276,16 @@ const QuestsList = ({ control, ...props }) => {
 					<button type='submit'>➕</button>
 				</form>
 			)}
-			{quests.map((quest, index) => (
-				<Quest
-					key={quest._id}
-					quest={quest}
-					control={control}
-					first={index === 0}
-					{...props}
-				/>
-			))}
+			{ready &&
+				quests.map((quest, index) => (
+					<Quest
+						key={quest._id}
+						quest={quest}
+						control={control}
+						first={index === 0}
+						{...props}
+					/>
+				))}
 			{!control && <QuestSplash />}
 		</div>
 	)
