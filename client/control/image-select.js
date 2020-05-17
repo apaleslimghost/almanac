@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import qs from 'querystring'
 import { useSubscription, useCursor } from '../utils/hooks'
 import styled, { css } from 'styled-components'
+import colours from '@quarterto/colours'
 
 import { UnsplashPhotos } from '../../shared/collections'
 import { FlexGrid } from '../visual/grid'
@@ -28,7 +29,7 @@ const ImgSelect = styled.button.attrs({ type: 'button' })`
 	${({ selected }) =>
 		selected &&
 		css`
-			outline: 5px solid blue;
+			outline: 5px solid ${colours.sky.primary};
 		`};
 `
 
@@ -42,26 +43,50 @@ const getThumb = ({ urls }, { w = 450, h = 150 } = {}) =>
 		h,
 	})
 
-const ImageSelectSection = ({ photos, setImage, fields, name }) => (
-	<FlexGrid small>
-		{photos.map(photo => (
-			<ImgSelect
-				key={photo.id}
-				selected={fields[name] === photo.id}
-				onClick={preventingDefault(() =>
-					setImage({ from: 'unsplash', id: photo.id }),
-				)}
-			>
-				<FlexImg
-					width={450}
-					height={150}
-					src={getThumb(photo)}
-					alt={photo.description}
-				/>
-			</ImgSelect>
-		))}
-	</FlexGrid>
-)
+const useSetImage = name => {
+	const setFields = useFormSet()
+
+	return image => {
+		setFields({
+			[name]: image,
+		})
+
+		if (image) {
+			unsplashDownload(image.id)
+		}
+	}
+}
+
+const ImageSelectSection = ({ photos, name, onSelect }) => {
+	const fields = useFormFields()
+	const setImage = useSetImage(name)
+
+	return (
+		<FlexGrid small>
+			{photos.map(photo => (
+				<ImgSelect
+					key={photo.id}
+					selected={fields[name] && fields[name].id === photo.id}
+					onClick={preventingDefault(() => {
+						const image = { from: 'unsplash', id: photo.id }
+						setImage(image)
+
+						if (onSelect) {
+							onSelect(image)
+						}
+					})}
+				>
+					<FlexImg
+						width={450}
+						height={150}
+						src={getThumb(photo)}
+						alt={photo.description}
+					/>
+				</ImgSelect>
+			))}
+		</FlexGrid>
+	)
+}
 
 const useUnsplashSearch = query => {
 	const ready = useSubscription('unsplash.search', query)
@@ -106,13 +131,11 @@ const CollectionImage = props => {
 }
 
 const ImageSelectTabs = props => {
-	const fields = useFormFields()
-
 	return (
 		<Tabs>
 			{{
-				Suggested: <CollectionImage {...props} fields={fields} />,
-				Search: <SearchImage {...props} fields={fields} />,
+				Suggested: <CollectionImage {...props} />,
+				Search: <SearchImage {...props} />,
 			}}
 		</Tabs>
 	)
@@ -122,17 +145,7 @@ export default ImageSelectTabs
 
 export const ImageSelectModal = ({ name }) => {
 	const fields = useFormFields()
-	const setFields = useFormSet()
-
-	function setImage(image) {
-		setFields({
-			[name]: image,
-		})
-
-		if (image) {
-			unsplashDownload(image.id)
-		}
-	}
+	const setImage = useSetImage(name)
 
 	return (
 		<Modal
@@ -157,13 +170,7 @@ export const ImageSelectModal = ({ name }) => {
 				)
 			}
 			render={({ close }) => (
-				<ImageSelectTabs
-					{...{ fields, name }}
-					setImage={img => {
-						setImage(img)
-						close()
-					}}
-				/>
+				<ImageSelectTabs {...{ fields, name }} onSelect={close} />
 			)}
 		/>
 	)
