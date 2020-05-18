@@ -12,30 +12,6 @@ curl https://install.meteor.com/ | sh
 
 Then `npm install` and `npm start` and you're away on [localhost:3000](http://localhost:3000).
 
-## development
-
-the `meteor` server compiles everything in [`client`](/client), [`shared`](/shared) and [`server`](/server). main client entry point is [`client/pages/main.js`](/client/pages/main.js), which sets up routes.
-
-### structure
-
- - [`client/pages`](/client/pages) for top-level routes
- - [`client/blocks`](/client/blocks) for dashboard components
- - [`client/documents`](/client/documents) for components that represent a single database item
- - [`client/collections`](/client/collections) for components that represent a list of database items
- - [`client/control`](/client/control) for misc form-control-esque components
- - [`client/visual`](/client/visual) for purely visual/presentational components
- - [`client/data`](/client/data) for data-fetching higher-order-components
-
-### dev process
-
- - create a branch referencing an issue (e.g. `search-#19`) and push it immediately
-   - this will mark the issue as In Progress on [Waffle](http://waffle.io/quarterto/almanac)
- - dev dev dev
- - open a Pull Request with `closes #ISSUE` in the title (e.g. `Search (closes #19)`) and request a review
-   - this creates a Review App on Heroku for others to test the change
- - once it's been approved, merge it
-   - commits to `master` automatically deploy to [almanac.wiki](https://almanac.wiki)
-
 ## licence
 
 Almanac

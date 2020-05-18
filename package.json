@@ -2,12 +2,11 @@
 	"name": "almanac",
 	"version": "0.0.0-development",
 	"description": "",
-	"main": "index.js",
 	"scripts": {
 		"prestart": "open-once-listening --timeout 120 http://localhost:3000 &",
 		"start": "meteor",
 		"heroku-postbuild": "heroku-version-infer && package-version-github-release",
-		"test": "eslint client server shared",
+		"test": "eslint client server imports",
 		"storybook": "start-storybook -p 6006",
 		"build-storybook": "build-storybook"
 	},
