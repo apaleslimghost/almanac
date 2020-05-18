@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form } from '../client/control/form'
-import { Input, Textarea, Select } from '../client/visual/form'
+import { Form } from '../imports/ui/control/form'
+import { Input, Textarea, Select } from '../imports/ui/visual/form'
 
 export default {
 	title: 'Form',
