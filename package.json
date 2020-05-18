@@ -2,7 +2,6 @@
 	"name": "almanac",
 	"version": "0.0.0-development",
 	"description": "",
-	"main": "index.js",
 	"scripts": {
 		"prestart": "open-once-listening --timeout 120 http://localhost:3000 &",
 		"start": "meteor",
