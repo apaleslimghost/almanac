@@ -7,7 +7,7 @@
 		"start": "meteor",
 		"heroku-postbuild": "heroku-version-infer && package-version-github-release",
 		"test": "eslint client server imports",
-		"storybook": "start-storybook -p 6006",
+		"storybook": "start-storybook -s ./public -p 6006",
 		"build-storybook": "build-storybook"
 	},
 	"repository": {
@@ -75,6 +75,7 @@
 		"@quarterto/prettier": "^1.1.0",
 		"@storybook/addon-actions": "^5.2.8",
 		"@storybook/addon-console": "^1.2.1",
+		"@storybook/addon-knobs": "^5.3.19",
 		"@storybook/addon-links": "^5.2.8",
 		"@storybook/addons": "^5.2.8",
 		"@storybook/react": "^5.2.8",

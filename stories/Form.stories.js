@@ -31,7 +31,7 @@ export const select = () => (
 
 export const nested = () => (
 	<Form onSubmit={action('form submit')}>
-		<Form name='nest'>
+		<Form name='nest' tag={React.Fragment}>
 			<Input name='test' />
 		</Form>
 	</Form>
