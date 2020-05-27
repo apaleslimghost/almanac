@@ -5,13 +5,6 @@ import styled from 'styled-components'
 import * as headings from '../visual/heading'
 
 export const markdownComponents = {
-	root: ({ children }) => (
-		<>
-			{excerpt
-				? children.find(child => child.type === 'p') || children[0]
-				: children}
-		</>
-	),
 	blockquote: styled.blockquote`
 		border-left: 3px solid rgba(0, 0, 0, 20%);
 		margin: 0;
@@ -31,7 +24,16 @@ export const markdownComponents = {
 export default ({ excerpt, ...props }) => (
 	<Markdown
 		plugins={[[behead, { depth: 1 }]]}
-		renderers={markdownComponents}
+		renderers={{
+			...markdownComponents,
+			root: ({ children }) => (
+				<>
+					{excerpt
+						? children.find(child => child.type === 'p') || children[0]
+						: children}
+				</>
+			),
+		}}
 		{...props}
 	/>
 )

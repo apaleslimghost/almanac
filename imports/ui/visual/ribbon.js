@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { scarlet } from '@quarterto/colours'
+import { scarlet } from '@apaleslimghost/colours'
 
 const bannerWidth = 6
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import colours from '@quarterto/colours'
+import colours from '@apaleslimghost/colours'
 import { H2 } from '../ui/visual/heading'
 import { List } from '../ui/visual/primitives'
 import { readableColor } from 'polished'
