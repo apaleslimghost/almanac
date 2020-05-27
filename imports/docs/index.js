@@ -12,8 +12,9 @@ import * as index from './index.mdx'
 import * as form from './form.mdx'
 import * as logo from './logo.mdx'
 import * as colours from './colours'
+import * as gravatar from './gravatar'
 
-const pages = { index, form, logo, colours }
+const pages = { index, form, logo, colours, gravatar }
 
 for (const page in pages) {
 	pages[page].id = page
