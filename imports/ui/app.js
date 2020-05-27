@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Suspense } from 'react'
 import useRoutes from 'boulevard-react'
 import { Error } from './utils/error'
 import GlobalStyles from './visual/global'
@@ -19,7 +19,7 @@ import Enrol from './pages/enrol'
 import Card from './pages/card'
 import EditCard from './pages/edit-card'
 
-import Docs from '../docs'
+const Docs = React.lazy(() => import('../docs'))
 
 const routes = {
 	'/:campaignId/dashboard'({ campaignId }) {
@@ -149,11 +149,19 @@ const routes = {
 	},
 
 	'/__docs/:page'({ page }) {
-		return <Docs page={page} />
+		return (
+			<Suspense fallback={null}>
+				<Docs page={page} />
+			</Suspense>
+		)
 	},
 
 	'/__docs'() {
-		return <Docs page='index' />
+		return (
+			<Suspense fallback={null}>
+				<Docs page='index' />
+			</Suspense>
+		)
 	},
 
 	'/'() {
