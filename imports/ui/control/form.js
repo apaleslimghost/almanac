@@ -68,6 +68,10 @@ export const Input = ({
 	)
 }
 
+export const Textarea = props => {
+	return <Input tag='textarea' {...props} />
+}
+
 export const Select = ({ tag: Tag = 'select', ...props }) => {
 	const fields = useFormFields()
 	const setFields = useFormSet()
