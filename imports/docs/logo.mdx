@@ -1,12 +1,13 @@
 import Logo from '../ui/visual/logo'
+import Story from './story'
 export const title = 'Logo'
 export const category = 'Basics'
 
 A logo can be small:
 
-<div><Logo /></div>
+<Story>{() => <Logo />}</Story>
 
 A logo can be large:
 
-<div><Logo large /></div>
+<Story>{() => <Logo large />}</Story>
 
