@@ -10,8 +10,10 @@ import { groupBy } from 'lodash'
 
 import * as form from './form.mdx'
 import * as logo from './logo.mdx'
+import * as colours from './colours'
 
-const pages = { form, logo }
+const pages = { form, logo, colours }
+
 for (const page in pages) {
 	pages[page].id = page
 }
