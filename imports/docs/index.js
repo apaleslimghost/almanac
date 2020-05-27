@@ -2,7 +2,11 @@ import React from 'react'
 import { Link } from 'use-history'
 import Title from '../ui/utils/title'
 import Logo from '../ui/visual/logo'
+import { H1 } from '../ui/visual/heading'
 import { FullGrid, Main, Aside } from '../ui/visual/grid'
+import { markdownComponents } from '../ui/document/markdown'
+
+import { MDXProvider } from '@mdx-js/react'
 
 import * as form from './form.mdx'
 import * as logo from './logo.mdx'
@@ -36,8 +40,11 @@ export default ({ page }) => {
 			</Aside>
 
 			<Main right>
-				<h1>{title}</h1>
-				<Page />
+				<H1>{title}</H1>
+
+				<MDXProvider components={markdownComponents}>
+					<Page />
+				</MDXProvider>
 			</Main>
 		</FullGrid>
 	)

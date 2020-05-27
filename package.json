@@ -23,6 +23,7 @@
 		"@apaleslimghost/only-valid-attributes": "^1.2.0",
 		"@apaleslimghost/rpg-awesome-list": "^1.0.0",
 		"@babel/runtime": "^7.4.4",
+		"@mdx-js/react": "^1.6.4",
 		"@mdx-js/tag": "^0.20.3",
 		"@quarterto/campaign-name-generator": "^1.0.0",
 		"@quarterto/colours": "^1.5.0",
