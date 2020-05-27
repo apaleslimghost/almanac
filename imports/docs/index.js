@@ -7,6 +7,7 @@ import { FullGrid, Main, Aside } from '../ui/visual/grid'
 import { markdownComponents } from '../ui/document/markdown'
 import { MDXProvider } from '@mdx-js/react'
 import { groupBy } from 'lodash'
+import Icon from '../ui/visual/icon'
 
 import * as index from './index.mdx'
 import * as form from './form.mdx'
@@ -39,7 +40,7 @@ export default ({ page }) => {
 		throw new Error(`Docs page ${page} not found`)
 	}
 
-	const { default: Page, title } = pages[page]
+	const { default: Page, title, subject } = pages[page]
 	const categories = groupBy(pages, 'category')
 
 	return (
@@ -72,6 +73,15 @@ export default ({ page }) => {
 
 			<Main right>
 				<H1>{title}</H1>
+				{subject && (
+					<a
+						href={`https://github.com/apaleslimghost/almanac/blob/master/${subject}`}
+						target='_blank'
+						rel='noopener'
+					>
+						<Icon icon='external-link' /> {subject}
+					</a>
+				)}
 
 				<MDXProvider components={markdownComponents}>
 					<Page />
