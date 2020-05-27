@@ -3,7 +3,7 @@ import { scarlet } from '@apaleslimghost/colours'
 
 const bannerWidth = 6
 
-export default styled.a`
+const Ribbon = styled.a`
 	display: block;
 	position: absolute;
 	font-size: 0.7em;
@@ -24,3 +24,5 @@ export default styled.a`
 		background: ${scarlet[3]};
 	}
 `
+
+export default Ribbon
