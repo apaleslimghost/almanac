@@ -1,6 +1,5 @@
 import crypto from 'crypto'
 import url from 'url'
-import React from 'react'
 import styled, { css } from 'styled-components'
 
 const Gravatar = styled.img.attrs(({ email }) => ({
