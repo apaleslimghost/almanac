@@ -19,6 +19,8 @@ import Enrol from './pages/enrol'
 import Card from './pages/card'
 import EditCard from './pages/edit-card'
 
+import Docs from '../docs'
+
 const routes = {
 	'/:campaignId/dashboard'({ campaignId }) {
 		return (
@@ -144,6 +146,14 @@ const routes = {
 				</button>
 			</Layout>
 		)
+	},
+
+	'/__docs/:page'({ page }) {
+		return <Docs page={page} />
+	},
+
+	'/__docs'() {
+		return <Docs page='index' />
 	},
 
 	'/'() {
