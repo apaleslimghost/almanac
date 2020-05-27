@@ -15,8 +15,18 @@ import * as colours from './colours'
 import * as gravatar from './gravatar'
 import * as heading from './heading'
 import * as ribbon from './ribbon'
+import * as shortcut from './shortcut'
 
-const pages = { index, form, logo, colours, gravatar, heading, ribbon }
+const pages = {
+	index,
+	form,
+	logo,
+	colours,
+	gravatar,
+	heading,
+	ribbon,
+	shortcut,
+}
 
 for (const page in pages) {
 	pages[page].id = page
