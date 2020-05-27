@@ -8,11 +8,12 @@ import { markdownComponents } from '../ui/document/markdown'
 import { MDXProvider } from '@mdx-js/react'
 import { groupBy } from 'lodash'
 
+import * as index from './index.mdx'
 import * as form from './form.mdx'
 import * as logo from './logo.mdx'
 import * as colours from './colours'
 
-const pages = { form, logo, colours }
+const pages = { index, form, logo, colours }
 
 for (const page in pages) {
 	pages[page].id = page
@@ -43,7 +44,11 @@ export default ({ page }) => {
 							<ul>
 								{categories[category].map(page => (
 									<li key={page.id}>
-										<Link href={`/__docs/${page.id}`}>{page.title}</Link>
+										<Link
+											href={`/__docs/${page.id === 'index' ? '' : page.id}`}
+										>
+											{page.title}
+										</Link>
 									</li>
 								))}
 							</ul>
