@@ -1,0 +1,27 @@
+# todo for rails
+
+- [ ] users
+- [ ] campaigns
+	- [ ] images
+	- [ ] owner & members
+	- [ ] invites
+- [ ] cards
+    - [ ] types polymorphism
+	  - https://github.com/chaadow/active_record-acts_as
+	- [ ] markdown
+	- [ ] links
+	- [ ] images
+	- [ ] history
+      - https://github.com/paper-trail-gem/paper_trail
+	- [ ] visibility
+- [ ] dashboard
+    - [ ] collecting card types into widgets
+	- [ ] map
+		- PostGIS
+		- https://github.com/rgeo/activerecord-postgis-adapter
+		- Area card type with a polygon, selecting it shows cards it contains
+		- Selecting card with point shows any areas that contain it
+	- [ ] selecting currently active card
+	- [ ] search
+	- [ ] quick add
+	- [ ] sort by links
