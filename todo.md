@@ -6,7 +6,7 @@
 	- [ ] images
 	- [ ] owner & members
 	- [ ] invites
-- [ ] cards
+- [x] cards
     - [ ] types polymorphism
 		- https://github.com/chaadow/active_record-acts_as
 	- [ ] markdown
@@ -28,4 +28,10 @@
 	- [ ] quick add
 	- [ ] sort by links
 	- [ ] quest splash
-- [ ] slugs for everything
+- [x] slugs for everything
+- [ ] design
+  	- [ ] (google) fonts
+	- [ ] cards
+	- [ ] navigation
+	- [ ] grid
+	- [ ] banner
