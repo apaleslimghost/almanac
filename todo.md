@@ -35,3 +35,6 @@
 	- [ ] navigation
 	- [ ] grid
 	- [ ] banner
+- [ ] client
+  	- [ ] turbolinks
+- [ ] importer for legacy almanac data

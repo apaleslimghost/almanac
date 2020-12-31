@@ -1,4 +1,5 @@
 class Card < ApplicationRecord
+  actable
   has_unique_slug
   belongs_to :campaign
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_31_165428) do
+ActiveRecord::Schema.define(version: 2020_12_31_173353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,14 @@ ActiveRecord::Schema.define(version: 2020_12_31_165428) do
     t.bigint "campaign_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "actable_type"
+    t.bigint "actable_id"
+    t.index ["actable_type", "actable_id"], name: "index_cards_on_actable"
     t.index ["campaign_id"], name: "index_cards_on_campaign_id"
+  end
+
+  create_table "quests", force: :cascade do |t|
+    t.boolean "completed"
   end
 
   create_table "users", force: :cascade do |t|
