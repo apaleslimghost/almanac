@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @campaign.name %>
+</p>
+
+<p>
+  <strong>Tagline:</strong>
+  <%= @campaign.tagline %>
+</p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= @campaign.owner_id %>
+</p>
+
+<%= link_to 'Edit', edit_campaign_path(@campaign) %> |
+<%= link_to 'Back', campaigns_path %>
