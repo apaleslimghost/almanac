@@ -1,19 +1,20 @@
 # todo for rails
 
-- [ ] users
+- [x] users
   	- [ ] password reset/claiming migrated user
-- [ ] campaigns
+- [x] campaigns
 	- [ ] images
 	- [ ] owner & members
 	- [ ] invites
 - [ ] cards
     - [ ] types polymorphism
-	  - https://github.com/chaadow/active_record-acts_as
+		- https://github.com/chaadow/active_record-acts_as
 	- [ ] markdown
 	- [ ] links
+		- https://github.com/opf/typed_dag
 	- [ ] images
 	- [ ] history
-      - https://github.com/paper-trail-gem/paper_trail
+		- https://github.com/paper-trail-gem/paper_trail
 	- [ ] visibility
 - [ ] dashboard
     - [ ] collecting card types into widgets
