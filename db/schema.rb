@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_31_155733) do
+ActiveRecord::Schema.define(version: 2020_12_31_165428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,16 @@ ActiveRecord::Schema.define(version: 2020_12_31_155733) do
     t.index ["owner_id"], name: "index_campaigns_on_owner_id"
   end
 
+  create_table "cards", force: :cascade do |t|
+    t.string "title"
+    t.string "slug"
+    t.text "body"
+    t.bigint "campaign_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["campaign_id"], name: "index_cards_on_campaign_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -34,4 +44,5 @@ ActiveRecord::Schema.define(version: 2020_12_31_155733) do
   end
 
   add_foreign_key "campaigns", "users", column: "owner_id"
+  add_foreign_key "cards", "campaigns"
 end
