@@ -1,6 +1,7 @@
 # todo for rails
 
 - [ ] users
+  	- [ ] password reset/claiming migrated user
 - [ ] campaigns
 	- [ ] images
 	- [ ] owner & members
@@ -25,3 +26,5 @@
 	- [ ] search
 	- [ ] quick add
 	- [ ] sort by links
+	- [ ] quest splash
+- [ ] slugs for everything
