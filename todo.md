@@ -7,9 +7,9 @@
 	- [ ] owner & members
 	- [ ] invites
 - [x] cards
-    - [ ] types polymorphism
+    - [x] types polymorphism
 		- https://github.com/chaadow/active_record-acts_as
-	- [ ] markdown
+	- [x] markdown
 	- [ ] links
 		- https://github.com/opf/typed_dag
 	- [ ] images
