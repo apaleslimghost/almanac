@@ -17,6 +17,7 @@ gem 'bcrypt', '~> 3.1.7'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'dotenv-rails', '~> 2.7'
 end
 
 group :development do
@@ -26,8 +27,10 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
-gem "has_unique_slug", "~> 0.1.8"
+gem 'has_unique_slug', '~> 0.1.8'
 
-gem "commonmarker", "~> 0.21.0"
+gem 'commonmarker', '~> 0.21.0'
 
-gem "active_record-acts_as", "~> 5.0"
+gem 'active_record-acts_as', '~> 5.0'
+
+gem 'unsplash', '~> 2.1'

@@ -40,6 +40,22 @@ ActiveRecord::Schema.define(version: 2021_01_01_172427) do
     t.index ["campaign_id"], name: "index_cards_on_campaign_id"
   end
 
+  create_table "images", force: :cascade do |t|
+    t.string "actable_type"
+    t.bigint "actable_id"
+    t.string "imageable_type"
+    t.bigint "imageable_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["actable_type", "actable_id"], name: "index_images_on_actable"
+    t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable"
+  end
+
+  create_table "unsplash_images", force: :cascade do |t|
+    t.string "unsplash_id"
+    t.jsonb "data"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
