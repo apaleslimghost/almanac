@@ -1,0 +1,23 @@
+@import 'header';
+
+$font-body: 'Source Sans Pro', sans-serif;
+$font-heading: 'Libre Baskerville', serif;
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: $font-body;
+	margin: 0;
+	background: #f9f1ea;
+}
+
+h1, h2, h3 {
+	font-family: $font-heading;
+	font-weight: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+}

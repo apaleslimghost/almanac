@@ -1,3 +1,11 @@
+<% content_for :title, @campaign.name %>
+
+<% content_for :nav do %>
+    <%= link_to @campaign do %>
+        <h3><%= @campaign.name %></h3>
+    <% end %>
+<% end %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
