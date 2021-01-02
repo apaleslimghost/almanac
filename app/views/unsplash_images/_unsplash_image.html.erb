@@ -1,1 +1,16 @@
-<%= tag :img, src: unsplash_image.photo.urls.small, alt: unsplash_image.photo.description %>
+<div
+	class="image"
+	data-controller="lazy-image"
+	data-lazy-image-blurhash-value="<%= unsplash_image.photo.blur_hash %>"
+	data-lazy-image-src-value="<%= unsplash_image.photo.urls.small %>"
+	style="--image-width: 300px; --image-height: 200px; --image-color: <%= unsplash_image.photo.color %>"
+>
+	<canvas width="32" height="32" data-lazy-image-target="canvas"></canvas>
+	<%= tag.img(
+		alt: unsplash_image.photo.description,
+		data: {
+			lazy_image_target: 'image',
+			action: 'load->lazy-image#showImage:once'
+		}
+	) %>
+</div>

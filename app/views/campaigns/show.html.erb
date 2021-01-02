@@ -13,7 +13,7 @@
     <%= @campaign.name %>
 </p>
 
-<%= render @campaign.image.specific %>
+<%= render @campaign.image.specific if @campaign.image %>
 
 <p>
   <strong>Tagline:</strong>
