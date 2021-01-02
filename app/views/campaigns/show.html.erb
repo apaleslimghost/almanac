@@ -9,9 +9,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
-  <%= @campaign.name %>
+    <strong>Name:</strong>
+    <%= @campaign.name %>
 </p>
+
+<%= tag :img, src: @campaign.image.specific.photo.urls.small, alt: @campaign.image.specific.photo.description %>
 
 <p>
   <strong>Tagline:</strong>

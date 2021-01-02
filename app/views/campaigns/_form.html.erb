@@ -22,8 +22,13 @@
   </div>
 
   <div class="field">
-    <%= form.label :owner_id %>
-    <%= form.text_field :owner_id %>
+      <%= form.fields_for :image, campaign.image ||= Image.new(actable: UnsplashImage.new) do |f| %>
+          <%= f.hidden_field :actable_type %>
+          <%= f.fields_for :actable, campaign.image.actable do |image| %>
+              <%= image.label :unsplash_id %>
+              <%= image.text_field :unsplash_id %>
+          <% end %>
+      <% end %>
   </div>
 
   <div class="actions">

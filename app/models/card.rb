@@ -2,6 +2,7 @@ class Card < ApplicationRecord
   has_unique_slug
   belongs_to :campaign
   has_one :image, as: :imageable
+  accepts_nested_attributes_for :image
 
   before_save do
     self[:data] = data.attributes

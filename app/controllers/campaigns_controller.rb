@@ -20,7 +20,10 @@ class CampaignsController < ApplicationController
 
   # POST /campaigns
   def create
-    @campaign = Campaign.new(campaign_params)
+    campaign_attributes = campaign_params
+    image_attributes = campaign_attributes.delete :image_attributes
+    @campaign = Campaign.new(campaign_attributes)
+    @campaign.image = Image.build(image_attributes)
     @campaign.owner = current_user
 
     if @campaign.save
@@ -60,6 +63,13 @@ class CampaignsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def campaign_params
-    params.require(:campaign).permit(:name, :tagline, :owner_id)
+    params.require(:campaign).permit(
+      :name,
+      :tagline,
+      image_attributes: [
+        :actable_type,
+        actable_attributes: [:unsplash_id]
+      ]
+    )
   end
 end
