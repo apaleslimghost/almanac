@@ -13,7 +13,7 @@
     <%= @campaign.name %>
 </p>
 
-<%= tag :img, src: @campaign.image.specific.photo.urls.small, alt: @campaign.image.specific.photo.description %>
+<%= render @campaign.image.specific %>
 
 <p>
   <strong>Tagline:</strong>
