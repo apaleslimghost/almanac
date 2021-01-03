@@ -28,6 +28,7 @@ export default class LazyImage extends Controller {
 		const imageData = this.ctx.createImageData(32, 32);
 		imageData.data.set(pixels);
 		this.ctx.putImageData(imageData, 0, 0);
+		this.showBlur()
 	}
 
 	loadImage() {
@@ -37,7 +38,12 @@ export default class LazyImage extends Controller {
 		}
 	}
 
+	showBlur() {
+		this.element.classList.add('loading')
+	}
+
 	showImage() {
+		this.element.classList.remove('loading')
 		this.element.classList.add('loaded')
 	}
 
