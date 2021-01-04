@@ -24,6 +24,7 @@ class CardsController < ApplicationController
     @card.campaign = @campaign
 
     if @card.save
+      puts @card
       redirect_to [@campaign, @card], notice: 'Card was successfully created.'
     else
       render :new

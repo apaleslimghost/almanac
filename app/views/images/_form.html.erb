@@ -1,0 +1,7 @@
+<%= form.fields_for :image, image ||= Image.new(actable: UnsplashImage.new) do |f| %>
+	<%= f.hidden_field :actable_type %>
+	<%= f.fields_for :actable, image.actable do |a| %>
+		<%= a.label :unsplash_id %>
+		<%= a.text_field :unsplash_id %>
+	<% end %>
+<% end %>
