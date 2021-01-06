@@ -24,8 +24,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .image {
 	position: relative;
-	height: var(--image-height);
-	width: var(--image-width);
 	background-color: var(--image-color);
 
 	canvas, img {
@@ -72,5 +70,32 @@ h1, h2, h3, h4, h5, h6 {
 
 	&.loaded-instant img {
 		transition-duration: 0.1s;
+	}
+}
+
+.splash {
+	width: 100%;
+	min-height: 20em;
+	height: 40vh;
+	border-bottom: 1px solid #0001;
+}
+
+.splash-content {
+	background: linear-gradient(
+		to bottom,
+		transparent,
+		var(--image-color) 60%
+	);
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 2em;
+	z-index: 2;
+
+	h1 {
+		font-size: 3em;
 	}
 }

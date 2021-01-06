@@ -6,14 +6,15 @@
     <% end %>
 <% end %>
 
-<p id="notice"><%= notice %></p>
+<%= render @campaign.image.specific, image_class: 'splash', size: :regular do %>
+    <div class="splash-content">
+        <h1><%= @campaign.name %></h1>
 
-<p>
-    <strong>Name:</strong>
-    <%= @campaign.name %>
-</p>
-
-<%= render @campaign.image.specific if @campaign.image %>
+        <% unless @campaign.tagline.empty? %>
+            <p><%= @campaign.tagline %></p>
+        <% end %>
+    </div>
+<% end %>
 
 <p>
   <strong>Tagline:</strong>
