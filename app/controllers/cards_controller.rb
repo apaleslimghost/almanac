@@ -20,11 +20,8 @@ class CardsController < ApplicationController
 
   # POST /cards
   def create
-    card_attributes = card_params
-    image_attributes = card_attributes.delete :image_attributes
-    @card = Card.new(card_attributes)
+    @card = Card.new(card_params)
     @card.campaign = @campaign
-    @card.image = Image.build(image_attributes)
 
     if @card.save
       redirect_to [@campaign, @card], notice: 'Card was successfully created.'

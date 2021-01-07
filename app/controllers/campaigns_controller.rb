@@ -20,10 +20,7 @@ class CampaignsController < ApplicationController
 
   # POST /campaigns
   def create
-    campaign_attributes = campaign_params
-    image_attributes = campaign_attributes.delete :image_attributes
-    @campaign = Campaign.new(campaign_attributes)
-    @campaign.image = Image.build(image_attributes)
+    @campaign = Campaign.new(campaign_params)
     @campaign.owner = current_user
 
     if @campaign.save

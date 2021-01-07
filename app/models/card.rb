@@ -2,7 +2,7 @@ class Card < ApplicationRecord
   has_unique_slug
   belongs_to :campaign
   has_one :image, as: :imageable
-  accepts_nested_attributes_for :image
+  accepts_nested_attributes_for :image, reject_if: proc { |attributes| !Image.valid_params? attributes }
 
   before_save do
     self[:data] = data.attributes

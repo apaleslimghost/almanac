@@ -15,4 +15,8 @@ class UnsplashImage < ApplicationRecord
     load_photo
     Unsplash::Photo.new data
   end
+
+  def self.valid_params?(params)
+    params.has_key? :unsplash_id and !params[:unsplash_id].empty?
+  end
 end
