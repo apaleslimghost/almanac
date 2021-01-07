@@ -1,7 +1,8 @@
-@import 'header';
-
 $font-body: 'Source Sans Pro', sans-serif;
 $font-heading: 'Libre Baskerville', serif;
+$colour-outline: #0003;
+
+@import 'header';
 
 * {
 	box-sizing: border-box;
@@ -77,7 +78,7 @@ h1, h2, h3, h4, h5, h6 {
 	width: 100%;
 	min-height: 20em;
 	height: 40vh;
-	border-bottom: 1px solid #0001;
+	border-bottom: 1px solid $colour-outline;
 }
 
 %content {
@@ -118,10 +119,31 @@ h1, h2, h3, h4, h5, h6 {
 	grid-template-rows: masonry;
 }
 
+$card-radius: 0.2em;
+
 .card {
 	padding: 1rem;
-	border: 1px solid #0001;
-	border-radius: 2px;
+	border: 1px solid $colour-outline;
+	border-radius: $card-radius;
 	box-shadow: 0 2px 4px -4px #0007;
+	overflow: hidden;
 	min-height: 6rem;
+
+	header {
+		margin: -1em -1em 1em;
+	}
+
+	.image {
+		width: calc(100% + 2em);
+		height: 6em;
+		border-top-left-radius: $card-radius;
+		border-top-right-radius: $card-radius;
+
+		h3 {
+			position: absolute;
+			z-index: 2;
+			bottom: 0;
+			width: 100%;
+		}
+	}
 }

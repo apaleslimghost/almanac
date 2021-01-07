@@ -1,3 +1,14 @@
 <%= link_to [card.campaign, card], class: "card" do %>
-	<h3><%= card.title %></h3>
+	<% card_header = capture do %>
+		<h3><%= card.title %></h3>
+	<% end %>
+
+	<% if card.image %>
+		<%= render card.image.specific, tag_name: 'header' do %>
+			<%= card_header %>
+		<% end %>
+	<% else %>
+		<header><%= card_header %></header>
+	<% end %>
+
 <% end %>

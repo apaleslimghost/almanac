@@ -20,8 +20,11 @@ class CardsController < ApplicationController
 
   # POST /cards
   def create
-    @card = Card.new(card_params)
+    card_attributes = card_params
+    image_attributes = card_attributes.delete :image_attributes
+    @card = Card.new(card_attributes)
     @card.campaign = @campaign
+    @card.image = Image.build(image_attributes)
 
     if @card.save
       redirect_to [@campaign, @card], notice: 'Card was successfully created.'
@@ -58,6 +61,12 @@ class CardsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def card_params
-    params.require(:card).permit(:title, :slug, :body, :campaign_id, :card_type)
+    params.require(:card).permit(
+      :title, :slug, :body, :campaign_id, :card_type,
+      image_attributes: [
+        :actable_type,
+        { actable_attributes: [:unsplash_id] }
+      ]
+    )
   end
 end

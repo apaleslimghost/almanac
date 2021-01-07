@@ -8,9 +8,9 @@ $header-padding: 0.75em;
 	line-height: $header-height - 2 * $header-padding;
 }
 
-header {
+.toolbar {
 	height: $header-height;
-	border-bottom: 1px solid #0001;
+	border-bottom: 1px solid $colour-outline;
 	display: flex;
 
 	a {
@@ -20,7 +20,7 @@ header {
 	}
 
 	a:hover {
-		background: #0001;
+		background: $colour-outline;
 	}
 
 	.logo {
@@ -43,7 +43,6 @@ header {
 		content: '';
 		margin: ($header-padding / 2) 0;
 		width: 1px;
-		background: #0001;
+		background: $colour-outline;
 	}
 }
-
