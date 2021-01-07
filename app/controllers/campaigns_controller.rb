@@ -35,6 +35,7 @@ class CampaignsController < ApplicationController
 
   # PATCH/PUT /campaigns/1
   def update
+    # TODO: updating associated image
     if @campaign.update(campaign_params)
       redirect_to @campaign, notice: 'Campaign was successfully updated.'
     else
@@ -68,7 +69,7 @@ class CampaignsController < ApplicationController
       :tagline,
       image_attributes: [
         :actable_type,
-        actable_attributes: [:unsplash_id]
+        { actable_attributes: [:unsplash_id] }
       ]
     )
   end

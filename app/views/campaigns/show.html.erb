@@ -16,15 +16,9 @@
     </div>
 <% end %>
 
-<p>
-  <strong>Tagline:</strong>
-  <%= @campaign.tagline %>
-</p>
-
-<p>
-  <strong>Owner:</strong>
-  <%= @campaign.owner_id %>
-</p>
+<div class="grid">
+    <%= render @campaign.cards %>
+</div>
 
 <%= link_to 'Edit', edit_campaign_path(@campaign) %> |
 <%= link_to 'Back', campaigns_path %>

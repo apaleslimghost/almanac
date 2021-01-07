@@ -80,6 +80,11 @@ h1, h2, h3, h4, h5, h6 {
 	border-bottom: 1px solid #0001;
 }
 
+%content {
+	max-width: 70em;
+	margin: 0 auto;
+}
+
 .splash-content {
 	background: linear-gradient(
 		to bottom,
@@ -95,7 +100,28 @@ h1, h2, h3, h4, h5, h6 {
 	padding: 2em;
 	z-index: 2;
 
+	& > * {
+		@extend %content;
+	}
+
 	h1 {
 		font-size: 3em;
 	}
+}
+
+.grid {
+	@extend %content;
+	display: grid;
+	padding: 1em;
+	gap: 1em;
+	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+	grid-template-rows: masonry;
+}
+
+.card {
+	padding: 1rem;
+	border: 1px solid #0001;
+	border-radius: 2px;
+	box-shadow: 0 2px 4px -4px #0007;
+	min-height: 6rem;
 }
