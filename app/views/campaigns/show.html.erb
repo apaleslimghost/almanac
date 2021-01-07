@@ -4,9 +4,11 @@
     <%= link_to @campaign do %>
         <h3><%= @campaign.name %></h3>
     <% end %>
+
+    <%= link_to 'Edit', edit_campaign_path(@campaign) %>
 <% end %>
 
-<%= render @campaign.image.specific, image_class: 'splash', size: :regular do %>
+<%= render 'image_header', image: @campaign.image.specific, image_class: 'splash', size: :regular do %>
     <div class="splash-content">
         <h1><%= @campaign.name %></h1>
 
@@ -19,6 +21,3 @@
 <div class="grid">
     <%= render @campaign.cards %>
 </div>
-
-<%= link_to 'Edit', edit_campaign_path(@campaign) %> |
-<%= link_to 'Back', campaigns_path %>

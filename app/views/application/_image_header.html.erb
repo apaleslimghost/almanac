@@ -1,0 +1,7 @@
+<% if image %>
+	<%= render image.specific, { tag_name: 'header' }.reverse_merge(local_assigns) do %>
+		<%= yield %>
+	<% end %>
+<% else %>
+	<header><%= yield %></header>
+<% end %>
