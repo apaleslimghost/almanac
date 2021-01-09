@@ -72,10 +72,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .splash {
+	position: relative;
 	width: 100%;
-	min-height: 20em;
-	height: 40vh;
+	min-height: 10em;
+	height: 20vh;
 	border-bottom: 1px solid $colour-outline;
+
+	&.image {
+		min-height: 20em;
+		height: 40vh;
+	}
 }
 
 %content {
