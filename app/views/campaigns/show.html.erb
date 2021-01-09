@@ -9,12 +9,14 @@
 <% end %>
 
 <%= render 'image_header', image: @campaign.image, image_class: 'splash', size: :regular do %>
-    <div class="splash-content">
-        <h1><%= @campaign.name %></h1>
+    <div class="splash-wrapper">
+        <div class="splash-content">
+            <h1><%= @campaign.name %></h1>
 
-        <% unless @campaign.tagline.empty? %>
-            <p><%= @campaign.tagline %></p>
-        <% end %>
+            <% unless @campaign.tagline.empty? %>
+                <p><%= @campaign.tagline %></p>
+            <% end %>
+        </div>
     </div>
 <% end %>
 

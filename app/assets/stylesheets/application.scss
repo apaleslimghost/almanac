@@ -87,13 +87,14 @@ h1, h2, h3, h4, h5, h6 {
 %content {
 	max-width: 70em;
 	margin: 0 auto;
+	padding: 1rem;
 }
 
-.splash-content {
+.splash-wrapper {
 	background: linear-gradient(
 		to bottom,
 		transparent,
-		var(--image-color) 60%
+		var(--image-color)
 	);
 	position: absolute;
 	bottom: 0;
@@ -104,22 +105,28 @@ h1, h2, h3, h4, h5, h6 {
 	padding: 2em;
 	z-index: 2;
 
-	& > * {
-		@extend %content;
-	}
+}
+
+.splash-content {
+	@extend %content;
+	text-align: center;
 
 	h1 {
 		font-size: 3em;
+		margin: 0;
 	}
 }
 
 .grid {
 	@extend %content;
 	display: grid;
-	padding: 1em;
 	gap: 1em;
 	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
 	grid-template-rows: masonry;
+}
+
+article {
+	@extend %content;
 }
 
 $card-radius: 0.2em;

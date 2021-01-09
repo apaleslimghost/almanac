@@ -1,24 +1,23 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title, @card.title %>
 
-<p>
-  <strong>Title:</strong>
-  <%= @card.title %>
-</p>
+<% content_for :nav do %>
+    <%= link_to @campaign do %>
+        <h3><%= @campaign.name %></h3>
+    <% end %>
 
-<p>
-  <strong>Slug:</strong>
-  <%= @card.slug %>
-</p>
+    <%= link_to 'Edit', edit_campaign_card_path(@campaign, @card) %>
+<% end %>
 
-<p>
-  <strong>Body:</strong>
-  <%= @card.body %>
-</p>
+<%= render 'image_header', image: @card.image, image_class: 'splash', size: :regular do %>
+    <div class="splash-content">
+        <h1><%= @card.title %></h1>
+    </div>
+<% end %>
 
-<p>
-  <strong>Campaign:</strong>
-  <%= @card.campaign_id %>
-</p>
+<article>
+    <%= @card.html_body %>
+</article>
 
-<%= link_to 'Edit', edit_campaign_card_path(@campaign, @card) %> |
-<%= link_to 'Back', campaign_cards_path(@campaign) %>
+<div class="grid">
+    <%= render @campaign.cards %>
+</div>
