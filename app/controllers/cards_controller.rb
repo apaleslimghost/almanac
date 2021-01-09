@@ -61,8 +61,9 @@ class CardsController < ApplicationController
     params.require(:card).permit(
       :title, :slug, :body, :campaign_id, :card_type,
       image_attributes: [
+        :id,
         :actable_type,
-        { actable_attributes: [:unsplash_id] }
+        { actable_attributes: %i[id unsplash_id] }
       ]
     )
   end
