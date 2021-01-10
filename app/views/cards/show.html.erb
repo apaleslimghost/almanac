@@ -9,8 +9,10 @@
 <% end %>
 
 <%= render 'image_header', image: @card.image, image_class: 'splash', size: :regular do %>
-    <div class="splash-content">
-        <h1><%= @card.title %></h1>
+    <div class="splash-wrapper">
+        <div class="splash-content">
+            <h1><%= @card.title %></h1>
+        </div>
     </div>
 <% end %>
 
@@ -19,5 +21,13 @@
 </article>
 
 <div class="grid">
-    <%= render @campaign.cards %>
+    <%= render @card.links_to %>
+
+    <div class="card">
+        <%= form_with model: [@campaign, @card, Link.new(from: @card)] do |f| %>
+            <%= f.collection_select :to_id, @campaign.cards, :id, :title %>
+            <%= f.select :link, Link._dag_options.types.keys.each_with_index.map { |type, index| [type.capitalize, index + 1] } %>
+            <%= f.submit %>
+        <% end %>
+    </div>
 </div>

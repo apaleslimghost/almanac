@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_01_172427) do
+ActiveRecord::Schema.define(version: 2021_01_09_143518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,17 @@ ActiveRecord::Schema.define(version: 2021_01_01_172427) do
     t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable"
   end
 
+  create_table "links", force: :cascade do |t|
+    t.bigint "from_id", null: false
+    t.bigint "to_id", null: false
+    t.integer "link", default: 0, null: false
+    t.integer "count", default: 0, null: false
+    t.index ["count"], name: "index_links_on_count", where: "(count = 0)"
+    t.index ["from_id", "to_id", "link"], name: "index_on_type_columns", unique: true
+    t.index ["from_id"], name: "index_links_on_from_id"
+    t.index ["to_id"], name: "index_links_on_to_id"
+  end
+
   create_table "unsplash_images", force: :cascade do |t|
     t.string "unsplash_id"
     t.jsonb "data"
@@ -66,4 +77,6 @@ ActiveRecord::Schema.define(version: 2021_01_01_172427) do
 
   add_foreign_key "campaigns", "users", column: "owner_id"
   add_foreign_key "cards", "campaigns"
+  add_foreign_key "links", "cards", column: "from_id"
+  add_foreign_key "links", "cards", column: "to_id"
 end
