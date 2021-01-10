@@ -25,7 +25,8 @@
 
     <div class="card">
         <%= form_with model: [@campaign, @card, Link.new(from: @card)] do |f| %>
-            <%= f.collection_select :to_id, @campaign.cards, :id, :title %>
+            <%= f.hidden_field :from_id %>
+            <%= f.collection_select :to_id, @campaign.cards.to_a.reject { |c| c == @card }, :id, :title %>
             <%= f.select :link, Link._dag_options.types.keys.each_with_index.map { |type, index| [type.capitalize, index + 1] } %>
             <%= f.submit %>
         <% end %>
