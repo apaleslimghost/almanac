@@ -4,4 +4,9 @@
 	<% end %>
 
 	<%= card.html_body %>
+
+	<% if local_assigns.key? :link %>
+		<%= link.link_type.capitalize %>
+		<%= button_to 'Unlink', [card.campaign, card, link], method: :delete %>
+	<% end %>
 <% end %>
