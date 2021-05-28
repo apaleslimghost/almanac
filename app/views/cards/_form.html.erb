@@ -22,11 +22,6 @@
   </div>
 
   <div class="field">
-    <%= form.label :card_type %>
-    <%= form.select :card_type, Card.valid_types %>
-  </div>
-
-  <div class="field">
       <%= render 'images/form', image: card.image, form: form %>
   </div>
 

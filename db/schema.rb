@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_09_143518) do
+ActiveRecord::Schema.define(version: 2021_05_28_191827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 2021_01_09_143518) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "actable_type"
     t.bigint "actable_id"
-    t.jsonb "data"
     t.string "card_type"
     t.index ["actable_type", "actable_id"], name: "index_cards_on_actable"
     t.index ["campaign_id"], name: "index_cards_on_campaign_id"
@@ -60,6 +59,12 @@ ActiveRecord::Schema.define(version: 2021_01_09_143518) do
     t.index ["from_id", "to_id", "link"], name: "index_on_type_columns", unique: true
     t.index ["from_id"], name: "index_links_on_from_id"
     t.index ["to_id"], name: "index_links_on_to_id"
+  end
+
+  create_table "quests", force: :cascade do |t|
+    t.boolean "completed"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "unsplash_images", force: :cascade do |t|
