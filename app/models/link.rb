@@ -3,10 +3,11 @@ class Link < ApplicationRecord
   belongs_to :to
 
   def link_type=(new_type)
-    return unless Link.types.include? new_type
+    type_symbol = new_type.to_sym
+    return unless Link.types.include? type_symbol
 
     Link.types.each do |type|
-      self[type] = type == new_type ? 1 : 0
+      self[type] = type == type_symbol ? 1 : 0
     end
   end
 

@@ -1,6 +1,6 @@
 class LinksController < ApplicationController
   def create
-    @link = Link.find_or_initialize_by(link_params)
+    @link = Link.new(link_params)
     @link.save
     redirect_to [@link.from.campaign, @link.from]
   end
