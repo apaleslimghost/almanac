@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     resources :cards do
       resources :links, only: %i[create destroy]
     end
+
+    resources :quests
   end
 
   resources :users

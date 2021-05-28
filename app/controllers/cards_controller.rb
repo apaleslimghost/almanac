@@ -58,8 +58,15 @@ class CardsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def card_params
+    unless params[:card][:actable_type].start_with?('CardType::')
+      raise ActionController::BadRequest
+    end
+
+    actable_attributes = params[:card][:actable_type].constantize.permitted_attributes
+
     params.require(:card).permit(
-      :title, :slug, :body, :campaign_id, :card_type,
+      :title, :slug, :body, :campaign_id, :actable_type,
+      actable_attributes: %i[id] + actable_attributes,
       image_attributes: [
         :id,
         :actable_type,

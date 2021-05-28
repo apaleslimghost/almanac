@@ -25,6 +25,8 @@
       <%= render 'images/form', image: card.image, form: form %>
   </div>
 
+  <%= yield form %>
+
   <div class="actions">
     <%= form.submit %>
   </div>

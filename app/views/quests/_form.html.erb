@@ -1,0 +1,9 @@
+<%= render 'cards/form', card: card do |form| %>
+	<%= form.hidden_field :actable_type %>
+   <div class="field">
+      <%= form.fields_for :actable, card.actable do |a| %>
+         <%= a.label :completed %>
+         <%= a.check_box :completed %>
+      <% end %>
+   </div>
+<% end %>
