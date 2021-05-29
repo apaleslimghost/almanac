@@ -1,12 +1,1 @@
-<%= link_to [objective.campaign, objective.specific], class: "card" do %>
-	<%= render 'image_header', image: objective.image do %>
-		<h3><%= objective.title %></h3>
-	<% end %>
-
-	<%= objective.html_body %>
-
-	<% if local_assigns.key? :link %>
-		<%= link.link_type.capitalize %>
-		<%= button_to 'Unlink', [objective.campaign, objective, link], method: :delete %>
-	<% end %>
-<% end %>
+<%= render objective.card %>

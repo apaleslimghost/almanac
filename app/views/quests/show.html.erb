@@ -16,15 +16,18 @@
     </div>
 <% end %>
 
-<article>
-    <%= @card.html_body %>
-</article>
-
-<div class="card">
-    <% render 'objectives/list', objectives: @card.objectives %>
-</div>
-
 <div class="grid">
+    <% unless @card.html_body.empty? %>
+        <div class="card">
+            <%= @card.html_body %>
+        </div>
+    <% end %>
+
+    <div class="card">
+        <h3>Objectives</h3>
+        <%= render 'objectives/list', objectives: @card.objectives %>
+    </div>
+
     <%= render @card.links_to_relations %>
 
     <div class="card">

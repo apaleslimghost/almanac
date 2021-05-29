@@ -1,4 +1,3 @@
-<div class="card">
-   <h3><%= quest.title %></h3>
-   <%= render 'objectives/list', objectives: quest.objectives %>
-</div>
+<%= render quest.card do %>
+   <%= render 'objectives/list', objectives: quest.objectives, link: false %>
+<% end %>

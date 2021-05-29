@@ -4,6 +4,7 @@
 	<% end %>
 
 	<%= card.html_body %>
+	<%= yield %>
 
 	<% if local_assigns.key? :link %>
 		<%= link.link_type.capitalize %>
