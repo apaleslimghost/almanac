@@ -21,4 +21,8 @@ class CardType::Controller < ApplicationController
    def card_type
       raise NotImplementedError
    end
+
+   def self.controller_path
+      super.gsub(/^card_type\//, '')
+   end
 end
