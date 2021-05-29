@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Completed:</strong>
+  <%= @card_type_objective.completed %>
+</p>
+
+<p>
+  <strong>Quest:</strong>
+  <%= @card_type_objective.quest_id %>
+</p>
+
+<%= link_to 'Edit', edit_card_type_objective_path(@card_type_objective) %> |
+<%= link_to 'Back', card_type_objectives_path %>

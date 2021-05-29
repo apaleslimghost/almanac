@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_28_191827) do
+ActiveRecord::Schema.define(version: 2021_05_29_114230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,20 @@ ActiveRecord::Schema.define(version: 2021_05_28_191827) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["owner_id"], name: "index_campaigns_on_owner_id"
+  end
+
+  create_table "card_type_objectives", force: :cascade do |t|
+    t.boolean "completed"
+    t.bigint "quest_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["quest_id"], name: "index_card_type_objectives_on_quest_id"
+  end
+
+  create_table "card_type_quests", force: :cascade do |t|
+    t.boolean "completed"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "cards", force: :cascade do |t|
@@ -61,12 +75,6 @@ ActiveRecord::Schema.define(version: 2021_05_28_191827) do
     t.index ["to_id"], name: "index_links_on_to_id"
   end
 
-  create_table "quests", force: :cascade do |t|
-    t.boolean "completed"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "unsplash_images", force: :cascade do |t|
     t.string "unsplash_id"
     t.jsonb "data"
@@ -81,6 +89,7 @@ ActiveRecord::Schema.define(version: 2021_05_28_191827) do
   end
 
   add_foreign_key "campaigns", "users", column: "owner_id"
+  add_foreign_key "card_type_objectives", "card_type_quests", column: "quest_id"
   add_foreign_key "cards", "campaigns"
   add_foreign_key "links", "cards", column: "from_id"
   add_foreign_key "links", "cards", column: "to_id"

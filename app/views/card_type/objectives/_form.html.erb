@@ -1,0 +1,27 @@
+<%= form_with(model: card_type_objective) do |form| %>
+  <% if card_type_objective.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(card_type_objective.errors.count, "error") %> prohibited this card_type_objective from being saved:</h2>
+
+      <ul>
+        <% card_type_objective.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :completed %>
+    <%= form.check_box :completed %>
+  </div>
+
+  <div class="field">
+    <%= form.label :quest_id %>
+    <%= form.text_field :quest_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
