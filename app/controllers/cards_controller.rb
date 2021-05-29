@@ -1,6 +1,6 @@
 class CardsController < ApplicationController
   before_action :set_campaign, only: %i[index new create show edit update destroy]
-  before_action :set_card, only: %i[show edit update destroy]
+  before_action :redirect_type, only: %i[show edit update destroy]
 
   # GET /cards
   def index
@@ -48,8 +48,9 @@ class CardsController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_card
-    @card = Card.find_by_slug(params[:id])
+  def redirect_type
+    card = Card.find_by_slug(params[:id])
+    redirect_to [@campaign, card.specific]
   end
 
   def set_campaign

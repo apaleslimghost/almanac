@@ -9,7 +9,9 @@ Rails.application.routes.draw do
       resources :links, only: %i[create destroy]
     end
 
-    resources :quests
+    scope module: 'card_type' do
+      resources :quests
+    end
   end
 
   resources :users

@@ -1,4 +1,4 @@
-<%= link_to [card.campaign, card], class: "card" do %>
+<%= link_to [card.campaign, card.specific], class: "card" do %>
 	<%= render 'image_header', image: card.image do %>
 		<h3><%= card.title %></h3>
 	<% end %>
