@@ -14,7 +14,13 @@ class Card < ApplicationRecord
     CommonMarker.render_html(body).html_safe
   end
 
-  def self.valid_types
-    CardType.constants.map(&:to_s).map(&:underscore)
+  def self.types
+    CardType.constants
+      .map(&:to_s)
+      .reject { _1.end_with? 'Controller' }
+      .reject { _1.end_with? 'Concern' }
+      .reject { _1.end_with? 'Helper' }
+      .map { 'CardType::' + _1 }
+      .map(&:constantize)
   end
 end

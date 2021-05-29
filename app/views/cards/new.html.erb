@@ -1,5 +1,5 @@
 <h1>New Card</h1>
 
-<%= render 'form', card: @card %>
-
-<%= link_to 'Back', campaign_cards_path(@campaign) %>
+<% @types.each do |type| %>
+   <%= link_to type.model_name.to_s, new_polymorphic_path([@campaign, type.new]) %>
+<% end %>

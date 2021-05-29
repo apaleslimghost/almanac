@@ -3,7 +3,6 @@ module CardType
       extend ActiveSupport::Concern
 
       included do
-         puts self
          acts_as :card
 
          def self.model_name
