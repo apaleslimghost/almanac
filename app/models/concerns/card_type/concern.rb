@@ -13,5 +13,9 @@ module CardType
       def to_param
          card.to_param
       end
+
+      def to_partial_path
+         "#{self.class.model_name.plural}/#{self.class.model_name.singular}"
+      end
    end
 end
