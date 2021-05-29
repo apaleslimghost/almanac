@@ -7,8 +7,8 @@ class CardType::Controller < ApplicationController
       @card.actable = card_type.new
    end
 
-   def show
-   end
+   def show; end
+   def edit; end
 
    def set_card
       @card = Card.find_by_slug(params[:id]).specific

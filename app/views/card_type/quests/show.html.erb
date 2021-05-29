@@ -20,6 +20,10 @@
     <%= @card.html_body %>
 </article>
 
+<div class="card">
+    <% render 'objectives/list', objectives: @card.objectives %>
+</div>
+
 <div class="grid">
     <%= render @card.links_to_relations %>
 

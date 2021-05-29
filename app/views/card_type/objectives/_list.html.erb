@@ -1,0 +1,5 @@
+<ul>
+   <% objectives.each do |objective| %>
+      <li><%= link_to objective.title, [objective.campaign, objective] %></li>
+   <% end %>
+</ul>
