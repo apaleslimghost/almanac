@@ -16,11 +16,7 @@ class Card < ApplicationRecord
 
   def self.types
     CardType.constants
-      .map(&:to_s)
-      .reject { _1.end_with? 'Controller' }
-      .reject { _1.end_with? 'Concern' }
-      .reject { _1.end_with? 'Helper' }
-      .map { 'CardType::' + _1 }
-      .map(&:constantize)
+      .map { ('CardType::' + _1.to_s).constantize }
+      .select { _1 < ApplicationRecord }
   end
 end
