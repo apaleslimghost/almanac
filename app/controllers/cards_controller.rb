@@ -1,5 +1,6 @@
 class CardsController < ApplicationController
   before_action :set_campaign
+  before_action :set_card, only: %i[update destroy]
 
   # GET /cards/new
   def new
@@ -37,6 +38,10 @@ class CardsController < ApplicationController
 
   def set_campaign
     @campaign = Campaign.find_by_slug(params[:campaign_id])
+  end
+
+  def set_card
+    @card = Card.find_by_slug(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
