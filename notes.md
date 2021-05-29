@@ -1,4 +1,0 @@
-- CRUD endpoints on card controller
-- objective views
-- card new view links to card types
-- type specific partials
