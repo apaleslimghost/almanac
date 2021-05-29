@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'links/create'
   get 'links/destroy'
+  get 'unsplash/search'
   get 'home/index'
   root 'home#index'
 
