@@ -1,0 +1,25 @@
+<% content_for :card_nav do %>
+   <%= link_to 'Edit', edit_polymorphic_path([@campaign, @card.specific]) %>
+<% end %>
+
+<% content_for :header do %>
+   <% if @card.parent %>
+      <h2>
+         <%= link_to @card.parent.title, [@card.parent.campaign, @card.parent] %>
+      </h2>
+   <% end %>
+
+   <h1><%= @card.title %></h1>
+<% end %>
+
+<div class="grid">
+    <% unless @card.html_body.empty? %>
+        <div class="paper">
+            <%= @card.html_body %>
+        </div>
+    <% end %>
+
+   <% @card.children.each { concat render _1 } %>
+
+    <%= render @card.links_to_relations.map(&:specific) %>
+</div>
