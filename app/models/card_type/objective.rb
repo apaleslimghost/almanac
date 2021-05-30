@@ -5,4 +5,8 @@ class CardType::Objective < ApplicationRecord
   def self.permitted_attributes
     %i[completed quest_id]
   end
+
+  def self.description
+    "A single part of a quest"
+  end
 end

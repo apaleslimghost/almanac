@@ -5,4 +5,8 @@ class CardType::Quest < ApplicationRecord
    def self.permitted_attributes
       %i[completed]
    end
+
+   def self.description
+    "An overall goal the players are working towards, grouping several objectives together"
+   end
 end
