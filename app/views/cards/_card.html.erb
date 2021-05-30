@@ -1,5 +1,5 @@
 <%= link_to [card.campaign, card.specific], class: "card" do %>
-	<%= render 'image_header', image: card.image do %>
+	<%= render 'image_header', image: card.image, inline_if_no_image: true do %>
 		<h3><%= card.title %></h3>
 	<% end %>
 
