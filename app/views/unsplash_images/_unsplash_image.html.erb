@@ -19,5 +19,5 @@
 			action: 'load->lazy-image#showImage:once'
 		}
 	) %>
-	<%= yield %>
+	<%= yield if block_given? %>
 <% end %>

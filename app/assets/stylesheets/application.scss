@@ -71,6 +71,20 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
+.image-select {
+	input[type="radio"] {
+		display: none;
+	}
+
+	input[type="radio"]:checked + .image {
+		outline: 0.2em solid black;
+	}
+
+	.image {
+		height: 100px;
+	}
+}
+
 .splash {
 	position: relative;
 	width: 100%;
@@ -84,7 +98,7 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-%content {
+.content {
 	max-width: 70em;
 	margin: 0 auto;
 	padding: 1rem;
@@ -108,7 +122,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .splash-content {
-	@extend %content;
+	@extend .content;
 	text-align: center;
 
 	h1 {
@@ -118,15 +132,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .grid {
-	@extend %content;
 	display: grid;
 	gap: 1em;
 	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
 	grid-template-rows: masonry;
-}
-
-article {
-	@extend %content;
 }
 
 $card-radius: 0.2em;
