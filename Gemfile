@@ -40,5 +40,3 @@ gem 'webpacker', '~> 5.2'
 gem 'turbolinks', '~> 5.2'
 
 gem 'typed_dag', '~> 2.0'
-
-gem "color", "~> 1.8"

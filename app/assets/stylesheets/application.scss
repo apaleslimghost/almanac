@@ -109,9 +109,10 @@ h1, h2, h3, h4, h5, h6 {
 	background: linear-gradient(
 		to bottom,
 		transparent,
-		var(--image-color)
+		#262a33
 	);
-	color: var(--text-color);
+
+	color: white;
 	position: absolute;
 	bottom: 0;
 	width: 100%;
@@ -125,11 +126,6 @@ h1, h2, h3, h4, h5, h6 {
 .splash-content {
 	@extend .content;
 	text-align: center;
-
-	> * {
-		-webkit-text-stroke: 0.05em var(--image-color);
-		paint-order: stroke fill;
-	}
 
 	h1 {
 		font-size: 4em;
