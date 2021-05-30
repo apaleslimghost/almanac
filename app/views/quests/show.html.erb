@@ -1,15 +1,5 @@
-<% content_for :title, @card.title %>
-
 <% content_for :nav do %>
-    <%= link_to @campaign do %>
-        <h3><%= @campaign.name %></h3>
-    <% end %>
-
-    <%= link_to 'Edit', edit_campaign_quest_path(@campaign, @card) %>
-<% end %>
-
-<%= render 'image_header', image: @card.image, image_class: 'splash', size: :regular do %>
-    <h1><%= @card.title %></h1>
+   <%= link_to 'Edit', edit_polymorphic_path([@campaign, @card.specific]) %>
 <% end %>
 
 <div class="grid">
@@ -24,7 +14,7 @@
         <%= render 'objectives/list', objectives: @card.objectives %>
     </div>
 
-    <%= render @card.links_to_relations %>
+    <%= render @card.links_to_relations.map(&:specific) %>
 
     <div class="card">
         <%= form_with model: [@campaign, @card.card, Link.new(from: @card)] do |f| %>

@@ -2,6 +2,8 @@ class CampaignsController < ApplicationController
   before_action :set_campaign, only: %i[show edit update destroy]
   before_action :check_access, only: %i[new create show edit update destroy]
 
+  layout "header_and_content"
+
   # GET /campaigns
   def index
     @campaigns = Campaign.all
@@ -13,6 +15,7 @@ class CampaignsController < ApplicationController
   # GET /campaigns/new
   def new
     @campaign = Campaign.new
+    render 'edit'
   end
 
   # GET /campaigns/1/edit
@@ -51,6 +54,7 @@ class CampaignsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_campaign
     @campaign = Campaign.find_by_slug(params[:id])
+    @image = @campaign.image
   end
 
   def check_access

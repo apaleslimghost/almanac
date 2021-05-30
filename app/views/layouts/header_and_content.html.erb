@@ -1,0 +1,13 @@
+<% content_class ||= '' %>
+
+<% content_for :body do %>
+   <%= render 'image_header', image: @image, image_class: 'splash', size: :regular do %>
+      <%= content_for :header %>
+   <% end %>
+
+   <div class="content">
+      <%= yield %>
+   </div>
+<% end %>
+
+<%= render template: 'layouts/application' %>

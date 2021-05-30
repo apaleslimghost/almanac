@@ -1,10 +1,14 @@
 class CardType::Controller < ApplicationController
    before_action :set_card, only: %i[show edit update destroy]
    before_action :set_campaign, only: %i[index new create show edit update destroy]
+   before_action :append_view_paths
+
+   layout "card"
 
    def new
       @card = Card.new
       @card.actable = card_type.new
+      render 'edit'
    end
 
    def show; end
@@ -12,10 +16,15 @@ class CardType::Controller < ApplicationController
 
    def set_card
       @card = Card.find_by_slug(params[:id]).specific
+      @image = @card.image
    end
 
    def set_campaign
       @campaign = Campaign.find_by_slug(params[:campaign_id])
+   end
+
+   def append_view_paths
+      append_view_path "app/views/cards"
    end
 
    def card_type

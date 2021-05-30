@@ -35,6 +35,6 @@
             <% end %>
         </header>
 
-        <%= yield %>
+        <%= content_for?(:body) ? yield(:body) : yield %>
     </body>
 </html>
