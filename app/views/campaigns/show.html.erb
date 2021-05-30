@@ -5,6 +5,7 @@
         <h3><%= @campaign.name %></h3>
     <% end %>
 
+    <%= link_to 'Add…', new_campaign_card_path(@campaign) %>
     <%= link_to 'Edit', edit_campaign_path(@campaign) %>
 <% end %>
 

@@ -2,6 +2,8 @@ class CardsController < ApplicationController
   before_action :set_campaign
   before_action :set_card, only: %i[update destroy]
 
+  layout "header_and_content"
+
   # GET /cards/new
   def new
     @types = Card.types

@@ -8,8 +8,10 @@
    <%= content_for :card_nav %>
 <% end %>
 
-<% content_for :header do %>
-   <h1><%= @card.title || "New #{@card.specific.model_name.human}" %></h1>
+<% unless content_for?(:header) %>
+   <% content_for :header do %>
+      <h1><%= @card.title %></h1>
+   <% end %>
 <% end %>
 
 <%= render template: 'layouts/header_and_content' %>

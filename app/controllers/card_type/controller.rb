@@ -6,8 +6,9 @@ class CardType::Controller < ApplicationController
    layout "card"
 
    def new
-      @card = Card.new
-      @card.actable = card_type.new
+      @card = card_type.new
+      @card.card = Card.new
+      @card.campaign = @campaign
       render 'edit'
    end
 

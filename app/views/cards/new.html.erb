@@ -1,5 +1,19 @@
-<h1>New Card</h1>
-
-<% @types.each do |type| %>
-   <%= link_to type.model_name.to_s, new_polymorphic_path([@campaign, type.new]) %>
+<% content_for :header do %>
+   <h1>Add something...</h1>
 <% end %>
+
+<% content_for :nav do %>
+   <%= link_to @campaign do %>
+      <h3><%= @campaign.name %></h3>
+   <% end %>
+<% end %>
+
+<div class="grid">
+   <% @types.each do |type| %>
+      <%= link_to new_polymorphic_path([@campaign, type.new]), class: :card do %>
+         <header>
+            <h3><%= type.model_name.to_s %></h3>
+         </header>
+      <% end %>
+   <% end %>
+</div>

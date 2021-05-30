@@ -1,4 +1,14 @@
-<%= form_with(model: [@campaign, card]) do |form| %>
+<% content_for :header do %>
+  <%= fields model: card do |fields| %>
+    <h1><%= fields.text_field :title, form: :card_form, class: 'inline-input', placeholder: "New #{card.specific.model_name.human}" %></h1>
+  <% end %>
+<% end %>
+
+<% content_for :card_nav do %>
+  <%= link_to "Back", card.persisted? ? [card.campaign, card.specific] : [:new, card.campaign, :card] %>
+<% end %>
+
+<%= form_with(model: [@campaign, card], id: :card_form) do |form| %>
   <% if card.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(card.errors.count, "error") %> prohibited this card from being saved:</h2>
@@ -10,11 +20,6 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
 
   <div class="field">
     <%= form.label :body %>
