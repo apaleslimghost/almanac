@@ -1,8 +1,10 @@
 <% content_class ||= '' %>
 
 <% content_for :body do %>
-   <%= render 'image_header', image: @image, image_class: 'splash', size: :regular do %>
-      <%= content_for :header %>
+   <% if content_for? :header %>
+      <%= render 'image_header', image: @image, image_class: 'splash', size: :regular do %>
+         <%= content_for :header %>
+      <% end %>
    <% end %>
 
    <div class="content">

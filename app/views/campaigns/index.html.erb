@@ -1,31 +1,17 @@
-<p id="notice"><%= notice %></p>
+<% content_for :nav do %>
+  <%= link_to 'New campaign', new_campaign_path %>
+<% end %>
 
-<h1>Campaigns</h1>
+<div class="grid">
+  <% @campaigns.each do |campaign| %>
+    <%= link_to campaign, class: 'card' do %>
+        <%= render 'image_header', image: campaign.image, inline_if_no_image: true do %>
+          <h3><%= campaign.name %></h3>
+        <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Tagline</th>
-      <th>Owner</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @campaigns.each do |campaign| %>
-      <tr>
-        <td><%= campaign.name %></td>
-        <td><%= campaign.tagline %></td>
-        <td><%= campaign.owner_id %></td>
-        <td><%= link_to 'Show', campaign %></td>
-        <td><%= link_to 'Edit', edit_campaign_path(campaign) %></td>
-        <td><%= link_to 'Destroy', campaign, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+        <% if campaign.tagline %>
+          <p><%= campaign.tagline %></p>
+        <% end %>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Campaign', new_campaign_path %>
+  <% end %>
+</div>
