@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_30_135658) do
+ActiveRecord::Schema.define(version: 2021_05_30_203242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,10 +19,8 @@ ActiveRecord::Schema.define(version: 2021_05_30_135658) do
     t.string "name"
     t.string "tagline"
     t.string "slug"
-    t.bigint "owner_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["owner_id"], name: "index_campaigns_on_owner_id"
   end
 
   create_table "card_type_locations", force: :cascade do |t|
@@ -87,6 +85,16 @@ ActiveRecord::Schema.define(version: 2021_05_30_135658) do
     t.jsonb "data"
   end
 
+  create_table "user_campaigns", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "campaign_id", null: false
+    t.integer "access"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["campaign_id"], name: "index_user_campaigns_on_campaign_id"
+    t.index ["user_id"], name: "index_user_campaigns_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -95,10 +103,11 @@ ActiveRecord::Schema.define(version: 2021_05_30_135658) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "campaigns", "users", column: "owner_id"
   add_foreign_key "card_type_locations", "card_type_locations", column: "parent_id"
   add_foreign_key "card_type_objectives", "card_type_quests", column: "quest_id"
   add_foreign_key "cards", "campaigns"
   add_foreign_key "links", "cards", column: "from_id"
   add_foreign_key "links", "cards", column: "to_id"
+  add_foreign_key "user_campaigns", "campaigns"
+  add_foreign_key "user_campaigns", "users"
 end

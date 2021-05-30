@@ -6,7 +6,7 @@ class CampaignsController < ApplicationController
 
   # GET /campaigns
   def index
-    @campaigns = Campaign.all
+    @campaigns = current_user.campaigns
   end
 
   # GET /campaigns/1
@@ -24,7 +24,10 @@ class CampaignsController < ApplicationController
   # POST /campaigns
   def create
     @campaign = Campaign.new(campaign_params)
-    @campaign.owner = current_user
+    @campaign.user_campaigns << UserCampaign.new(
+      user: current_user,
+      access: :owner
+    )
 
     if @campaign.save
       redirect_to @campaign, notice: 'Campaign was successfully created.'
@@ -58,7 +61,7 @@ class CampaignsController < ApplicationController
   end
 
   def check_access
-    unless current_user && (!@campaign || @campaign.owner == current_user)
+    unless current_user && (!@campaign || @campaign.users.include?(current_user))
       raise ActionController::RoutingError, 'Not Found'
     end
   end

@@ -39,6 +39,7 @@ class CardsController < ApplicationController
   private
 
   def set_campaign
+    # TODO check access to campaign
     @campaign = Campaign.find_by_slug(params[:campaign_id])
   end
 
