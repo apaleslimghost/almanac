@@ -9,7 +9,7 @@
 		lazy_image_blurhash_value: unsplash_image.photo.blur_hash,
 		lazy_image_src_value: unsplash_image.photo.urls[size]
 	},
-	style: "--image-color: #{unsplash_image.photo.color}"
+	style: "--image-color: #{unsplash_image.photo.color}; --text-color: ##{Color::RGB.from_html(unsplash_image.photo.color).get_foreground.hex}"
 } do %>
 	<canvas width="32" height="32" data-lazy-image-target="canvas"></canvas>
 	<%= tag.img(
