@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     scope module: 'card_type' do
       resources :quests
       resources :objectives
+      resources :locations
     end
   end
 

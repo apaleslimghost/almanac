@@ -1,5 +1,4 @@
-<%= render 'cards/form', card: card.card do |form| %>
-	<%= form.hidden_field :actable_type %>
+<%= render 'cards/form', card: card do |form| %>
    <div class="field">
       <%= form.fields_for :actable, card.actable do |a| %>
          <%= a.label :completed %>

@@ -1,30 +1,11 @@
-<% content_for :title, @card.title %>
-
-<% content_for :nav do %>
-    <%= link_to @campaign do %>
-        <h3><%= @campaign.name %></h3>
-    <% end %>
-
-    <%= link_to 'Edit', edit_campaign_card_path(@campaign, @card) %>
+<% content_for :card_nav do %>
+   <%= link_to 'Edit', edit_polymorphic_path([@campaign, @card.specific]) %>
 <% end %>
-
-<%= render 'image_header', image: @card.image, image_class: 'splash', size: :regular do %>
-    <h1><%= @card.title %></h1>
-<% end %>
-
-<article>
-    <%= @card.html_body %>
-</article>
 
 <div class="grid">
-    <%= render @card.links_to_relations %>
-
-    <div class="card">
-        <%= form_with model: [@campaign, @card, Link.new(from: @card)] do |f| %>
-            <%= f.hidden_field :from_id %>
-            <%= f.collection_select :to_id, @campaign.cards.to_a.reject { |c| c == @card }, :id, :title %>
-            <%= f.select :link_type, Link.types.each_with_index.map { |type, index| [type.capitalize, type] } %>
-            <%= f.submit %>
-        <% end %>
-    </div>
+    <% unless @card.html_body.empty? %>
+        <div class="paper">
+            <%= @card.html_body %>
+        </div>
+    <% end %>
 </div>

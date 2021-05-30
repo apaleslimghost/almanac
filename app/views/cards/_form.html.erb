@@ -9,6 +9,11 @@
 <% end %>
 
 <%= form_with(model: [@campaign, card], id: :card_form) do |form| %>
+	<%= form.hidden_field :actable_type %>
+  <%= form.fields_for :actable, card.actable do |a| %>
+    <%= a.hidden_field :id %>
+  <% end %>
+
   <% if card.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(card.errors.count, "error") %> prohibited this card from being saved:</h2>

@@ -14,7 +14,7 @@ class CardsController < ApplicationController
     @card = Card.new(card_params)
     @card.campaign = @campaign
 
-    if @card.save
+    if @card.save!
       redirect_to [@campaign, @card.specific], notice: 'Card was successfully created.'
     else
       render :new
