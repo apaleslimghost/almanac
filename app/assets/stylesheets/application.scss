@@ -163,6 +163,13 @@ $card-radius: 0.2em;
 		border-top-left-radius: $card-radius;
 		border-top-right-radius: $card-radius;
 		border-bottom: 1px solid $colour-outline;
+
+		&:last-child {
+			margin-bottom: -1em;
+			border-bottom: 0 none;
+			border-radius: $card-radius;
+			height: 10em;
+		}
 	}
 
 	h3 {
