@@ -2,6 +2,14 @@
    <%= link_to 'Edit', edit_polymorphic_path([@campaign, @card.specific]) %>
 <% end %>
 
+<% content_for :header do %>
+    <h2>
+        <%= link_to @card.quest.title, [@card.quest.campaign, @card.quest] %>
+    </h2>
+
+   <h1><%= @card.title %></h1>
+<% end %>
+
 <div class="grid">
     <% unless @card.html_body.empty? %>
         <div class="paper">
