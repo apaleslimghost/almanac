@@ -2,8 +2,14 @@
 
 <% if image %>
 	<%= render image.specific, { tag_name: 'header' }.reverse_merge(local_assigns) do %>
-		<%= yield %>
+		<div class="splash-wrapper">
+			<div class="splash-content">
+				<%= yield %>
+			</div>
+		</div>
 	<% end %>
 <% else %>
-	<header class="<%= image_class %>"><%= yield %></header>
+	<header class="<%= image_class %>">
+		<%= yield %>
+	</header>
 <% end %>

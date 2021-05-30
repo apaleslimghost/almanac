@@ -9,17 +9,13 @@
 <% end %>
 
 <%= render 'image_header', image: @campaign.image, image_class: 'splash', size: :regular do %>
-    <div class="splash-wrapper">
-        <div class="splash-content">
-            <h1><%= @campaign.name %></h1>
+    <h1><%= @campaign.name %></h1>
 
-            <% unless @campaign.tagline.empty? %>
-                <p><%= @campaign.tagline %></p>
-            <% end %>
-        </div>
-    </div>
+    <% unless @campaign.tagline.empty? %>
+        <p><%= @campaign.tagline %></p>
+    <% end %>
 <% end %>
 
-<div class="grid">
+<div class="grid content">
     <%= render @campaign.cards.map(&:specific) %>
 </div>
