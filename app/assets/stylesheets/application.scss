@@ -106,12 +106,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .splash-wrapper {
-	background: linear-gradient(
-		to bottom,
-		transparent,
-		#262a33
-	);
-	color: white;
+	.image & {
+		background: linear-gradient(
+			to bottom,
+			transparent,
+			#262a33
+		);
+
+		color: white;
+	}
+
 	position: absolute;
 	bottom: 0;
 	width: 100%;
@@ -126,7 +130,7 @@ h1, h2, h3, h4, h5, h6 {
 	@extend .content;
 	text-align: center;
 
-	> * {
+	.image & > * {
 		-webkit-text-stroke: calc(0.025em + 1px) #262a3377;
 		paint-order: stroke fill;
 	}
