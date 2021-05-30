@@ -4,10 +4,21 @@
 
 <% content_for :header do %>
     <h2>
-        <%= link_to @card.quest.title, [@card.quest.campaign, @card.quest] %>
+        <%= link_to [@card.quest.campaign, @card.quest] do %>
+            <% if @card.quest.icon %>
+                <i class="<%= @card.quest.icon %>" aria-role="image" aria-label="<%= @card.quest.model_name.human %>"></i>
+            <% end %>
+            <%= @card.quest.title %>
+        <% end %>
     </h2>
 
-   <h1><%= @card.title %></h1>
+    <h1>
+        <% if @card.icon %>
+            <i class="<%= @card.icon %>" aria-role="image" aria-label="<%= @card.specific.model_name.human %>"></i>
+        <% end %>
+
+        <%= @card.title %>
+    </h1>
 <% end %>
 
 <div class="grid">

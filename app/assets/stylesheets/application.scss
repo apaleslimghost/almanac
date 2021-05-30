@@ -1,5 +1,6 @@
 @import 'setup';
 @import 'header';
+@import '../../../node_modules/rpg-awesome/scss/rpg-awesome';
 
 * {
 	box-sizing: border-box;
@@ -214,4 +215,8 @@ ul, ol {
 	background: none;
 	border: 0 none;
 	border-bottom: 0.05em currentColor dotted;
+}
+
+.ra {
+	font-size: 0.8em;
 }

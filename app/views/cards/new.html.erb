@@ -12,7 +12,12 @@
    <% @types.each do |type| %>
       <%= link_to new_polymorphic_path([@campaign, type.new]), class: :card do %>
          <header>
-            <h3><%= type.model_name.to_s %></h3>
+            <h3>
+               <% if type.icon %>
+                  <i class="<%= type.icon %>" aria-role="image" aria-label="<%= type.model_name.human %>"></i>
+               <% end %>
+               <%= type.model_name.human %>
+            </h3>
          </header>
          <p><%= type.description %></p>
       <% end %>

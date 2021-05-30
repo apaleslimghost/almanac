@@ -11,4 +11,8 @@ class CardType::Location < ApplicationRecord
   def self.description
     "A physical location in your world, from a continent down to a house"
   end
+
+  def self.icon
+    "ra ra-wooden-sign"
+   end
 end

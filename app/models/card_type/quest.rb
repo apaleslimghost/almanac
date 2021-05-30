@@ -9,4 +9,8 @@ class CardType::Quest < ApplicationRecord
    def self.description
     "An overall goal the players are working towards, grouping several objectives together"
    end
+
+   def self.icon
+    "ra ra-scroll-unfurled"
+   end
 end

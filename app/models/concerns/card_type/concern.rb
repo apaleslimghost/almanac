@@ -8,6 +8,8 @@ module CardType
          def self.model_name
             ActiveModel::Name.new(self, nil, self.name.demodulize)
          end
+
+         def self.icon; end
       end
 
       def to_param
@@ -16,6 +18,10 @@ module CardType
 
       def to_partial_path
          "#{self.class.model_name.plural}/#{self.class.model_name.singular}"
+      end
+
+      def icon
+         self.class.icon
       end
    end
 end

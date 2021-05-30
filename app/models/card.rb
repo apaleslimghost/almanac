@@ -19,4 +19,8 @@ class Card < ApplicationRecord
       .map { ('CardType::' + _1.to_s).constantize }
       .select { _1 < ApplicationRecord }
   end
+
+  def icon
+    specific.icon
+  end
 end

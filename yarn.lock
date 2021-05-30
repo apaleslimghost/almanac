@@ -6366,6 +6366,11 @@
     "hash-base" "^3.0.0"
     "inherits" "^2.0.1"
 
+"rpg-awesome@^0.2.0":
+  "integrity" "sha512-+jTuYWHOs8iZV5+XKvI/7Ojr0k4pLX/dRpa2LHXReGMQI6h0cGvNxIh/AQY1zhAC7LPcNXnPTliD1/ugB/DbRA=="
+  "resolved" "https://registry.npmjs.org/rpg-awesome/-/rpg-awesome-0.2.0.tgz"
+  "version" "0.2.0"
+
 "run-queue@^1.0.0", "run-queue@^1.0.3":
   "integrity" "sha1-6Eg5bwV9Ij8kOGkkYY4laUFh7Ec="
   "resolved" "https://registry.yarnpkg.com/run-queue/-/run-queue-1.0.3.tgz"

@@ -9,4 +9,8 @@ class CardType::Objective < ApplicationRecord
   def self.description
     "A single part of a quest"
   end
+
+  def self.icon
+    "ra ra-key"
+   end
 end
