@@ -6,7 +6,7 @@
       </div>
       <div class="field">
          <%= a.label :location %>
-         <%= a.collection_select :location_id, CardType::Location.all, :id, :title, include_blank: true %>
+         <%= a.collection_select :location_id, card.campaign.locations, :id, :title, include_blank: true %>
       </div>
    <% end %>
 <% end %>
