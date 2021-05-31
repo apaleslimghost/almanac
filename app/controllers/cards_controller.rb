@@ -59,6 +59,7 @@ class CardsController < ApplicationController
 
     params.require(:card).permit(
       :title, :slug, :body, :campaign_id, :actable_type,
+      :visible, :editable,
       actable_attributes: %i[id] + actable_attributes,
       image_attributes: [
         :id,

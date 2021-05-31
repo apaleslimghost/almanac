@@ -31,6 +31,18 @@
     <%= form.text_area :body %>
   </div>
 
+  <% if card.owner?(current_user) %>
+    <div class="field">
+      <%= form.label :visible %>
+      <%= form.select :visible, Card.visibles.keys.map { [_1.humanize, _1] } %>
+    </div>
+
+    <div class="field">
+      <%= form.label :editable %>
+      <%= form.select :editable, Card.editables.keys.map { [_1.humanize, _1] } %>
+    </div>
+  <% end %>
+
   <div class="field">
       <%= render 'images/form', image: card.image, form: form %>
   </div>

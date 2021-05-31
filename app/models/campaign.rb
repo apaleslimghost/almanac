@@ -17,7 +17,11 @@ class Campaign < ApplicationRecord
   only_visible :cards, :quests, :locations, :objectives
 
   def visible?(user)
-    settings.public || (user && users.include?(user))
+    settings.public || editable?(user)
+  end
+
+  def editable?(user)
+    user && users.include?(user)
   end
 
   def owner?(user)

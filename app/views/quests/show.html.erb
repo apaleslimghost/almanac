@@ -5,10 +5,12 @@
         </div>
     <% end %>
 
-    <div class="card">
-        <h3>Objectives</h3>
-        <%= render 'objectives/list', objectives: @card.objectives %>
-    </div>
+    <% unless @card.objectives.empty? %>
+        <div class="card">
+            <h3>Objectives</h3>
+            <%= render 'objectives/list', objectives: @card.objectives %>
+        </div>
+    <% end %>
 
     <% if @card.location %>
         <%= render @card.location %>

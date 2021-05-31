@@ -33,6 +33,10 @@ class Card < ApplicationRecord
     has_access?(visible, user)
   end
 
+  def owner?(user)
+    user == owner
+  end
+
   def build_actable(params)
     self.actable = actable_type.constantize.new(params)
   end

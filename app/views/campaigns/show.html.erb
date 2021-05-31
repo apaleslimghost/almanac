@@ -5,7 +5,10 @@
         <h3><%= @campaign.name %></h3>
     <% end %>
 
-    <%= link_to 'Add…', new_campaign_card_path(@campaign) %>
+    <% if @campaign.editable?(current_user) %>
+        <%= link_to 'Add…', new_campaign_card_path(@campaign) %>
+    <% end %>
+
     <% if @campaign.owner?(current_user) %>
         <%= link_to 'Edit', edit_campaign_path(@campaign) %>
     <% end %>
