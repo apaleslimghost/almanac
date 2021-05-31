@@ -1,12 +1,6 @@
 <%= link_to [card.campaign, card.specific], class: "card" do %>
 	<%= render 'image_header', image: card.image, inline_if_no_image: true do %>
-		<h3>
-			<% if card.icon %>
-				<i class="<%= card.icon %>" aria-role="image" aria-label="<%= card.specific.model_name.human %>"></i>
-			<% end %>
-
-			<%= card.title %>
-		</h3>
+		<%= render 'icon_header', level: 3, title: card.title, icon: card.icon, label: card.specific.model_name.human %>
 	<% end %>
 
 	<%= card.html_body %>

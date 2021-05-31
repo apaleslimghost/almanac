@@ -10,13 +10,7 @@
 
 <% unless content_for?(:header) %>
    <% content_for :header do %>
-      <h1>
-         <% if @card.icon %>
-            <i class="<%= @card.icon %>" aria-role="image" aria-label="<%= @card.specific.model_name.human %>"></i>
-         <% end %>
-
-         <%= @card.title %>
-      </h1>
+      <%= render 'icon_header', title: @card.title, icon: @card.icon, label: @card.specific.model_name.human %>
    <% end %>
 <% end %>
 

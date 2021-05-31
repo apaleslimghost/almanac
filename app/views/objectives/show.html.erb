@@ -3,22 +3,16 @@
 <% end %>
 
 <% content_for :header do %>
-    <h2>
-        <%= link_to [@card.quest.campaign, @card.quest] do %>
-            <% if @card.quest.icon %>
-                <i class="<%= @card.quest.icon %>" aria-role="image" aria-label="<%= @card.quest.model_name.human %>"></i>
-            <% end %>
-            <%= @card.quest.title %>
-        <% end %>
-    </h2>
+    <%= link_to [@card.quest.campaign, @card.quest] do %>
+        <%= render 'icon_header', {
+            level: 2,
+            title: @card.quest.title,
+            icon: @card.quest.icon,
+            label: @card.quest.specific.model_name.human
+        } %>
+    <% end %>
 
-    <h1>
-        <% if @card.icon %>
-            <i class="<%= @card.icon %>" aria-role="image" aria-label="<%= @card.specific.model_name.human %>"></i>
-        <% end %>
-
-        <%= @card.title %>
-    </h1>
+   <%= render 'icon_header', title: @card.title, icon: @card.icon, label: @card.specific.model_name.human %>
 <% end %>
 
 <div class="grid">

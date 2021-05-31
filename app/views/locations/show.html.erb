@@ -4,23 +4,17 @@
 
 <% content_for :header do %>
    <% if @card.parent %>
-      <h2>
       <%= link_to [@card.parent.campaign, @card.parent] do %>
-            <% if @card.parent.icon %>
-               <i class="<%= @card.parent.icon %>" aria-role="image" aria-label="<%= @card.parent.model_name.human %>"></i>
-            <% end %>
-            <%= @card.parent.title %>
-         <% end %>
-      </h2>
+         <%= render 'icon_header', {
+            level: 2,
+            title: @card.parent.title,
+            icon: @card.parent.icon,
+            label: @card.parent.specific.model_name.human
+         } %>
+      <% end %>
    <% end %>
 
-   <h1>
-      <% if @card.icon %>
-         <i class="<%= @card.icon %>" aria-role="image" aria-label="<%= @card.specific.model_name.human %>"></i>
-      <% end %>
-
-      <%= @card.title %>
-   </h1>
+   <%= render 'icon_header', title: @card.title, icon: @card.icon, label: @card.specific.model_name.human %>
 <% end %>
 
 <div class="grid">
