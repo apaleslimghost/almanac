@@ -13,6 +13,7 @@ class CardsController < ApplicationController
   def create
     @card = Card.new(card_params)
     @card.campaign = @campaign
+    @card.owner = current_user
 
     if @card.save!
       redirect_to [@campaign, @card.specific], notice: 'Card was successfully created.'
@@ -39,12 +40,13 @@ class CardsController < ApplicationController
   private
 
   def set_campaign
-    # TODO check access to campaign
     @campaign = Campaign.find_by_slug(params[:campaign_id])
+    raise ActionController::RoutingError.new('Not Found') unless @campaign.visible?(current_user)
   end
 
   def set_card
     @card = Card.find_by_slug(params[:id])
+    raise ActionController::RoutingError.new('Not Found') unless @card.visible?(current_user)
   end
 
   # Only allow a list of trusted parameters through.

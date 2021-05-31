@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_31_073711) do
+ActiveRecord::Schema.define(version: 2021_05_31_082331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,8 +58,12 @@ ActiveRecord::Schema.define(version: 2021_05_31_073711) do
     t.string "actable_type"
     t.bigint "actable_id"
     t.string "card_type"
+    t.integer "visible"
+    t.integer "editable"
+    t.bigint "owner_id", null: false
     t.index ["actable_type", "actable_id"], name: "index_cards_on_actable"
     t.index ["campaign_id"], name: "index_cards_on_campaign_id"
+    t.index ["owner_id"], name: "index_cards_on_owner_id"
   end
 
   create_table "images", force: :cascade do |t|
@@ -112,6 +116,7 @@ ActiveRecord::Schema.define(version: 2021_05_31_073711) do
   add_foreign_key "card_type_objectives", "card_type_quests", column: "quest_id"
   add_foreign_key "card_type_quests", "card_type_locations", column: "location_id"
   add_foreign_key "cards", "campaigns"
+  add_foreign_key "cards", "users", column: "owner_id"
   add_foreign_key "links", "cards", column: "from_id"
   add_foreign_key "links", "cards", column: "to_id"
   add_foreign_key "user_campaigns", "campaigns"

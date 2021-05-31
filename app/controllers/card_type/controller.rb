@@ -18,11 +18,12 @@ class CardType::Controller < ApplicationController
    def set_card
       @card = Card.find_by_slug(params[:id]).specific
       @image = @card.image
+      raise ActionController::RoutingError.new('Not Found') unless @card.visible?(current_user)
    end
 
    def set_campaign
-      # TODO check access to campaign
       @campaign = Campaign.find_by_slug(params[:campaign_id])
+      raise ActionController::RoutingError.new('Not Found') unless @campaign.visible?(current_user)
    end
 
    def append_view_paths

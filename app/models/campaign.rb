@@ -9,4 +9,9 @@ class Campaign < ApplicationRecord
   has_many :quests, source_type: 'CardType::Quest', through: :cards, source: :actable
   has_many :locations, source_type: 'CardType::Location', through: :cards, source: :actable
   has_many :objectives, source_type: 'CardType::Objective', through: :cards, source: :actable
+
+  def visible?(user)
+    # TODO public campaigns
+    users.include?(user)
+  end
 end

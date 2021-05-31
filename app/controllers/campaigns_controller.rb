@@ -61,7 +61,7 @@ class CampaignsController < ApplicationController
   end
 
   def check_access
-    unless current_user && (!@campaign || @campaign.users.include?(current_user))
+    unless current_user && (!@campaign || @campaign.visible?(current_user))
       raise ActionController::RoutingError, 'Not Found'
     end
   end
