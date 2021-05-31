@@ -15,7 +15,7 @@ class Card < ApplicationRecord
     when "only_me"
       user == owner
     when "me_and_gm"
-      campaign.users.where(access: :owner).include?(user) || user == owner
+      campaign.owner?(user) || user == owner
     when "campaign"
       campaign.users.include?(user)
     when "public"

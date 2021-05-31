@@ -19,7 +19,9 @@ class CampaignsController < ApplicationController
   end
 
   # GET /campaigns/1/edit
-  def edit; end
+  def edit
+    render status: :forbidden unless @campaign.owner?(current_user)
+  end
 
   # POST /campaigns
   def create
