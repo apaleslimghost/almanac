@@ -7,8 +7,16 @@ class Card < ApplicationRecord
   accepts_nested_attributes_for :actable
   accepts_nested_attributes_for :image, reject_if: proc { |attributes| !Image.valid_params? attributes }
 
-  enum visible: %i[only_me me_and_gm campaign public], _suffix: true
-  enum editable: %i[only_me me_and_gm campaign], _suffix: true
+  enum visible: %i[only_me me_and_gm campaign public], _prefix: true
+  enum editable: %i[only_me me_and_gm campaign], _prefix: true
+
+  validate :visibility_greater_than_editablility
+
+  def visibility_greater_than_editablility
+    unless Card.visibles[visible] >= Card.editables[editable]
+      errors.add(:visible, "A card must be visible to the users that can edit it")
+    end
+  end
 
   def has_access?(attr, user)
     case attr

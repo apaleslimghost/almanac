@@ -18,6 +18,7 @@ class CardsController < ApplicationController
     if @card.save!
       redirect_to [@campaign, @card.specific], notice: 'Card was successfully created.'
     else
+      @card = @card.specific
       render :new
     end
   end
@@ -27,6 +28,7 @@ class CardsController < ApplicationController
     if @card.update(card_params)
       redirect_to [@campaign, @card.specific], notice: 'Card was successfully updated.'
     else
+      @card = @card.specific
       render :edit
     end
   end
