@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_31_091931) do
+ActiveRecord::Schema.define(version: 2021_05_31_140608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,15 +59,15 @@ ActiveRecord::Schema.define(version: 2021_05_31_091931) do
   create_table "cards", force: :cascade do |t|
     t.string "title"
     t.string "slug"
-    t.text "body"
+    t.text "body", default: ""
     t.bigint "campaign_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "actable_type"
     t.bigint "actable_id"
     t.string "card_type"
-    t.integer "visible"
-    t.integer "editable"
+    t.integer "visible", default: 0
+    t.integer "editable", default: 0
     t.bigint "owner_id", null: false
     t.index ["actable_type", "actable_id"], name: "index_cards_on_actable"
     t.index ["campaign_id"], name: "index_cards_on_campaign_id"

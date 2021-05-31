@@ -3,6 +3,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.only_visible(*methods)
     methods.each do |method|
+      alias_method "_#{method}", method
       define_method(method) do
         super().filter { _1.visible?(Current.user) }
       end
@@ -11,6 +12,7 @@ class ApplicationRecord < ActiveRecord::Base
 
   def self.if_visible(*methods)
     methods.each do |method|
+      alias_method "_#{method}", method
       define_method(method) do
         card = super()
 

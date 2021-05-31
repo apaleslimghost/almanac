@@ -16,7 +16,11 @@ class CardsController < ApplicationController
     @card.owner = current_user
 
     if @card.save!
-      redirect_to [@campaign, @card.specific], notice: 'Card was successfully created.'
+      if params[:redirect_back]
+        redirect_back fallback_location: [@campaign, @card.specific], allow_other_host: false
+      else
+        redirect_to [@campaign, @card.specific], notice: 'Card was successfully created.'
+      end
     else
       @card = @card.specific
       render :new
