@@ -6,9 +6,7 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :campaigns do
-    resources :cards do
-      resources :links, only: %i[create destroy]
-    end
+    resources :cards
 
     scope module: 'card_type' do
       resources :quests
