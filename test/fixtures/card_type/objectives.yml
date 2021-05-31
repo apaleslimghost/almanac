@@ -1,9 +1,0 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  completed: false
-  quest: one
-
-two:
-  completed: false
-  quest: two
