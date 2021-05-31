@@ -14,6 +14,8 @@ class Campaign < ApplicationRecord
 
   alias_method :campaign_users, :user_campaigns
 
+  only_visible :cards, :quests, :locations, :objectives
+
   def visible?(user)
     settings.public || (user && users.include?(user))
   end

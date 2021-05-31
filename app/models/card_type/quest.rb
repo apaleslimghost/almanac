@@ -3,6 +3,9 @@ class CardType::Quest < ApplicationRecord
   has_many :objectives, class_name: 'CardType::Objective'
   belongs_to :location, class_name: 'CardType::Location', optional: true
 
+  if_visible :location
+  only_visible :objectives
+
    def self.permitted_attributes
       %i[completed location_id]
    end

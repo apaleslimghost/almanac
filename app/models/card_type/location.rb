@@ -6,6 +6,9 @@ class CardType::Location < ApplicationRecord
   has_many :objectives, class_name: 'CardType::Objective'
   has_many :quests, class_name: 'CardType::Quest'
 
+  if_visible :parent
+  only_visible :children, :objectives, :quests
+
   def self.permitted_attributes
     %i[parent_id]
   end
