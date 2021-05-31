@@ -25,6 +25,8 @@
     <% end %>
 
    <% @card.children.each { concat render _1 } %>
+   <% @card.quests.each { concat render _1 } %>
+   <% @card.objectives.each { concat render _1 } %>
 
     <%= render @card.links_to_relations.map(&:specific) %>
 </div>
