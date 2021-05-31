@@ -13,7 +13,10 @@ class CardType::Controller < ApplicationController
    end
 
    def show; end
-   def edit; end
+
+   def edit
+      render status: :forbidden unless @card.editable?(current_user)
+   end
 
    def set_card
       @card = Card.find_by_slug(params[:id]).specific
