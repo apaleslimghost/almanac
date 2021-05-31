@@ -35,6 +35,14 @@
       <%= render 'images/form', image: @campaign.image, form: form %>
   </div>
 
+  <%= form.fields_for :settings do |f| %>
+    <%= f.hidden_field :id %>
+    <div class="field">
+      <%= f.label :public %>
+      <%= f.check_box :public %>
+    </div>
+  <% end %>
+
   <div class="actions">
     <%= form.submit %>
   </div>

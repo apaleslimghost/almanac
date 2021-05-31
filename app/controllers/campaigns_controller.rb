@@ -26,6 +26,7 @@ class CampaignsController < ApplicationController
   # POST /campaigns
   def create
     @campaign = Campaign.new(campaign_params)
+    @campaign.settings = CampaignSettings.new
     @campaign.user_campaigns << UserCampaign.new(
       user: current_user,
       access: :owner
@@ -63,7 +64,7 @@ class CampaignsController < ApplicationController
   end
 
   def check_access
-    unless current_user && (!@campaign || @campaign.visible?(current_user))
+    unless !@campaign || @campaign.visible?(current_user)
       raise ActionController::RoutingError, 'Not Found'
     end
   end
@@ -77,6 +78,10 @@ class CampaignsController < ApplicationController
         :id,
         :actable_type,
         { actable_attributes: %i[id unsplash_id] }
+      ],
+      settings_attributes: [
+        :id,
+        :public
       ]
     )
   end

@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_31_082331) do
+ActiveRecord::Schema.define(version: 2021_05_31_091931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "campaign_settings", force: :cascade do |t|
+    t.boolean "public"
+    t.bigint "campaign_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["campaign_id"], name: "index_campaign_settings_on_campaign_id"
+  end
 
   create_table "campaigns", force: :cascade do |t|
     t.string "name"
@@ -111,6 +119,7 @@ ActiveRecord::Schema.define(version: 2021_05_31_082331) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "campaign_settings", "campaigns"
   add_foreign_key "card_type_locations", "card_type_locations", column: "parent_id"
   add_foreign_key "card_type_objectives", "card_type_locations", column: "location_id"
   add_foreign_key "card_type_objectives", "card_type_quests", column: "quest_id"

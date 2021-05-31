@@ -3,8 +3,10 @@ class Campaign < ApplicationRecord
   has_many :user_campaigns
   has_many :users, through: :user_campaigns
   has_many :cards
+  has_one :settings, class_name: :CampaignSettings, required: true
   has_one :image, as: :imageable
   accepts_nested_attributes_for :image, reject_if: proc { |attributes| !Image.valid_params? attributes }
+  accepts_nested_attributes_for :settings
 
   has_many :quests, source_type: 'CardType::Quest', through: :cards, source: :actable
   has_many :locations, source_type: 'CardType::Location', through: :cards, source: :actable
@@ -13,8 +15,7 @@ class Campaign < ApplicationRecord
   alias_method :campaign_users, :user_campaigns
 
   def visible?(user)
-    # TODO public campaigns
-    users.include?(user)
+    settings.public || (user && users.include?(user))
   end
 
   def owner?(user)
