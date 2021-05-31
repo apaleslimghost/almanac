@@ -3,6 +3,8 @@ class CardType::Location < ApplicationRecord
 
   has_many :children, class_name: 'CardType::Location', foreign_key: :parent_id
   belongs_to :parent, class_name: 'CardType::Location', optional: true
+  has_many :objectives, class_name: 'CardType::Objective'
+  has_many :quests, class_name: 'CardType::Quest'
 
   def self.permitted_attributes
     %i[parent_id]

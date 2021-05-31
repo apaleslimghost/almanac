@@ -14,6 +14,10 @@
         <%= render 'objectives/list', objectives: @card.objectives %>
     </div>
 
+    <% if @card.location %>
+        <%= render @card.location %>
+    <% end %>
+
     <%= render @card.links_to_relations.map(&:specific) %>
 
     <div class="card">

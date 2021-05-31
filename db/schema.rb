@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_30_203242) do
+ActiveRecord::Schema.define(version: 2021_05_31_073711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 2021_05_30_203242) do
     t.bigint "quest_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "location_id"
+    t.index ["location_id"], name: "index_card_type_objectives_on_location_id"
     t.index ["quest_id"], name: "index_card_type_objectives_on_quest_id"
   end
 
@@ -42,6 +44,8 @@ ActiveRecord::Schema.define(version: 2021_05_30_203242) do
     t.boolean "completed"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "location_id"
+    t.index ["location_id"], name: "index_card_type_quests_on_location_id"
   end
 
   create_table "cards", force: :cascade do |t|
@@ -104,7 +108,9 @@ ActiveRecord::Schema.define(version: 2021_05_30_203242) do
   end
 
   add_foreign_key "card_type_locations", "card_type_locations", column: "parent_id"
+  add_foreign_key "card_type_objectives", "card_type_locations", column: "location_id"
   add_foreign_key "card_type_objectives", "card_type_quests", column: "quest_id"
+  add_foreign_key "card_type_quests", "card_type_locations", column: "location_id"
   add_foreign_key "cards", "campaigns"
   add_foreign_key "links", "cards", column: "from_id"
   add_foreign_key "links", "cards", column: "to_id"

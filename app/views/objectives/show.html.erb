@@ -22,6 +22,10 @@
         </div>
     <% end %>
 
+    <% if @card.location %>
+        <%= render @card.location %>
+    <% end %>
+
     <%= render @card.links_to_relations.map(&:specific) %>
 
     <div class="card">

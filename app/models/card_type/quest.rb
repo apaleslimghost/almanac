@@ -1,9 +1,10 @@
 class CardType::Quest < ApplicationRecord
   include CardType::Concern
   has_many :objectives, class_name: 'CardType::Objective'
+  belongs_to :location, class_name: 'CardType::Location', optional: true
 
    def self.permitted_attributes
-      %i[completed]
+      %i[completed location_id]
    end
 
    def self.description

@@ -8,5 +8,9 @@
          <%= a.label :quest %>
          <%= a.collection_select :quest_id, CardType::Quest.all, :id, :title %>
       </div>
+      <div class="field">
+         <%= a.label :location %>
+         <%= a.collection_select :location_id, CardType::Location.all, :id, :title, include_blank: true %>
+      </div>
    <% end %>
 <% end %>
