@@ -1,5 +1,5 @@
 <%= link_to [card.campaign, card.specific], class: "card" do %>
-	<%= render 'image_header', image: card.image, inline_if_no_image: true do %>
+	<%= render 'image_header', image: card.image do %>
 		<%= render 'icon_header', level: 3, title: card.title, icon: card.icon, label: card.specific.model_name.human %>
 	<% end %>
 

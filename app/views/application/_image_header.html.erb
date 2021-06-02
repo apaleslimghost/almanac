@@ -1,5 +1,5 @@
 <% image_class ||= '' %>
-<% inline_if_no_image ||= false %>
+<% size ||= :small %>
 
 <% if image %>
 	<%= render image.specific, { tag_name: 'header' }.reverse_merge(local_assigns) do %>
@@ -11,12 +11,12 @@
 	<% end %>
 <% else %>
 	<header class="<%= image_class %>">
-		<% unless inline_if_no_image %>
+		<% unless size == :small %>
 			<div class="splash-wrapper">
 				<div class="splash-content">
 		<% end %>
 				<%= yield %>
-		<% unless inline_if_no_image %>
+		<% unless size == :small %>
 				</div>
 			</div>
 		<% end %>

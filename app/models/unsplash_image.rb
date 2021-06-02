@@ -15,6 +15,12 @@ class UnsplashImage < ApplicationRecord
     Unsplash::Photo.new data
   end
 
+  def user
+    load_photo
+    # idk
+    Unsplash::User.new data["user"]["attributes"]["table"]
+  end
+
   def self.valid_params?(params)
     params.has_key? :unsplash_id and !params[:unsplash_id].empty?
   end

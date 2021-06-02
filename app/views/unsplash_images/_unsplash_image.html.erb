@@ -18,5 +18,11 @@
 			action: 'load->lazy-image#showImage:once'
 		}
 	) %>
+
+	<% unless size == :small %>
+		<div class="image-attribution">
+			Photo by <%= link_to unsplash_image.user.name, unsplash_image.user.links.html, target: :_blank %> on <a href="https://unsplash.com" target="_blank">Unsplash</a>
+		</div>
+	<% end %>
 	<%= yield if block_given? %>
 <% end %>

@@ -21,6 +21,18 @@ h1, h2, h3, h4, h5, h6 {
 	margin: 0;
 }
 
+a, a:visited {
+	color: inherit;
+}
+
+a:hover {
+	text-decoration-thickness: 2px;
+}
+
+a:active {
+	text-decoration-thickness: 3px;
+}
+
 .image {
 	position: relative;
 	background-color: var(--image-color);
@@ -217,5 +229,14 @@ ul, ol {
 }
 
 .ra {
+	font-size: 0.8em;
+}
+
+.image-attribution {
+	position: absolute;
+	z-index: 3;
+	bottom: 1rem;
+	right: 1rem;
+	color: white;
 	font-size: 0.8em;
 }
