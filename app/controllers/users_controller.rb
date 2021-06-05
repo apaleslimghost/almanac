@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :set_brand_image
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   layout "header_and_content"
@@ -49,6 +50,10 @@ class UsersController < ApplicationController
   end
 
   private
+    def set_brand_image
+      @image = UnsplashImage.brand_image
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find_by_username(params[:id])

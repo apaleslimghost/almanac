@@ -1,5 +1,9 @@
 class SessionsController < ApplicationController
-  def new; end
+  layout 'header_and_content'
+
+  def new
+    @image = UnsplashImage.brand_image
+  end
 
   def create
     user = User.find_by_username(params[:username])

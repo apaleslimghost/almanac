@@ -1,13 +1,13 @@
 <% tag_name ||= 'div' %>
 <% image_class ||= '' %>
-<% size ||= :small %>
+<% size ||= :thumb %>
 
 <%= content_tag tag_name, {
 	class: "image #{image_class}",
 	data: {
 		controller: "lazy-image",
 		lazy_image_blurhash_value: unsplash_image.photo.blur_hash,
-		lazy_image_src_value: unsplash_image.photo.urls[size]
+		lazy_image_src_value: unsplash_image.photo.urls[size] + '&dpr=2&q=30'
 	},
 } do %>
 	<canvas width="32" height="32" data-lazy-image-target="canvas"></canvas>
@@ -19,7 +19,7 @@
 		}
 	) %>
 
-	<% unless size == :small %>
+	<% unless size == :thumb %>
 		<div class="image-attribution">
 			Photo by <%= link_to unsplash_image.user.name, unsplash_image.user.links.html, target: :_blank %> on <a href="https://unsplash.com" target="_blank">Unsplash</a>
 		</div>

@@ -1,5 +1,29 @@
-<h1>New User</h1>
+<% content_for :header do %>
+   <h1>Sign up</h1>
+<% end %>
 
-<%= render 'form', user: @user %>
+<%= form_with model: @user do |form| %>
+  <div class="field">
+    <%= form.label :username %>
+    <%= form.text_field :username %>
+  </div>
 
-<%= link_to 'Back', users_path %>
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+  </div>
+
+  <div class="field">
+    <%= form.label :password_confirmation %>
+    <%= form.password_field :password_confirmation %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -28,4 +28,8 @@ class UnsplashImage < ApplicationRecord
   def self.search(query)
     Unsplash::Photo.search(query, 1, 24, 'landscape').map { self.new(data: _1.to_h, unsplash_id: _1.id) }
   end
+
+  def self.brand_image
+    UnsplashImage.new(unsplash_id: 'rPkC3viHxug')
+  end
 end
