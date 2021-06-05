@@ -214,7 +214,6 @@ $card-radius: 0.3em;
 .paper {
 	@extend .card;
 	background: white;
-	border: 0 none;
 	border-radius: 0;
 	grid-column: span 2;
 	min-height: 10em;
@@ -222,6 +221,10 @@ $card-radius: 0.3em;
 
 	&.field {
 		padding: 0;
+	}
+
+	&:not(.field) {
+		border: 0 none;
 	}
 
 	textarea {
