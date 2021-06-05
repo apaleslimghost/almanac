@@ -30,7 +30,7 @@
 
             <% if current_user %>
                 <aside>
-                  <%= link_to current_user.email, logout_path %>
+                  <%= render current_user %>
                 </aside>
             <% end %>
         </header>

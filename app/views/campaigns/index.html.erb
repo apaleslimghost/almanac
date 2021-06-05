@@ -1,5 +1,8 @@
 <% content_for :nav do %>
-  <%= link_to 'New campaign', new_campaign_path %>
+  <%= link_to new_campaign_path do %>
+    <i class="fa fa-plus"></i>
+    New campaign
+  <% end %>
 <% end %>
 
 <div class="grid">

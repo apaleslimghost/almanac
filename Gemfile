@@ -40,3 +40,5 @@ gem 'webpacker', '~> 5.2'
 gem 'turbolinks', '~> 5.2'
 
 gem "font-awesome-sass", "~> 4.7"
+
+gem "rb-gravatar", "~> 1.0"
