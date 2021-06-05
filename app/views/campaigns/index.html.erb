@@ -6,15 +6,5 @@
 <% end %>
 
 <div class="grid">
-  <% @campaigns.each do |campaign| %>
-    <%= link_to campaign, class: 'card' do %>
-        <%= render 'image_header', image: campaign.image, inline_if_no_image: true do %>
-          <h3><%= campaign.name %></h3>
-        <% end %>
-
-        <% unless campaign.tagline.empty? %>
-          <p><%= campaign.tagline %></p>
-        <% end %>
-    <% end %>
-  <% end %>
+  <%= render @campaigns %>
 </div>

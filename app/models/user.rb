@@ -6,7 +6,13 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   validates :username, presence: true, uniqueness: true
 
-  def gravatar
-    Gravatar.src(email)
+  only_visible :campaigns
+
+  def gravatar(size: 64)
+    Gravatar.src(email, size)
+  end
+
+  def to_param
+    username
   end
 end

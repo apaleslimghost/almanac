@@ -1,9 +1,12 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title, "#{@user.username}'s profile" %>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+<% content_for :header do %>
+  <h1>
+   <%= image_tag @user.gravatar(size: 160), alt: @user.username, class: :gravatar, width: 80 %>
+    <%= @user.username %>
+  </h1>
+<% end %>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<div class="grid">
+  <%= render @user.campaigns %>
+</div>

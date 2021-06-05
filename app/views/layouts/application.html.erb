@@ -31,6 +31,10 @@
             <% if current_user %>
                 <aside>
                   <%= render current_user %>
+                  <%= link_to logout_path do %>
+                    <i class="fa fa-sign-out"></i>
+                    Log out
+                <% end %>
                 </aside>
             <% end %>
         </header>
