@@ -9,7 +9,7 @@ class User < ApplicationRecord
   only_visible :campaigns
 
   def gravatar(size: 64)
-    Gravatar.src(email, size)
+    Gravatar.src(email, size, 'monsterid')
   end
 
   def to_param
