@@ -12,6 +12,11 @@
         <% end %>
     <% end %>
 
+    <%= link_to campaign_users_path(@campaign) do %>
+        <i class="fa fa-users"></i>
+        Members
+    <% end %>
+
     <% if @campaign.owner?(current_user) %>
         <%= link_to edit_campaign_path(@campaign) do %>
             <i class="fa fa-edit"></i>

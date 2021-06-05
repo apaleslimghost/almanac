@@ -5,7 +5,8 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    @campaign = Campaign.find_by_slug(params[:campaign_id])
+    @image = @campaign.image
   end
 
   # GET /users/1

@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
-  get 'links/create'
-  get 'links/destroy'
   get 'unsplash/search'
   get 'home/index'
   root 'home#index'
 
   resources :campaigns do
+    resources :users, only: :index
     resources :cards
 
     scope module: 'card_type' do
@@ -15,8 +14,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users
+  resources :users, except: :index
   resources :sessions, only: %i[new create destroy]
+
   get 'signup', to: 'users#new', as: 'signup'
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'

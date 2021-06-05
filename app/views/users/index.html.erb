@@ -1,27 +1,17 @@
-<p id="notice"><%= notice %></p>
+<% content_for :title, "#{@campaign.name} members" %>
 
-<h1>Users</h1>
+<% content_for :nav do %>
+  <%= link_to @campaign do %>
+    <h3><%= @campaign.name %></h3>
+  <% end %>
+<% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Email</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<% content_for :header do %>
+  <h1><%= @campaign.name %></h1>
 
-  <tbody>
-    <% @users.each do |user| %>
-      <tr>
-        <td><%= user.email %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <% unless @campaign.tagline.empty? %>
+    <p><%= @campaign.tagline %></p>
+  <% end %>
+<% end %>
 
-<br>
-
-<%= link_to 'New User', new_user_path %>
+<%= render @campaign.users %>
