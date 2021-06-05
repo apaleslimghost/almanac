@@ -14,4 +14,15 @@
   <% end %>
 <% end %>
 
-<%= render @campaign.users %>
+<div class="grid">
+  <div class="paper">
+    <h3>Members</h3>
+    <ul>
+      <% @campaign.campaign_users.order(:access).each do |campaign_user| %>
+        <li>
+          <%= render campaign_user.user, campaign_user: campaign_user %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
