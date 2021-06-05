@@ -7,6 +7,15 @@
   </h1>
 <% end %>
 
+<% content_for :nav do %>
+  <% if @user == current_user %>
+    <%= link_to [:edit, @user] do %>
+      <i class="fa fa-gears"></i>
+      Account settings
+    <% end %>
+  <% end %>
+<% end %>
+
 <div class="grid">
   <%= render @user.campaigns %>
 </div>
