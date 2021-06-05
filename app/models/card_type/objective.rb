@@ -14,6 +14,6 @@ class CardType::Objective < ApplicationRecord
   end
 
   def self.icon
-    "ra ra-key"
+    "fa fa-compass"
    end
 end

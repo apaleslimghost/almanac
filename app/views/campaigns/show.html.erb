@@ -6,11 +6,17 @@
     <% end %>
 
     <% if @campaign.editable?(current_user) %>
-        <%= link_to 'Add…', new_campaign_card_path(@campaign) %>
+        <%= link_to new_campaign_card_path(@campaign) do %>
+            <i class="fa fa-plus"></i>
+            Add…
+        <% end %>
     <% end %>
 
     <% if @campaign.owner?(current_user) %>
-        <%= link_to 'Edit', edit_campaign_path(@campaign) %>
+        <%= link_to edit_campaign_path(@campaign) do %>
+            <i class="fa fa-edit"></i>
+            Edit
+        <% end %>
     <% end %>
 <% end %>
 

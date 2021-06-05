@@ -38,3 +38,5 @@ gem 'unsplash', '~> 2.1'
 gem 'webpacker', '~> 5.2'
 
 gem 'turbolinks', '~> 5.2'
+
+gem "font-awesome-sass", "~> 4.7"

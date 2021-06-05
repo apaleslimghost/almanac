@@ -8,7 +8,10 @@
    <% if content_for? :card_nav %>
       <%= content_for :card_nav %>
    <% elsif @card.editable?(current_user) %>
-      <%= link_to 'Edit', edit_polymorphic_path([@campaign, @card.specific]) %>
+      <%= link_to edit_polymorphic_path([@campaign, @card.specific]) do %>
+         <i class="fa fa-edit"></i>
+         Edit
+      <% end %>
    <% end %>
 <% end %>
 

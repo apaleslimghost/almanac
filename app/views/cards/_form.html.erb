@@ -5,7 +5,10 @@
 <% end %>
 
 <% content_for :card_nav do %>
-  <%= link_to "Back", card.persisted? ? [card.campaign, card.specific] : [:new, card.campaign, :card] %>
+  <%= link_to card.persisted? ? [card.campaign, card.specific] : [:new, card.campaign, :card] do %>
+    <i class="fa fa-arrow-left"></i>
+    Back
+  <% end %>
 <% end %>
 
 <%= form_with(model: [@campaign, card], id: :card_form) do |form| %>
