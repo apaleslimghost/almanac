@@ -14,6 +14,8 @@ class Card < ApplicationRecord
   accepts_nested_attributes_for :actable
   accepts_nested_attributes_for :image, reject_if: proc { |attributes| !Image.valid_params? attributes }
 
+  default_scope { includes :owner }
+
   enum visible: %i[only_me me_and_gm campaign public], _prefix: true
   enum editable: %i[only_me me_and_gm campaign], _prefix: true
 
