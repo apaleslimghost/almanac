@@ -13,14 +13,12 @@
    <%= render 'icon_header', title: @card.title, icon: @card.icon, label: @card.specific.model_name.human %>
 <% end %>
 
-<div class="grid">
-    <% unless @card.html_body.empty? %>
-        <div class="paper">
-            <%= @card.html_body %>
-        </div>
-    <% end %>
+<% unless @card.html_body.empty? %>
+   <div class="paper">
+      <%= @card.html_body %>
+   </div>
+<% end %>
 
-   <% @card.children.each { concat render _1 } %>
-   <% @card.quests.each { concat render _1 } %>
-   <% @card.objectives.each { concat render _1 } %>
-</div>
+<%= render @card.children %>
+<%= render @card.quests %>
+<%= render @card.objectives %>

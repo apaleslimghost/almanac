@@ -1,4 +1,4 @@
-<%= render quest.card do %>
+<%= render quest.card, local_assigns do %>
    <% unless quest.objectives.empty? %>
       <%= render 'objectives/list', objectives: quest.objectives, link: false %>
    <% end %>

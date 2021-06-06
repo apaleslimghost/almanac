@@ -21,4 +21,23 @@
    <% end %>
 <% end %>
 
+<% content_for :after do %>
+   <%= render @card.card_links %>
+
+   <div class="card">
+      <h3>Add related&hellip;</h3>
+
+      <%= form_with model: [@campaign, @card.card, @card._card_links.build] do |form| %>
+         <%= form.collection_select(
+            :to_id,
+            @campaign.cards - @card.related - [@card],
+            :id,
+            :title
+         ) %>
+         <%= form.submit %>
+      <% end %>
+   </div>
+<% end %>
+
+<% @content_class = 'grid' %>
 <%= render template: 'layouts/header_and_content' %>

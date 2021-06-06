@@ -1,4 +1,4 @@
-<% content_class ||= '' %>
+<% @content_class ||= '' %>
 
 <% content_for :body do %>
    <% if content_for? :header %>
@@ -7,8 +7,9 @@
       <% end %>
    <% end %>
 
-   <div class="content">
+   <div class="content <%= @content_class %>">
       <%= yield %>
+      <%= content_for :after %>
    </div>
 <% end %>
 

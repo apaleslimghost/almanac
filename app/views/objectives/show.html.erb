@@ -11,14 +11,12 @@
    <%= render 'icon_header', title: @card.title, icon: @card.icon, label: @card.specific.model_name.human %>
 <% end %>
 
-<div class="grid">
-    <% unless @card.html_body.empty? %>
-        <div class="paper">
-            <%= @card.html_body %>
-        </div>
-    <% end %>
+<% unless @card.html_body.empty? %>
+    <div class="paper">
+        <%= @card.html_body %>
+    </div>
+<% end %>
 
-    <% if @card.location %>
-        <%= render @card.location %>
-    <% end %>
-</div>
+<% if @card.location %>
+    <%= render @card.location %>
+<% end %>

@@ -4,6 +4,13 @@ class Card < ApplicationRecord
   belongs_to :campaign
   belongs_to :owner, class_name: 'User'
   has_one :image, as: :imageable
+  has_many :card_links
+  has_many(
+    :related,
+    through: :card_links,
+    class_name: 'Card',
+    source: :to
+  )
   accepts_nested_attributes_for :actable
   accepts_nested_attributes_for :image, reject_if: proc { |attributes| !Image.valid_params? attributes }
 
@@ -11,6 +18,8 @@ class Card < ApplicationRecord
   enum editable: %i[only_me me_and_gm campaign], _prefix: true
 
   validate :visibility_greater_than_editablility
+
+  only_visible :related, :card_links
 
   def visibility_greater_than_editablility
     unless Card.visibles[visible] >= Card.editables[editable]
