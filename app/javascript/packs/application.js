@@ -1,7 +1,6 @@
 import turbolinks from 'turbolinks'
 import { Application } from "stimulus"
 import { definitionsFromContext } from "stimulus/webpack-helpers"
-import '../channels'
 
 turbolinks.start()
 

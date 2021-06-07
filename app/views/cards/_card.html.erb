@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" data-controller="live-render" data-live-render-type-value="Card" data-live-render-id-value="<%= card.id %>">
 	<%= render 'image_header', image: card.image do %>
 		<%= link_to [card.campaign, card.specific] do %>
 			<%= render 'icon_header', level: 3, title: card.title, icon: card.icon, label: card.specific.model_name.human %>

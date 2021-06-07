@@ -77,6 +77,6 @@ class Card < ApplicationRecord
   end
 
   def broadcast
-    ChangesChannel.broadcast_to(card.campaign, card)
+    ChangesChannel.broadcast_to(self, id: id)
   end
 end
