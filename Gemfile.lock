@@ -220,6 +220,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actioncable (~> 6.1)
   active_record-acts_as (~> 5.0)
   bcrypt (~> 3.1.7)
   bunny (~> 2.18)

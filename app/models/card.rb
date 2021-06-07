@@ -76,7 +76,7 @@ class Card < ApplicationRecord
     specific.icon
   end
 
-  def routing_key
-    "#{campaign.slug}.#{slug}"
+  def broadcast
+    ChangesChannel.broadcast_to(card.campaign, card)
   end
 end

@@ -835,6 +835,11 @@
   dependencies:
     "mkdirp" "^1.0.4"
 
+"@rails/actioncable@^6.0.3-7":
+  "integrity" "sha512-ND+0rRj0NQVrv8SYSLSjKyHaXLcFEB02/9+1hsbz7BgufhJcOr/eJ7Y+a/278nAmzKd7mLDQYusHwZ0Dmn7rRw=="
+  "resolved" "https://registry.npmjs.org/@rails/actioncable/-/actioncable-6.0.3-7.tgz"
+  "version" "6.0.3-7"
+
 "@rails/webpacker@5.2.1":
   "integrity" "sha512-rO0kOv0o4ESB8ZnKX+b54ZKogNJGWSMULGmsJacREfm9SahKEQwXBeHNsqSGtS9NAPsU6YUFhGKRd4i/kbMNrQ=="
   "resolved" "https://registry.yarnpkg.com/@rails/webpacker/-/webpacker-5.2.1.tgz"

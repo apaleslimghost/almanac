@@ -29,7 +29,7 @@ class Campaign < ApplicationRecord
     campaign_users.where(user: user, access: :owner).exists?
   end
 
-  def routing_key
-    slug
+  def broadcast
+    ChangesChannel.broadcast_to(self, self)
   end
 end

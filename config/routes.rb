@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :campaigns do
     resources :users, only: :index
+    get 'changes', to: 'changes#index'
     resources :cards do
       resources :card_links, only: %i[create destroy], path: 'links'
     end

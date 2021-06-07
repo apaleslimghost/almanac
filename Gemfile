@@ -43,4 +43,5 @@ gem "font-awesome-sass", "~> 4.7"
 
 gem "rb-gravatar", "~> 1.0"
 
-gem "bunny", "~> 2.18"
+
+gem "actioncable", "~> 6.1"
