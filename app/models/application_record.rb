@@ -26,4 +26,8 @@ class ApplicationRecord < ActiveRecord::Base
   def to_broadcast
     { type: model_name.name, id: id }.to_json
   end
+
+  def broadcast
+    ChangesQueue.broadcast self
+  end
 end

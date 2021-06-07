@@ -17,24 +17,20 @@ class ChangesQueue
       @queue ||= channel.queue('', exclusive: true)
    end
 
-   def initialize(campaign)
-      @campaign = campaign
-   end
-
-   def broadcast(object)
-      ChangesQueue.exchange.publish(
+   def self.broadcast(object)
+      exchange.publish(
          object.to_broadcast,
          routing_key: object.routing_key
       )
    end
 
-   def subscribe
-      ChangesQueue.queue.bind(
-         ChangesQueue.exchange,
-         routing_key: @campaign.routing_key + '.#'
+   def self.subscribe(routing_key)
+      queue.bind(
+         exchange,
+         routing_key: routing_key
       )
 
-      ChangesQueue.queue.subscribe do |delivery_info, _properties, body|
+      queue.subscribe do |delivery_info, _properties, body|
          message = JSON.parse body
          yield message['type'].constantize.find(message['id'])
       end

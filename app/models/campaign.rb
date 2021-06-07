@@ -15,6 +15,7 @@ class Campaign < ApplicationRecord
   alias_method :campaign_users, :user_campaigns
 
   only_visible :cards, :quests, :locations, :objectives
+  after_save :broadcast
 
   def visible?(user)
     settings.public || editable?(user)

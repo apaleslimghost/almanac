@@ -23,6 +23,8 @@ class Card < ApplicationRecord
 
   only_visible :related, :card_links
 
+  after_save :broadcast
+
   def visibility_greater_than_editablility
     unless Card.visibles[visible] >= Card.editables[editable]
       errors.add(:visible, "A card must be visible to the users that can edit it")
