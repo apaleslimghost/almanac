@@ -63,8 +63,12 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
+    amq-protocol (2.3.2)
     bcrypt (3.1.16)
     builder (3.2.4)
+    bunny (2.18.0)
+      amq-protocol (~> 2.3, >= 2.3.1)
+      sorted_set (~> 1, >= 1.0.2)
     byebug (11.1.3)
     commonmarker (0.21.0)
       ruby-enum (~> 0.5)
@@ -161,6 +165,7 @@ GEM
     rb-gravatar (1.0.6)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rbtree (0.4.4)
     ruby-enum (0.8.0)
       i18n
     ruby2_keywords (0.0.2)
@@ -180,6 +185,10 @@ GEM
       sprockets-rails
       tilt
     semantic_range (2.3.1)
+    set (1.0.1)
+    sorted_set (1.0.3)
+      rbtree
+      set (~> 1.0)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -213,6 +222,7 @@ PLATFORMS
 DEPENDENCIES
   active_record-acts_as (~> 5.0)
   bcrypt (~> 3.1.7)
+  bunny (~> 2.18)
   byebug
   commonmarker (~> 0.21.0)
   dotenv-rails (~> 2.7)

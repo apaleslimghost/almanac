@@ -22,4 +22,8 @@ class ApplicationRecord < ActiveRecord::Base
       end
     end
   end
+
+  def to_broadcast
+    { type: model_name.name, id: id }.to_json
+  end
 end

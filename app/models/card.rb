@@ -73,4 +73,8 @@ class Card < ApplicationRecord
   def icon
     specific.icon
   end
+
+  def routing_key
+    "#{campaign.slug}.#{slug}"
+  end
 end

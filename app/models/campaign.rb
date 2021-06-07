@@ -27,4 +27,8 @@ class Campaign < ApplicationRecord
   def owner?(user)
     campaign_users.where(user: user, access: :owner).exists?
   end
+
+  def routing_key
+    slug
+  end
 end
