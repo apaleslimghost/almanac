@@ -6,7 +6,7 @@ class AddVisibilityFieldsToCard < ActiveRecord::Migration[6.1]
 
     up_only do
       Card.reset_column_information
-      Card.update_all(owner_id: User.first.id)
+      Card.update_all(owner_id: User.first.id) if User.first
     end
 
     change_column_null :cards, :owner_id, false
