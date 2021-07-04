@@ -18,4 +18,10 @@
 
 <div class="grid">
   <%= render @user.campaigns %>
+
+  <% if @user == current_user and @user.invites.exists? %>
+    <% @user.invites.each do |invite| %>
+      <%= render invite.campaign, invite: invite %>
+    <% end %>
+  <% end %>
 </div>

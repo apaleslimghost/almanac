@@ -1,6 +1,9 @@
-<h1>Editing User</h1>
+<% content_for :header do %>
+	<h1>Account settings</h1>
+<% end %>
 
-<%= render 'form', user: @user %>
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<div class="grid">
+	<div class="paper">
+		<%= render 'form', user: @user %>
+	</div>
+</div>

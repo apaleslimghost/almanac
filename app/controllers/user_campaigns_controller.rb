@@ -17,8 +17,28 @@ class UserCampaignsController < ApplicationController
 		end
 	end
 
+	def update
+		user_campaign = UserCampaign.find(params[:id])
+
+		if user_campaign.user == current_user
+			if user_campaign.update(user_campaign_params)
+				redirect_to user_campaign.campaign
+			else
+
+			end
+		else
+			render status: :forbidden
+		end
+	end
+
 	def set_campaign
 		@campaign = Campaign.find_by_slug(params[:campaign_id])
 		@image = @campaign.image
+	end
+
+	def user_campaign_params
+		params.require(:user_campaign).permit(
+			:accepted,
+		)
 	end
 end

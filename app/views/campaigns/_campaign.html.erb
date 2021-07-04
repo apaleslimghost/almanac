@@ -1,4 +1,6 @@
-<%= link_to campaign, class: 'card' do %>
+<% invite ||= nil %>
+
+<% content = capture do %>
    <%= render 'image_header', image: campaign.image, inline_if_no_image: true do %>
       <h3><%= campaign.name %></h3>
    <% end %>
@@ -6,4 +8,17 @@
    <% unless campaign.tagline.empty? %>
       <p><%= campaign.tagline %></p>
    <% end %>
+<% end %>
+
+<% if invite %>
+   <div class="card pending">
+      <%= content %>
+
+      <%= form_with model: [invite.campaign, invite] do |form| %>
+         <%= form.hidden_field :accepted, value: true %>
+         <%= form.submit 'Accept invite' %>
+      <% end %>
+   </div>
+<% else %>
+   <%= link_to content, campaign, class: 'card' %>
 <% end %>

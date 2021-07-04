@@ -202,6 +202,12 @@ $card-radius: 0.3em;
 		}
 	}
 
+	&.pending .image {
+		img, canvas {
+			filter: grayscale(70%) contrast(50%) brightness(150%);
+		}
+	}
+
 	h3 {
 		font-size: 1.6em;
 	}
