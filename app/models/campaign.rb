@@ -1,5 +1,6 @@
 class Campaign < ApplicationRecord
   has_unique_slug subject: :name
+  has_many :pending_invites, -> { where(accepted: false) }, class_name: 'UserCampaign'
   has_many :user_campaigns, -> { where(accepted: true) }
   has_many :users, through: :user_campaigns
   has_many :cards
@@ -27,10 +28,6 @@ class Campaign < ApplicationRecord
 
   def owner?(user)
     campaign_users.where(user: user, access: :owner).exists?
-  end
-
-  def pending_invites
-    user_campaigns.unscoped.where(accepted: false)
   end
 
   def broadcast
