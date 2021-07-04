@@ -3,8 +3,4 @@
 <%= link_to user do %>
    <%= image_tag user.gravatar, alt: user.username, class: :gravatar, width: 32 %>
    <%= user.username %>
-
-   <% if campaign_user && campaign_user.owner? %>
-      <span class="badge">owner</span>
-   <% end %>
 <% end %>

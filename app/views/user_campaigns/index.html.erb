@@ -17,13 +17,20 @@
 <div class="grid">
   <div class="paper">
     <h3>Members</h3>
-    <ul>
+    <table>
       <% @campaign.campaign_users.order(:access).each do |campaign_user| %>
-        <li>
-          <%= render campaign_user.user, campaign_user: campaign_user %>
-        </li>
+        <tr>
+          <td>
+            <%= render campaign_user.user, campaign_user: campaign_user %>
+          </td>
+          <td>
+            <span class="badge">
+              <%= campaign_user.access.to_s.humanize %>
+            </span>
+          </td>
+        </tr>
       <% end %>
-    </ul>
+    </table>
   </div>
 
   <% if @campaign.owner? current_user %>
