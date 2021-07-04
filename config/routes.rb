@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :campaigns do
-    resources :users, only: :index
-    get 'changes', to: 'changes#index'
+    resources :user_campaigns, path: 'users', only: %i[index create]
+
     resources :cards do
       resources :card_links, only: %i[create destroy], path: 'links'
     end

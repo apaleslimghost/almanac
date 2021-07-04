@@ -3,19 +3,19 @@
 - [x] users
   	- [ ] password reset/claiming migrated user
 - [x] campaigns
-	- [ ] images
-	- [ ] owner & members
+	- [x] images
+	- [x] owner & members
 	- [ ] invites
 - [x] cards
     - [x] types polymorphism
 		- https://github.com/chaadow/active_record-acts_as
 	- [x] markdown
-	- [ ] links
+	- [x] links
 		- https://github.com/opf/typed_dag
-	- [ ] images
+	- [x] images
 	- [ ] history
 		- https://github.com/paper-trail-gem/paper_trail
-	- [ ] visibility
+	- [x] visibility
 - [ ] dashboard
     - [ ] collecting card types into widgets
 	- [ ] map
@@ -29,12 +29,12 @@
 	- [ ] sort by links
 	- [ ] quest splash
 - [x] slugs for everything
-- [ ] design
-  	- [ ] (google) fonts
-	- [ ] cards
-	- [ ] navigation
-	- [ ] grid
-	- [ ] banner
-- [ ] client
-  	- [ ] turbolinks
+- [x] design
+  	- [x] (google) fonts
+	- [x] cards
+	- [x] navigation
+	- [x] grid
+	- [x] banner
+- [x] client
+  	- [x] turbolinks
 - [ ] importer for legacy almanac data

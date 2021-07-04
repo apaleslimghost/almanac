@@ -4,12 +4,6 @@ class UsersController < ApplicationController
 
   layout "header_and_content"
 
-  # GET /users
-  def index
-    @campaign = Campaign.find_by_slug(params[:campaign_id])
-    @image = @campaign.image
-  end
-
   # GET /users/1
   def show
   end

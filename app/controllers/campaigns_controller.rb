@@ -23,10 +23,6 @@ class CampaignsController < ApplicationController
     render status: :forbidden unless @campaign.owner?(current_user)
   end
 
-  def members
-    render status: :forbidden unless @campaign.owner?(current_user)
-  end
-
   # POST /campaigns
   def create
     @campaign = Campaign.new(campaign_params)

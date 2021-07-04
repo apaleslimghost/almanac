@@ -19,7 +19,7 @@ class CardsController < ApplicationController
       if params[:redirect_back]
         redirect_back fallback_location: [@campaign, @card.specific], allow_other_host: false
       else
-        redirect_to [@campaign, @card.specific], notice: 'Card was successfully created.'
+        redirect_to @campaign, @card.specific], notice: 'Card was successfully created.'
       end
     else
       @card = @card.specific

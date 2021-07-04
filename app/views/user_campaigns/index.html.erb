@@ -25,4 +25,16 @@
       <% end %>
     </ul>
   </div>
+
+  <div class="card">
+    <%= form_with(model: [@campaign, @campaign.campaign_users.build]) do |form| %>
+      <%= form.fields_for :user do |f| %>
+        <div class="field">
+          <%= f.label :username %>
+          <%= f .text_field :username %>
+        </end>
+      <% end %>
+      <%= form.submit %>
+    <% end %>
+  </div>
 </div>
