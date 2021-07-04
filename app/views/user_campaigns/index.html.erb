@@ -20,7 +20,7 @@
     <table>
       <% @campaign.campaign_users.order(:access).each do |campaign_user| %>
         <tr>
-          <td>
+          <td width="100%">
             <%= render campaign_user.user, campaign_user: campaign_user %>
           </td>
           <td>

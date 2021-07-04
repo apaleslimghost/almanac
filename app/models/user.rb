@@ -16,4 +16,8 @@ class User < ApplicationRecord
   def to_param
     username
   end
+
+  def notification_count
+    invites.count
+  end
 end

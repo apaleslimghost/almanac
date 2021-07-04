@@ -30,7 +30,13 @@
 
             <% if current_user %>
                 <aside>
-                  <%= render current_user %>
+                  <%= render current_user do %>
+                    <% if current_user.notification_count > 0 %>
+                        <span class="badge notification">
+                            <%= current_user.notification_count %>
+                        </span>
+                    <% end %>
+                  <% end %>
                   <%= link_to logout_path do %>
                     <i class="fa fa-sign-out"></i>
                     Log out
