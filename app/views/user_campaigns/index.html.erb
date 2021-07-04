@@ -36,6 +36,10 @@
             <%= f.text_field :username %>
           </div>
         <% end %>
+        <div class="field">
+          <%= form.label :access %>
+          <%= form.select :access, UserCampaign.accesses.keys.reverse.map { [_1.humanize, _1] } %>
+        </div>
         <%= form.submit %>
       <% end %>
     </div>

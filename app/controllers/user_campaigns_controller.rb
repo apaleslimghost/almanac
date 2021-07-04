@@ -8,7 +8,11 @@ class UserCampaignsController < ApplicationController
 		raise HttpException::Forbidden unless @campaign.owner? current_user
 
 		user = User.find_by_username! params[:user_campaign][:user][:username]
-		user_campaign = UserCampaign.new(user: user, campaign: @campaign)
+		user_campaign = UserCampaign.new(
+			user: user,
+			campaign: @campaign,
+			access: params[:user_campaign][:access]
+		)
 
 		if user_campaign.save
 			redirect_to campaign_user_campaigns_path(@campaign)
@@ -30,13 +34,13 @@ class UserCampaignsController < ApplicationController
 	end
 
 	def set_campaign
-		@campaign = Campaign.find_by_slug(params[:campaign_id])
+		@campaign = Campaign.find_by_slug!(params[:campaign_id])
 		@image = @campaign.image
 	end
 
 	def user_campaign_params
 		params.require(:user_campaign).permit(
-			:accepted,
+			:accepte
 		)
 	end
 end
