@@ -1,6 +1,6 @@
 class Campaign < ApplicationRecord
   has_unique_slug subject: :name
-  has_many :user_campaigns
+  has_many :user_campaigns, -> { where(accepted: true) }
   has_many :users, through: :user_campaigns
   has_many :cards
   has_one :settings, class_name: :CampaignSettings, required: true
@@ -22,11 +22,15 @@ class Campaign < ApplicationRecord
   end
 
   def editable?(user)
-    user && users.include?(user)
+    user && campaign_users.where(user: user).exists?
   end
 
   def owner?(user)
     campaign_users.where(user: user, access: :owner).exists?
+  end
+
+  def pending_invites
+    user_campaigns.unscoped.where(accepted: false)
   end
 
   def broadcast

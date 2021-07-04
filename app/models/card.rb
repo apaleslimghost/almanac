@@ -38,7 +38,7 @@ class Card < ApplicationRecord
     when "me_and_gm"
       campaign.owner?(user) || user == owner
     when "campaign"
-      campaign.users.where(user: user).exists?
+      campaign.editable?(user)
     when "public"
       campaign.settings.public
     else
