@@ -15,18 +15,18 @@ class CardType::Controller < ApplicationController
    def show; end
 
    def edit
-      render status: :forbidden unless @card.editable?(current_user)
+      raise HttpException::NotFound unless @card.editable?(current_user)
    end
 
    def set_card
       @card = Card.find_by_slug(params[:id]).specific
       @image = @card.image
-      raise ActionController::RoutingError.new('Not Found') unless @card.visible?(current_user)
+      raise HttpException::NotFound unless @card.visible?(current_user)
    end
 
    def set_campaign
       @campaign = Campaign.find_by_slug(params[:campaign_id])
-      raise ActionController::RoutingError.new('Not Found') unless @campaign.visible?(current_user)
+      raise HttpException::NotFound unless @campaign.visible?(current_user)
    end
 
    def append_view_paths

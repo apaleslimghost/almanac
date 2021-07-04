@@ -47,12 +47,12 @@ class CardsController < ApplicationController
 
   def set_campaign
     @campaign = Campaign.find_by_slug(params[:campaign_id])
-    raise ActionController::RoutingError.new('Not Found') unless @campaign.visible?(current_user)
+    raise HttpException::NotFound unless @campaign.visible?(current_user)
   end
 
   def set_card
     @card = Card.find_by_slug(params[:id])
-    raise ActionController::RoutingError.new('Not Found') unless @card.visible?(current_user)
+    raise HttpException::NotFound unless @card.visible?(current_user)
   end
 
   # Only allow a list of trusted parameters through.

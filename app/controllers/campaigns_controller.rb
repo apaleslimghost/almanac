@@ -20,7 +20,7 @@ class CampaignsController < ApplicationController
 
   # GET /campaigns/1/edit
   def edit
-    render status: :forbidden unless @campaign.owner?(current_user)
+    raise HttpException::NotFound unless @campaign.owner?(current_user)
   end
 
   # POST /campaigns
@@ -59,13 +59,13 @@ class CampaignsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_campaign
-    @campaign = Campaign.find_by_slug(params[:id])
+    @campaign = Campaign.find_by_slug!(params[:id])
     @image = @campaign.image
   end
 
   def check_access
     unless !@campaign || @campaign.visible?(current_user)
-      raise ActionController::RoutingError, 'Not Found'
+      raise HttpException::NotFound
     end
   end
 

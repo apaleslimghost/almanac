@@ -2,11 +2,11 @@ class UserCampaignsController < ApplicationController
 	before_action :set_campaign
 	layout "header_and_content"
 
-	def index
-		render status: :forbidden unless @campaign.owner?(current_user)
-	 end
+	def index; end
 
 	def create
+		raise HttpException::Forbidden unless @campaign.owner? current_user
+
 		user = User.find_by_username! params[:user_campaign][:user][:username]
 		user_campaign = UserCampaign.new(user: user, campaign: @campaign)
 
@@ -20,14 +20,12 @@ class UserCampaignsController < ApplicationController
 	def update
 		user_campaign = UserCampaign.find(params[:id])
 
-		if user_campaign.user == current_user
-			if user_campaign.update(user_campaign_params)
-				redirect_to user_campaign.campaign
-			else
+		raise HttpException::Forbidden unless user_campaign.user == current_user
 
-			end
+		if user_campaign.update(user_campaign_params)
+			redirect_to user_campaign.campaign
 		else
-			render status: :forbidden
+			redirect_to user_campaign.campaign # TODO what
 		end
 	end
 
