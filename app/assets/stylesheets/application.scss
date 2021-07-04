@@ -43,7 +43,7 @@ a:active {
 	position: relative;
 	background-color: var(--image-color);
 
-	canvas, img {
+	> canvas, > img {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -53,11 +53,11 @@ a:active {
 		transition-property: opacity;
 	}
 
-	canvas {
+	> canvas {
 		transition-duration: 0.2s;
 	}
 
-	img {
+	> img {
 		z-index: 1;
 		transition-duration: 0.5s;
 		object-fit: cover;
