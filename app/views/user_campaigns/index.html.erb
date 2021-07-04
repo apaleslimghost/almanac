@@ -26,29 +26,31 @@
     </ul>
   </div>
 
-  <div class="card">
-    <h3>Invite...</h3>
-    <%= form_with(model: [@campaign, @campaign.campaign_users.build]) do |form| %>
-      <%= form.fields_for :user do |f| %>
-        <div class="field">
-          <%= f.label :username %>
-          <%= f.text_field :username %>
-        </div>
-      <% end %>
-      <%= form.submit %>
-    <% end %>
-  </div>
-
-  <% if @campaign.pending_invites.exists? %>
+  <% if @campaign.owner? current_user %>
     <div class="card">
-      <h3>Pending invites</h3>
-      <ul>
-        <% @campaign.pending_invites.each do |campaign_user| %>
-          <li>
-          <%= render campaign_user.user, campaign_user: campaign_user %>
-          </li>
+      <h3>Invite...</h3>
+      <%= form_with(model: [@campaign, @campaign.campaign_users.build]) do |form| %>
+        <%= form.fields_for :user do |f| %>
+          <div class="field">
+            <%= f.label :username %>
+            <%= f.text_field :username %>
+          </div>
         <% end %>
-      </ul>
+        <%= form.submit %>
+      <% end %>
     </div>
+
+    <% if @campaign.pending_invites.exists? %>
+      <div class="card">
+        <h3>Pending invites</h3>
+        <ul>
+          <% @campaign.pending_invites.each do |campaign_user| %>
+            <li>
+            <%= render campaign_user.user, campaign_user: campaign_user %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   <% end %>
 </div>
