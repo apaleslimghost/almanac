@@ -33,6 +33,16 @@ class UserCampaignsController < ApplicationController
 		end
 	end
 
+	def destroy
+		user_campaign = UserCampaign.find(params[:id])
+		can_delete = user_campaign.user == current_user or @campaign.owner? current_user
+
+		raise HttpException::Forbidden unless can_delete
+
+		user_campaign.destroy
+		redirect_to current_user
+	end
+
 	def set_campaign
 		@campaign = Campaign.find_by_slug!(params[:campaign_id])
 		@image = @campaign.image
@@ -40,7 +50,7 @@ class UserCampaignsController < ApplicationController
 
 	def user_campaign_params
 		params.require(:user_campaign).permit(
-			:accepte
+			:accepted
 		)
 	end
 end

@@ -18,6 +18,8 @@
          <%= form.hidden_field :accepted, value: true %>
          <%= form.submit 'Accept invite' %>
       <% end %>
+
+      <%= button_to 'Decline', [invite.campaign, invite], method: :delete %>
    </div>
 <% else %>
    <%= link_to content, campaign, class: 'card' %>
