@@ -5,7 +5,7 @@
 - [x] campaigns
 	- [x] images
 	- [x] owner & members
-	- [ ] invites
+	- [x] invites
 - [x] cards
     - [x] types polymorphism
 		- https://github.com/chaadow/active_record-acts_as
