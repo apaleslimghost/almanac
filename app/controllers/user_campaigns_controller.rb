@@ -68,12 +68,16 @@ class UserCampaignsController < ApplicationController
 
 	def destroy
 		user_campaign = UserCampaign.find(params[:id])
-		can_delete = user_campaign.user == current_user or @campaign.owner? current_user
+		deleting_self = user_campaign.user == current_user
 
-		raise HttpException::Forbidden unless can_delete
+		raise HttpException::Forbidden unless deleting_self || @campaign.owner?(current_user)
 
 		user_campaign.destroy
-		redirect_to current_user
+		if deleting_self
+			redirect_to current_user
+		else
+			redirect_to campaign_user_campaigns_path(@campaign)
+		end
 	end
 
 	def set_campaign

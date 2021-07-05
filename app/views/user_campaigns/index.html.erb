@@ -28,6 +28,13 @@
               <%= campaign_user.access.to_s.humanize %>
             </span>
           </td>
+          <% if @campaign.owner? current_user && @campaign.campaign_users.count > 1 %>
+            <td>
+              <%= button_to [@campaign, campaign_user], method: :delete do %>
+                <i class="fa fa-times"></i>
+              <% end %>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     </table>
