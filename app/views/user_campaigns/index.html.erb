@@ -63,5 +63,11 @@
         </ul>
       </div>
     <% end %>
+
+    <div class="card">
+      <h3>Invite link</h3>
+      <p>This link allows anybody to join your campaign. Use with caution.</p>
+      <%= text_field_tag :join, campaign_join_url(@campaign, {token: @campaign.settings.invite_token}), readonly: true %>
+    </div>
   <% end %>
 </div>
