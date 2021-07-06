@@ -1,5 +1,5 @@
 class CampaignsController < ApplicationController
-  before_action :set_campaign, only: %i[show edit update destroy]
+  before_action :set_campaign, only: %i[show edit update destroy dashboard]
   before_action :check_access, only: %i[new create show edit update destroy]
 
   layout "header_and_content"
@@ -21,6 +21,10 @@ class CampaignsController < ApplicationController
   # GET /campaigns/1/edit
   def edit
     raise HttpException::NotFound unless @campaign.owner?(current_user)
+  end
+
+  def dashboard
+    render layout: 'application'
   end
 
   # POST /campaigns
@@ -59,7 +63,7 @@ class CampaignsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_campaign
-    @campaign = Campaign.find_by_slug!(params[:id])
+    @campaign = Campaign.find_by_slug!(params[:id] || params[:campaign_id])
     @image = @campaign.image
   end
 

@@ -33,4 +33,8 @@ class Campaign < ApplicationRecord
   def broadcast
     ChangesChannel.broadcast_to(self, self)
   end
+
+  def specific
+    self
+  end
 end
