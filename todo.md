@@ -18,17 +18,12 @@
 		- https://github.com/paper-trail-gem/paper_trail
 	- [x] visibility
 - [ ] dashboard
-    - [ ] collecting card types into widgets
-	- [ ] map
-		- PostGIS
-		- https://github.com/rgeo/activerecord-postgis-adapter
-		- Area card type with a polygon, selecting it shows cards it contains
-		- Selecting card with point shows any areas that contain it
 	- [ ] selecting currently active card
 	- [ ] search
 	- [ ] quick add
 	- [ ] sort by links
 	- [ ] quest splash
+	- [ ] visibility for presentation vs control
 - [x] slugs for everything
 - [x] design
   	- [x] (google) fonts

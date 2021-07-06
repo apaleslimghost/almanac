@@ -149,6 +149,10 @@ a:active {
 	align-items: center;
 	z-index: 2;
 	padding: 1%;
+
+	.full-bleed & {
+		padding: 0;
+	}
 }
 
 .splash-content {
