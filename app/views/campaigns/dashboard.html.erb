@@ -9,13 +9,11 @@
 <% end %>
 
 <% content_for :header do %>
-	<h1>
-		<% if @current_location %>
-			<%= @current_location.title %>
-		<% else %>
-			<%= @campaign.name %>
-		<% end %>
-	</h1>
+	<% if @current_location %>
+		<%= render 'locations/header', location: @current_location %>
+	<% else %>
+		<h1><%= @campaign.name %></h1>
+	<% end %>
 <% end %>
 
 <div class="grid">

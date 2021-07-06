@@ -1,16 +1,5 @@
 <% content_for :header do %>
-   <% if @card.parent %>
-      <%= link_to [@card.parent.campaign, @card.parent] do %>
-         <%= render 'icon_header', {
-            level: 2,
-            title: @card.parent.title,
-            icon: @card.parent.icon,
-            label: @card.parent.specific.model_name.human
-         } %>
-      <% end %>
-   <% end %>
-
-   <%= render 'icon_header', title: @card.title, icon: @card.icon, label: @card.specific.model_name.human %>
+   <%= render 'header', location: @card %>
 <% end %>
 
 <% unless @card.html_body.empty? %>

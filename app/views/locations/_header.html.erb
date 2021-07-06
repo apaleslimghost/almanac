@@ -1,0 +1,14 @@
+<% content_for :header do %>
+   <% if location.parent %>
+      <%= link_to [location.parent.campaign, location.parent] do %>
+         <%= render 'icon_header', {
+            level: 2,
+            title: location.parent.title,
+            icon: location.parent.icon,
+            label: location.parent.specific.model_name.human
+         } %>
+      <% end %>
+   <% end %>
+
+   <%= render 'icon_header', title: location.title, icon: location.icon, label: location.specific.model_name.human %>
+<% end %>
