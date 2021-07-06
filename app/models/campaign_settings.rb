@@ -1,7 +1,7 @@
 class CampaignSettings < ApplicationRecord
   belongs_to :campaign
   has_secure_token :invite_token
-  has_one :current_location, class_name: 'CardType::Location', optional: true
+  belongs_to :current_location, class_name: 'CardType::Location', optional: true
 
   after_save :broadcast
 

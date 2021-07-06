@@ -24,7 +24,8 @@ class CampaignsController < ApplicationController
   end
 
   def dashboard
-    render layout: 'application'
+    @current_location = @campaign.settings.current_location
+    @image = @current_location&.image || @campaign.image
   end
 
   # POST /campaigns

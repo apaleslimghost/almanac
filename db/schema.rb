@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_05_114120) do
+ActiveRecord::Schema.define(version: 2021_07_06_174326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,8 +21,9 @@ ActiveRecord::Schema.define(version: 2021_07_05_114120) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "invite_token"
-    t.integer "current_location_id"
+    t.bigint "current_location_id"
     t.index ["campaign_id"], name: "index_campaign_settings_on_campaign_id"
+    t.index ["current_location_id"], name: "index_campaign_settings_on_current_location_id"
     t.index ["invite_token"], name: "index_campaign_settings_on_invite_token", unique: true
   end
 
@@ -125,6 +126,7 @@ ActiveRecord::Schema.define(version: 2021_07_05_114120) do
   end
 
   add_foreign_key "campaign_settings", "campaigns"
+  add_foreign_key "campaign_settings", "card_type_locations", column: "current_location_id"
   add_foreign_key "card_links", "cards", column: "to_id"
   add_foreign_key "card_type_locations", "card_type_locations", column: "parent_id"
   add_foreign_key "card_type_objectives", "card_type_locations", column: "location_id"

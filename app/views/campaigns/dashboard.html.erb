@@ -1,2 +1,29 @@
 <% content_for :page_controller, :dashboard %>
 <% @page_data = { dashboard_slug_value: @campaign.slug } %>
+<% @full_bleed = true %>
+
+<% content_for :nav do %>
+	<%= link_to @campaign do %>
+		<h3><%= @campaign.name %></h3>
+	<% end %>
+<% end %>
+
+<% content_for :header do %>
+	<h1>
+		<% if @current_location %>
+			<%= @current_location.title %>
+		<% else %>
+			<%= @campaign.name %>
+		<% end %>
+	</h1>
+<% end %>
+
+<div class="grid">
+	<% if @current_location %>
+		<%= render @current_location.children %>
+		<%= render @current_location.quests %>
+		<%= render @current_location.objectives %>
+	<% else %>
+		<%= render @campaign.cards.map(&:specific) %>
+	<% end %>
+</div>

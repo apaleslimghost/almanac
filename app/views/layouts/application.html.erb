@@ -17,7 +17,7 @@
         <%= stylesheet_link_tag 'application', media: 'all' %>
     </head>
 
-    <%= content_tag :body, data: ({ controller: content_for(:page_controller) }.merge(@page_data || {})) do %>
+    <%= content_tag :body, data: ({ controller: content_for(:page_controller) }.merge(@page_data || {})), class: ('full-bleed' if @full_bleed) do %>
         <header class="toolbar">
             <%= link_to root_url do %>
                 <%= image_tag 'logo.svg', class: 'logo', alt: 'Almanac' %>
@@ -28,7 +28,7 @@
                 </nav>
             <% end %>
 
-            <% if current_user %>
+            <% if current_user && !@full_bleed %>
                 <aside>
                   <%= render current_user do %>
                     <% if current_user.notification_count > 0 %>

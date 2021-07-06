@@ -122,6 +122,12 @@ a:active {
 	max-width: 70em;
 	margin: 0 auto;
 	padding: 1rem;
+
+	.full-bleed & {
+		margin: 0;
+		max-width: none;
+		width: 100%;
+	}
 }
 
 .splash-wrapper {
@@ -148,6 +154,10 @@ a:active {
 .splash-content {
 	@extend .content;
 	text-align: center;
+
+	.full-bleed & {
+		text-align: left;
+	}
 
 	.image & > * {
 		-webkit-text-stroke: calc(0.025em + 1px) #262a3377;
@@ -263,6 +273,11 @@ ul, ol {
 	right: 1rem;
 	color: white;
 	font-size: 0.8em;
+
+	.full-bleed & {
+		top: 1rem;
+		bottom: auto;
+	}
 }
 
 .gravatar {
