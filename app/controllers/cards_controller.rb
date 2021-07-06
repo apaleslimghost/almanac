@@ -46,12 +46,12 @@ class CardsController < ApplicationController
   private
 
   def set_campaign
-    @campaign = Campaign.find_by_slug(params[:campaign_id])
+    @campaign = Campaign.find_by_slug!(params[:campaign_id])
     raise HttpException::NotFound unless @campaign.visible?(current_user)
   end
 
   def set_card
-    @card = Card.find_by_slug(params[:id])
+    @card = Card.find_by_slug!(params[:id])
     raise HttpException::NotFound unless @card.visible?(current_user)
   end
 

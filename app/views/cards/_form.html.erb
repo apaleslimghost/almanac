@@ -46,6 +46,12 @@
     </div>
   <% end %>
 
+  <div class="card">
+    <div class="field">
+      <%= render 'images/form', image: card.image, form: form %>
+    </div>
+  </div>
+
   <%= yield form %>
 
   <div class="actions">

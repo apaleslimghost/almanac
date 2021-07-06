@@ -19,5 +19,9 @@ class CardType::Location < ApplicationRecord
 
   def self.icon
     "ra ra-wooden-sign"
-   end
+  end
+
+  def image
+    acting_as.image || parent&.image
+  end
 end
