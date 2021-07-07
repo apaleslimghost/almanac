@@ -11,4 +11,8 @@
    <% end %>
 
    <%= render 'icon_header', title: location.title, icon: location.icon, label: location.specific.model_name.human %>
+
+   <% if location.description && !location.description.empty? %>
+      <p><%= location.description %></p>
+   <% end %>
 <% end %>

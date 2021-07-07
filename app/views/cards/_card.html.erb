@@ -11,6 +11,11 @@
 		<% end %>
 	<% end %>
 
-	<%= card.html_body %>
+	<% if card.description && !card.description.empty? %>
+		<p><%= card.description %></p>
+	<% else %>
+		<%= card.excerpt %>
+	<% end %>
+
 	<%= yield %>
 </div>

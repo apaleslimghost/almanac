@@ -64,7 +64,7 @@ class CardsController < ApplicationController
     actable_attributes = params[:card][:actable_type].constantize.permitted_attributes
 
     params.require(:card).permit(
-      :title, :slug, :body, :campaign_id, :actable_type,
+      :title, :description, :slug, :body, :campaign_id, :actable_type,
       :visible, :editable,
       actable_attributes: %i[id] + actable_attributes,
       image_attributes: [

@@ -33,6 +33,11 @@
     <%= form.text_area :body, placeholder: "#{card.specific.model_name.human} description…" %>
   </div>
 
+  <div class="field card">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
   <% if card.owner?(current_user) %>
     <div class="card">
       <div class="field">

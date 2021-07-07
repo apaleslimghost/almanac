@@ -66,6 +66,12 @@ class Card < ApplicationRecord
     CommonMarker.render_html(body).html_safe
   end
 
+  def excerpt
+    CommonMarker.render_html(
+      (body.split(/\r?\n\r?\n/, 2).first || '').strip
+    ).html_safe
+  end
+
   def self.types
     CardType.constants
       .map { ('CardType::' + _1.to_s).constantize }
