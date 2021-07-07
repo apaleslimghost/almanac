@@ -24,7 +24,10 @@ class CampaignsController < ApplicationController
   end
 
   def dashboard
-    Current.minimum_visibility = "campaign"
+    if !@campaign.owner?(current_user) or params.has_key?(:present)
+      Current.minimum_visibility = "campaign"
+    end
+
     @current_location = @campaign.settings.current_location
     @image = @current_location&.image || @campaign.image
   end
