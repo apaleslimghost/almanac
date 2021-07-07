@@ -16,9 +16,7 @@
 <% end %>
 
 <% unless content_for?(:header) %>
-   <% content_for :header do %>
-      <%= render 'icon_header', title: @card.title, icon: @card.icon, label: @card.specific.model_name.human %>
-   <% end %>
+   <%= render 'cards/header', card: @card %>
 <% end %>
 
 <% if @card.persisted? %>

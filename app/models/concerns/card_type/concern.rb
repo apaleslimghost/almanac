@@ -23,5 +23,9 @@ module CardType
       def icon
          self.class.icon
       end
+
+      def parent
+         super
+      end
    end
 end

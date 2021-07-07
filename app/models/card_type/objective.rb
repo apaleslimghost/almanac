@@ -15,5 +15,9 @@ class CardType::Objective < ApplicationRecord
 
   def self.icon
     "fa fa-compass"
-   end
+  end
+
+  def parent
+    quest
+  end
 end

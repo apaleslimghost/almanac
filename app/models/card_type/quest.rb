@@ -17,4 +17,8 @@ class CardType::Quest < ApplicationRecord
    def self.icon
     "ra ra-scroll-unfurled"
    end
+
+   def parent
+      nil
+   end
 end
