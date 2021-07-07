@@ -116,6 +116,10 @@ a:active {
 		height: 40vw;
 		max-height: 40vh;
 	}
+
+	.full-bleed & {
+		height: 30vh;
+	}
 }
 
 .content {
@@ -224,6 +228,10 @@ $card-radius: 0.3em;
 
 	h3 {
 		font-size: 1.6em;
+	}
+
+	> p:first-child {
+		margin-top: 0;
 	}
 
 	> *:last-child {

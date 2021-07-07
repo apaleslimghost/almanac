@@ -18,9 +18,7 @@
 
 <div class="grid">
 	<% if @current_location %>
-		<%= render @current_location.children %>
-		<%= render @current_location.quests %>
-		<%= render @current_location.objectives %>
+		<%= render 'locations/content', location: @current_location %>
 	<% else %>
 		<%= render @campaign.cards.map(&:specific) %>
 	<% end %>

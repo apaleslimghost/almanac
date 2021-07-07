@@ -2,12 +2,4 @@
    <%= render 'header', location: @card %>
 <% end %>
 
-<% unless @card.html_body.empty? %>
-   <div class="paper">
-      <%= @card.html_body %>
-   </div>
-<% end %>
-
-<%= render @card.children %>
-<%= render @card.quests %>
-<%= render @card.objectives %>
+<%= render 'content', location: @card %>
