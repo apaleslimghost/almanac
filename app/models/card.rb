@@ -50,7 +50,12 @@ class Card < ApplicationRecord
     has_access?(editable, user)
   end
 
-  def visible?(user)
+  def visible?(user, minimum_visibility = nil)
+    minimum_visibility ||= "only_me"
+    visibility_value = Card.visibles[visible]
+    minimum_visibility_value = Card.visibles[minimum_visibility]
+    return false if visibility_value < minimum_visibility_value
+
     has_access?(visible, user)
   end
 

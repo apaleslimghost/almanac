@@ -24,6 +24,7 @@ class CampaignsController < ApplicationController
   end
 
   def dashboard
+    Current.minimum_visibility = "campaign"
     @current_location = @campaign.settings.current_location
     @image = @current_location&.image || @campaign.image
   end

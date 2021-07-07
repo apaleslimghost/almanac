@@ -5,7 +5,7 @@ class ApplicationRecord < ActiveRecord::Base
     methods.each do |method|
       alias_method "_#{method}", method
       define_method(method) do
-        super().filter { _1.visible?(Current.user) }
+        super().filter { _1.visible?(Current.user, Current.minimum_visibility) }
       end
     end
   end
@@ -14,10 +14,10 @@ class ApplicationRecord < ActiveRecord::Base
     methods.each do |method|
       alias_method "_#{method}", method
       define_method(method) do
-        card = super()
+        thing = super()
 
-        if card && card.visible?(Current.user)
-          card
+        if thing && thing.visible?(Current.user, Current.minimum_visibility)
+          thing
         end
       end
     end
