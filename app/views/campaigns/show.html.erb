@@ -5,6 +5,11 @@
         <h3><%= @campaign.name %></h3>
     <% end %>
 
+    <%= link_to campaign_dashboard_path(@campaign) do %>
+        <i class="fa fa-thumb-tack"></i>
+        Dashboard
+    <% end %>
+
     <% if @campaign.editable?(current_user) %>
         <%= link_to new_campaign_card_path(@campaign) do %>
             <i class="fa fa-plus"></i>

@@ -6,6 +6,13 @@
 	<%= link_to @campaign do %>
 		<h3><%= @campaign.name %></h3>
 	<% end %>
+
+	<% unless @presenting %>
+		<%= link_to(campaign_dashboard_path(@campaign, present: true), target: '_blank', data: { controller: 'popup-link', action: 'popup-link#open' }) do %>
+			<i class="fa fa-television"></i>
+			Present dashboard
+		<% end %>
+	<% end %>
 <% end %>
 
 <% if @current_location %>
