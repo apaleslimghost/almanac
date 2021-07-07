@@ -8,12 +8,10 @@
 	<% end %>
 <% end %>
 
-<% content_for :header do %>
-	<% if @current_location %>
-		<%= render 'locations/header', location: @current_location %>
-	<% else %>
-		<h1><%= @campaign.name %></h1>
-	<% end %>
+<% if @current_location %>
+	<%= render 'cards/header', card: @current_location %>
+<% else %>
+	<%= render 'campaigns/header', campaign: @campaign %>
 <% end %>
 
 <div class="grid">

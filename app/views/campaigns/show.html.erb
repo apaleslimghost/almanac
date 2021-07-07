@@ -25,13 +25,7 @@
     <% end %>
 <% end %>
 
-<% content_for :header do %>
-    <h1><%= @campaign.name %></h1>
-
-    <% unless @campaign.tagline.empty? %>
-        <p><%= @campaign.tagline %></p>
-    <% end %>
-<% end %>
+<%= render 'header', campaign: @campaign %>
 
 <div class="grid">
     <%= render @campaign.cards.map(&:specific) %>
