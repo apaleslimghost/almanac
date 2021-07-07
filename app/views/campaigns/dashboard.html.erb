@@ -17,6 +17,8 @@
 <% end %>
 
 <div class="grid">
+	<%= render 'quests/list' %>
+
 	<% if @current_location %>
 		<%= render 'locations/content', location: @current_location %>
 	<% else %>
