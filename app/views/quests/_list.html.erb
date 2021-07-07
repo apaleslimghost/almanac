@@ -1,5 +1,11 @@
-<% OrnamentHelper::ORNAMENTS.each_key do |ornament| %>
-	<%= ornamented ornament, as: 'h1' do %>
-		Hello
+<div>
+	<% quests.each do |quest| %>
+		<div>
+			<%= ornamented :dotted_rune, as: 'h3' do %>
+				<%= quest.title %>
+			<% end %>
+
+			<%= render 'objectives/list', objectives: quest.objectives %>
+		</div>
 	<% end %>
-<% end %>
+</div>

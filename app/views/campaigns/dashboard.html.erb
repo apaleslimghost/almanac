@@ -17,7 +17,7 @@
 <% end %>
 
 <div class="grid">
-	<%= render 'quests/list' %>
+	<%= render 'quests/list', quests: @campaign.cards.filter { _1.actable_type == 'CardType::Quest' } .map(&:specific) %>
 
 	<% if @current_location %>
 		<%= render 'locations/content', location: @current_location %>
