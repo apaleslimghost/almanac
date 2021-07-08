@@ -21,10 +21,10 @@
 		background: linear-gradient(
 			to bottom,
 			transparent,
-			#262a33
+			$colour-slate
 		);
 
-		color: white;
+		color: $colour-white;
 	}
 
 	position: absolute;
@@ -50,7 +50,7 @@
 	}
 
 	.image & > * {
-		-webkit-text-stroke: calc(0.025em + 1px) #262a3377;
+		-webkit-text-stroke: calc(0.025em + 1px) rgba($colour-slate, 50%);
 		paint-order: stroke fill;
 	}
 

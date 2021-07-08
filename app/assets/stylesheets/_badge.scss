@@ -1,5 +1,5 @@
 .badge {
-	background: #262a33;
+	background: $colour-slate;
 	color: white;
 	font-size: 0.8em;
 	padding: 0.2em 0.4em;
@@ -9,7 +9,7 @@
 	line-height: 1;
 
 	&.notification {
-		background: #cc1452;
+		background: $colour-crimson;
 		font-size: 0.7em;
 	}
 }
