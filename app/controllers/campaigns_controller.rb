@@ -25,8 +25,6 @@ class CampaignsController < ApplicationController
 
   def dashboard
     @presenting = !@campaign.owner?(current_user) || params[:present]
-    puts 'WHHAT'
-    puts params
 
     if @presenting
       Current.minimum_visibility = "campaign"
