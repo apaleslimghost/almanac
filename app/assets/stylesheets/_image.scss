@@ -1,0 +1,64 @@
+.image {
+	position: relative;
+	background-color: var(--image-color);
+
+	> canvas, > img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		transition-property: opacity;
+	}
+
+	> canvas {
+		transition-duration: 0.2s;
+	}
+
+	> img {
+		z-index: 1;
+		transition-duration: 0.5s;
+		object-fit: cover;
+	}
+
+	html[data-turbolinks-preview] & {
+		canvas, img {
+			transition-duration: 0s;
+		}
+
+		canvas {
+			opacity: 1
+		}
+
+		img {
+			opacity: 0;
+		}
+	}
+
+	&.loading canvas {
+		opacity: 1;
+	}
+
+	&.loaded img {
+		opacity: 1;
+	}
+
+	&.loaded-instant img {
+		transition-duration: 0.1s;
+	}
+}
+
+.image-attribution {
+	position: absolute;
+	z-index: 3;
+	bottom: 1rem;
+	right: 1rem;
+	color: white;
+	font-size: 0.8em;
+
+	.full-bleed & {
+		top: 1rem;
+		bottom: auto;
+	}
+}

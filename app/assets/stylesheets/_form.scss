@@ -1,0 +1,23 @@
+
+.image-select {
+	input[type="radio"] {
+		display: none;
+	}
+
+	input[type="radio"]:checked + .image {
+		outline: 0.2em solid black;
+	}
+
+	.image {
+		height: 100px;
+	}
+}
+
+.inline-input {
+	color: inherit;
+	font: inherit;
+	appearance: none;
+	background: none;
+	border: 0 none;
+	border-bottom: 0.05em currentColor dotted;
+}

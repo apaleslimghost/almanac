@@ -1,0 +1,71 @@
+$card-radius: 0.3em;
+
+.card {
+	padding: 1rem;
+	border: 1px solid $colour-outline;
+	border-radius: $card-radius;
+	box-shadow: 0 2px 4px -4px #0007;
+	overflow: hidden;
+	color: inherit;
+	text-decoration: none;
+
+	header.image {
+		margin: -1em -1em 1em;
+		width: calc(100% + 2em);
+		height: 6em;
+		border-top-left-radius: $card-radius;
+		border-top-right-radius: $card-radius;
+		border-bottom: 1px solid $colour-outline;
+
+		&:last-child {
+			margin-bottom: -1em;
+			border-bottom: 0 none;
+			border-radius: $card-radius;
+			height: 8em;
+		}
+	}
+
+	&.pending .image {
+		img, canvas {
+			filter: grayscale(70%) contrast(50%) brightness(150%);
+		}
+	}
+
+	h3 {
+		font-size: 1.6em;
+	}
+
+	> p:first-child {
+		margin-top: 0;
+	}
+
+	> *:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.paper {
+	@extend .card;
+	background: white;
+	border-radius: 0;
+	grid-column: span 2;
+	min-height: 10em;
+	box-shadow: 0 4px 8px -6px #0007;
+
+	&.field {
+		padding: 0;
+	}
+
+	&:not(.field) {
+		border: 0 none;
+	}
+
+	textarea {
+		width: 100%;
+		min-height: 10em;
+		resize: vertical;
+		border: 0 none;
+		font: inherit;
+		padding: 0.5em;
+	}
+}

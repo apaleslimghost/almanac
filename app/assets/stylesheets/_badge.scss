@@ -1,0 +1,15 @@
+.badge {
+	background: #262a33;
+	color: white;
+	font-size: 0.8em;
+	padding: 0.2em 0.4em;
+	border-radius: 1em;
+	display: inline-block;
+	vertical-align: 0.5ch;
+	line-height: 1;
+
+	&.notification {
+		background: #cc1452;
+		font-size: 0.7em;
+	}
+}
