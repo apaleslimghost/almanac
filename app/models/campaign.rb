@@ -18,7 +18,7 @@ class Campaign < ApplicationRecord
   only_visible :cards, :quests, :locations, :objectives
   after_save :broadcast
 
-  def visible?(user)
+  def visible?(user, _unused_minimum_visibility = "whatever")
     settings.public || editable?(user)
   end
 
