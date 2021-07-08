@@ -24,13 +24,18 @@ class CampaignsController < ApplicationController
   end
 
   def dashboard
+    @current_location = @campaign.settings.current_location
+
+    if !params[:location_id] || params[:location_id] != @current_location.slug
+      redirect_to campaign_dashboard_path(@campaign, @current_location)
+    end
+
     @presenting = !@campaign.owner?(current_user) || params[:present]
 
     if @presenting
       Current.minimum_visibility = "campaign"
     end
 
-    @current_location = @campaign.settings.current_location
     @image = @current_location&.image || @campaign.image
   end
 

@@ -6,6 +6,9 @@ class CampaignSettings < ApplicationRecord
   after_save :broadcast
 
   def broadcast
-    DashboardChannel.broadcast_to self, current_location
+    DashboardChannel.broadcast_to(self, {
+      campaign: campaign.slug,
+      location: current_location.slug
+    })
   end
 end

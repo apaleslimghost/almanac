@@ -10,8 +10,11 @@ export default class Dashboard extends Controller {
 			channel: "DashboardChannel",
 			slug: this.slugValue
 		}, {
-			received: () => {
-				Turbolinks.visit(location.pathname, { action: 'replace' })
+			received: ({ campaign, location }) => {
+				Turbolinks.visit(
+					`/campaigns/${campaign}/dashboard/${location}`,
+					{ action: 'replace' }
+				)
 			}
 		})
 	}

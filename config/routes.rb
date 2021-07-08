@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :user_campaigns, path: 'users', only: %i[index create update destroy]
 
     get 'join', to: 'user_campaigns#new'
-    get 'dashboard'
+    get 'dashboard(/:location_id)', to: 'campaigns#dashboard', as: 'dashboard'
 
     resources :cards do
       resources :card_links, only: %i[create destroy], path: 'links'
