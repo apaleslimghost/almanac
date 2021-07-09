@@ -10,22 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_07_110828) do
+ActiveRecord::Schema.define(version: 2021_07_09_073118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "campaign_settings", force: :cascade do |t|
-    t.boolean "public"
-    t.bigint "campaign_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "invite_token"
-    t.bigint "current_location_id"
-    t.index ["campaign_id"], name: "index_campaign_settings_on_campaign_id"
-    t.index ["current_location_id"], name: "index_campaign_settings_on_current_location_id"
-    t.index ["invite_token"], name: "index_campaign_settings_on_invite_token", unique: true
-  end
 
   create_table "campaigns", force: :cascade do |t|
     t.string "name"
@@ -33,6 +21,9 @@ ActiveRecord::Schema.define(version: 2021_07_07_110828) do
     t.string "slug"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "public"
+    t.string "invite_token"
+    t.index ["invite_token"], name: "index_campaigns_on_invite_token", unique: true
   end
 
   create_table "card_links", force: :cascade do |t|
@@ -88,6 +79,15 @@ ActiveRecord::Schema.define(version: 2021_07_07_110828) do
     t.index ["owner_id"], name: "index_cards_on_owner_id"
   end
 
+  create_table "dashboards", force: :cascade do |t|
+    t.bigint "campaign_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "current_location_id"
+    t.index ["campaign_id"], name: "index_dashboards_on_campaign_id"
+    t.index ["current_location_id"], name: "index_dashboards_on_current_location_id"
+  end
+
   create_table "images", force: :cascade do |t|
     t.string "actable_type"
     t.bigint "actable_id"
@@ -126,8 +126,6 @@ ActiveRecord::Schema.define(version: 2021_07_07_110828) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "campaign_settings", "campaigns"
-  add_foreign_key "campaign_settings", "card_type_locations", column: "current_location_id"
   add_foreign_key "card_links", "cards", column: "to_id"
   add_foreign_key "card_type_locations", "card_type_locations", column: "parent_id"
   add_foreign_key "card_type_objectives", "card_type_locations", column: "location_id"
@@ -135,6 +133,8 @@ ActiveRecord::Schema.define(version: 2021_07_07_110828) do
   add_foreign_key "card_type_quests", "card_type_locations", column: "location_id"
   add_foreign_key "cards", "campaigns"
   add_foreign_key "cards", "users", column: "owner_id"
+  add_foreign_key "dashboards", "campaigns"
+  add_foreign_key "dashboards", "card_type_locations", column: "current_location_id"
   add_foreign_key "user_campaigns", "campaigns"
   add_foreign_key "user_campaigns", "users"
 end

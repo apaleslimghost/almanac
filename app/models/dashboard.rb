@@ -1,4 +1,4 @@
-class CampaignSettings < ApplicationRecord
+class Dashboard < ApplicationRecord
   belongs_to :campaign
   has_secure_token :invite_token
   belongs_to :current_location, class_name: 'CardType::Location', optional: true

@@ -24,7 +24,7 @@ class CampaignsController < ApplicationController
   end
 
   def dashboard
-    @current_location = @campaign.settings.current_location
+    @current_location = @campaign.dashboard.current_location
     @presenting = !@campaign.owner?(current_user) || params[:present]
 
     if !params[:location_id] || params[:location_id] != @current_location.slug
@@ -41,7 +41,7 @@ class CampaignsController < ApplicationController
   # POST /campaigns
   def create
     @campaign = Campaign.new(campaign_params)
-    @campaign.settings = CampaignSettings.new
+    @campaign.dashboard = Dashboard.new
     @campaign.user_campaigns << UserCampaign.new(
       user: current_user,
       access: :owner
@@ -89,14 +89,11 @@ class CampaignsController < ApplicationController
     params.require(:campaign).permit(
       :name,
       :tagline,
+      :public,
       image_attributes: [
         :id,
         :actable_type,
         { actable_attributes: %i[id unsplash_id] }
-      ],
-      settings_attributes: [
-        :id,
-        :public
       ]
     )
   end

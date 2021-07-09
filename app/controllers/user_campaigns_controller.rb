@@ -6,7 +6,7 @@ class UserCampaignsController < ApplicationController
 
 	def new
 		@token = params[:token]
-		raise HttpException::Forbidden unless @campaign.settings.invite_token == @token
+		raise HttpException::Forbidden unless @campaign.invite_token == @token
 		redirect_to @campaign if @campaign.users.where(id: current_user.id).exists?
 	end
 
@@ -25,7 +25,7 @@ class UserCampaignsController < ApplicationController
 			accepted: true
 		))
 
-		token_valid = params[:token] == @campaign.settings.invite_token
+		token_valid = params[:token] == @campaign.invite_token
 		user_is_self = user_campaign.user == current_user
 
 		raise HttpException::Forbidden unless token_valid and user_is_self

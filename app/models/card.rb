@@ -40,7 +40,7 @@ class Card < ApplicationRecord
     when "campaign"
       campaign.editable?(user)
     when "public"
-      campaign.settings.public
+      campaign.public
     else
       false
     end

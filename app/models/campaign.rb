@@ -4,10 +4,9 @@ class Campaign < ApplicationRecord
   has_many :user_campaigns, -> { where(accepted: true) }
   has_many :users, through: :user_campaigns
   has_many :cards
-  has_one :settings, class_name: :CampaignSettings, required: true
+  has_one :dashboard, required: true
   has_one :image, as: :imageable
   accepts_nested_attributes_for :image, reject_if: proc { |attributes| !Image.valid_params? attributes }
-  accepts_nested_attributes_for :settings
 
   has_many :quests, source_type: 'CardType::Quest', through: :cards, source: :actable
   has_many :locations, source_type: 'CardType::Location', through: :cards, source: :actable
@@ -19,7 +18,7 @@ class Campaign < ApplicationRecord
   after_save :broadcast
 
   def visible?(user, _unused_minimum_visibility = "whatever")
-    settings.public || editable?(user)
+    public || editable?(user)
   end
 
   def editable?(user)
