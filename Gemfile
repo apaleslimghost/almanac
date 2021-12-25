@@ -45,3 +45,5 @@ gem "rb-gravatar", "~> 1.0"
 
 
 gem "actioncable", "~> 6.1"
+
+gem "render_editorjs", "~> 0.1.2"

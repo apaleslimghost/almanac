@@ -1,12 +1,16 @@
 class CardsController < ApplicationController
   before_action :set_campaign
-  before_action :set_card, only: %i[update destroy]
+  before_action :set_card, only: %i[show update destroy]
 
   layout "header_and_content"
 
   # GET /cards/new
   def new
     @types = Card.types
+  end
+
+  def show
+    redirect_to [@campaign, @card.specific]
   end
 
   # POST /cards

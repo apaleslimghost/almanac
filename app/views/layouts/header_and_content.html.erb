@@ -8,6 +8,7 @@
    <% end %>
 
    <div class="content <%= @content_class %>">
+      <%= content_for :before %>
       <%= yield %>
       <%= content_for :after %>
    </div>

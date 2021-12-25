@@ -19,6 +19,10 @@
    <%= render 'cards/header', card: @card %>
 <% end %>
 
+<% content_for :before do %>
+   <%= render 'cards/content', card: @card %>
+<% end %>
+
 <% if @card.persisted? %>
    <% content_for :after do %>
       <%= render @card.card_links %>

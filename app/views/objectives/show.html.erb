@@ -1,20 +1,3 @@
-<% content_for :header do %>
-    <%= link_to [@card.quest.campaign, @card.quest] do %>
-        <%= render 'icon_header', {
-            level: 2,
-            title: @card.quest.title,
-            icon: @card.quest.icon,
-            label: @card.quest.specific.model_name.human
-        } %>
-    <% end %>
-
-   <%= render 'icon_header', title: @card.title, icon: @card.icon, label: @card.specific.model_name.human %>
-<% end %>
-
-<div class="paper">
-    TODO
-</div>
-
 <% if @card.location %>
     <%= render @card.location %>
 <% end %>
