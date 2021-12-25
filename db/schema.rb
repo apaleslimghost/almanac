@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_09_073118) do
+ActiveRecord::Schema.define(version: 2021_12_25_214317) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(version: 2021_07_09_073118) do
   create_table "cards", force: :cascade do |t|
     t.string "title"
     t.string "slug"
-    t.text "body", default: ""
     t.bigint "campaign_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -74,6 +73,7 @@ ActiveRecord::Schema.define(version: 2021_07_09_073118) do
     t.integer "editable", default: 0
     t.bigint "owner_id", null: false
     t.string "description"
+    t.jsonb "content"
     t.index ["actable_type", "actable_id"], name: "index_cards_on_actable"
     t.index ["campaign_id"], name: "index_cards_on_campaign_id"
     t.index ["owner_id"], name: "index_cards_on_owner_id"
