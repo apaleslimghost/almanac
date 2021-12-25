@@ -11,11 +11,9 @@
    <%= render 'icon_header', title: @card.title, icon: @card.icon, label: @card.specific.model_name.human %>
 <% end %>
 
-<% unless @card.html_body.empty? %>
-    <div class="paper">
-        <%= @card.html_body %>
-    </div>
-<% end %>
+<div class="paper">
+    TODO
+</div>
 
 <% if @card.location %>
     <%= render @card.location %>

@@ -67,14 +67,8 @@ class Card < ApplicationRecord
     self.actable = actable_type.constantize.new(params)
   end
 
-  def html_body
-    CommonMarker.render_html(body).html_safe
-  end
-
   def excerpt
-    CommonMarker.render_html(
-      (body.split(/\r?\n\r?\n/, 2).first || '').strip
-    ).html_safe
+    "TODO"
   end
 
   def self.types
