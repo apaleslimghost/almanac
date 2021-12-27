@@ -17,9 +17,14 @@ export default class extends Controller {
     this.editor = new EditorJS({
       holder: this.element,
       data: content,
-      onChange: (api, block) => {
+      onReady: () => {
+        this.editor.caret.setToLastBlock('end')
+      },
+      onChange: () => {
         this.saveContent()
-      }
+      },
+      autofocus: true,
+      placeholder: ''
     })
   }
 

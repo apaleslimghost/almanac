@@ -1,5 +1,5 @@
 <div
-	class="paper"
+	class="editor"
 	<% if card.editable? current_user %>
 		data-controller="editor"
 		data-editor-action-value="<%= polymorphic_path([card.campaign, card.acting_as]) %>"
