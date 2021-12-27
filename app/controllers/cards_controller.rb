@@ -33,8 +33,13 @@ class CardsController < ApplicationController
 
   # PATCH/PUT /cards/1
   def update
+    puts card_params
     if @card.update(card_params)
-      redirect_to [@campaign, @card.specific], notice: 'Card was successfully updated.'
+      respond_to do |format|
+        format.html { redirect_to [@campaign, @card.specific], notice: 'Card was successfully updated.' }
+        format.json { render json: @card }
+      end
+
     else
       @card = @card.specific
       render :edit
@@ -61,15 +66,20 @@ class CardsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def card_params
-    unless params[:card][:actable_type].start_with?('CardType::')
-      raise ActionController::BadRequest
+    if params[:card][:actable_type]
+      unless params[:card][:actable_type].start_with?('CardType::')
+        raise ActionController::BadRequest
+      end
+
+      actable_attributes = params[:card][:actable_type].constantize.permitted_attributes
+    else
+      actable_attributes = []
     end
 
-    actable_attributes = params[:card][:actable_type].constantize.permitted_attributes
-
     params.require(:card).permit(
-      :title, :description, :slug, :content, :campaign_id, :actable_type,
+      :title, :description, :slug, :campaign_id, :actable_type,
       :visible, :editable,
+      content: {},
       actable_attributes: %i[id] + actable_attributes,
       image_attributes: [
         :id,

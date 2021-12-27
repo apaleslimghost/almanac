@@ -39,11 +39,10 @@ gem 'webpacker', '~> 5.2'
 
 gem 'turbolinks', '~> 5.2'
 
-gem "font-awesome-sass", "~> 4.7"
+gem 'font-awesome-sass', '~> 4.7'
 
-gem "rb-gravatar", "~> 1.0"
+gem 'rb-gravatar', '~> 1.0'
 
+gem 'actioncable', '~> 6.1'
 
-gem "actioncable", "~> 6.1"
-
-gem "render_editorjs", "~> 0.1.2"
+gem 'render_editorjs', '~> 0.1.2'

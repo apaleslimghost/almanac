@@ -1,3 +1,18 @@
-<div class="paper">
-	<%= render_blocks card.content %>
+<div
+	class="paper"
+	<% if card.editable? current_user %>
+		data-controller="editor"
+		data-editor-action-value="<%= polymorphic_path([card.campaign, card.acting_as]) %>"
+	<% end %>
+>
+
+	<% if card.editable? current_user %>
+		<script type="application/json" data-editor-target="content">
+			<%= card.content.to_json.html_safe %>
+		</script>
+	<% end %>
+
+	<div data-editor-target="rendered">
+		<%= render_blocks card.content %>
+	</div>
 </div>
