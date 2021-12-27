@@ -68,7 +68,13 @@ class Card < ApplicationRecord
   end
 
   def excerpt
-    "TODO"
+    return "" unless content
+
+    first_paragraph_index = content["blocks"].find_index { |block| block["type"] == "paragraph" }
+
+    until_first_paragraph = content["blocks"].take(first_paragraph_index + 1)
+
+    ApplicationController.helpers.render_blocks(content.merge({ "blocks" => until_first_paragraph }))
   end
 
   def self.types

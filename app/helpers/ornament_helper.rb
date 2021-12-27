@@ -1,7 +1,7 @@
 module OrnamentHelper
 	ORNAMENTS = {
 		grass: ['a', 'A'],
-		spike: ['b', 'B'],
+		barb: ['b', 'B'],
 		rose: ['c', 'C'],
 		thorned_heart: ['d', 'D'],
 		chandelier: ['e', 'E'],
