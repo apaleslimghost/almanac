@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     get 'dashboard(/:location_id)', to: 'campaigns#dashboard', as: 'dashboard'
 
     resources :cards do
+      get 'search', on: :collection
       resources :card_links, only: %i[create destroy], path: 'links'
     end
 

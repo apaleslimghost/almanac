@@ -79,6 +79,10 @@ class Card < ApplicationRecord
     ApplicationController.helpers.render_blocks(content.merge({ "blocks" => until_first_paragraph }))
   end
 
+  def self.search(query)
+    where('lower(title) LIKE :search', search: "%#{query}%")
+  end
+
   def self.types
     CardType.constants
       .map { ('CardType::' + _1.to_s).constantize }

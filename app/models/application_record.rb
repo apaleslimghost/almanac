@@ -5,7 +5,7 @@ class ApplicationRecord < ActiveRecord::Base
     methods.each do |method|
       alias_method "_#{method}", method
       define_method(method) do
-        super().filter { _1.visible?(Current.user, Current.minimum_visibility) }
+        super().select { _1.visible?(Current.user, Current.minimum_visibility) }
       end
     end
   end

@@ -12,7 +12,7 @@ import api from '../lib/api'
 
 // Connects to data-controller="editor"
 export default class extends Controller {
-  static values = { action: String }
+  static values = { action: String, search: String }
   static targets = ['content', 'rendered']
 
   connect() {
@@ -26,12 +26,12 @@ export default class extends Controller {
       holder: this.element,
       data: content,
       onReady: () => {
-        // this.editor.caret.setToLastBlock('end')
+        this.editor.caret.setToLastBlock('end')
       },
       onChange: () => {
         this.saveContent()
       },
-      // autofocus: true,
+      autofocus: true,
       placeholder: '',
       tools: {
         header: Header,
@@ -39,7 +39,13 @@ export default class extends Controller {
         quote: Quote,
         marker: Marker,
         underline: Underline,
-        link: LinkAutocomplete
+        link: {
+          class: LinkAutocomplete,
+          config: {
+            endpoint: this.searchValue,
+            queryParam: 'q'
+          }
+        }
       },
       inlineToolbar: true
     })

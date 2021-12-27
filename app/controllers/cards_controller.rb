@@ -13,6 +13,21 @@ class CardsController < ApplicationController
     redirect_to [@campaign, @card.specific]
   end
 
+  def search
+    cards = @campaign._cards.where('lower(title) LIKE :query', query: "%#{params[:q]}%").filter { _1.visible?(current_user) }
+
+    render json: {
+      success: true,
+      items: cards.map do |card|
+        {
+          name: card.title,
+          href: polymorphic_path([@campaign, card.specific]),
+          description: card.description || card.excerpt
+        }
+      end
+    }
+  end
+
   # POST /cards
   def create
     @card = Card.new(card_params)
