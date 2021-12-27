@@ -26,7 +26,28 @@
 	border-bottom: calc(0.05em + 1px) transparent dotted;
 	transition: border-color 0.15s;
 
-	&:hover, &:focus {
+	&:hover, &:focus, &:placeholder-shown {
 		border-bottom-color: currentColor;
 	}
+}
+
+.autosize-input {
+	&:placeholder-shown {
+		min-width: 4em;
+	}
+	width: 0;
+}
+
+.autosize-wrapper {
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	display: inline-block;
+	position: absolute;
+	pointer-events: none;
+}
+
+.autosize-content {
+	visibility: hidden;
+	display: inline-block;
 }
