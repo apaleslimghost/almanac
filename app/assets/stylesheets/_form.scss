@@ -13,11 +13,20 @@
 	}
 }
 
+.inline-form {
+	display: inline-block;
+}
+
 .inline-input {
 	color: inherit;
 	font: inherit;
 	appearance: none;
 	background: none;
 	border: 0 none;
-	border-bottom: 0.05em currentColor dotted;
+	border-bottom: calc(0.05em + 1px) transparent dotted;
+	transition: border-color 0.15s;
+
+	&:hover, &:focus {
+		border-bottom-color: currentColor;
+	}
 }

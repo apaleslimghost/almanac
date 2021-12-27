@@ -10,9 +10,13 @@
       <% end %>
    <% end %>
 
-   <%= render 'icon_header', title: card.title, icon: card.icon, label: card.specific.model_name.human %>
+   <%= render 'icon_header', icon: card.icon, label: card.specific.model_name.human do %>
+      <%= form_with model: [card.campaign, card.acting_as], data: { controller: 'autosave', action: 'input->autosave#save' }, class: 'inline-form' do |form| %>
+         <%= form.text_field :title, class: 'inline-input' %>
+      <% end %>
+   <% end %>
 
-   <% if card.description && !card.description.empty? %>
-      <p><%= card.description %></p>
+   <%= form_with model: [card.campaign, card.acting_as], data: { controller: 'autosave', action: 'input->autosave#save' } do |form| %>
+      <%= form.text_field :description, class: 'inline-input' %>
    <% end %>
 <% end %>

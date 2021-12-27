@@ -1,6 +1,6 @@
 import { Controller } from 'stimulus'
 import EditorJS from '@editorjs/editorjs'
-import Rails from '@rails/ujs'
+import api from '../lib/api'
 
 // Connects to data-controller="editor"
 export default class extends Controller {
@@ -31,16 +31,6 @@ export default class extends Controller {
   async saveContent() {
     const content = await this.editor.save()
 
-    const response = await fetch(this.actionValue, {
-      method: 'PATCH',
-      body: JSON.stringify({ card: { content } }),
-      headers: {
-        'accept': 'application/json',
-        'content-type': 'application/json',
-        'x-csrf-token': Rails.csrfToken()
-      }
-    })
-
-    console.log(await response.json())
+    await api(this.actionValue, { card: { content } }, {method: 'PATCH'})
   }
 }
