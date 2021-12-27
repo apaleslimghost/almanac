@@ -72,6 +72,8 @@ class Card < ApplicationRecord
 
     first_paragraph_index = content["blocks"].find_index { |block| block["type"] == "paragraph" }
 
+    return "" unless first_paragraph_index
+
     until_first_paragraph = content["blocks"].take(first_paragraph_index + 1)
 
     ApplicationController.helpers.render_blocks(content.merge({ "blocks" => until_first_paragraph }))

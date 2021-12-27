@@ -1,5 +1,13 @@
 import { Controller } from 'stimulus'
 import EditorJS from '@editorjs/editorjs'
+import Header from '@editorjs/header'
+import '@editorjs/link-autocomplete' // wtf
+import Marker from '@editorjs/marker'
+import NestedList from '@editorjs/nested-list'
+import Quote from '@editorjs/quote'
+import Underline from '@editorjs/underline'
+import Paragraph from '@editorjs/paragraph'
+
 import api from '../lib/api'
 
 // Connects to data-controller="editor"
@@ -18,13 +26,22 @@ export default class extends Controller {
       holder: this.element,
       data: content,
       onReady: () => {
-        this.editor.caret.setToLastBlock('end')
+        // this.editor.caret.setToLastBlock('end')
       },
       onChange: () => {
         this.saveContent()
       },
-      autofocus: true,
-      placeholder: ''
+      // autofocus: true,
+      placeholder: '',
+      tools: {
+        header: Header,
+        list: NestedList,
+        quote: Quote,
+        marker: Marker,
+        underline: Underline,
+        link: LinkAutocomplete
+      },
+      inlineToolbar: true
     })
   }
 
