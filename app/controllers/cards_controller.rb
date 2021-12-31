@@ -11,7 +11,7 @@ class CardsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.json { render json: {content: render_to_string(@card, formats: [:html])} }
+      format.json { render json: {content: render_to_string(@card, formats: [:html], locals: { static_render: true })} }
       format.html { redirect_to [@campaign, @card.specific] }
     end
   end

@@ -27,7 +27,7 @@ export default class CardPlugin {
 			>
 				<input data-card-render-target="search" data-action="input->card-render#search" type="search" />
 				<ul data-card-render-target="results"></ul>
-				<div data-card-render-target="card"></div>
+				<div data-card-render-target="card" data-mutation-free="true"></div>
 			</div>
 		`
 	}
