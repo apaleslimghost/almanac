@@ -9,6 +9,7 @@ import Underline from '@editorjs/underline'
 import Paragraph from '@editorjs/paragraph'
 
 import api from '../lib/api'
+import CardPlugin from '../lib/card-plugin'
 
 // Connects to data-controller="editor"
 export default class extends Controller {
@@ -45,7 +46,8 @@ export default class extends Controller {
             endpoint: this.searchValue,
             queryParam: 'q'
           }
-        }
+        },
+        card: CardPlugin
       },
       inlineToolbar: true
     })
@@ -54,6 +56,8 @@ export default class extends Controller {
   async saveContent() {
     const content = await this.editor.save()
 
-    await api(this.actionValue, { card: { content } }, {method: 'PATCH'})
+    const results = await api(this.actionValue, { card: { content } }, {method: 'PATCH'})
+
+    console.log(results)
   }
 }

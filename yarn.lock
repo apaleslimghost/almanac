@@ -2437,6 +2437,11 @@ csso@^4.0.2:
   dependencies:
     css-tree "^1.1.2"
 
+csstype@^3.0.9:
+  version "3.0.10"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.10.tgz#2ad3a7bed70f35b965707c092e5f30b327c290e5"
+  integrity sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==
+
 currently-unhandled@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz"
@@ -3528,6 +3533,11 @@ hsla-regex@^1.0.0:
   resolved "https://registry.yarnpkg.com/hsla-regex/-/hsla-regex-1.0.0.tgz"
   integrity sha1-wc56MWjIxmFAM6S194d/OyJfnDg=
 
+htm@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/htm/-/htm-3.1.0.tgz#0c305493b60da9f6ed097a2aaf4c994bd85ea022"
+  integrity sha512-L0s3Sid5r6YwrEvkig14SK3Emmc+kIjlfLhEGn2Vy3bk21JyDEes4MoDsbJk6luaPp8bugErnxPz86ZuAw6e5Q==
+
 html-comment-regex@^1.1.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/html-comment-regex/-/html-comment-regex-1.1.2.tgz"
@@ -4163,6 +4173,13 @@ jsprim@^1.2.2:
     extsprintf "1.3.0"
     json-schema "0.2.3"
     verror "1.10.0"
+
+jsx-dom@^8.0.1-beta.4:
+  version "8.0.1-beta.4"
+  resolved "https://registry.yarnpkg.com/jsx-dom/-/jsx-dom-8.0.1-beta.4.tgz#a84a1c42ce436e244c5ef0168a1ba96d16ccb846"
+  integrity sha512-tFlNSINsQpC/SHvlI50xliGJZzyBV169vXYVk/VEHX9LbRV82IQHPDvOytOt1RZN2kbj7rAoIJiHj5i/nq0Q9Q==
+  dependencies:
+    csstype "^3.0.9"
 
 killable@^1.0.1:
   version "1.0.1"

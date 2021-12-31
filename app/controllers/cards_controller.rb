@@ -10,7 +10,10 @@ class CardsController < ApplicationController
   end
 
   def show
-    redirect_to [@campaign, @card.specific]
+    respond_to do |format|
+      format.json { render json: {content: render_to_string(@card, formats: [:html])} }
+      format.html { redirect_to [@campaign, @card.specific] }
+    end
   end
 
   def search
@@ -48,7 +51,6 @@ class CardsController < ApplicationController
 
   # PATCH/PUT /cards/1
   def update
-    puts card_params
     if @card.update(card_params)
       respond_to do |format|
         format.html { redirect_to [@campaign, @card.specific], notice: 'Card was successfully updated.' }

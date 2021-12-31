@@ -10,13 +10,15 @@ export default async (path, data, extraOptions) => {
 		...extraOptions
 	}
 
-	if(data instanceof FormData) {
-		options.body = data
-	} else {
-		options.body = JSON.stringify(data)
-		options.headers['content-type'] = 'application/json'
+	if(options.method !== 'GET') {
+		if(data instanceof FormData) {
+			options.body = data
+		} else {
+			options.body = JSON.stringify(data)
+			options.headers['content-type'] = 'application/json'
+		}
 	}
 
 	const response = await fetch(path, options)
-	console.log(await response.json())
+	return response.json()
 }
