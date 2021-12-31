@@ -16,16 +16,16 @@ export default class extends Controller {
   static targets = ['content', 'rendered']
 
   connect() {
-    if(this.renderedTarget) {
-      this.renderedTarget.remove()
-    }
-
     const content = JSON.parse(this.contentTarget.innerText)
 
     this.editor = new EditorJS({
       holder: this.element,
       data: content,
       onReady: () => {
+        if(this.renderedTarget) {
+          this.renderedTarget.remove()
+        }
+
         this.editor.caret.setToLastBlock('end')
       },
       onChange: () => {

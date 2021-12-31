@@ -31,4 +31,8 @@ a:active {
 
 ul, ol {
 	padding-left: 1em;
+
+	&:first-child {
+		margin-top: 0;
+	}
 }
