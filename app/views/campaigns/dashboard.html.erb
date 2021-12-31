@@ -16,7 +16,7 @@
 <% end %>
 
 <% if @current_location %>
-	<%= render 'cards/header', card: @current_location %>
+	<%= render 'cards/header', card: @current_location, allow_edit: false %>
 <% else %>
 	<%= render 'campaigns/header', campaign: @campaign %>
 <% end %>

@@ -27,7 +27,7 @@ $header-padding: 0.75em;
 		}
 
 		background: scrimGradient(
-			rgba($colour-slate, 80%),
+			$colour-slate,
 			'to bottom'
 		);
 	}
