@@ -4,19 +4,11 @@
 
 <%= content_tag tag_name, {
 	class: "image #{image_class}",
-	data: {
-		controller: "lazy-image",
-		lazy_image_blurhash_value: unsplash_image.photo.blur_hash,
-		lazy_image_src_value: unsplash_image.photo.urls[size] + '&dpr=2&q=30'
-	},
+	style: "--image-color: #{unsplash_image.photo.color}"
 } do %>
-	<canvas width="32" height="32" data-lazy-image-target="canvas"></canvas>
 	<%= tag.img(
 		alt: unsplash_image.photo.description,
-		data: {
-			lazy_image_target: 'image',
-			action: 'load->lazy-image#showImage:once'
-		}
+		src: unsplash_image.photo.urls[size] + '&dpr=2&q=30',
 	) %>
 
 	<% unless size == :thumb %>
