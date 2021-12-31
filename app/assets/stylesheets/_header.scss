@@ -26,10 +26,9 @@ $header-padding: 0.75em;
 			filter: invert(1);
 		}
 
-		background: linear-gradient(
-			to top,
-			transparent,
-			rgba($colour-slate, 80%)
+		background: scrimGradient(
+			rgba($colour-slate, 80%),
+			'to bottom'
 		);
 	}
 

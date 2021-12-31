@@ -21,10 +21,9 @@
 
 .splash-wrapper {
 	.image & {
-		background: linear-gradient(
-			to bottom,
-			transparent,
-			$colour-slate
+		background: scrimGradient(
+			$colour-slate,
+			'to top'
 		);
 
 		color: $colour-white;
