@@ -11,6 +11,7 @@ export default class CardRender extends Controller {
 	static targets = ['search', 'results', 'card']
 
 	connect() {
+		console.log(this.element.lol)
 		this.search = debounce(this.search.bind(this), 500)
 	}
 
@@ -44,6 +45,7 @@ export default class CardRender extends Controller {
 
 	async search(event) {
 		const query = event.target.value
+		// TODO unhardcode
 		const { items } = await api(`/campaigns/the-broken-crown/cards/search?q=${encodeURIComponent(query)}`, null, {method: 'GET'})
 
 		this.renderResults(items)
@@ -51,8 +53,6 @@ export default class CardRender extends Controller {
 
 	select(event) {
 		event.preventDefault()
-		// TODO json card path
 		this.pathValue = event.target.pathname.replace(/\/campaigns\/([^\/]+)\/[^\/]+\/([^\/]+)/, '/campaigns/$1/cards/$2.json')
-		// TODO trigger save
 	}
 }

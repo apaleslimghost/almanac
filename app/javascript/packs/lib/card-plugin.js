@@ -1,40 +1,54 @@
-import htm from 'htm/mini'
-import { h } from 'jsx-dom'
+import { Node, mergeAttributes } from '@tiptap/core'
+import React from 'jsx-dom'
 
-const html = htm.bind(h)
-
-export default class CardPlugin {
+export default Node.create({
+	name: 'card',
+	group: 'block',
+	atom: true,
 	// TODO button to clear card selection
 
-	static toolbox = {
-		title: 'Card',
-		icon: '<i class="fa fa-id-card-o"></i>'
-	}
+	// static toolbox = {
+	// 	title: 'Card',
+	// 	icon: '<i class="fa fa-id-card-o"></i>'
+	// }
 
-	constructor({ data }) {
-		this.data = data
-	}
+	addAttributes() {
+		return {
+			path: {
+				default: null
+			}
+		}
+	},
 
-	render() {
-		return html`
-			<div
+	addNodeView() {
+		console.log('hello')
+		return ({ node }) => {
+			const dom = <div
 				data-controller="card-render"
-				...${
-					this.data.path
-						? { 'data-card-render-path-value': this.data.path }
-						: {}
-					}
+				{...node.attrs.path
+					? { 'data-card-render-path-value': node.attrs.path }
+					: {}
+				}
 			>
 				<input data-card-render-target="search" data-action="input->card-render#search" type="search" />
 				<ul data-card-render-target="results"></ul>
 				<div data-card-render-target="card" data-mutation-free="true"></div>
 			</div>
-		`
-	}
+			console.log(node, dom)
 
-	save(component) {
-		return {
-			path: component.dataset.cardRenderPathValue
+			dom.lol = 'lol hello'
+
+			return { dom }
 		}
-	}
-}
+	},
+
+	parseHTML() {
+		return [
+		  { tag: 'card-render' },
+		]
+	 },
+
+	 renderHTML({ HTMLAttributes }) {
+		return ['card-render', HTMLAttributes, 0]
+	 },
+})

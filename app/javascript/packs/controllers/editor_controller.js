@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce'
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import Drop from '../lib/drop'
+import Card from '../lib/card-plugin'
 
 import api from '../lib/api'
 
@@ -30,7 +31,8 @@ export default class extends Controller {
       autofocus: 'end',
       extensions: [
         StarterKit,
-        Drop
+        Drop,
+        Card
       ]
     })
   }

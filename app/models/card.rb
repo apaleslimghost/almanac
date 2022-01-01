@@ -70,13 +70,16 @@ class Card < ApplicationRecord
   def excerpt
     return "" unless content
 
-    first_paragraph_index = content["blocks"].find_index { |block| block["type"] == "paragraph" }
+    first_paragraph_index = content["content"].find_index { |block| block["type"] == "paragraph" }
 
     return "" unless first_paragraph_index
 
-    until_first_paragraph = content["blocks"].take(first_paragraph_index + 1)
+    until_first_paragraph = content["content"].take(first_paragraph_index + 1)
 
-    ApplicationController.helpers.render_blocks(content.merge({ "blocks" => until_first_paragraph }))
+    ApplicationController.helpers.render_blocks({
+      "type" => "doc",
+      "content" => until_first_paragraph
+    })
   end
 
   def self.search(query)
