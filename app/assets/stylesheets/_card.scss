@@ -17,13 +17,13 @@ $card-radius: 0.3em;
 		border-top-left-radius: $card-radius;
 		border-top-right-radius: $card-radius;
 		border-bottom: 1px solid $colour-outline;
+	}
 
-		&:last-child {
-			margin-bottom: -1em;
-			border-bottom: 0 none;
-			border-radius: $card-radius;
-			height: 8em;
-		}
+	> :last-child header.image {
+		margin-bottom: -1em;
+		border-bottom: 0 none;
+		border-radius: $card-radius;
+		height: 8em;
 	}
 
 	&.pending .image {
@@ -42,6 +42,10 @@ $card-radius: 0.3em;
 
 	> *:last-child {
 		margin-bottom: 0;
+	}
+
+	.ce-block & {
+		margin-bottom: 1em;
 	}
 }
 

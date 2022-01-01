@@ -36,3 +36,9 @@ ul, ol {
 		margin-top: 0;
 	}
 }
+
+.ce-block i {
+	&.fa, &.ra {
+		font-style: normal;
+	}
+}
