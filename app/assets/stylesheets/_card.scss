@@ -19,7 +19,7 @@ $card-radius: 0.3em;
 		border-bottom: 1px solid $colour-outline;
 	}
 
-	> :last-child header.image {
+	> a:last-child header.image, > header.image:last-child {
 		margin-bottom: -1em;
 		border-bottom: 0 none;
 		border-radius: $card-radius;
