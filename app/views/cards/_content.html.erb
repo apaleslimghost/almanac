@@ -11,9 +11,11 @@
 		<script type="application/json" data-editor-target="content">
 			<%= card.content.to_json.html_safe %>
 		</script>
+
+		<div data-editor-target="editor"></div>
 	<% end %>
 
 	<div data-editor-target="rendered">
-		<%= render_blocks card.content %>
+		<%# <%= render_blocks card.content %>
 	</div>
 </div>

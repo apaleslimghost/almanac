@@ -1,61 +1,40 @@
 import { Controller } from 'stimulus'
-import EditorJS from '@editorjs/editorjs'
-import Header from '@editorjs/header'
-import '@editorjs/link-autocomplete' // wtf
-import Marker from '@editorjs/marker'
-import NestedList from '@editorjs/nested-list'
-import Quote from '@editorjs/quote'
-import Underline from '@editorjs/underline'
-import Paragraph from '@editorjs/paragraph'
+
+import { Editor } from '@tiptap/core'
+import StarterKit from '@tiptap/starter-kit'
 
 import api from '../lib/api'
-import CardPlugin from '../lib/card-plugin'
+import debounce from 'lodash.debounce'
 
 // Connects to data-controller="editor"
 export default class extends Controller {
   static values = { action: String, search: String }
-  static targets = ['content', 'rendered']
+  static targets = ['content', 'rendered', 'editor']
 
   connect() {
+    this.saveContent = debounce(this.saveContent.bind(this), 500)
     const content = JSON.parse(this.contentTarget.innerText)
 
-    this.editor = new EditorJS({
-      holder: this.element,
-      data: content,
-      onReady: () => {
+    this.editor = new Editor({
+      element: this.editorTarget,
+      content,
+      onCreate: () => {
         if(this.renderedTarget) {
           this.renderedTarget.remove()
         }
-
-        this.editor.caret.setToLastBlock('end')
       },
-      onChange: () => {
+      onUpdate: () => {
         this.saveContent()
       },
-      autofocus: true,
-      placeholder: '',
-      tools: {
-        header: Header,
-        list: NestedList,
-        quote: Quote,
-        marker: Marker,
-        underline: Underline,
-        link: {
-          class: LinkAutocomplete,
-          config: {
-            endpoint: this.searchValue,
-            queryParam: 'q'
-          }
-        },
-        card: CardPlugin
-      },
-      inlineToolbar: true
+      autofocus: 'end',
+      extensions: [
+        StarterKit
+      ]
     })
   }
 
   async saveContent() {
-    const content = await this.editor.save()
-
+    const content = this.editor.getJSON()
     const results = await api(this.actionValue, { card: { content } }, {method: 'PATCH'})
 
     console.log(results)
