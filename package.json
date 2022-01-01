@@ -3,6 +3,7 @@
     "start": "nf -j Procfile.dev start"
   },
   "dependencies": {
+    "@babel/preset-react": "^7.16.7",
     "@rails/actioncable": "^6.0.3-7",
     "@rails/ujs": "^7.0.0",
     "@rails/webpacker": "5.2.1",

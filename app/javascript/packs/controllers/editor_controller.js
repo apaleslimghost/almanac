@@ -1,10 +1,11 @@
 import { Controller } from 'stimulus'
+import debounce from 'lodash.debounce'
 
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
+import Drop from '../lib/drop'
 
 import api from '../lib/api'
-import debounce from 'lodash.debounce'
 
 // Connects to data-controller="editor"
 export default class extends Controller {
@@ -28,7 +29,8 @@ export default class extends Controller {
       },
       autofocus: 'end',
       extensions: [
-        StarterKit
+        StarterKit,
+        Drop
       ]
     })
   }

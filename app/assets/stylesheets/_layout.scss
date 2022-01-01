@@ -29,3 +29,12 @@
 .ce-block__content, .ce-toolbar__content {
 	max-width: none;
 }
+
+.note-drag-handle {
+	position: absolute;
+	cursor: grab;
+
+	&:active {
+		cursor: grabbing;
+	}
+}
