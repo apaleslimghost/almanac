@@ -32,9 +32,9 @@ const closest = (node, selector) => node.nodeType === 3
 	: node.closest(selector)
 
 function nodeAtCoords(view, coords) {
-	if(!view.posAtCoords) console.log(view)
-	const { pos, inside } = view.posAtCoords(coords)
-	return view.nodeDOM(inside === -1 ? pos : inside)
+	const pos = view.posAtCoords(coords)
+	if(!pos) return null
+	return view.nodeDOM(pos.inside === -1 ? pos.pos : pos.inside)
 }
 
 function blockPosAtCoords(coords, view) {
@@ -55,7 +55,6 @@ function dragStart(e, view) {
 
   const coords = { left: e.clientX + 50, top: e.clientY }
   const pos = blockPosAtCoords(coords, view)
-  console.log(pos)
 
   if (pos != null) {
     view.dispatch(

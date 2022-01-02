@@ -26,8 +26,17 @@
 	padding-right: 2em;
 }
 
-.ce-block__content, .ce-toolbar__content {
-	max-width: none;
+.ProseMirror {
+	&:focus {
+		outline: none;
+	}
+
+	// space for the drag handles that's in the editor for mouse events
+	margin-left: -2em;
+	padding-left: 2em;
+
+	// space to drop after the last node
+	padding-bottom: 2em;
 }
 
 .note-drag-handle {
