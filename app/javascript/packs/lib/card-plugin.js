@@ -49,6 +49,6 @@ export default Node.create({
 	 },
 
 	 renderHTML({ HTMLAttributes }) {
-		return ['card-render', HTMLAttributes, 0]
+		return ['card-render', HTMLAttributes]
 	 },
 })
