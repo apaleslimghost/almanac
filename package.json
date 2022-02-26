@@ -6,7 +6,7 @@
     "@babel/preset-react": "^7.16.7",
     "@rails/actioncable": "^6.0.3-7",
     "@rails/ujs": "^7.0.0",
-    "@rails/webpacker": "5.2.1",
+    "@rails/webpacker": "^5.2.1",
     "@tiptap/core": "^2.0.0-beta.159",
     "@tiptap/starter-kit": "^2.0.0-beta.164",
     "blurhash": "^1.1.3",
