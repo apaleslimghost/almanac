@@ -20,5 +20,9 @@
   "devDependencies": {
     "foreman": "^3.0.1",
     "webpack-dev-server": "^3.11.1"
+  },
+  "volta": {
+    "node": "16.14.0",
+    "yarn": "1.22.17"
   }
 }
