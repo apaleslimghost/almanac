@@ -1,0 +1,30 @@
+<% static_render ||= false %>
+
+<div
+	class="card"
+	<% unless static_render %>
+		data-controller="live-render"
+		data-live-render-type-value="Card"
+		data-live-render-id-value="<%= card.id %>"
+	<% end %>
+>
+	<%= link_to [card.campaign, card.specific] do %>
+		<%= render 'image_header', image: card.image do %>
+			<%= render 'icon_header', level: 3, title: card.title, icon: card.icon, label: card.specific.model_name.human %>
+
+			<% if local_assigns.key?(:card_link) && card.editable?(current_user) %>
+				<%= button_to [card.campaign, card, card_link], method: :delete do %>
+					<i class="fa fa-chain-broken"></i>
+				<% end %>
+			<% end %>
+		<% end %>
+	<% end %>
+
+	<% if card.description && !card.description.empty? %>
+		<p><%= card.description %></p>
+	<% else %>
+		<%= card.excerpt %>
+	<% end %>
+
+	<%= yield %>
+</div>

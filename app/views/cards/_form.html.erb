@@ -1,0 +1,61 @@
+<% content_for :header do %>
+  <%= fields model: card do |fields| %>
+    <h1><%= fields.text_field :title, form: :card_form, class: 'inline-input', placeholder: "New #{card.specific.model_name.human}" %></h1>
+  <% end %>
+<% end %>
+
+<% content_for :card_nav do %>
+  <%= link_to card.persisted? ? [card.campaign, card.specific] : [:new, card.campaign, :card] do %>
+    <i class="fa fa-arrow-left"></i>
+    Back
+  <% end %>
+<% end %>
+
+<%= form_with(model: [@campaign, card], id: :card_form, html: { class: :grid }) do |form| %>
+	<%= form.hidden_field :actable_type %>
+  <%= form.fields_for :actable, card.actable do |a| %>
+    <%= a.hidden_field :id %>
+  <% end %>
+
+  <% if card.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(card.errors.count, "error") %> prohibited this card from being saved:</h2>
+
+      <ul>
+        <% card.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field card">
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <% if card.owner?(current_user) %>
+    <div class="card">
+      <div class="field">
+        <%= form.label :visible, 'Visible to' %>
+        <%= form.select :visible, Card.visibles.keys.map { [_1.humanize, _1] } %>
+      </div>
+      <div class="field">
+        <%= form.label :editable, 'Editable by' %>
+        <%= form.select :editable, Card.editables.keys.map { [_1.humanize, _1] } %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="field">
+      <%= render 'images/form', image: card.image, form: form %>
+    </div>
+  </div>
+
+  <%= yield form %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

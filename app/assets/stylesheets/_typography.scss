@@ -1,0 +1,44 @@
+@import 'setup';
+
+body {
+	font-family: $font-body;
+}
+
+h1, h2, h3 {
+	font-family: $font-heading;
+	font-weight: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+
+	.ra, .fa {
+		font-size: 0.8em;
+	}
+}
+
+a, a:visited {
+	color: inherit;
+}
+
+a:hover {
+	text-decoration-thickness: 2px;
+}
+
+a:active {
+	text-decoration-thickness: 3px;
+}
+
+ul, ol {
+	padding-left: 1em;
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+.ce-block i {
+	&.fa, &.ra {
+		font-style: normal;
+	}
+}
