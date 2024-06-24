@@ -1,5 +1,5 @@
 import { NodeSelection, Plugin } from "prosemirror-state"
-import { serializeForClipboard } from "prosemirror-view/src/clipboard"
+import { __serializeForClipboard } from "prosemirror-view"
 import { Extension } from "@tiptap/core"
 import React from "jsx-dom"
 
