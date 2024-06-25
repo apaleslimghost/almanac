@@ -23,7 +23,9 @@
 	- [x] card mentions
 		- [ ] better ui
 		- [ ] better styling inc icon
-		- [ ] adding mentioned cards as related link
+		- [x] adding mentioned cards as related link
+			- [ ] live updating it
+			- [ ] removing a link when the mention is deleted??? how even
 	- [ ] image drop upload
 	- [ ] get rid of card edit page, move everything to show, everything inline
 - [ ] dashboard

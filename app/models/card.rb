@@ -23,6 +23,7 @@ class Card < ApplicationRecord
   only_visible :related, :card_links
 
   after_save :broadcast
+  after_save :link_mentions
 
   def visibility_greater_than_editablility
     unless Card.visibles[visible] >= Card.editables[editable]
@@ -97,5 +98,24 @@ class Card < ApplicationRecord
 
   def broadcast
     ChangesChannel.broadcast_to(self, id: id)
+  end
+
+  def link_mentions
+    def walk_tree(tree, &block)
+      yield tree
+
+      if tree["content"]
+        tree["content"].each { walk_tree(_1, &block) }
+      end
+
+      return tree
+    end
+
+    walk_tree(content) do |node|
+      if node["type"] == "mention"
+        params = Rails.application.routes.recognize_path(node["attrs"]["id"])
+        CardLink.find_or_create_by(card_id: id, to_id: params[:id])
+      end
+    end
   end
 end
