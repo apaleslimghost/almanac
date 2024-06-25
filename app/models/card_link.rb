@@ -5,8 +5,8 @@ class CardLink < ApplicationRecord
    after_create :create_reciprocal
    after_destroy :destroy_reciprocal
 
-   def visible?(user)
-      to.visible?(user)
+   def visible?(user, minimum_visibility = nil)
+      to.visible?(user, minimum_visibility)
    end
 
    def create_reciprocal
