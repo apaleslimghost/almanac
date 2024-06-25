@@ -10,6 +10,8 @@ export default class UnsplashSearch extends Controller {
    }
 
    async search(event) {
+      if(!event.target.value) return
+
       const url = new URL('/unsplash/search', location.href)
       url.search = new URLSearchParams({ q: event.target.value, field_name: this.fieldNameValue }).toString()
 
