@@ -77,7 +77,7 @@ class CardsController < ApplicationController
   end
 
   def set_card
-    @card = Card.find_by_slug!(params[:id])
+    @card = Card.find_by_id!(params[:id])
     raise HttpException::NotFound unless @card.visible?(current_user)
   end
 

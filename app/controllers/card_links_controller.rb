@@ -15,7 +15,7 @@ class CardLinksController < ApplicationController
    end
 
    def set_card
-      @card = Card.find_by_slug(params[:card_id])
+      @card = Card.find_by_id(params[:card_id])
       raise HttpException::Forbidden unless @card.editable?(current_user)
    end
 

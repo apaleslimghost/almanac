@@ -1,6 +1,5 @@
 class Card < ApplicationRecord
   actable
-  has_unique_slug
   belongs_to :campaign
   belongs_to :owner, class_name: 'User'
   has_one :image, as: :imageable
