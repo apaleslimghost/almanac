@@ -5,11 +5,12 @@ import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 
 import api from '../lib/api'
+import BubbleMenu from '@tiptap/extension-bubble-menu'
 
 // Connects to data-controller="editor"
 export default class extends Controller {
   static values = { action: String, search: String }
-  static targets = ['content', 'rendered', 'editor']
+  static targets = ['content', 'rendered', 'editor', 'bubbleMenu']
 
   connect() {
     this.saveContent = debounce(this.saveContent.bind(this), 500)
@@ -29,6 +30,9 @@ export default class extends Controller {
       autofocus: 'end',
       extensions: [
         StarterKit,
+        BubbleMenu.configure({
+          element: this.bubbleMenuTarget
+        })
       ]
     })
   }
@@ -38,5 +42,13 @@ export default class extends Controller {
     const results = await api(this.actionValue, { card: { content } }, {method: 'PATCH'})
 
     console.log(results)
+  }
+
+  bold() {
+    this.editor.chain().focus().toggleBold().run()
+  }
+
+  italic() {
+    this.editor.chain().focus().toggleItalic().run()
   }
 }

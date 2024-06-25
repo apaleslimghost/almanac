@@ -12,6 +12,15 @@
 			<%= card.content.to_json.html_safe %>
 		</script>
 
+		<div data-editor-target="bubbleMenu">
+			<button data-action="click->editor#bold">
+				<i class="fa fa-bold"></i>
+			</button>
+			<button data-action="click->editor#italic">
+				<i class="fa fa-italic"></i>
+			</button>
+		</div>
+
 		<div data-editor-target="editor"></div>
 	<% end %>
 
