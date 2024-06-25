@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import debounce from 'lodash.debounce'
 
 import { Editor } from '@tiptap/core'
@@ -7,11 +7,12 @@ import StarterKit from '@tiptap/starter-kit'
 import api from '../lib/api'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
 import Placeholder from '@tiptap/extension-placeholder'
+import FloatingMenu from '@tiptap/extension-floating-menu'
 
 // Connects to data-controller="editor"
 export default class extends Controller {
   static values = { action: String, search: String }
-  static targets = ['content', 'rendered', 'editor', 'bubbleMenu']
+  static targets = ['content', 'rendered', 'editor', 'bubbleMenu', 'floatingMenu']
 
   connect() {
     this.saveContent = debounce(this.saveContent.bind(this), 500)
@@ -34,6 +35,9 @@ export default class extends Controller {
         Placeholder,
         BubbleMenu.configure({
           element: this.bubbleMenuTarget
+        }),
+        FloatingMenu.configure({
+          element: this.floatingMenuTarget
         })
       ]
     })
@@ -46,11 +50,9 @@ export default class extends Controller {
     console.log(results)
   }
 
-  bold() {
-    this.editor.chain().focus().toggleBold().run()
-  }
+  format(event) {
+    const { format, args } = event.params
 
-  italic() {
-    this.editor.chain().focus().toggleItalic().run()
+    this.editor.chain()[format](args).focus().run()
   }
 }

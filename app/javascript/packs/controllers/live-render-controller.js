@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import consumer from '../consumer'
 
 export default class LiveRender extends Controller {

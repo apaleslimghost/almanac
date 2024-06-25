@@ -13,11 +13,25 @@
 		</script>
 
 		<div data-editor-target="bubbleMenu">
-			<button data-action="click->editor#bold">
+			<button data-action="click->editor#format" data-editor-format-param="toggleBold">
 				<i class="fa fa-bold"></i>
 			</button>
-			<button data-action="click->editor#italic">
+			<button data-action="click->editor#format" data-editor-format-param="toggleItalic">
 				<i class="fa fa-italic"></i>
+			</button>
+		</div>
+
+		<div data-editor-target="floatingMenu">
+			<button data-action="click->editor#format" data-editor-format-param="toggleHeading" data-editor-args-param='{ "level": 1 }'>
+				<i class="fa fa-header"></i>
+				<sub>1</sub>
+			</button>
+			<button data-action="click->editor#format" data-editor-format-param="toggleHeading" data-editor-args-param='{ "level": 2 }'>
+				<i class="fa fa-header"></i>
+				<sub>2</sub>
+			</button>
+			<button data-action="click->editor#format" data-editor-format-param="toggleBlockquote">
+				<i class="fa fa-quote-left"></i>
 			</button>
 		</div>
 

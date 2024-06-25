@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus'
+import { Controller } from '@hotwired/stimulus'
 import api from '../lib/api'
 import htm from 'htm'
 import { h } from 'jsx-dom'
