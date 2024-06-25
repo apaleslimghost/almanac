@@ -6,6 +6,7 @@ import StarterKit from '@tiptap/starter-kit'
 
 import api from '../lib/api'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
+import Placeholder from '@tiptap/extension-placeholder'
 
 // Connects to data-controller="editor"
 export default class extends Controller {
@@ -30,6 +31,7 @@ export default class extends Controller {
       autofocus: 'end',
       extensions: [
         StarterKit,
+        Placeholder,
         BubbleMenu.configure({
           element: this.bubbleMenuTarget
         })

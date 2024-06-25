@@ -10,6 +10,7 @@
     "@tiptap-pro/extension-emoji": "^2.8.9",
     "@tiptap/core": "^2.4.0",
     "@tiptap/extension-bubble-menu": "^2.4.0",
+    "@tiptap/extension-placeholder": "^2.4.0",
     "@tiptap/pm": "^2.4.0",
     "@tiptap/starter-kit": "^2.4.0",
     "blurhash": "^1.1.3",

@@ -26,6 +26,14 @@
 	padding-right: 2em;
 }
 
+.editor p.is-editor-empty:first-child::before {
+	color: $colour-outline;
+	content: attr(data-placeholder);
+	float: left;
+	height: 0;
+	pointer-events: none;
+ }
+
 .ProseMirror {
 	&:focus {
 		outline: none;
