@@ -14,9 +14,18 @@
 	- [x] links
 		- https://github.com/opf/typed_dag
 	- [x] images
+		- [ ] image upload
+		- [ ] unsplash search modal(?)
 	- [ ] history
 		- https://github.com/paper-trail-gem/paper_trail
 	- [x] visibility
+- [x] block editor
+	- [x] card mentions
+		- [ ] better ui
+		- [ ] better styling inc icon
+		- [ ] adding mentioned cards as related link
+	- [ ] image drop upload
+	- [ ] get rid of card edit page, move everything to show, everything inline
 - [ ] dashboard
 	- [ ] selecting currently active card
 	- [ ] search
@@ -24,6 +33,7 @@
 	- [ ] sort by links
 	- [ ] quest splash
 	- [ ] visibility for presentation vs control
+	- [ ] sort/filter(?) quests based on location
 - [x] slugs for everything
 - [x] design
   	- [x] (google) fonts
@@ -31,6 +41,9 @@
 	- [x] navigation
 	- [x] grid
 	- [x] banner
+	- [ ] forms
+	- [ ] responsive
 - [x] client
   	- [x] turbolinks
+	- [ ] just fuckin rewrite the client stuff in react what are you even doing
 - [ ] importer for legacy almanac data
