@@ -42,15 +42,17 @@ class CampaignsController < ApplicationController
   def create
     @campaign = Campaign.new(campaign_params)
     @campaign.dashboard = Dashboard.new
-    @campaign.user_campaigns << UserCampaign.new(
+    @campaign.user_campaigns.new(
       user: current_user,
-      access: :owner
+      campaign: @campaign, # TODO why is this necessary
+      access: :owner,
+      accepted: true
     )
 
     if @campaign.save
       redirect_to @campaign, notice: 'Campaign was successfully created.'
     else
-      render :new
+      render :edit
     end
   end
 
