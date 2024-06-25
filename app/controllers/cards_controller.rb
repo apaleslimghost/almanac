@@ -17,7 +17,16 @@ class CardsController < ApplicationController
   end
 
   def search
-    cards = @campaign._cards.where('lower(title) LIKE :query', query: "%#{params[:q]}%").filter { _1.visible?(current_user) }
+    query = @campaign._cards.where(
+      'lower(title) LIKE :query',
+      query: "%#{params[:q]}%"
+    )
+
+    if params[:count]
+      query = query.limit(params[:count].to_i)
+    end
+
+    cards = query.filter { _1.visible?(current_user) }
 
     render json: {
       success: true,

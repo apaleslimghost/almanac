@@ -13,6 +13,7 @@
     "@tiptap/core": "^2.4.0",
     "@tiptap/extension-bubble-menu": "^2.4.0",
     "@tiptap/extension-floating-menu": "^2.4.0",
+    "@tiptap/extension-mention": "^2.4.0",
     "@tiptap/extension-placeholder": "^2.4.0",
     "@tiptap/pm": "^2.4.0",
     "@tiptap/starter-kit": "^2.4.0",

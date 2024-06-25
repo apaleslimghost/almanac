@@ -1,13 +1,15 @@
 import { Controller } from '@hotwired/stimulus'
 import debounce from 'lodash.debounce'
 
-import { Editor } from '@tiptap/core'
+import { Editor, mergeAttributes } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 
 import api from '../lib/api'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
 import Placeholder from '@tiptap/extension-placeholder'
 import FloatingMenu from '@tiptap/extension-floating-menu'
+import Mention from '@tiptap/extension-mention'
+import cardMentionSuggestion from '../lib/card-mention-suggestion'
 
 // Connects to data-controller="editor"
 export default class extends Controller {
@@ -34,10 +36,28 @@ export default class extends Controller {
         StarterKit,
         Placeholder,
         BubbleMenu.configure({
-          element: this.bubbleMenuTarget
+          element: this.bubbleMenuTarget,
+          tippyOptions: {
+            theme: 'light-border',
+            arrow: false
+          }
         }),
         FloatingMenu.configure({
-          element: this.floatingMenuTarget
+          element: this.floatingMenuTarget,
+          tippyOptions: {
+            theme: 'light-border',
+            arrow: false
+          }
+        }),
+        Mention.configure({
+          suggestion: cardMentionSuggestion({ searchPath: this.searchValue }),
+          renderHTML({ options, node }) {
+            return [
+              "a",
+              mergeAttributes({ href: node.attrs.id }, options.HTMLAttributes),
+              `${options.suggestion.char}${node.attrs.label}`,
+            ]
+          }
         })
       ]
     })
