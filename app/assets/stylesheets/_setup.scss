@@ -10,6 +10,7 @@ $colour-outline: #0003;
 $colour-slate: #262a33;
 $colour-crimson: #cc1452;
 $colour-white: #fff;
+$colour-fade: #fff6;
 $colour-paper: #f9f1ea;
 
 @function scrimGradient($startColor, $direction: 'to bottom') {

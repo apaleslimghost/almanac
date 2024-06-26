@@ -48,3 +48,18 @@ ul, ol {
 		font-style: normal;
 	}
 }
+
+blockquote {
+	margin: 0.5rem 0;
+	padding: 0.5rem 1rem;
+	border-left: 3px solid $colour-outline;
+	background: $colour-fade;
+
+	:last-child {
+		margin-bottom: 0;
+	}
+
+	:first-child {
+		margin-top: 0;
+	}
+ }
