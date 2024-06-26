@@ -11,11 +11,11 @@
 <% end %>
 
 <% unless content_for?(:header) %>
-   <%= render 'cards/header', card: @card %>
+   <%= render 'header', card: @card %>
 <% end %>
 
 <% content_for :before do %>
-   <%= render 'cards/content', card: @card %>
+   <%= render 'content', card: @card %>
 <% end %>
 
 <% if @card.persisted? %>
