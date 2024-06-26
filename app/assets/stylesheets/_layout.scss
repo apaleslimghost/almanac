@@ -28,7 +28,7 @@
 	padding-right: 2em;
 }
 
-.editor p.is-editor-empty:first-child::before {
+.editor p.is-editor-empty:not(.has-focus):first-child::before {
 	color: $colour-outline;
 	content: attr(data-placeholder);
 	float: left;

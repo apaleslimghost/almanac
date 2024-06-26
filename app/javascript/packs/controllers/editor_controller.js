@@ -8,6 +8,7 @@ import api from '../lib/api'
 import BubbleMenu from '@tiptap/extension-bubble-menu'
 import Placeholder from '@tiptap/extension-placeholder'
 import FloatingMenu from '@tiptap/extension-floating-menu'
+import Focus from '@tiptap/extension-focus'
 import Mention from '@tiptap/extension-mention'
 import cardMentionSuggestion from '../lib/card-mention-suggestion'
 
@@ -34,6 +35,7 @@ export default class extends Controller {
       extensions: [
         StarterKit,
         Placeholder,
+        Focus,
         BubbleMenu.configure({
           element: this.bubbleMenuTarget,
           tippyOptions: {
