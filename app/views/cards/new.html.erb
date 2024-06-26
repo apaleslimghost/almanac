@@ -12,9 +12,9 @@
    <% @types.each do |type| %>
       <% card = type.new(card: Card.new) %>
       <%= form_with model: [@campaign, card.card], html: { class: :card }, namespace: type.model_name do |f| %>
-         <%= f.hidden_field :actable_type, autocomplete: 'off' %>
+         <%= f.hidden_field :actable_type %>
          <%= f.fields_for :actable, card.actable do |a| %>
-            <%= a.hidden_field :id, autocomplete: 'off' %>
+            <%= a.hidden_field :id %>
          <% end %>
 
          <%= f.button class: 'link-button' do %>

@@ -48,3 +48,6 @@ gem 'actioncable', '~> 6.1'
 gem 'render_editorjs', '~> 0.1.2'
 
 gem "tiptap-ruby", "~> 0.9.3"
+
+# remove when you update to rails 7
+gem "rails-hidden_autocomplete", "~> 0.4.0"
