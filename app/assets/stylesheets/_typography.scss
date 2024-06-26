@@ -17,16 +17,22 @@ h1, h2, h3, h4, h5, h6 {
 	}
 }
 
-a, a:visited {
-	color: inherit;
+%link {
+	&, &:visited {
+		color: inherit;
+	}
+
+	&:hover {
+		text-decoration-thickness: 2px;
+	}
+
+	&:active {
+		text-decoration-thickness: 3px;
+	}
 }
 
-a:hover {
-	text-decoration-thickness: 2px;
-}
-
-a:active {
-	text-decoration-thickness: 3px;
+a {
+	@extend %link;
 }
 
 ul, ol {

@@ -60,8 +60,7 @@
 	background: none;
 	border: 0 none;
 	cursor: pointer;
+	text-decoration: underline;
 
-	&:hover {
-		text-decoration: underline;
-	}
+	@extend %link;
 }

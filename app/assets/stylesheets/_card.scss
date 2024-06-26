@@ -48,6 +48,22 @@ $card-radius: 0.3em;
 	.ce-block & {
 		margin-bottom: 1em;
 	}
+
+	%link {
+		text-decoration: none;
+
+		header {
+			text-decoration: underline;
+		}
+
+		&:hover header {
+			text-decoration-thickness: 2px;
+		}
+
+		&:active header {
+			text-decoration-thickness: 3px;
+		}
+	}
 }
 
 .card-actions {
