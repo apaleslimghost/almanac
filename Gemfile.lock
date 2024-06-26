@@ -217,6 +217,9 @@ GEM
       sprockets (>= 3.0.0)
     thor (1.1.0)
     tilt (2.0.10)
+    tiptap-ruby (0.9.3)
+      actionview (>= 6.0)
+      activesupport (>= 6.0)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -256,6 +259,7 @@ DEPENDENCIES
   rb-gravatar (~> 1.0)
   render_editorjs (~> 0.1.2)
   sass-rails (>= 6)
+  tiptap-ruby (~> 0.9.3)
   turbolinks (~> 5.2)
   tzinfo-data
   unsplash (~> 2.1)

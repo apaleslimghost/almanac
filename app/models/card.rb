@@ -1,3 +1,5 @@
+require 'tip_tap'
+
 class Card < ApplicationRecord
   actable
   belongs_to :campaign
@@ -65,6 +67,14 @@ class Card < ApplicationRecord
 
   def build_actable(params)
     self.actable = actable_type.constantize.new(params)
+  end
+
+  def tiptap_document
+    @document ||= TipTap::Document.from_json(content || { "type": "doc", "content": [] })
+  end
+
+  def content_html
+    ActionController::Base.helpers.safe_join(tiptap_document.map(&:to_html))
   end
 
   def excerpt

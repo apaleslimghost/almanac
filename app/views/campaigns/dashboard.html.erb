@@ -25,7 +25,12 @@
 	<%= render 'quests/list', quests: @campaign.quests %>
 
 	<% if @current_location %>
-		<%= render 'locations/content', location: @current_location %>
+		<%# TODO more dynamic sorting %>
+		<%= render @current_location.children %>
+		<%= render @current_location.quests %>
+		<%= render @current_location.objectives %>
+		<%= render @current_location.documents %>
+
 	<% else %>
 		<%= render @campaign.cards.map(&:specific) %>
 	<% end %>

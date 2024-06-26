@@ -23,7 +23,11 @@
 	grid-template-rows: masonry;
 }
 
-.editor {
+.wide {
+	grid-column: span 2;
+}
+
+.editor, .paper:has(.editor) {
 	grid-column: span 3;
 	padding-right: 2em;
 }
