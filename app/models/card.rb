@@ -111,6 +111,8 @@ class Card < ApplicationRecord
       return tree
     end
 
+    return unless content
+
     walk_tree(content) do |node|
       if node["type"] == "mention"
         params = Rails.application.routes.recognize_path(node["attrs"]["id"])
