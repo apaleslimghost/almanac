@@ -96,6 +96,14 @@ class Card < ApplicationRecord
     specific.icon
   end
 
+  def friendly_title
+    if title.blank?
+      "Unnammed #{specific.model_name.human}"
+    else
+      title
+    end
+  end
+
   def broadcast
     ChangesChannel.broadcast_to(self, id: id)
   end

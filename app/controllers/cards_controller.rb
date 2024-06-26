@@ -32,7 +32,7 @@ class CardsController < ApplicationController
       success: true,
       items: cards.map do |card|
         {
-          name: card.title,
+          name: card.friendly_title,
           href: polymorphic_path([@campaign, card.specific]),
           description: card.description || card.excerpt
         }

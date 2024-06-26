@@ -20,7 +20,7 @@
 		<%= render 'image_header', image: card.image do %>
 			<%= render 'icon_header',
 				level: 3,
-				title: card.title.blank? ? "Unnamed #{card.specific.model_name.human}" : card.title,
+				title: card.friendly_title,
 				icon: card.icon,
 				label: card.specific.model_name.human
 			%>

@@ -4,9 +4,9 @@
    <% objectives.each do |objective| %>
       <li>
          <% if link %>
-            <%= link_to objective.title, [objective.campaign, objective] %>
+            <%= link_to objective.friendly_title, [objective.campaign, objective] %>
          <% else %>
-            <%= objective.title %>
+            <%= objective.friendly_title %>
          <% end %>
       </li>
    <% end %>

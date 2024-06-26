@@ -3,12 +3,16 @@
 <% content_for :header do %>
    <% if card.parent %>
       <%= link_to [card.parent.campaign, card.parent] do %>
-         <%= render 'icon_header', {
-            level: 2,
-            title: card.parent.title,
-            icon: card.parent.icon,
-            label: card.parent.specific.model_name.human
-         } %>
+      	<% if card.parent.specific.model_name == card.specific.model_name %>
+            <h2><%= card.parent.friendly_title %></h2>
+         <% else %>
+            <%= render 'icon_header', {
+               level: 2,
+               title: card.parent.friendly_title,
+               icon: card.parent.icon,
+               label: card.parent.specific.model_name.human
+            } %>
+         <% end %>
       <% end %>
    <% end %>
 
@@ -23,7 +27,7 @@
             %>
          <% end %>
       <% else %>
-         <%= card.title %>
+         <%= card.friendly_title %>
       <% end %>
    <% end %>
 
