@@ -18,7 +18,12 @@
 
 	<%= link_to [card.campaign, card.specific] do %>
 		<%= render 'image_header', image: card.image do %>
-			<%= render 'icon_header', level: 3, title: card.title, icon: card.icon, label: card.specific.model_name.human %>
+			<%= render 'icon_header',
+				level: 3,
+				title: card.title.empty? ? "Unnamed #{card.specific.model_name.human}" : card.title,
+				icon: card.icon,
+				label: card.specific.model_name.human
+			%>
 		<% end %>
 	<% end %>
 
