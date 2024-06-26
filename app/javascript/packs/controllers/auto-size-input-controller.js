@@ -17,7 +17,7 @@ export default class extends Controller {
 	}
 
   async update() {
-	this.div.innerHTML = this.element.value.replace(/ /g, '&nbsp;')
+	this.div.innerHTML = (this.element.value || this.element.getAttribute('placeholder')).replace(/ /g, '&nbsp;')
 	await tick()
 
 	const { width } = this.div.getBoundingClientRect()
