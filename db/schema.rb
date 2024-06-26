@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_25_173303) do
+ActiveRecord::Schema.define(version: 2024_06_26_105718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(version: 2024_06_25_173303) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["card_id"], name: "index_card_links_on_card_id"
     t.index ["to_id"], name: "index_card_links_on_to_id"
+  end
+
+  create_table "card_type_documents", force: :cascade do |t|
+    t.bigint "location_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["location_id"], name: "index_card_type_documents_on_location_id"
   end
 
   create_table "card_type_locations", force: :cascade do |t|
@@ -126,6 +133,7 @@ ActiveRecord::Schema.define(version: 2024_06_25_173303) do
   end
 
   add_foreign_key "card_links", "cards", column: "to_id"
+  add_foreign_key "card_type_documents", "card_type_locations", column: "location_id"
   add_foreign_key "card_type_locations", "card_type_locations", column: "parent_id"
   add_foreign_key "card_type_objectives", "card_type_locations", column: "location_id"
   add_foreign_key "card_type_objectives", "card_type_quests", column: "quest_id"

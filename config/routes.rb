@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :card_type do
+    resources :documents
+  end
   get 'unsplash/search'
   get 'home/index'
   root 'home#index'
@@ -18,6 +21,7 @@ Rails.application.routes.draw do
       resources :quests
       resources :objectives
       resources :locations
+      resources :documents
     end
   end
 

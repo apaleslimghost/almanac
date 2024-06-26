@@ -12,6 +12,7 @@ class Campaign < ApplicationRecord
   has_many :quests, source_type: 'CardType::Quest', through: :cards, source: :actable
   has_many :locations, source_type: 'CardType::Location', through: :cards, source: :actable
   has_many :objectives, source_type: 'CardType::Objective', through: :cards, source: :actable
+  has_many :documents, source_type: 'CardType::Document', through: :cards, source: :actable
 
   alias_method :campaign_users, :user_campaigns
 

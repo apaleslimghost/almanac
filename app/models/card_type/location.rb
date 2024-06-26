@@ -5,6 +5,7 @@ class CardType::Location < ApplicationRecord
   belongs_to :parent, class_name: 'CardType::Location', optional: true
   has_many :objectives, class_name: 'CardType::Objective'
   has_many :quests, class_name: 'CardType::Quest'
+  has_many :documents, class_name: 'CardType::Document'
 
   if_visible :parent
   only_visible :children, :objectives, :quests
