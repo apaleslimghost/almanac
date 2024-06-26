@@ -15,7 +15,12 @@
    <%= render 'icon_header', icon: card.icon, label: card.specific.model_name.human do %>
       <% if allow_edit %>
          <%= form_with model: [card.campaign, card.acting_as], data: { controller: 'autosave', action: 'input->autosave#save' }, class: 'inline-form' do |form| %>
-            <%= form.text_field :title, class: 'inline-input autosize-input', data: { controller: 'auto-size-input', action: 'input->auto-size-input#update' }, placeholder: 'Title...' %>
+            <%= form.text_field :title,
+               class: 'inline-input autosize-input',
+               data: { controller: 'auto-size-input', action: 'input->auto-size-input#update' },
+               placeholder: "#{card.specific.model_name.human} title...",
+               autofocus: card.title.blank?
+            %>
          <% end %>
       <% else %>
          <%= card.title %>

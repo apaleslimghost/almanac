@@ -5,7 +5,7 @@
       <h3><%= campaign.name %></h3>
    <% end %>
 
-   <% unless campaign.tagline.empty? %>
+   <% unless campaign.tagline.blank? %>
       <p><%= campaign.tagline %></p>
    <% end %>
 <% end %>

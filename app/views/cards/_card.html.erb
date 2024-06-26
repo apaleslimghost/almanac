@@ -20,17 +20,17 @@
 		<%= render 'image_header', image: card.image do %>
 			<%= render 'icon_header',
 				level: 3,
-				title: card.title.empty? ? "Unnamed #{card.specific.model_name.human}" : card.title,
+				title: card.title.blank? ? "Unnamed #{card.specific.model_name.human}" : card.title,
 				icon: card.icon,
 				label: card.specific.model_name.human
 			%>
 		<% end %>
 	<% end %>
 
-	<% if card.description && !card.description.empty? %>
-		<p><%= card.description %></p>
-	<% else %>
+	<% if card.description.blank? %>
 		<%= card.excerpt %>
+	<% else %>
+		<p><%= card.description %></p>
 	<% end %>
 
 	<%= yield %>

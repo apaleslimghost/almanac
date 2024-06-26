@@ -22,7 +22,7 @@ class UnsplashImage < ApplicationRecord
   end
 
   def self.valid_params?(params)
-    params.has_key? :unsplash_id and !params[:unsplash_id].empty?
+    !params[:unsplash_id].blank?
   end
 
   def self.search(query)

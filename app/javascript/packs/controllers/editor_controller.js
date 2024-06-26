@@ -31,7 +31,6 @@ export default class extends Controller {
       onUpdate: () => {
         this.saveContent()
       },
-      autofocus: 'end',
       extensions: [
         StarterKit,
         Placeholder,

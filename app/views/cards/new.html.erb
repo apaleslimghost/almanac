@@ -10,11 +10,20 @@
 
 <div class="grid">
    <% @types.each do |type| %>
-      <%= link_to new_polymorphic_path([@campaign, type.new]), class: :card do %>
-         <header>
-            <%= render 'icon_header', level: 3, title: type.model_name.human, icon: type.icon, label: type.model_name.human %>
-         </header>
-         <p><%= type.description %></p>
+      <% card = type.new(card: Card.new) %>
+      <%= form_with model: [@campaign, card.card], html: { class: :card }, namespace: type.model_name do |f| %>
+         <%= f.hidden_field :actable_type, autocomplete: 'off' %>
+         <%= f.fields_for :actable, card.actable do |a| %>
+            <%= a.hidden_field :id, autocomplete: 'off' %>
+         <% end %>
+
+         <%= f.button class: 'link-button' do %>
+            <header>
+               <%= render 'icon_header', level: 3, title: type.model_name.human, icon: type.icon, label: type.model_name.human %>
+            </header>
+
+            <p><%= type.description %></p>
+         <% end %>
       <% end %>
    <% end %>
 </div>
