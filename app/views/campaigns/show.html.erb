@@ -34,4 +34,12 @@
 
 <div class="grid">
     <%= render @campaign.cards.map(&:specific) %>
+
+	<% if @campaign.editable?(current_user) %>
+        <%= link_to new_campaign_card_path(@campaign) do %>
+            <div class="card">
+                <%= render 'icon_header', level: 3, title: 'Add something…', icon: 'fa fa-plus' %>
+            </div>
+        <% end %>
+    <% end %>
 </div>
