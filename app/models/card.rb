@@ -1,5 +1,18 @@
 require 'tip_tap'
 
+module TipTap
+	module Nodes
+	  class Gallery < Node
+		 self.type_name = 'mention'
+
+		 def to_html
+			ActionController::Base.helpers.link_to '@' + attrs["label"], attrs["id"]
+		 end
+	  end
+	end
+ end
+
+
 class Card < ApplicationRecord
   actable
   belongs_to :campaign
@@ -79,6 +92,7 @@ class Card < ApplicationRecord
 
   def excerpt
     return "" unless content
+    return @excerpt if @excerpt
 
     first_paragraph_index = content["content"].find_index { |block| block["type"] == "paragraph" }
 
@@ -86,10 +100,12 @@ class Card < ApplicationRecord
 
     until_first_paragraph = content["content"].take(first_paragraph_index + 1)
 
-    ApplicationController.helpers.render_blocks({
-      "type" => "doc",
-      "content" => until_first_paragraph
+    document = TipTap::Document.from_json({
+      "type": "doc",
+      "content": until_first_paragraph
     })
+
+    @excerpt = ActionController::Base.helpers.safe_join(document.map(&:to_html))
   end
 
   def self.search(query)
