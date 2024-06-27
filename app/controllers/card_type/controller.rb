@@ -5,18 +5,7 @@ class CardType::Controller < ApplicationController
 
    layout "card"
 
-   def new
-      @card = card_type.new
-      @card.card = Card.new
-      @card.campaign = @campaign
-      render 'edit'
-   end
-
    def show; end
-
-   def edit
-      raise HttpException::NotFound unless @card.editable?(current_user)
-   end
 
    def set_card
       @card = Card.find_by_id!(params[:id]).specific

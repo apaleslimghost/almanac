@@ -68,7 +68,7 @@ class CardsController < ApplicationController
 
     else
       @card = @card.specific
-      render :edit
+      render :show
     end
   end
 
