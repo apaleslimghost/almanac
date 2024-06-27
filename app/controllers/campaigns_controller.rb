@@ -27,7 +27,7 @@ class CampaignsController < ApplicationController
     @current_location = @campaign.dashboard.current_location
     @presenting = !@campaign.owner?(current_user) || params[:present]
 
-    if @current_location && (!params[:location_id] || params[:location_id] != @current_location.slug)
+    if @current_location && (!params[:location_id] || params[:location_id] != @current_location.to_param)
       redirect_to campaign_dashboard_path(@campaign, @current_location, {present: params[:present]})
     end
 
