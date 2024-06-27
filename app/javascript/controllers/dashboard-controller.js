@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import Turbolinks from 'turbolinks'
+import * as Turbo from '@hotwired/turbo'
 import consumer from '../consumer'
 
 export default class Dashboard extends Controller {
@@ -13,7 +13,7 @@ export default class Dashboard extends Controller {
 			slug: this.slugValue
 		}, {
 			received: ({ campaign, location }) => {
-				Turbolinks.visit(
+				Turbo.visit(
 					`/campaigns/${campaign}/dashboard/${location}${presenting ? '?present=true' : ''}`,
 					{ action: 'replace' }
 				)

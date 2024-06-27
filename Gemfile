@@ -35,10 +35,6 @@ gem 'active_record-acts_as', '~> 5.0'
 
 gem 'unsplash', '~> 2.1'
 
-gem 'webpacker', '~> 5.2'
-
-gem 'turbolinks', '~> 5.2'
-
 gem 'font-awesome-sass', '~> 4.7'
 
 gem 'rb-gravatar', '~> 1.0'
@@ -49,3 +45,5 @@ gem "tiptap-ruby", "~> 0.9.3"
 
 # remove when you update to rails 7
 gem "rails-hidden_autocomplete", "~> 0.4.0"
+
+gem "jsbundling-rails", "~> 1.3"
