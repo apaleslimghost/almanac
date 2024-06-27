@@ -18,10 +18,11 @@
    <%= render 'content', card: @card %>
 <% end %>
 
-<% if @card.persisted? %>
-   <% content_for :after do %>
+<% content_for :after do %>
+   <% if @card.persisted? %>
       <%= render @card.card_links %>
    <% end %>
+   <%= render 'form', card: @card.card %>
 <% end %>
 
 <% @content_class = 'grid' %>

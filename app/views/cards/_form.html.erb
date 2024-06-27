@@ -1,9 +1,3 @@
-<% content_for :header do %>
-  <%= fields model: card do |fields| %>
-    <h1><%= fields.text_field :title, form: :card_form, class: 'inline-input', placeholder: "New #{card.specific.model_name.human}" %></h1>
-  <% end %>
-<% end %>
-
 <% content_for :card_nav do %>
   <%= link_to card.persisted? ? [card.campaign, card.specific] : [:new, card.campaign, :card] do %>
     <i class="fa fa-arrow-left"></i>
@@ -11,12 +5,7 @@
   <% end %>
 <% end %>
 
-<%= form_with(model: [@campaign, card], id: :card_form, html: { class: :grid }) do |form| %>
-	<%= form.hidden_field :actable_type %>
-  <%= form.fields_for :actable, card.actable do |a| %>
-    <%= a.hidden_field :id %>
-  <% end %>
-
+<%= form_with(model: [@campaign, card], id: :card_form, html: { class: :grid }, data: { controller: 'autosave', action: 'input->autosave#save' }) do |form| %>
   <% if card.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(card.errors.count, "error") %> prohibited this card from being saved:</h2>
@@ -28,11 +17,6 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field card">
-    <%= form.label :description %>
-    <%= form.text_field :description %>
-  </div>
 
   <% if card.owner?(current_user) %>
     <div class="card">
@@ -54,8 +38,4 @@
   </div>
 
   <%= yield form %>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>
