@@ -17,7 +17,6 @@ class Campaign < ApplicationRecord
   alias_method :campaign_users, :user_campaigns
 
   only_visible :cards, :quests, :locations, :objectives
-  after_save :broadcast
 
   def visible?(user, _unused_minimum_visibility = "whatever")
     public || editable?(user)
@@ -29,10 +28,6 @@ class Campaign < ApplicationRecord
 
   def owner?(user)
     campaign_users.where(user: user, access: :owner).exists?
-  end
-
-  def broadcast
-    ChangesChannel.broadcast_to(self, self)
   end
 
   def specific

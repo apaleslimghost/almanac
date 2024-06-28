@@ -37,7 +37,6 @@ class Card < ApplicationRecord
 
   only_visible :related, :card_links
 
-  after_save :broadcast
   after_save :link_mentions
 
   def visibility_greater_than_editablility
@@ -128,10 +127,6 @@ class Card < ApplicationRecord
     else
       title
     end
-  end
-
-  def broadcast
-    ChangesChannel.broadcast_to(self, id: id)
   end
 
   def link_mentions

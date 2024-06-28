@@ -10,10 +10,7 @@ class CardsController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.json { render json: {content: render_to_string(@card, formats: [:html], locals: { static_render: true })} }
-      format.html { redirect_to [@campaign, @card.specific] }
-    end
+    redirect_to [@campaign, @card.specific]
   end
 
   def search
