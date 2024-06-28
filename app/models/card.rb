@@ -10,8 +10,7 @@ module TipTap
 		 end
 	  end
 	end
- end
-
+end
 
 class Card < ApplicationRecord
   actable
@@ -39,6 +38,14 @@ class Card < ApplicationRecord
 
   after_save :link_mentions
   broadcasts_to ->(card) { [card.campaign, :cards] }
+
+  def broadcast_rendering_with_defaults(options)
+    {
+      specific.model_name.element.to_sym => specific,
+      partial: specific.to_partial_path,
+      request_id: Turbo.current_request_id
+    }
+  end
 
   def visibility_greater_than_editablility
     unless Card.visibles[visible] >= Card.editables[editable]

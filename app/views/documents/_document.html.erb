@@ -1,4 +1,4 @@
-<div class="paper">
+<div class="paper" id="<%= dom_id(document.card) %>">
 	<% if local_assigns.key?(:card_link) && document.editable?(current_user) %>
 		<div class="card-actions">
 			<%= button_to [document.campaign, document.card, card_link], method: :delete do %>
