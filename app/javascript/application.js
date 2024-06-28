@@ -1,4 +1,4 @@
-import * as Turbo from '@hotwired/turbo'
+import { Turbo } from '@hotwired/turbo-rails'
 import { Application } from "@hotwired/stimulus"
 import Rails from '@rails/ujs'
 
@@ -20,3 +20,4 @@ application.register('dashboard', DashboardController);
 application.register('editor', EditorController);
 application.register('popup-link', PopupLinkController);
 application.register('unsplash-search', UnsplashSearchController);
+import "@hotwired/turbo-rails"

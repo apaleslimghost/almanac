@@ -47,3 +47,5 @@ gem "tiptap-ruby", "~> 0.9.3"
 gem "rails-hidden_autocomplete", "~> 0.4.0"
 
 gem "jsbundling-rails", "~> 1.3"
+
+gem "turbo-rails", "~> 2.0"

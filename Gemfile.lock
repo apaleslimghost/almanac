@@ -208,6 +208,10 @@ GEM
     tiptap-ruby (0.9.3)
       actionview (>= 6.0)
       activesupport (>= 6.0)
+    turbo-rails (2.0.5)
+      actionpack (>= 6.0.0)
+      activejob (>= 6.0.0)
+      railties (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unsplash (2.1.0)
@@ -241,6 +245,7 @@ DEPENDENCIES
   rb-gravatar (~> 1.0)
   sass-rails (>= 6)
   tiptap-ruby (~> 0.9.3)
+  turbo-rails (~> 2.0)
   tzinfo-data
   unsplash (~> 2.1)
 

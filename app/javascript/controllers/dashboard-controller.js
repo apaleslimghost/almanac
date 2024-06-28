@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus'
-import * as Turbo from '@hotwired/turbo'
+import { Turbo } from '@hotwired/turbo-rails'
 import consumer from '../consumer'
 
 export default class Dashboard extends Controller {

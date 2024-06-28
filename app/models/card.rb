@@ -38,6 +38,7 @@ class Card < ApplicationRecord
   only_visible :related, :card_links
 
   after_save :link_mentions
+  broadcasts_to ->(card) { [card.campaign, :cards] }
 
   def visibility_greater_than_editablility
     unless Card.visibles[visible] >= Card.editables[editable]
