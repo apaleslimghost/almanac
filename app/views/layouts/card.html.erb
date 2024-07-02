@@ -1,4 +1,5 @@
 <% content_for :title, @card.friendly_title %>
+<%= turbo_stream_from @card.campaign, :cards %>
 
 <% content_for :nav do %>
    <%= link_to @campaign do %>
