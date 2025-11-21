@@ -9,7 +9,11 @@ class SessionsController < ApplicationController
     user = User.find_by_username(params[:username])
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to root_url, notice: 'Logged in!'
+      if params[:redirect_back]
+        redirect_back notice: 'Logged in!', fallback_location: root_url
+      else
+        redirect_to root_url, notice: 'Logged in!'
+      end
     else
       flash.now[:alert] = 'Username or password is invalid'
       render 'new'

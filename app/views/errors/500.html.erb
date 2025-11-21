@@ -1,9 +1,9 @@
 <% content_for :title, "Not found" %>
 
 <% content_for :header do %>
-	<h1>404: Not found.</h1>
+	<h1>500: Internal Server Error.</h1>
 
-	<p>Not all who wander are lost. You definitely are, though.</p>
+	<p>I wish it need not have happened in my time.</p>
 <% end %>
 
 <% if current_user %>
@@ -13,5 +13,5 @@
 <% else %>
 	<h2>Speak friend, and enter</h2>
 
-	<%= render "sessions/form", redirect_back: true %>
+	<%= render "sessions/form" %>
 <% end %>

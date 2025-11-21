@@ -32,4 +32,12 @@ class UnsplashImage < ApplicationRecord
   def self.brand_image
     UnsplashImage.new(unsplash_id: 'rPkC3viHxug')
   end
+
+  def self.brand_404
+    UnsplashImage.new(unsplash_id: 'ISAF6YnVrts')
+  end
+
+  def self.brand_500
+    UnsplashImage.new(unsplash_id: '_RFKhYxVzYg')
+  end
 end
