@@ -1,5 +1,4 @@
 <% content_for :title, @card.friendly_title %>
-<%= turbo_stream_from @card.campaign, :cards %>
 
 <% content_for :nav do %>
    <%= link_to @campaign do %>
@@ -24,6 +23,10 @@
       <%= render @card.card_links %>
    <% end %>
    <%= render 'form', card: @card.card %>
+<% end %>
+
+<% content_for :body do %>
+   <%= turbo_stream_from @card.campaign, :cards %>
 <% end %>
 
 <% @content_class = 'grid' %>

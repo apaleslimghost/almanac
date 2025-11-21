@@ -1,7 +1,5 @@
 <% content_for :title, @campaign.name %>
 
-<%= turbo_stream_from @campaign, :cards %>
-
 <% content_for :nav do %>
     <%= link_to @campaign do %>
         <h3><%= @campaign.name %></h3>
@@ -31,6 +29,8 @@
         <% end %>
     <% end %>
 <% end %>
+
+<%= turbo_stream_from @campaign, :cards %>
 
 <%= render 'header', campaign: @campaign %>
 
