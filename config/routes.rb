@@ -31,4 +31,8 @@ Rails.application.routes.draw do
   get 'sign-up', to: 'users#new', as: 'signup'
   get 'log-in', to: 'sessions#new', as: 'login'
   get 'log-out', to: 'sessions#destroy', as: 'logout'
+
+  %w( 404 500 ).each do |code|
+    get code, to: 'errors#show', code: code
+  end
 end

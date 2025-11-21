@@ -1,0 +1,13 @@
+<% content_for :title, "Not found" %>
+
+<% content_for :header do %>
+	<h1>404</h1>
+
+	<p>Not all who wander are lost. You definitely are, though.</p>
+<% end %>
+
+<% unless current_user %>
+	<h2>Speak friend, and enter</h2>
+
+	<%= render "sessions/form" %>
+<% end %>

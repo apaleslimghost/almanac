@@ -10,12 +10,12 @@ class CardType::Controller < ApplicationController
    def set_card
       @card = Card.find_by_id!(params[:id]).specific
       @image = @card.image
-      raise HttpException::NotFound unless @card.visible?(current_user)
+      raise ActiveRecord::RecordNotFound unless @card.visible?(current_user)
    end
 
    def set_campaign
       @campaign = Campaign.find_by_slug!(params[:campaign_id])
-      raise HttpException::NotFound unless @campaign.visible?(current_user)
+      raise ActiveRecord::RecordNotFound unless @campaign.visible?(current_user)
    end
 
    def append_view_paths

@@ -79,12 +79,12 @@ class CardsController < ApplicationController
 
   def set_campaign
     @campaign = Campaign.find_by_slug!(params[:campaign_id])
-    raise HttpException::NotFound unless @campaign.visible?(current_user)
+    raise ActiveRecord::RecordNotFound unless @campaign.visible?(current_user)
   end
 
   def set_card
     @card = Card.find_by_id!(params[:id])
-    raise HttpException::NotFound unless @card.visible?(current_user)
+    raise ActiveRecord::RecordNotFound unless @card.visible?(current_user)
   end
 
   # Only allow a list of trusted parameters through.

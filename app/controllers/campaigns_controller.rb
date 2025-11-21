@@ -20,7 +20,7 @@ class CampaignsController < ApplicationController
 
   # GET /campaigns/1/edit
   def edit
-    raise HttpException::NotFound unless @campaign.owner?(current_user)
+    raise ActiveRecord::RecordNotFound unless @campaign.owner?(current_user)
   end
 
   def dashboard
@@ -82,7 +82,7 @@ class CampaignsController < ApplicationController
 
   def check_access
     unless !@campaign || @campaign.visible?(current_user)
-      raise HttpException::NotFound
+      raise ActiveRecord::RecordNotFound
     end
   end
 

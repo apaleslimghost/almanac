@@ -2,9 +2,4 @@
 	<h1>Log in</h1>
 <% end %>
 
-<%= alert %>
-<%= form_with url: {controller: :sessions, action: :create} do |f| %>
-	<%= f.text_field :username %>
-	<%= f.password_field :password %>
-	<%= f.submit "Log in" %>
-<% end %>
+<%= render "form" %>

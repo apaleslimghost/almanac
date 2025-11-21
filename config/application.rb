@@ -40,5 +40,7 @@ module Almanac
       g.view_specs      false
       g.helper_specs    false
     end
+
+    config.exceptions_app = self.routes
   end
 end
