@@ -28,6 +28,7 @@ export default class extends Controller {
         if(this.renderedTarget) {
           this.renderedTarget.remove()
         }
+        this.editor.commands.focus('end')
       },
       onUpdate: () => {
         this.saveContent()
