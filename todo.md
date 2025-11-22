@@ -19,6 +19,9 @@
 	- [ ] history
 		- https://github.com/paper-trail-gem/paper_trail
 	- [x] visibility
+	- [ ] map cards
+		- full-page image view
+		- connected to location
 - [x] block editor
 	- [x] card mentions
 		- [ ] better ui
@@ -27,7 +30,7 @@
 			- [ ] live updating it
 			- [ ] removing a link when the mention is deleted??? how even
 	- [ ] image drop upload
-	- [ ] get rid of card edit page, move everything to show, everything inline
+	- [x] get rid of card edit page, move everything to show, everything inline
 - [ ] dashboard
 	- [ ] selecting currently active card
 	- [ ] search
@@ -36,6 +39,12 @@
 	- [ ] quest splash
 	- [ ] visibility for presentation vs control
 	- [ ] sort/filter(?) quests based on location
+- [ ] streaming ui
+	- [ ] card image
+	- [ ] related cards from editor
+	- [ ] quest objectives
+	- [ ] document locations
+	- [ ] location parents/children
 - [x] slugs for everything
 - [x] design
   	- [x] (google) fonts
@@ -47,5 +56,7 @@
 	- [ ] responsive
 - [x] client
   	- [x] turbolinks
-	- [ ] just fuckin rewrite the client stuff in react what are you even doing
-- [ ] importer for legacy almanac data
+- [ ] deployment
+	- [ ] dockerfile
+	- [ ] update to rails 8???
+	- [ ] set up postgres
