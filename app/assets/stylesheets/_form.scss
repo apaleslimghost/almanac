@@ -86,6 +86,10 @@
 		outline: none;
 	}
 
+	> :first-child {
+		margin-top: 0;
+	}
+
 	// space for the drag handles that's in the editor for mouse events
 	margin-left: -2em;
 	padding-left: 2em;
