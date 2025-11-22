@@ -25,7 +25,7 @@
 	appearance: none;
 	background: none;
 	border: 0 none;
-	border-bottom: calc(0.05em + 1px) transparent dotted;
+	border-bottom: calc(0.02em + 1.5px) transparent dotted;
 	transition: border-color 0.15s;
 
 	&:hover, &:focus, &:placeholder-shown {
