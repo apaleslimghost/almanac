@@ -22,7 +22,7 @@
             <%= form.text_field :title,
                class: 'inline-input autosize-input',
                data: { controller: 'auto-size-input', action: 'input->auto-size-input#update' },
-               placeholder: "#{card.specific.model_name.human} title...",
+               placeholder: "#{card.specific.unnamed_title}…",
                autofocus: card.title.blank?
             %>
          <% end %>
@@ -33,7 +33,7 @@
 
    <% if allow_edit %>
       <%= form_with model: [card.campaign, card.acting_as], data: { controller: 'autosave', action: 'input->autosave#save' } do |form| %>
-         <%= form.text_field :description, class: 'inline-input autosize-input', data: { controller: 'auto-size-input', action: 'input->auto-size-input#update' }, placeholder: 'Description...' %>
+         <%= form.text_field :description, class: 'inline-input autosize-input', data: { controller: 'auto-size-input', action: 'input->auto-size-input#update' }, placeholder: 'Description…' %>
       <% end %>
    <% else %>
       <%= card.description %>

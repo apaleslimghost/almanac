@@ -131,10 +131,14 @@ class Card < ApplicationRecord
 
   def friendly_title
     if title.blank?
-      "Unnammed #{specific.model_name.human}"
+      unnamed_title
     else
       title
     end
+  end
+
+  def unnamed_title
+    "Unnammed #{specific.model_name.human}"
   end
 
   def link_mentions
