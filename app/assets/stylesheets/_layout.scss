@@ -26,3 +26,13 @@
 .wide {
 	grid-column: span 2;
 }
+
+.grid hr {
+	grid-column: 1 / -1;
+	width: 100%;
+}
+
+hr {
+	border: 0 none;
+	border-bottom: 2px $colour-outline dotted;
+}
