@@ -29,8 +29,8 @@ class Card < ApplicationRecord
 
   default_scope { includes :owner }
 
-  enum visible: %i[only_me me_and_gm campaign public], _prefix: true
-  enum editable: %i[only_me me_and_gm campaign], _prefix: true
+  enum :visible, %i[only_me me_and_gm campaign public], prefix: true
+  enum :editable, %i[only_me me_and_gm campaign], prefix: true
 
   validate :visibility_greater_than_editablility
 

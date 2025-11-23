@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_26_105718) do
+ActiveRecord::Schema.define(version: 2025_11_23_082207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2024_06_26_105718) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "public"
     t.string "invite_token"
+    t.string "old_slugs", default: [], array: true
     t.index ["invite_token"], name: "index_campaigns_on_invite_token", unique: true
   end
 
