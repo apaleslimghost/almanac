@@ -8,6 +8,8 @@ export default class extends Controller {
   }
 
   async save() {
-    await api(this.element.action, new FormData(this.element), {method: 'PATCH'})
+    const response = await api(this.element.action, new FormData(this.element), {
+      method: 'PATCH'
+    })
   }
 }

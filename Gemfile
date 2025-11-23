@@ -27,7 +27,6 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
-gem 'has_unique_slug', '~> 0.1.8'
 
 gem 'commonmarker', '~> 0.21.0'
 
@@ -49,3 +48,5 @@ gem "rails-hidden_autocomplete", "~> 0.4.0"
 gem "jsbundling-rails", "~> 1.3"
 
 gem "turbo-rails", "~> 2.0"
+
+gem "slug", "~> 4.1"

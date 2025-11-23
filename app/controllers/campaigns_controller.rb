@@ -60,7 +60,7 @@ class CampaignsController < ApplicationController
   def update
     # TODO: updating associated image
     if @campaign.update(campaign_params)
-      redirect_to @campaign, notice: 'Campaign was successfully updated.'
+      redirect_to @campaign, notice: 'Campaign was successfully updated.', status: 303
     else
       render :edit
     end

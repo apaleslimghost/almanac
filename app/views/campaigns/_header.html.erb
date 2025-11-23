@@ -1,7 +1,27 @@
 <% content_for :header do %>
-	<h1><%= @campaign.name %></h1>
+	<h1>
+		<% if @campaign.owner? current_user %>
+			<%= form_with model: @campaign, data: { controller: 'autosave', action: 'input->autosave#save' }, class: 'inline-form' do |form| %>
+            <%= form.text_field :name,
+               class: 'inline-input autosize-input',
+               data: { controller: 'auto-size-input', action: 'input->auto-size-input#update' },
+               placeholder: "Name…",
+               autofocus: @campaign.name.blank?
+            %>
+			<% end %>
+		<% else %>
+			<%= @campaign.name %>
+		<% end %>
+	</h1>
 
-	<% unless @campaign.tagline.blank? %>
-		<p><%= @campaign.tagline %></p>
-	<% end %>
+
+	<% if @campaign.owner? current_user %>
+      <%= form_with model: @campaign, data: { controller: 'autosave', action: 'input->autosave#save' } do |form| %>
+         <%= form.text_field :tagline, class: 'inline-input autosize-input', data: { controller: 'auto-size-input', action: 'input->auto-size-input#update' }, placeholder: 'Tagline…' %>
+      <% end %>
+   <% else %>
+		<% unless @campaign.tagline.blank? %>
+			<p><%= @campaign.tagline %></p>
+		<% end %>
+   <% end %>
 <% end %>

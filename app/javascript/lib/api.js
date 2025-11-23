@@ -1,3 +1,4 @@
+import { Turbo } from '@hotwired/turbo-rails'
 import Rails from '@rails/ujs'
 
 export default async (path, data, extraOptions) => {
@@ -20,5 +21,14 @@ export default async (path, data, extraOptions) => {
 	}
 
 	const response = await fetch(path, options)
-	return response.json()
+
+	if(response.redirected) {
+      Turbo.visit(response.url, { action: 'replace' })
+	}
+
+	if(response.headers.get('content-type') === 'application/json') {
+		return response.json()
+	} else {
+		return response.text()
+	}
 }

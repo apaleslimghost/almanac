@@ -1,5 +1,5 @@
 class Campaign < ApplicationRecord
-  has_unique_slug subject: :name
+  slug :name
   has_secure_token :invite_token
   has_many :pending_invites, -> { where(accepted: false) }, class_name: 'UserCampaign'
   has_many :user_campaigns, -> { where(accepted: true) }
@@ -13,6 +13,8 @@ class Campaign < ApplicationRecord
   has_many :locations, source_type: 'CardType::Location', through: :cards, source: :actable
   has_many :objectives, source_type: 'CardType::Objective', through: :cards, source: :actable
   has_many :documents, source_type: 'CardType::Document', through: :cards, source: :actable
+
+  before_save :reset_slug, if: :name_change_to_be_saved
 
   alias_method :campaign_users, :user_campaigns
 

@@ -21,13 +21,6 @@
         <i class="fa fa-users"></i>
         Members
     <% end %>
-
-    <% if @campaign.owner?(current_user) %>
-        <%= link_to edit_campaign_path(@campaign) do %>
-            <i class="fa fa-edit"></i>
-            Edit
-        <% end %>
-    <% end %>
 <% end %>
 
 <%= turbo_stream_from @campaign, :cards %>
