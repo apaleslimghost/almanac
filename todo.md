@@ -1,7 +1,6 @@
 # todo for rails
 
 - [x] users
-  	- [ ] password reset/claiming migrated user
 - [x] campaigns
 	- [x] images
 	- [x] owner & members
@@ -16,12 +15,13 @@
 	- [x] images
 		- [ ] image upload
 		- [ ] unsplash search modal(?)
+		- [ ] put the unsplash/image upload ui in the header for cards and campaigns
 	- [ ] history
 		- https://github.com/paper-trail-gem/paper_trail
 	- [x] visibility
 	- [ ] map cards
-		- full-page image view
-		- connected to location
+		- [ ] full-page image view
+		- [ ] connected to location
 - [x] block editor
 	- [x] card mentions
 		- [ ] better ui
@@ -58,5 +58,5 @@
   	- [x] turbolinks
 - [ ] deployment
 	- [ ] dockerfile
-	- [ ] update to rails 8???
+	- [x] update to rails 8???
 	- [ ] set up postgres
