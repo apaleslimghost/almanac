@@ -1,0 +1,11 @@
+<%= alert %>
+
+<%= form_with url: {controller: :sessions, action: :create} do |f| %>
+
+	<% if local_assigns.key? :redirect_back %>
+		<%= f.hidden_field :redirect_back, value: true %>
+	<% end %>
+	<%= f.text_field :username %>
+	<%= f.password_field :password %>
+	<%= f.submit "Log in" %>
+<% end %>

@@ -1,0 +1,62 @@
+# todo for rails
+
+- [x] users
+- [x] campaigns
+	- [x] images
+	- [x] owner & members
+	- [x] invites
+	- [x] join links
+- [x] cards
+    - [x] types polymorphism
+		- https://github.com/chaadow/active_record-acts_as
+	- [x] markdown
+	- [x] links
+		- https://github.com/opf/typed_dag
+	- [x] images
+		- [ ] image upload
+		- [ ] unsplash search modal(?)
+		- [ ] put the unsplash/image upload ui in the header for cards and campaigns
+	- [ ] history
+		- https://github.com/paper-trail-gem/paper_trail
+	- [x] visibility
+	- [ ] map cards
+		- [ ] full-page image view
+		- [ ] connected to location
+- [x] block editor
+	- [x] card mentions
+		- [ ] better ui
+		- [ ] better styling inc icon
+		- [x] adding mentioned cards as related link
+			- [ ] live updating it
+			- [ ] removing a link when the mention is deleted??? how even
+	- [ ] image drop upload
+	- [x] get rid of card edit page, move everything to show, everything inline
+- [ ] dashboard
+	- [ ] selecting currently active card
+	- [ ] search
+	- [ ] quick add
+	- [ ] sort by links
+	- [ ] quest splash
+	- [ ] visibility for presentation vs control
+	- [ ] sort/filter(?) quests based on location
+- [ ] streaming ui
+	- [ ] card image
+	- [ ] related cards from editor
+	- [ ] quest objectives
+	- [ ] document locations
+	- [ ] location parents/children
+- [x] slugs for everything
+- [x] design
+  	- [x] (google) fonts
+	- [x] cards
+	- [x] navigation
+	- [x] grid
+	- [x] banner
+	- [ ] forms
+	- [ ] responsive
+- [x] client
+  	- [x] turbolinks
+- [ ] deployment
+	- [ ] dockerfile
+	- [x] update to rails 8???
+	- [ ] set up postgres

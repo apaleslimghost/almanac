@@ -1,0 +1,13 @@
+<% content_for :nav do %>
+  <%= form_with model: Campaign.new(name: "Unnamed campaign") do |f| %>
+    <%= f.hidden_field :name %>
+    <%= f.button class: 'link-button' do %>
+      <i class="fa fa-plus"></i>
+      New campaign
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="grid">
+  <%= render @campaigns %>
+</div>

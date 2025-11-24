@@ -1,0 +1,17 @@
+<% content_for :title, "Not found" %>
+
+<% content_for :header do %>
+	<h1>500: Internal Server Error.</h1>
+
+	<p>I wish it need not have happened in my time.</p>
+<% end %>
+
+<% if current_user %>
+	<div clss="grid">
+		<%= render current_user.campaigns %>
+	</div>
+<% else %>
+	<h2>Speak friend, and enter</h2>
+
+	<%= render "sessions/form" %>
+<% end %>

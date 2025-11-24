@@ -1,0 +1,17 @@
+<% content_for :title, "Not found" %>
+
+<% content_for :header do %>
+	<h1>404: Not found.</h1>
+
+	<p>Not all who wander are lost. You definitely are, though.</p>
+<% end %>
+
+<% if current_user %>
+	<div clss="grid">
+		<%= render current_user.campaigns %>
+	</div>
+<% else %>
+	<h2>Speak friend, and enter</h2>
+
+	<%= render "sessions/form", redirect_back: true %>
+<% end %>

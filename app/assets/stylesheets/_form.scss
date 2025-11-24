@@ -1,0 +1,108 @@
+@import 'typography';
+
+.image-select {
+	input[type="radio"] {
+		display: none;
+	}
+
+	input[type="radio"]:checked + .image {
+		outline: 0.2em solid black;
+	}
+
+	.image {
+		height: 100px;
+	}
+}
+
+.inline-form {
+	display: inline-block;
+	margin: 0;
+}
+
+.inline-input {
+	color: inherit;
+	font: inherit;
+	appearance: none;
+	background: none;
+	border: 0 none;
+	border-bottom: calc(0.02em + 1.5px) transparent dotted;
+	transition: border-color 0.15s;
+
+	&:hover, &:focus, &:placeholder-shown {
+		border-bottom-color: currentColor;
+	}
+}
+
+.autosize-input {
+	&:placeholder-shown {
+		min-width: 4em;
+	}
+	width: 0;
+}
+
+.autosize-wrapper {
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	display: inline-block;
+	position: absolute;
+	pointer-events: none;
+}
+
+.autosize-content {
+	visibility: hidden;
+	display: inline-block;
+}
+
+.link-button {
+	appearance: none;
+	font: inherit;
+	color: inherit;
+	text-align: inherit;
+	background: none;
+	border: 0 none;
+	cursor: pointer;
+	text-decoration: underline;
+
+	@extend %link;
+}
+
+.editor,
+.paper:has(.editor) {
+	grid-column: span 3;
+	padding-right: 2em;
+}
+
+.editor p.is-editor-empty:not(.has-focus):first-child::before {
+	color: $colour-outline;
+	content: attr(data-placeholder);
+	float: left;
+	height: 0;
+	pointer-events: none;
+}
+
+.ProseMirror {
+	&:focus {
+		outline: none;
+	}
+
+	> :first-child {
+		margin-top: 0;
+	}
+
+	// space for the drag handles that's in the editor for mouse events
+	margin-left: -2em;
+	padding-left: 2em;
+
+	// space to drop after the last node
+	padding-bottom: 2em;
+}
+
+.note-drag-handle {
+	position: absolute;
+	cursor: grab;
+
+	&:active {
+		cursor: grabbing;
+	}
+}
