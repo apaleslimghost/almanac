@@ -290,6 +290,11 @@ GEM
       sprockets (>= 3.0.0)
     stringio (3.1.8)
     thor (1.4.0)
+    thruster (0.1.16)
+    thruster (0.1.16-aarch64-linux)
+    thruster (0.1.16-arm64-darwin)
+    thruster (0.1.16-x86_64-darwin)
+    thruster (0.1.16-x86_64-linux)
     tilt (2.6.1)
     timeout (0.4.4)
     tiptap-ruby (0.10.1)
@@ -341,6 +346,7 @@ DEPENDENCIES
   rb-gravatar (~> 1.0)
   sass-rails (>= 6)
   slug (~> 4.1)
+  thruster
   tiptap-ruby (~> 0.10)
   turbo-rails (~> 2.0)
   unsplash (~> 3.1)
@@ -462,6 +468,11 @@ CHECKSUMS
   sprockets-rails (3.5.2) sha256=a9e88e6ce9f8c912d349aa5401509165ec42326baf9e942a85de4b76dbc4119e
   stringio (3.1.8) sha256=99c43c3a9302843cca223fd985bfc503dd50a4b1723d3e4a9eb1d9c37d99e4ec
   thor (1.4.0) sha256=8763e822ccb0f1d7bee88cde131b19a65606657b847cc7b7b4b82e772bcd8a3d
+  thruster (0.1.16) sha256=daa74b5b88e75df5a8f82559d9cd242391c5941735bdfe33a66fb266120168ad
+  thruster (0.1.16-aarch64-linux) sha256=bc825f113ba4ba45a77b7f493cc067d7a6164955faee4300ef8fb7a9476fea5c
+  thruster (0.1.16-arm64-darwin) sha256=b7047cf7d19f7c43cdb99159f5f611cefcff70c0082e424b5bc01f91ade1e2f5
+  thruster (0.1.16-x86_64-darwin) sha256=1a239fceea8236f954d52b52cd47d574c8c0f8bd7b6471254f7b546512719292
+  thruster (0.1.16-x86_64-linux) sha256=775762f0e96ce5e300b60fdedb7a73c89d2fbaef6e9cf730f32008f6fd67396d
   tilt (2.6.1) sha256=35a99bba2adf7c1e362f5b48f9b581cce4edfba98117e34696dde6d308d84770
   timeout (0.4.4) sha256=f0f6f970104b82427cd990680f539b6bbb8b1e55efa913a55c6492935e4e0edb
   tiptap-ruby (0.10.1) sha256=88216da1f5e05955ba23193eec00638845667f2cdb3a03b28f38381f5b8a8e30

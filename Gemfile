@@ -21,5 +21,6 @@ gem 'sass-rails', '>= 6'
 gem 'unsplash', '~> 3.1'
 gem "jsbundling-rails", "~> 1.3"
 gem "slug", "~> 4.1"
+gem "thruster", require: false
 gem "tiptap-ruby", "~> 0.10"
 gem "turbo-rails", "~> 2.0"
