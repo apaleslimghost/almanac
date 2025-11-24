@@ -232,7 +232,7 @@
     "@tiptap/extension-strike" "^2.4.0"
     "@tiptap/extension-text" "^2.4.0"
 
-"@tiptap/suggestion@^2.0.0", "@tiptap/suggestion@^2.7.0":
+"@tiptap/suggestion@^2.0.0", "@tiptap/suggestion@^2.27.1", "@tiptap/suggestion@^2.7.0":
   version "2.27.1"
   resolved "https://registry.npmjs.org/@tiptap/suggestion/-/suggestion-2.27.1.tgz"
   integrity sha512-yTy75ZMYgVWM18cl7YxLqMJ7TorQTGysSd1aKmBA9qd8uzYlvLMmHKE9qBDxM9HXODBz1DA/BLLm9esv2enmFw==
