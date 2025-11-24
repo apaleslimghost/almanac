@@ -82,6 +82,8 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.20)
     bigdecimal (3.3.1)
+    bootsnap (1.19.0)
+      msgpack (~> 1.2)
     builder (3.3.0)
     commonmarker (2.5.0)
       rb_sys (~> 0.9)
@@ -154,6 +156,7 @@ GEM
     marcel (1.1.0)
     mini_mime (1.1.5)
     minitest (5.26.2)
+    msgpack (1.8.0)
     multi_xml (0.7.2)
       bigdecimal (~> 3.1)
     multipart-post (2.4.1)
@@ -335,6 +338,7 @@ DEPENDENCIES
   actioncable (~> 8.1)
   active_record-acts_as (~> 5.0)
   bcrypt (~> 3.1)
+  bootsnap (~> 1.19)
   commonmarker (~> 2.5)
   dotenv-rails (~> 3.1)
   font-awesome-sass (~> 6.7)
@@ -368,6 +372,7 @@ CHECKSUMS
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.20) sha256=8410f8c7b3ed54a3c00cd2456bf13917d695117f033218e2483b2e40b0784099
   bigdecimal (3.3.1) sha256=eaa01e228be54c4f9f53bf3cc34fe3d5e845c31963e7fcc5bedb05a4e7d52218
+  bootsnap (1.19.0) sha256=d3e54558c1a9ea10cb095eb1eb8e921ae83fd4d5764b8809f63aec18ce9f60b5
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   commonmarker (2.5.0) sha256=fc84f9e01b271298691a7cfc298cbbaadb893395dc92e9b51644675abff248b5
   commonmarker (2.5.0-aarch64-linux) sha256=5812585cbd6081483331a750b0227cd0b6d951b76103bab10ee116aa58d7e526
@@ -412,6 +417,7 @@ CHECKSUMS
   marcel (1.1.0) sha256=fdcfcfa33cc52e93c4308d40e4090a5d4ea279e160a7f6af988260fa970e0bee
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   minitest (5.26.2) sha256=f021118a6185b9ba9f5af71f2ba103ad770c75afde9f2ab8da512677c550cde3
+  msgpack (1.8.0) sha256=e64ce0212000d016809f5048b48eb3a65ffb169db22238fb4b72472fecb2d732
   multi_xml (0.7.2) sha256=307a96dc48613badb7b2fc174fd4e62d7c7b619bc36ea33bfd0c49f64f5787ce
   multipart-post (2.4.1) sha256=9872d03a8e552020ca096adadbf5e3cb1cd1cdd6acd3c161136b8a5737cdb4a8
   net-http (0.8.0) sha256=df42c47ce9f9e95ad32a317c97c12f945bc1af365288837ea4ff259876ecb46d

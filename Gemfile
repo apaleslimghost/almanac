@@ -11,6 +11,7 @@ end
 gem 'actioncable', '~> 8.1'
 gem 'active_record-acts_as', '~> 5.0'
 gem 'bcrypt', '~> 3.1'
+gem "bootsnap", "~> 1.19"
 gem 'commonmarker', '~> 2.5'
 gem 'font-awesome-sass', '~> 6.7'
 gem 'pg', '~> 1.1'
