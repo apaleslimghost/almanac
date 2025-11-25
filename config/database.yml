@@ -82,5 +82,7 @@ test:
 production:
   <<: *default
   database: almanac_production
-  username: almanac
+  username: postgres
   password: <%= ENV['ALMANAC_DATABASE_PASSWORD'] %>
+  host: almanac_postgres
+  port: 5432
