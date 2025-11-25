@@ -19,9 +19,20 @@
 <div class="grid">
   <%= render @user.campaigns %>
 
-  <% if @user == current_user and @user.invites.exists? %>
-    <% @user.invites.each do |invite| %>
-      <%= render invite.campaign, invite: invite %>
+  <% if @user == current_user %>
+    <%= form_with model: Campaign.new(name: "Unnamed campaign") do |f| %>
+      <%= f.hidden_field :name %>
+      <%= f.button class: 'link-button' do %>
+        <div class="card">
+          <%= render 'icon_header', level: 3, title: 'New campaign…', icon: 'fa fa-plus' %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% if @user.invites.exists? %>
+      <% @user.invites.each do |invite| %>
+        <%= render invite.campaign, invite: invite %>
+      <% end %>
     <% end %>
   <% end %>
 </div>
