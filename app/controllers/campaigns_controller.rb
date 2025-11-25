@@ -41,6 +41,9 @@ class CampaignsController < ApplicationController
   # POST /campaigns
   def create
     @campaign = Campaign.new(campaign_params)
+
+    @campaign.create_blank_slug!
+
     @campaign.dashboard = Dashboard.new
     @campaign.user_campaigns.new(
       user: current_user,
@@ -88,7 +91,7 @@ class CampaignsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def campaign_params
-    params.require(:campaign).permit(
+    params[:campaign]&.permit([
       :name,
       :tagline,
       :public,
@@ -97,6 +100,6 @@ class CampaignsController < ApplicationController
         :actable_type,
         { actable_attributes: %i[id unsplash_id] }
       ]
-    )
+    ]) || {}
   end
 end

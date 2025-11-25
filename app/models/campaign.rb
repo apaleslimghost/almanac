@@ -35,4 +35,14 @@ class Campaign < ApplicationRecord
   def specific
     self
   end
+
+  def friendly_name
+    name || 'Unnamed campaign'
+  end
+
+  def create_blank_slug!
+    self.name = 'unnamed campaign'
+    set_slug
+    self.name = nil
+  end
 end

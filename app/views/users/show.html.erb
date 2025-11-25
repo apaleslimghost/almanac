@@ -20,8 +20,7 @@
   <%= render @user.campaigns %>
 
   <% if @user == current_user %>
-    <%= form_with model: Campaign.new(name: "Unnamed campaign") do |f| %>
-      <%= f.hidden_field :name %>
+    <%= form_with model: Campaign.new do |f| %>
       <%= f.button class: 'link-button' do %>
         <div class="card">
           <%= render 'icon_header', level: 3, title: 'New campaign…', icon: 'fa fa-plus' %>

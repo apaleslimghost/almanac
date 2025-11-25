@@ -1,6 +1,5 @@
 <% content_for :nav do %>
-  <%= form_with model: Campaign.new(name: "Unnamed campaign") do |f| %>
-    <%= f.hidden_field :name %>
+  <%= form_with model: Campaign.new do |f| %>
     <%= f.button class: 'link-button' do %>
       <i class="fa fa-plus"></i>
       New campaign

@@ -2,7 +2,7 @@
 
 <% content_for :nav do %>
     <%= link_to @campaign do %>
-        <h3><%= @campaign.name %></h3>
+        <h3><%= @campaign.friendly_name %></h3>
     <% end %>
 
     <%= link_to campaign_dashboard_path(@campaign) do %>
