@@ -4,7 +4,11 @@
 			<%= form_with model: @campaign, data: { controller: 'autosave', action: 'input->autosave#save' }, class: 'inline-form' do |form| %>
             <%= form.text_field :name,
                class: 'inline-input autosize-input',
-               data: { controller: 'auto-size-input', action: 'input->auto-size-input#update' },
+               data: {
+						controller: 'auto-size-input',
+						action: 'input->auto-size-input#update',
+						turbo_permanent: true
+					},
                placeholder: "Unnamed campaign…",
                autofocus: @campaign.name.blank?
             %>
@@ -17,7 +21,15 @@
 
 	<% if @campaign.owner? current_user %>
       <%= form_with model: @campaign, data: { controller: 'autosave', action: 'input->autosave#save' } do |form| %>
-         <%= form.text_field :tagline, class: 'inline-input autosize-input', data: { controller: 'auto-size-input', action: 'input->auto-size-input#update' }, placeholder: 'Tagline…' %>
+         <%= form.text_field :tagline,
+				class: 'inline-input autosize-input',
+				data: {
+					controller: 'auto-size-input',
+					action: 'input->auto-size-input#update',
+					turbo_permanent: true
+				},
+				placeholder: 'Tagline…'
+			%>
       <% end %>
    <% else %>
 		<% unless @campaign.tagline.blank? %>
