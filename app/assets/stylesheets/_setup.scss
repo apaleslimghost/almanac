@@ -1,7 +1,9 @@
-@import '../../../node_modules/tippy.js/dist/tippy';
-@import '../../../node_modules/tippy.js/themes/light-border';
-@import '../../../node_modules/rpg-awesome/scss/rpg-awesome';
-@import 'font-awesome';
+@use '@fortawesome/fontawesome-free/scss/variables' with ($font-path: '.');
+@use '@fortawesome/fontawesome-free/scss/solid';
+@use '@fortawesome/fontawesome-free/scss/fontawesome';
+@use 'tippy.js/dist/tippy';
+@use 'tippy.js/themes/light-border';
+@use 'rpg-awesome/scss/rpg-awesome';
 
 $font-body: 'Encode Sans', sans-serif;
 $font-heading: 'Crimson Pro', serif;

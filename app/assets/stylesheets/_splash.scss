@@ -1,5 +1,5 @@
-@import 'setup';
-@import 'layout';
+@use 'setup' as *;
+@use 'layout' as *;
 
 .splash {
 	position: relative;

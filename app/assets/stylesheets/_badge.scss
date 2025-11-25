@@ -1,4 +1,4 @@
-@import 'setup';
+@use 'setup' as *;
 
 .badge {
 	background: $colour-slate;

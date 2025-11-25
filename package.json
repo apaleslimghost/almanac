@@ -1,9 +1,15 @@
 {
   "scripts": {
     "start": "nf -j Procfile.dev start",
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets"
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
+    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --quiet-deps"
   },
   "dependencies": {
+    "@financial-times/o-buttons": "^7.11.0",
+    "@financial-times/o-fonts": "^5.3.5",
+    "@financial-times/o-forms": "^10.0.4",
+    "@financial-times/o-typography": "^7.7.0",
+    "@fortawesome/fontawesome-free": "^7.1.0",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo": "^8.0.4",
     "@hotwired/turbo-rails": "^8.0.4",
@@ -25,6 +31,7 @@
     "jsx-dom": "~8.0",
     "lodash.debounce": "^4.0.8",
     "rpg-awesome": "^0.2.0",
+    "sass": "^1.94.2",
     "tippy.js": "^6.3.7",
     "turbolinks": "^5.2.0"
   },

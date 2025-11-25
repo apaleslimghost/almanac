@@ -1,4 +1,4 @@
-@import 'setup';
+@use 'setup' as *;
 $card-radius: 0.3em;
 
 .card {

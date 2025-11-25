@@ -1,4 +1,4 @@
-@import 'setup';
+@use 'setup' as *;
 
 body {
 	font-family: $font-body;

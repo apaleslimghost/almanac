@@ -1,15 +1,15 @@
-@import 'setup';
-@import 'layout';
-@import 'header';
-@import 'ornaments';
-@import 'typography';
-@import 'image';
-@import 'splash';
-@import 'card';
-@import 'form';
-@import 'badge';
-@import 'quest-list';
-@import 'user';
+@use 'setup' as *;
+@use 'layout';
+@use 'header';
+@use 'ornaments';
+@use 'typography';
+@use 'image';
+@use 'splash';
+@use 'card';
+@use 'form';
+@use 'badge';
+@use 'quest-list';
+@use 'user';
 
 body {
 	margin: 0;
