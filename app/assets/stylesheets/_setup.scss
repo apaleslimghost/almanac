@@ -3,7 +3,7 @@
 @use '@fortawesome/fontawesome-free/scss/fontawesome';
 @use 'tippy.js/dist/tippy';
 @use 'tippy.js/themes/light-border';
-@use 'rpg-awesome/scss/rpg-awesome';
+@use 'rpg-awesome/scss/rpg-awesome' with ($ra-font-path: '.');
 
 $font-body: 'Encode Sans', sans-serif;
 $font-heading: 'Crimson Pro', serif;
