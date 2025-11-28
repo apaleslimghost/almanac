@@ -12,17 +12,17 @@
   resolved "https://registry.npmjs.org/@financial-times/math/-/math-1.1.1.tgz"
   integrity sha512-Qe4mnPuZZMTNKbYUIDi2sZg6SYBb4nyZ+B9K50cawyXQdYU3iikbYpOnSUsMfhqo3ClgFZUW3oxSczhMUynOFw==
 
-"@financial-times/o-brand@^4.0.1", "@financial-times/o-brand@^4.1.0", "@financial-times/o-brand@^4.2.3":
+"@financial-times/o-brand@^4.0.1", "@financial-times/o-brand@^4.1.0":
   version "4.2.3"
   resolved "https://registry.npmjs.org/@financial-times/o-brand/-/o-brand-4.2.3.tgz"
   integrity sha512-Qb4wp7z7nwb+rGew0VbZwqIzczUqN1DynWjy1HT9SpDM30lYZ3LboSEST1z9+1ccjaJ8bQcO/P3+MyssQWh9/A==
 
-"@financial-times/o-buttons@^7.11.0":
+"@financial-times/o-buttons@^7.11.0", "@financial-times/o-buttons@^7.2.0":
   version "7.11.0"
   resolved "https://registry.npmjs.org/@financial-times/o-buttons/-/o-buttons-7.11.0.tgz"
   integrity sha512-7Ez3kVuGJBZ60IEF5a3AI2VQXZDcWnAWZZwN9Uu2JYhaw26KmxmJqbVlB1Iir3GB+WZwqaPzUV/AK73160462Q==
 
-"@financial-times/o-colors@^6.0.1", "@financial-times/o-colors@^6.7.0":
+"@financial-times/o-colors@^6.0.1", "@financial-times/o-colors@^6.5.0", "@financial-times/o-colors@^6.7.0":
   version "6.7.0"
   resolved "https://registry.npmjs.org/@financial-times/o-colors/-/o-colors-6.7.0.tgz"
   integrity sha512-cK4OpC1YF0Uy0Xn6BFB1wH3dsqKDTtnlr5DPFjlvYO7pJ5puWkW41TS13S+l3xxL7rIxs9ur+bGg43MI7/pn0A==
@@ -32,45 +32,40 @@
   resolved "https://registry.npmjs.org/@financial-times/o-fonts/-/o-fonts-5.3.5.tgz"
   integrity sha512-tZsQlzBd12RdhLU+H8eDgd7qzSueeUEzHoHBgl07+7dIaI9KUR3jH2p9/P0bget05hh36sVVfwyEN1A/awburA==
 
-"@financial-times/o-forms@^10.0.4":
-  version "10.0.4"
-  resolved "https://registry.npmjs.org/@financial-times/o-forms/-/o-forms-10.0.4.tgz"
-  integrity sha512-6vN/wS03BNaUqUUP4YdwQHlG+TkvZskhUdh0ZQgUUx1Hwz8wIU+fnuWBrN290+1fwakh6nihzauB+93SdL45vw==
+"@financial-times/o-forms@^9.12.1":
+  version "9.12.1"
+  resolved "https://registry.npmjs.org/@financial-times/o-forms/-/o-forms-9.12.1.tgz"
+  integrity sha512-qnlLZYwdysDt7HNRZjy890gQZ+bWRBAAIGra/qm5MjXO2D23R1+3L+WUZLQ62Xo5kEmp0k2e2wjoj2oANNLXFg==
   dependencies:
     "@types/lodash.uniqueid" "^4.0.7"
     lodash.uniqueid "^4.0.1"
 
-"@financial-times/o-grid@^6.1.8":
+"@financial-times/o-grid@^6.0.0", "@financial-times/o-grid@^6.1.8":
   version "6.1.8"
   resolved "https://registry.npmjs.org/@financial-times/o-grid/-/o-grid-6.1.8.tgz"
   integrity sha512-3ZWR2o/MAitFltus+VFrho58WvAchzvKPbM6ja+nghdXT/ZecNv6tW4A2WwvZWCR0FLLosPx8WPZbSYf3jyeOQ==
 
-"@financial-times/o-icons@^7.8.0":
+"@financial-times/o-icons@^7.0.0", "@financial-times/o-icons@^7.8.0":
   version "7.10.0"
   resolved "https://registry.npmjs.org/@financial-times/o-icons/-/o-icons-7.10.0.tgz"
   integrity sha512-ZFw22WC1GyBGgu2wS3M37U71fg5x7Vk4BzKX24CrC5k3VwTT9W33hGCsEfGTW6P02qz91l49iygWTF+ZHr4gmw==
 
-"@financial-times/o-loading@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.npmjs.org/@financial-times/o-loading/-/o-loading-6.0.0.tgz"
-  integrity sha512-79TI+Ubayef6VRh6BELLBPvFy4+dNQWNDCax3J4wyDFWwb2WgN2M9IB7aLh1EE6Wz3qbPzBXSRQX8q8jfIxzAQ==
+"@financial-times/o-loading@^5.0.0":
+  version "5.2.3"
+  resolved "https://registry.npmjs.org/@financial-times/o-loading/-/o-loading-5.2.3.tgz"
+  integrity sha512-rVK6WVCnf2VIDKdA2upIDLmYSSy49qxuEQOxuH1XhagvagYximCNE04F3ZXdQAUyKbdsR+BqFKr3SUp+N/5v0w==
 
-"@financial-times/o-normalise@^3.3.2":
+"@financial-times/o-normalise@^3.3.0", "@financial-times/o-normalise@^3.3.2":
   version "3.3.2"
   resolved "https://registry.npmjs.org/@financial-times/o-normalise/-/o-normalise-3.3.2.tgz"
   integrity sha512-k7/kw2zVAI6lVfQqI9Md/PIroZHhCZvXWHZoiP5Zih+JHqevjqIMDA35g8utaxVcwBKtZ5g6OmKDd3GDi+AU4w==
 
-"@financial-times/o-private-foundation@^1.0.0":
-  version "1.8.0"
-  resolved "https://registry.npmjs.org/@financial-times/o-private-foundation/-/o-private-foundation-1.8.0.tgz"
-  integrity sha512-7FoVAP+hgHGq9iHNXGZ20bK+FhNZdS1/Y3Z3IPTfQ2dg2YjdD/CsCw6eLSEanv3IPRTA12K2/q+lsEdETBknrw==
-
-"@financial-times/o-spacing@^3.2.5":
+"@financial-times/o-spacing@^3.0.0", "@financial-times/o-spacing@^3.2.5":
   version "3.2.5"
   resolved "https://registry.npmjs.org/@financial-times/o-spacing/-/o-spacing-3.2.5.tgz"
   integrity sha512-U+4i//fd3qJHXgGRVEl0TkHK6Q5WUoXPsumBLSnWDW84jpXJic7kfpYGqyVP4sJpVAyq4FyLNu2L1oXopeHuDw==
 
-"@financial-times/o-typography@^7.6.2", "@financial-times/o-typography@^7.7.0":
+"@financial-times/o-typography@^7.4.1", "@financial-times/o-typography@^7.6.2", "@financial-times/o-typography@^7.7.0":
   version "7.7.0"
   resolved "https://registry.npmjs.org/@financial-times/o-typography/-/o-typography-7.7.0.tgz"
   integrity sha512-DjnnIu3MG4OGSYH4rrR3JOtFp7bEOcsli7OZ74Vy4x/Bh7g8vHbvUPD6AWfgZ6wjUaBTIcj15ARi3+Osp7UCPQ==

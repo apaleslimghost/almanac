@@ -5,6 +5,42 @@
 @use 'tippy.js/themes/light-border';
 @use 'rpg-awesome/scss/rpg-awesome' with ($ra-font-path: '.');
 
+$system-code: 'almanac' !global;
+
+$o-typography-is-silent: true !global;
+$o-fonts-is-silent: true !global;
+$o-forms-is-silent: true !global;
+$o-buttons-is-silent: true !global;
+$o-typography-load-fonts: false !global;
+$_o-typography-sans: "'Encode Sans', sans-serif" !global;
+$_o-typography-serif: "'Crimson Pro', serif" !global;
+$_o-typography-display: "'Crimson Pro', serif" !global;
+
+@import '@financial-times/o-typography/main';
+@import '@financial-times/o-fonts/main';
+@import '@financial-times/o-forms/main';
+@import '@financial-times/o-buttons/main';
+
+@include oFontsDefineCustomFont("'Encode Sans'", (
+	(weight: regular, style: normal),
+	(weight: bold, style: normal),
+	(weight: semibold, style: normal),
+	(weight: regular, style: italic),
+	(weight: bold, style: italic),
+	(weight: semibold, style: italic)
+));
+
+@include oFontsDefineCustomFont("'Crimson Pro'", (
+	(weight: regular, style: normal),
+	(weight: bold, style: normal),
+	(weight: regular, style: italic),
+	(weight: bold, style: italic)
+));
+
+
+@include oForms();
+@include oButtons();
+
 $font-body: 'Encode Sans', sans-serif;
 $font-heading: 'Crimson Pro', serif;
 $colour-outline: #0003;
