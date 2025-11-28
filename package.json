@@ -7,7 +7,7 @@
   "dependencies": {
     "@financial-times/o-buttons": "^7.11.0",
     "@financial-times/o-fonts": "^5.3.5",
-    "@financial-times/o-forms": "^9.12.1",
+    "@financial-times/o-forms": "^10.0.4",
     "@financial-times/o-typography": "^7.7.0",
     "@fortawesome/fontawesome-free": "^7.1.0",
     "@hotwired/stimulus": "^3.2.2",
