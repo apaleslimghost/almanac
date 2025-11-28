@@ -8,7 +8,7 @@ you will need:
 
 * Ruby 3.0 (i recommend using [`rbenv`](https://github.com/rbenv/rbenv))
 * Probably easiest to install Rails as a system gem idk `gem install rails`
-* Node 12, npm, and yarn (`npm install -g yarn`) (yeah i know i can't work out how to make rails not want it)
+* Node 22 probably via [`volta`](https://volta.sh)
 * Postgres (`brew install postgresql ; brew services start postgresql ; createdb ; psql -c 'create database almanac_development;`)
 * A [`.env` file](https://github.com/bkeepers/dotenv) with our `UNSPLASH_ACCESS_KEY` and `UNSPLASH_SECRET_KEY`
 
