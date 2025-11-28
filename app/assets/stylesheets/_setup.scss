@@ -37,7 +37,6 @@ $_o-typography-display: "'Crimson Pro', serif" !global;
 	(weight: bold, style: italic)
 ));
 
-
 @include oForms();
 @include oButtons();
 
@@ -79,4 +78,12 @@ $colour-paper: #f9f1ea;
 	}
 
 	@return linear-gradient(unquote($direction), $stops);
+ }
+
+ .o-buttons-icon.o-buttons-icon--icon-only:has(.fa, .ra) {
+	padding-right: 0;
+ }
+
+ .o-forms-input--radio-box label {
+	min-width: 0;
  }

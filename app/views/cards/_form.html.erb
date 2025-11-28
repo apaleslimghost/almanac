@@ -20,13 +20,43 @@
 
   <% if card.owner?(current_user) %>
     <div class="card">
-      <div class="field">
-        <%= form.label :visible, 'Visible to' %>
-        <%= form.select :visible, Card.visibles.keys.map { [_1.humanize, _1] } %>
+      <div class="o-forms-field">
+        <%= form.label :visible, class: 'o-forms-title' do %>
+          <span class="o-forms-title__main">
+            Visible to
+          </span>
+        <% end %>
+        <span class="o-forms-input o-forms-input--radio-box">
+          <span class="o-forms-input--radio-box__container">
+            <% Card.visibles.keys.each do |visibility| %>
+              <%= form.label :visible, value: visibility, title: visibility.humanize do %>
+                <%= form.radio_button :visible, visibility %>
+                <span class="o-forms-input__label">
+                  <i class="<%= Card.icon_for_group(visibility) %>"></i>
+                </span>
+              <% end %>
+            <% end %>
+          </span>
+        </span>
       </div>
-      <div class="field">
-        <%= form.label :editable, 'Editable by' %>
-        <%= form.select :editable, Card.editables.keys.map { [_1.humanize, _1] } %>
+      <div class="o-forms-field">
+        <%= form.label :editable, class: 'o-forms-title' do %>
+          <span class="o-forms-title__main">
+            Editable by
+          </span>
+        <% end %>
+          <span class="o-forms-input o-forms-input--radio-box">
+            <span class="o-forms-input--radio-box__container">
+              <% Card.editables.keys.each do |editability| %>
+                <%= form.label :editable, value: editability, title: editability.humanize do %>
+                  <%= form.radio_button :editable, editability %>
+                  <span class="o-forms-input__label">
+                    <i class="<%= Card.icon_for_group(editability) %>"></i>
+                  </span>
+                <% end %>
+              <% end %>
+            </span>
+          </span>
       </div>
     </div>
   <% end %>

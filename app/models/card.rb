@@ -161,4 +161,18 @@ class Card < ApplicationRecord
       end
     end
   end
+
+  def self.icon_for_group(group)
+    case group
+    when "only_me"
+      "fa fa-lock"
+    when "me_and_gm"
+      "fa fa-user-group"
+    when "campaign"
+      "fa fa-people-group"
+    when "public"
+      "fa fa-earth-europe"
+    end
+
+  end
 end
