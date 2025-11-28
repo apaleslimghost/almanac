@@ -169,10 +169,9 @@ class Card < ApplicationRecord
     when "me_and_gm"
       "fa fa-user-group"
     when "campaign"
-      "fa fa-people-group"
+      "fa fa-users"
     when "public"
       "fa fa-earth-europe"
     end
-
   end
 end
