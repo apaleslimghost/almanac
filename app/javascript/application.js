@@ -13,6 +13,7 @@ import DashboardController from './controllers/dashboard-controller.js';
 import EditorController from './controllers/editor_controller.js';
 import PopupLinkController from './controllers/popup-link-controller.js';
 import UnsplashSearchController from './controllers/unsplash-search-controller.js';
+import ToastController from './controllers/toast-controller.js';
 
 application.register('auto-size-input', AutoSizeInputController);
 application.register('autosave', AutosaveController);
@@ -20,4 +21,5 @@ application.register('dashboard', DashboardController);
 application.register('editor', EditorController);
 application.register('popup-link', PopupLinkController);
 application.register('unsplash-search', UnsplashSearchController);
+application.register('toast', ToastController);
 import "@hotwired/turbo-rails"

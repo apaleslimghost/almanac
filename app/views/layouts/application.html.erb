@@ -46,5 +46,11 @@
         </header>
 
         <%= content_for?(:body) ? yield(:body) : yield %>
+
+       <% flash.each do |type, messages| %>
+            <% Array(messages).each do |message| %>
+                <%= render "application/flash", type:, message: %>
+            <% end %>
+        <% end %>
     <% end %>
 </html>

@@ -25,10 +25,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, except: :index
+  resources :users, only: %i[create update destroy]
   resources :sessions, only: %i[new create destroy]
 
-  get 'sign-up', to: 'users#new', as: 'signup'
   get 'log-in', to: 'sessions#new', as: 'login'
   get 'log-out', to: 'sessions#destroy', as: 'logout'
 

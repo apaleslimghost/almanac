@@ -87,3 +87,7 @@ $colour-paper: #f9f1ea;
  .o-forms-input--radio-box label {
 	min-width: 0;
  }
+
+[data-controller="toast"] {
+	display: none;
+}
