@@ -6,6 +6,7 @@ ruby '3.4.7'
 group :development do
   gem 'dotenv-rails', '~> 3.1'
   gem 'listen', '~> 3.3'
+  gem "hotwire-spark"
 end
 
 gem 'actioncable', '~> 8.1'
