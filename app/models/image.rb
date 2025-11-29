@@ -14,4 +14,12 @@ class Image < ApplicationRecord
         params[:actable_attributes]
       )
   end
+
+  def actable_attributes=(attrs)
+    if actable_type == 'UnsplashImage'
+      self.actable = UnsplashImage.find_or_create_by(unsplash_id: attrs[:unsplash_id])
+    else
+      super
+    end
+  end
 end
