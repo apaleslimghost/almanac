@@ -1,8 +1,12 @@
 <%= render 'cards/form', card: card do |form| %>
    <%= form.fields_for :actable, card.actable do |a| %>
-      <div class="field">
-         <%= a.label :location %>
-         <%= a.collection_select :location_id, card.campaign.locations, :id, :title, include_blank: true %>
+      <div class="o-forms-field">
+         <%= a.label :location_id, class: 'o-forms-title' do |label| %>
+            <span class="o-forms-title__main"><%= label %></span>
+         <% end %>
+         <span class="o-forms-input o-forms-input--select">
+            <%= a.collection_select :location_id, card.campaign.locations, :id, :title, include_blank: true %>
+         </span>
       </div>
    <% end %>
 <% end %>
