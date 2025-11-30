@@ -10,20 +10,12 @@
 /// @param {Bool} $high-contrast-fallback [true] - To output Microsoft High Contrast fallback for accessibility reasons or not.
 /// @param {Number} $iconset-version [1] - At present only 1 version of the icon set is available.
 @mixin oIconsContent($icon-name, $color: null, $size: 128, $include-base-styles: true, $high-contrast-fallback: true, $iconset-version: 1) {
-	// Error if the global $system-code variable is not set.
-	// This is required for image service requests.
-	@if(global-variable-exists('system-code') == false or type-of($system-code) != 'string') {
-		@error 'A global "$system-code" Sass variable must be set to a valid [Bizops system code](https://biz-ops.in.ft.com/list/Systems).';
-	}
-
 	// If the size of the icons has been given without a unit, default to px.
 	@if (type-of($size) == 'number' and unitless($size)) {
 		$size: $size + 0px;
 	}
 
-	// Define base image service path.
-	$scheme: "fticon-v#{$iconset-version}";
-	$service-url: "https://images.ft.com/v3/image/raw/#{$scheme}:#{$icon-name}";
+	$service-url: 'origami-icons/';
 
 	// Include base styles shared by all icons.
 	@if ($include-base-styles == true) {
@@ -36,27 +28,13 @@
 
 	// Include the icon via the image service.
 	// Build an image service url for the requested icon.
-	$query: "?source=#{$system-code}";
+	$query: "?";
 	@if $color != null {
 		$color: str-slice(ie-hex-str($color), 4);
 		$query: $query + "&tint=%23#{$color},%23#{$color}";
 	}
-	background-image: url($service-url + $query + "&format=svg");
 
-	// Include a fallback for Window's high contrast mode.
-	// This mode removes background images unless specifcally included
-	// for high contrast mode.
-	// sass-lint:disable no-vendor-prefixes
-	@if $high-contrast-fallback {
-		@media screen and (-ms-high-contrast: active) {
-			background-image: url($service-url + "?source=#{$system-code}&tint=%23ffffff,%23ffffff&format=svg");
-		}
-
-		@media screen and (-ms-high-contrast: black-on-white) {
-			background-image: url($service-url + "?source=#{$system-code}&tint=%23000000,%23000000&format=svg");
-		}
-	}
-	// sass-lint:enable no-vendor-prefixes
+	background-image: url($service-url + $icon-name + ".svg");
 }
 
 /// Base styles for all icons

@@ -33,6 +33,7 @@
     "htm": "^3.1.0",
     "jsx-dom": "~8.0",
     "lodash.debounce": "^4.0.8",
+    "o-icons-orig": "npm:@financial-times/o-icons@7.1",
     "rpg-awesome": "^0.2.0",
     "sass": "^1.94.2",
     "sonner-js": "^1.1.1",

@@ -38,7 +38,14 @@ $_o-typography-display: "'Crimson Pro', serif" !global;
 ));
 
 @include oForms();
-@include oButtons();
+@include oButtons((
+	'sizes': $_o-buttons-sizes,
+	'types': $_o-buttons-types,
+	'themes': $_o-buttons-themes,
+	'pagination': true,
+	'groups': true,
+	'icons': ()
+));
 
 $font-body: 'Encode Sans', sans-serif;
 $font-heading: 'Crimson Pro', serif;
@@ -80,8 +87,8 @@ $colour-paper: #f9f1ea;
 	@return linear-gradient(unquote($direction), $stops);
  }
 
- .o-buttons-icon.o-buttons-icon--icon-only:has(.fa:only-child, .ra:only-child) {
-	padding-right: 0;
+ .o-buttons:has(.fa:only-child, .ra:only-child) {
+	min-width: 0;
  }
 
  .o-forms-input--radio-box label {
