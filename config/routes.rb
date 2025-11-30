@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   namespace :card_type do
     resources :documents
   end
-  get 'unsplash/search'
+  get 'unsplash_images/search'
   get 'home/index'
   root 'home#index'
 

@@ -1,11 +1,13 @@
+<% form = nil %>
+
+<%= form_with(model: target, id: dom_id(Array(target).last, :image_form), html: { command: 'request-close', commandfor: popover_id }) { form = it } %>
+
 <%= form.fields_for :image, image ||= Image.new(actable: UnsplashImage.new) do |f| %>
-	<%= f.hidden_field :actable_type %>
+	<%= f.hidden_field :id, form: form.id %>
+	<%= f.hidden_field :actable_type, form: form.id %>
 	<%= f.fields_for :actable, image.specific do |a| %>
-		<%= a.label :unsplash_id %>
-		<div data-controller="unsplash-search" data-unsplash-search-field-name-value="<%= "#{a.object_name}[unsplash_id]" %>">
-			<input data-action="input->unsplash-search#search" type="search">
-			<div class="grid" data-unsplash-search-target="results">
-			</div>
-		</div>
+		<%= render 'unsplash_images/form', parent_form: form.id, field_name: a.field_name(:unsplash_id), results: [] %>
 	<% end %>
 <% end %>
+
+<%= form.submit class: 'o-buttons o-buttons--primary', form: form.id %>

@@ -80,7 +80,7 @@ $colour-paper: #f9f1ea;
 	@return linear-gradient(unquote($direction), $stops);
  }
 
- .o-buttons-icon.o-buttons-icon--icon-only:has(.fa, .ra) {
+ .o-buttons-icon.o-buttons-icon--icon-only:has(.fa:only-child, .ra:only-child) {
 	padding-right: 0;
  }
 

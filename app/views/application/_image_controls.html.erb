@@ -1,5 +1,5 @@
 <% inverse ||= false %>
-<% popover_id = dom_id(Array(target).last, :image) %>
+<% popover_id = dom_id(Array(target).last, :image_popover) %>
 
 <div class="image-controls">
 	<button class="o-buttons o-buttons--ghost <%= if inverse then 'o-buttons--inverse' else 'o-buttons--mono' end %>" commandfor="<%= popover_id %>" command="show-modal">
@@ -14,9 +14,5 @@
 	</button>
 	<h2>Banner image</h2>
 
-	<%= form_with(model: target) do |form| %>
-		<%= render 'images/form', image: image, form: form %>
-
-		<%= form.submit class: 'o-buttons o-buttons--primary' %>
-	<% end %>
+	<%= render 'images/form', image: image, target: target, popover_id: popover_id %>
 </dialog>

@@ -30,7 +30,16 @@ Turbo.StreamActions.redirect = function () {
 };
 
 document.addEventListener('turbo:submit-end', (event) => {
-	if(event.detail.success) {
-		event.target.closest('dialog')?.requestClose()
+	if(event.detail.success && event.target.hasAttribute('commandfor')) {
+		const commandFor = document.getElementById(event.target.getAttribute('commandfor'))
+
+		switch(event.target.getAttribute('command')) {
+			case 'request-close':
+				commandFor?.requestClose();
+				break;
+			case 'close':
+				commandFor?.close();
+				break;
+		}
 	}
 })
