@@ -30,5 +30,7 @@ Turbo.StreamActions.redirect = function () {
 };
 
 document.addEventListener('turbo:submit-end', (event) => {
-	event.target.closest('dialog')?.requestClose()
+	if(event.detail.success) {
+		event.target.closest('dialog')?.requestClose()
+	}
 })
