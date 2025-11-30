@@ -19,6 +19,10 @@
       </div>
     <% end %>
 
+    <div class="card">
+      <%= yield form %>
+    </div>
+
     <% if card.owner?(current_user) %>
       <div class="card">
         <div class="o-forms-field">
@@ -64,6 +68,5 @@
 
     <%= form.hidden_field :actable_type %>
 
-    <%= yield form %>
   <% end %>
 <% end %>

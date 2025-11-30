@@ -1,12 +1,22 @@
 <%= render 'cards/form', card: card do |form| %>
    <%= form.fields_for :actable, card.actable do |a| %>
-      <div class="field">
-         <%= a.label :completed %>
-         <%= a.check_box :completed %>
+      <div class="o-forms-field">
+         <span class="o-forms-input o-forms-input--toggle">
+            <%= a.label :completed do |label| %>
+               <%= a.check_box :completed %>
+               <span class="o-forms-input__label">
+                  <span class="o-forms-input__label__main"><%= label %></span>
+               </span>
+            <% end %>
+         </span>
       </div>
-      <div class="field">
-         <%= a.label :location %>
-         <%= a.collection_select :location_id, card.campaign.locations, :id, :title, include_blank: true %>
+      <div class="o-forms-field">
+         <%= a.label :location_id, class: 'o-forms-title' do |label| %>
+            <span class="o-forms-title__main"><%= label %></span>
+         <% end %>
+         <span class="o-forms-input o-forms-input--select">
+            <%= a.collection_select :location_id, card.campaign.locations, :id, :title, include_blank: true %>
+         </span>
       </div>
    <% end %>
 <% end %>
