@@ -3,7 +3,7 @@
 <% content_for :header do %>
    <%= turbo_frame_tag card do %>
       <% if card.parent %>
-         <%= link_to [card.parent.campaign, card.parent] do %>
+         <%= link_to [card.parent.campaign, card.parent], data: { turbo_frame: "_top" } do %>
             <% if card.parent.specific.model_name == card.specific.model_name %>
                <h2><%= card.parent.friendly_title %></h2>
             <% else %>
