@@ -4,6 +4,9 @@
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
     "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --quiet-deps"
   },
+  "workspaces": [
+    "vendor/*"
+  ],
   "dependencies": {
     "@financial-times/o-buttons": "^7.11.0",
     "@financial-times/o-fonts": "^5.3.5",
