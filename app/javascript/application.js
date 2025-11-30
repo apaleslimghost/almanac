@@ -23,3 +23,8 @@ application.register('popup-link', PopupLinkController);
 application.register('unsplash-search', UnsplashSearchController);
 application.register('toast', ToastController);
 import "@hotwired/turbo-rails"
+
+Turbo.StreamActions.redirect = function () {
+	const method = this.getAttribute("method")
+	Turbo.visit(this.target, { action: method });
+};

@@ -1,0 +1,7 @@
+<%= turbo_frame_tag :flash do %>
+	<% flash.each do |type, messages| %>
+		<% Array(messages).each do |message| %>
+				<%= render "application/flash", type:, message: %>
+		<% end %>
+	<% end %>
+<% end %>

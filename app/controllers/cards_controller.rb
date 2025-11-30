@@ -50,6 +50,7 @@ class CardsController < ApplicationController
         redirect_to [@campaign, @card.specific], notice: 'Card was successfully created.'
       end
     else
+      flash.now[:error] = "Problem creating #{@card.specific.model_name.human} #{@card.errors.full_messages.to_sentence}"
       @card = @card.specific
       render :new
     end
@@ -58,12 +59,18 @@ class CardsController < ApplicationController
   # PATCH/PUT /cards/1
   def update
     if @card.update(card_params)
+      flash.now[:success] = "#{@card.specific.model_name.human} #{@card.previous_change_summary} updated."
+
       respond_to do |format|
-        format.html { redirect_to [@campaign, @card.specific], notice: 'Card was successfully updated.' }
+        format.turbo_stream {
+          render turbo_stream: turbo_stream.update(:flash, partial: 'application/flash_messages')
+        }
+        format.html { redirect_to [@campaign, @card.specific] }
         format.json { render json: @card }
       end
 
     else
+      flash.now[:error] = "Problem updating #{@card.specific.model_name.human}: #{@card.errors.full_messages.to_sentence}"
       @card = @card.specific
       render :show
     end

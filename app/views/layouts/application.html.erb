@@ -8,6 +8,8 @@
             Almanac
         </title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="turbo-refresh-method" content="morph">
+        <meta name="turbo-refresh-scroll" content="preserve">
         <%= csrf_meta_tags %>
         <%= csp_meta_tag %>
 
@@ -47,10 +49,8 @@
 
         <%= content_for?(:body) ? yield(:body) : yield %>
 
-       <% flash.each do |type, messages| %>
-            <% Array(messages).each do |message| %>
-                <%= render "application/flash", type:, message: %>
-            <% end %>
-        <% end %>
+        <div id="flash-wrapper" data-turbo-permanent>
+            <%= render 'application/flash_messages' %>
+        </div>
     <% end %>
 </html>

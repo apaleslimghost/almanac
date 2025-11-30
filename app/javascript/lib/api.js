@@ -26,7 +26,7 @@ export default async (path, data, extraOptions) => {
       Turbo.visit(response.url, { action: 'replace' })
 	}
 
-	if(response.headers.get('content-type') === 'application/json') {
+	if(response.headers.get('content-type').startsWith('application/json')) {
 		return response.json()
 	} else {
 		return response.text()

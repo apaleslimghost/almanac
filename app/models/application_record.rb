@@ -22,4 +22,11 @@ class ApplicationRecord < ActiveRecord::Base
       end
     end
   end
+
+  def previous_change_summary
+    previous_changes
+      .except(:updated_at).keys
+      .map { it.humanize(capitalize: false) }
+      .to_sentence
+  end
 end

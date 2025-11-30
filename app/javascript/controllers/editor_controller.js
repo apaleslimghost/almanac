@@ -71,13 +71,10 @@ export default class extends Controller {
   async saveContent() {
     const content = this.editor.getJSON()
     const results = await api(this.actionValue, { card: { content } }, {method: 'PATCH'})
-
-    console.log(results)
   }
 
   format(event) {
-    const { format, args } = event.params
-
+    const { format, args } = event.params
     this.editor.chain()[format](args).focus().run()
   }
 }

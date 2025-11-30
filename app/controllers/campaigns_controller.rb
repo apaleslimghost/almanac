@@ -12,17 +12,6 @@ class CampaignsController < ApplicationController
   # GET /campaigns/1
   def show; end
 
-  # GET /campaigns/new
-  def new
-    @campaign = Campaign.new
-    render 'edit'
-  end
-
-  # GET /campaigns/1/edit
-  def edit
-    raise ActiveRecord::RecordNotFound unless @campaign.owner?(current_user)
-  end
-
   def dashboard
     @current_location = @campaign.dashboard.current_location
     @presenting = !@campaign.owner?(current_user) || params[:present]
@@ -55,16 +44,31 @@ class CampaignsController < ApplicationController
     if @campaign.save
       redirect_to @campaign, notice: 'Campaign was successfully created.'
     else
+      flash.now[:error] = "Problem creating campaign: #{@campaign.errors.full_messages.to_sentence}"
       render :edit
     end
   end
 
   # PATCH/PUT /campaigns/1
   def update
-    # TODO: updating associated image
     if @campaign.update(campaign_params)
-      redirect_to @campaign, notice: 'Campaign was successfully updated.', status: 303
+      flash.now[:success] = "Campaign #{@campaign.previous_change_summary} updated."
+
+      respond_to do |f|
+        f.turbo_stream {
+          render turbo_stream: [
+            turbo_stream.replace(:flash, partial: 'application/flash_messages'),
+            if @campaign.previous_changes.key?(:slug)
+              turbo_stream.action(:redirect, campaign_path(@campaign), method: 'replace')
+            end,
+          ].compact
+        }
+        f.html {
+          redirect_to @campaign, notice: 'Campaign was successfully updated.', status: 303
+        }
+      end
     else
+      flash.now[:error] = "Problem update campaign: #{@campaign.errors.full_messages.to_sentence}"
       render :edit
     end
   end
