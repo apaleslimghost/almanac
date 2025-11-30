@@ -62,12 +62,6 @@
       </div>
     <% end %>
 
-    <div class="card">
-      <div class="field">
-        <%= render 'images/form', image: card.image, form: form %>
-      </div>
-    </div>
-
     <%= form.hidden_field :actable_type %>
 
     <%= yield form %>

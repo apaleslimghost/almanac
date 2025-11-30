@@ -5,7 +5,6 @@
 		<div data-controller="unsplash-search" data-unsplash-search-field-name-value="<%= "#{a.object_name}[unsplash_id]" %>">
 			<input data-action="input->unsplash-search#search" type="search">
 			<div class="grid" data-unsplash-search-target="results">
-				<% if image.persisted? %><div class="image-select"><%= render image.specific %></div><% end %>
 			</div>
 		</div>
 	<% end %>

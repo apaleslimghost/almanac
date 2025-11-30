@@ -1,0 +1,59 @@
+@use 'setup' as *;
+@use 'card';
+
+dialog {
+	@extend .card;
+
+	opacity: 0;
+	transform: scale(1.01);
+	transition:
+		opacity 200ms ease-out,
+		transform 200ms ease-out,
+		overlay 200ms ease-out allow-discrete,
+		display 200ms ease-out allow-discrete;
+
+	box-shadow:
+		0 10px 100px $colour-slate,
+		0 2px 20px $colour-slate;
+
+	&:open, &:popover-open {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	border: 0 none;
+	width: calc(100% - 5rem);
+	height: calc(100% - 5rem);
+
+	button[command=close] {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+	}
+}
+
+@starting-style {
+	dialog:open, dialog:popover-open {
+		opacity: 0;
+		transform: scale(1.01);
+	}
+}
+
+dialog::backdrop {
+	background-color: transparent;
+	transition:
+		display 200ms allow-discrete,
+		overlay 200ms allow-discrete,
+		background-color 200ms;
+}
+
+dialog:open::backdrop, dialog:popover-open::backdrop {
+	background-color: rgb(from $colour-slate r g b / 50%);
+	// background-image: scrimGradient($colour-slate, 'to top');
+}
+
+@starting-style {
+	dialog:open::backdrop, dialog:popover-open::backdrop {
+		background-color: transparent;
+	}
+}

@@ -85,6 +85,7 @@ class CampaignsController < ApplicationController
   def set_campaign
     @campaign = Campaign.find_by_slug!(params[:id] || params[:campaign_id])
     @image = @campaign.image
+    @image_target = @campaign
   end
 
   def check_access

@@ -9,13 +9,13 @@ class CardType::Controller < ApplicationController
 
    def set_card
       @card = Card.find_by_id!(params[:id]).specific
-      puts @card.class != card_type
 
       if @card.class != card_type
          redirect_to [@campaign, @card]
       end
 
       @image = @card.image
+      @image_target = [@card.campaign, @card.acting_as]
       raise ActiveRecord::RecordNotFound unless @card.visible?(current_user)
    end
 

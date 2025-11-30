@@ -16,9 +16,19 @@
 	}
 }
 
-.image-attribution {
+%image-aux {
 	position: absolute;
 	z-index: 3;
+	opacity: 0;
+	transition: opacity 200ms ease-in-out;
+
+	*:hover>& {
+		opacity: 1;
+	}
+}
+
+.image-attribution {
+	@extend %image-aux;
 	bottom: 1rem;
 	right: 1rem;
 	color: white;
@@ -27,5 +37,15 @@
 	.full-bleed & {
 		top: 1rem;
 		bottom: auto;
+	}
+}
+
+.image-controls {
+	@extend %image-aux;
+	bottom: 1rem;
+	left: 1rem;
+
+	.full-bleed & {
+		display: none;
 	}
 }

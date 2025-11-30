@@ -28,3 +28,7 @@ Turbo.StreamActions.redirect = function () {
 	const method = this.getAttribute("method")
 	Turbo.visit(this.target, { action: method });
 };
+
+document.addEventListener('turbo:submit-end', (event) => {
+	event.target.closest('dialog')?.requestClose()
+})

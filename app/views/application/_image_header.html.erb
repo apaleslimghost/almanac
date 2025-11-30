@@ -1,3 +1,4 @@
+<% image_target ||= nil %>
 <% image_class ||= '' %>
 <% size ||= :thumb %>
 
@@ -8,6 +9,10 @@
 				<%= yield %>
 			</div>
 		</div>
+
+		<% if image_target %>
+			<%= render 'image_controls', image: image, target: image_target, inverse: true %>
+		<% end %>
 	<% end %>
 <% else %>
 	<header class="<%= image_class %>">
@@ -19,6 +24,10 @@
 		<% unless size == :thumb %>
 				</div>
 			</div>
+		<% end %>
+
+		<% if image_target %>
+			<%= render 'image_controls', image: image, target: image_target %>
 		<% end %>
 	</header>
 <% end %>
