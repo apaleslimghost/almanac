@@ -12,7 +12,7 @@ end
 gem 'actioncable', '~> 8.1'
 gem 'active_record-acts_as', '~> 5.0'
 gem 'bcrypt', '~> 3.1'
-gem 'commonmarker', '~> 2.5'
+gem 'commonmarker', '~> 2.6'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 7.1'
 gem 'rails', '~> 8.1.0'
