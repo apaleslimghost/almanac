@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.4.7'
 
 group :development do
-  gem 'dotenv-rails', '~> 3.1'
+  gem 'dotenv-rails', '~> 3.2'
   gem 'listen', '~> 3.3'
   gem "hotwire-spark"
 end
