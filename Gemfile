@@ -18,7 +18,7 @@ gem 'puma', '~> 7.1'
 gem 'rails', '~> 8.1.0'
 gem 'rb-gravatar', '~> 1.0'
 gem 'unsplash', '~> 3.1'
-gem "bootsnap", "~> 1.19"
+gem "bootsnap", "~> 1.20"
 gem "cssbundling-rails", "~> 1.4"
 gem "jsbundling-rails", "~> 1.3"
 gem "propshaft", "~> 1.3"

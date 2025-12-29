@@ -82,7 +82,7 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.20)
     bigdecimal (3.3.1)
-    bootsnap (1.19.0)
+    bootsnap (1.20.1)
       msgpack (~> 1.2)
     builder (3.3.0)
     commonmarker (2.5.0)
@@ -327,7 +327,7 @@ DEPENDENCIES
   actioncable (~> 8.1)
   active_record-acts_as (~> 5.0)
   bcrypt (~> 3.1)
-  bootsnap (~> 1.19)
+  bootsnap (~> 1.20)
   commonmarker (~> 2.5)
   cssbundling-rails (~> 1.4)
   dotenv-rails (~> 3.1)
@@ -362,7 +362,7 @@ CHECKSUMS
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.20) sha256=8410f8c7b3ed54a3c00cd2456bf13917d695117f033218e2483b2e40b0784099
   bigdecimal (3.3.1) sha256=eaa01e228be54c4f9f53bf3cc34fe3d5e845c31963e7fcc5bedb05a4e7d52218
-  bootsnap (1.19.0) sha256=d3e54558c1a9ea10cb095eb1eb8e921ae83fd4d5764b8809f63aec18ce9f60b5
+  bootsnap (1.20.1) sha256=7ad62cda65c5157bcca0acfcc0ee11fcbb83d7d7a8a72d52ccd85e6ffc130b93
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   commonmarker (2.5.0) sha256=fc84f9e01b271298691a7cfc298cbbaadb893395dc92e9b51644675abff248b5
   commonmarker (2.5.0-aarch64-linux) sha256=5812585cbd6081483331a750b0227cd0b6d951b76103bab10ee116aa58d7e526
